@@ -4,6 +4,16 @@
     <option name="filePathToZoomLevelMap">
       <map>
         <entry key="..\:/User/Documents/Data Kuliah (PENS-2110191020)/Semester 5/Pemrograman Perangkat Bergerak/Praktikum - Pak Yanuar/Minggu 4/Nomdo/app/src/main/res/layout/activity_main.xml" value="0.11927083333333334" />
+        <entry key="..\:/User/Documents/Data Kuliah (PENS-2110191020)/Semester 5/WPPL - Bu Umi, Bu Desy, Pak Andik/NOMDO/nomdo-mobile/app/src/main/res/drawable/btn_accent.xml" value="0.24814814814814815" />
+        <entry key="..\:/User/Documents/Data Kuliah (PENS-2110191020)/Semester 5/WPPL - Bu Umi, Bu Desy, Pak Andik/NOMDO/nomdo-mobile/app/src/main/res/drawable/btn_gray.xml" value="0.24814814814814815" />
+        <entry key="..\:/User/Documents/Data Kuliah (PENS-2110191020)/Semester 5/WPPL - Bu Umi, Bu Desy, Pak Andik/NOMDO/nomdo-mobile/app/src/main/res/drawable/btn_primary.xml" value="0.24814814814814815" />
+        <entry key="..\:/User/Documents/Data Kuliah (PENS-2110191020)/Semester 5/WPPL - Bu Umi, Bu Desy, Pak Andik/NOMDO/nomdo-mobile/app/src/main/res/drawable/ic_google.xml" value="0.1390625" />
+        <entry key="..\:/User/Documents/Data Kuliah (PENS-2110191020)/Semester 5/WPPL - Bu Umi, Bu Desy, Pak Andik/NOMDO/nomdo-mobile/app/src/main/res/layout/activity_login.xml" value="0.4" />
+        <entry key="..\:/User/Documents/Data Kuliah (PENS-2110191020)/Semester 5/WPPL - Bu Umi, Bu Desy, Pak Andik/NOMDO/nomdo-mobile/app/src/main/res/layout/activity_register.xml" value="0.4" />
+        <entry key="..\:/User/Documents/Data Kuliah (PENS-2110191020)/Semester 5/WPPL/NOMDO/nomdo-mobile/app/src/main/res/drawable/cursor_black.xml" value="0.2037037037037037" />
+        <entry key="..\:/User/Documents/Data Kuliah (PENS-2110191020)/Semester 5/WPPL/NOMDO/nomdo-mobile/app/src/main/res/drawable/ic_back.xml" value="0.2037037037037037" />
+        <entry key="..\:/User/Documents/Data Kuliah (PENS-2110191020)/Semester 5/WPPL/NOMDO/nomdo-mobile/app/src/main/res/layout/activity_login.xml" value="0.152" />
+        <entry key="..\:/User/Documents/Data Kuliah (PENS-2110191020)/Semester 5/WPPL/NOMDO/nomdo-mobile/app/src/main/res/layout/activity_register.xml" value="0.264" />
       </map>
     </option>
   </component>
@@ -12,5 +22,12 @@
   </component>
   <component name="ProjectType">
     <option name="id" value="Android" />
+  </component>
+  <component name="VisualizationToolProject">
+    <option name="state">
+      <ProjectState>
+        <option name="scale" value="0.136" />
+      </ProjectState>
+    </option>
   </component>
 </project>
