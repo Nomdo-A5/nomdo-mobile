@@ -1,7 +1,8 @@
 package com.nomdoa5.nomdo
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
 import com.nomdoa5.nomdo.databinding.ActivityHomeBinding
 
 class HomeActivity : AppCompatActivity() {
@@ -12,6 +13,12 @@ class HomeActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         _binding = ActivityHomeBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
+        setSupportActionBar(binding.toolbar)
+
+        binding.navigation.setOnClickListener{
+            Toast.makeText(this, "Kepencet cuy", Toast.LENGTH_SHORT).show()
+        }
     }
 
     override fun onDestroy() {
