@@ -17,6 +17,7 @@ class LoginActivity : AppCompatActivity(), View.OnClickListener {
         setContentView(binding.root)
 
         binding.btnSignUpIn.setOnClickListener(this)
+        binding.btnSignIn.setOnClickListener(this)
     }
 
     override fun onDestroy() {
@@ -28,6 +29,9 @@ class LoginActivity : AppCompatActivity(), View.OnClickListener {
         when(v){
             binding.btnSignUpIn -> {
                 startActivity(Intent(this, RegisterActivity::class.java))
+            }
+            binding.btnSignIn -> {
+                startActivity(Intent(this, HomeActivity::class.java))
             }
         }
     }
