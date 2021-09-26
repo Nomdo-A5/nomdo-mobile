@@ -9,13 +9,50 @@
     <option name="autoReloadType" value="NONE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="ded52e56-9943-4c15-aa2e-cc04dce5e33c" name="nomdo-mobile-2 Action bar HomeActivity" comment="" />
+    <list default="true" id="f75787f9-f55a-46ce-b4cf-f9faa73a39d5" name="5 replace vector" comment="replace vector&#10;&#10;Closes #5" />
+    <list id="7bd580bc-149b-4ea2-be77-6a8a5458df46" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/app/src/main/ic_launcher-playstore.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/src/main/res/drawable/btn_accent.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/src/main/res/drawable/btn_gray.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/src/main/res/drawable/btn_primary.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/src/main/res/drawable/cursor_black.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/src/main/res/drawable/ic_back.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/src/main/res/drawable/ic_google.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/src/main/res/drawable/ic_lock.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/src/main/res/drawable/ic_mail.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/src/main/res/drawable/ic_menu_camera.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/src/main/res/drawable/ic_menu_gallery.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/src/main/res/drawable/ic_menu_slideshow.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/src/main/res/drawable/ic_notifications_none.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/src/main/res/drawable/side_nav_bar.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/src/main/res/mipmap-hdpi/ic_launcher.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/src/main/res/mipmap-hdpi/ic_launcher_foreground.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/src/main/res/mipmap-hdpi/ic_launcher_round.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/src/main/res/mipmap-mdpi/ic_launcher.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/src/main/res/mipmap-mdpi/ic_launcher_foreground.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/src/main/res/mipmap-mdpi/ic_launcher_round.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/src/main/res/mipmap-xhdpi/ic_launcher.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/src/main/res/mipmap-xhdpi/ic_launcher_foreground.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/src/main/res/mipmap-xhdpi/ic_launcher_round.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/src/main/res/mipmap-xxhdpi/ic_launcher.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/src/main/res/mipmap-xxhdpi/ic_launcher_foreground.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/src/main/res/mipmap-xxhdpi/ic_launcher_round.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/src/main/res/mipmap-xxxhdpi/ic_launcher.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/src/main/res/mipmap-xxxhdpi/ic_launcher_foreground.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/src/main/res/mipmap-xxxhdpi/ic_launcher_round.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/src/main/res/values/ic_launcher_background.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/drawable/lock.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/drawable/mail.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/activity_login.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/layout/activity_login.xml" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
-  <component name="ExecutionTargetManager" SELECTED_TARGET="device_and_snapshot_combo_box_target[QV706GDC1H]" />
+  <component name="ExecutionTargetManager" SELECTED_TARGET="device_and_snapshot_combo_box_target[40cab75]" />
   <component name="ExternalProjectsData">
     <projectState path="$PROJECT_DIR$">
       <ProjectState />
@@ -55,26 +92,30 @@
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="last_directory_selection" value="$PROJECT_DIR$/app/src/main/res/drawable" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/../../../../Organisasi dan lainnya/Dicoding/Belajar Fundamental Aplikasi Android/Referensi Dicoding/a14-made-labs2-master/Navigation/MyNavigationDrawer/kotlin" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/app/src/main/res/drawable" />
     <property name="project.structure.last.edited" value="Modules" />
     <property name="project.structure.proportion" value="0.17" />
     <property name="project.structure.side.proportion" value="0.2" />
     <property name="settings.editor.selected.configurable" value="tasks" />
     <property name="start.from.branch" value="main" />
-    <property name="tasks.open.task.update.state.enabled" value="false" />
+    <property name="tasks.open.task.update.state.enabled" value="true" />
   </component>
   <component name="RecentsManager">
     <key name="android.template.-1734029512">
       <recent name="com.nomdoa5.nomdo" />
     </key>
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\Users\Arfan\AndroidStudioProjects\nomdo\app\src\main\res\drawable" />
       <recent name="D:\User\Documents\Data Kuliah (PENS-2110191020)\Semester 5\WPPL - Bu Umi, Bu Desy, Pak Andik\NOMDO\nomdo-mobile\app\src\main\res\drawable" />
       <recent name="D:\User\Documents\Data Kuliah (PENS-2110191020)\Semester 5\WPPL - Bu Umi, Bu Desy, Pak Andik\NOMDO\nomdo-mobile\app\src\main\res\font" />
+    </key>
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Users\Arfan\AndroidStudioProjects\nomdo\app\src\main\res\mipmap-xxxhdpi" />
     </key>
   </component>
   <component name="RunManager">
     <configuration name="Nomdo.app" type="AndroidRunConfigurationType" factoryName="Android App" activateToolWindowBeforeRun="false">
-      <module name="Nomdo.app" />
+      <module name="nomdo.app" />
       <option name="DEPLOY" value="true" />
       <option name="DEPLOY_APK_FROM_BUNDLE" value="false" />
       <option name="DEPLOY_AS_INSTANT" value="false" />
@@ -226,6 +267,19 @@
       <option name="project" value="LOCAL" />
       <updated>1632632931156</updated>
     </task>
+    <task active="true" id="nomdo-mobile-5" summary="replace vector">
+      <branch name="main" repository="C:\Users\Arfan\AndroidStudioProjects\nomdo" original="true" />
+      <branch name="nomdo-mobile-5" repository="C:\Users\Arfan\AndroidStudioProjects\nomdo" />
+      <changelist id="f75787f9-f55a-46ce-b4cf-f9faa73a39d5" name="5 replace vector" comment="replace vector&#10;&#10;Closes #5" />
+      <created>1632667790000</created>
+      <option name="issue" value="true" />
+      <url>https://github.com/Nomdo-A5/nomdo-mobile/issues/5</url>
+      <option name="number" value="5" />
+      <option name="presentableId" value="nomdo-mobile-5" />
+      <option name="project" value="nomdo-mobile" />
+      <option name="type" value="BUG" />
+      <updated>1632670901000</updated>
+    </task>
     <option name="localTasksCounter" value="11" />
     <option name="changelistNameFormat" value="${number} ${summary}" />
     <servers>
@@ -233,6 +287,9 @@
         <commitMessageFormat>{summary}
 
 Closes #{number}</commitMessageFormat>
+        <option name="preferredOpenTaskState">
+          <CustomTaskState id="OPEN" predefined="true" name="Open" />
+        </option>
         <option name="repoAuthor" value="Nomdo-A5" />
         <option name="repoName" value="nomdo-mobile" />
         <option name="shouldFormatCommitMessage" value="true" />
@@ -260,6 +317,7 @@ Closes #{number}</commitMessageFormat>
     <MESSAGE value="Add HomeActivity.kt&#10;&#10;Closes #2" />
     <MESSAGE value="Add action bar, and drawable icons&#10;&#10;Closes #2" />
     <MESSAGE value="Tes close issue&#10;&#10;Fix #2" />
-    <option name="LAST_COMMIT_MESSAGE" value="Tes close issue&#10;&#10;Fix #2" />
+    <MESSAGE value="replaced mail and vector" />
+    <option name="LAST_COMMIT_MESSAGE" value="replaced mail and vector" />
   </component>
 </project>
