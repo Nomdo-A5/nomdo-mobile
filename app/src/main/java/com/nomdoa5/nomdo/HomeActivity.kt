@@ -17,7 +17,7 @@ class HomeActivity : AppCompatActivity() {
         setSupportActionBar(binding.toolbar)
 
         binding.navigation.setOnClickListener{
-            Toast.makeText(this, "Kepencet cuy", Toast.LENGTH_SHORT).show()
+            Toast.makeText(this, "Hello", Toast.LENGTH_SHORT).show()
         }
     }
 
