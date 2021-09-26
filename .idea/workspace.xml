@@ -9,7 +9,36 @@
     <option name="autoReloadType" value="NONE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="ded52e56-9943-4c15-aa2e-cc04dce5e33c" name="nomdo-mobile-2 Action bar HomeActivity" comment="" />
+    <list default="true" id="6055c875-564b-4613-8126-8ce2d350d1ce" name="issue-3" comment="Add fragment, mvvm architecture, sidebar, and navigation&#10;&#10;Closes #3">
+      <change afterPath="$PROJECT_DIR$/app/src/main/java/com/nomdoa5/nomdo/MainActivity.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/src/main/java/com/nomdoa5/nomdo/ui/gallery/GalleryFragment.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/src/main/java/com/nomdoa5/nomdo/ui/gallery/GalleryViewModel.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/src/main/java/com/nomdoa5/nomdo/ui/home/HomeFragment.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/src/main/java/com/nomdoa5/nomdo/ui/home/HomeViewModel.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/src/main/java/com/nomdoa5/nomdo/ui/slideshow/SlideshowFragment.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/src/main/java/com/nomdoa5/nomdo/ui/slideshow/SlideshowViewModel.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/src/main/res/drawable/ic_menu_camera.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/src/main/res/drawable/ic_menu_gallery.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/src/main/res/drawable/ic_menu_slideshow.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/src/main/res/drawable/side_nav_bar.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/src/main/res/layout/activity_main.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/src/main/res/layout/app_bar_main.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/src/main/res/layout/content_main.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/src/main/res/layout/fragment_gallery.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/src/main/res/layout/fragment_home.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/src/main/res/layout/fragment_slideshow.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/src/main/res/layout/nav_header_main.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/src/main/res/menu/activity_main_drawer.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/src/main/res/menu/main.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/src/main/res/navigation/mobile_navigation.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/AndroidManifest.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/AndroidManifest.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/values-land/dimens.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/values-land/dimens.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/values-w1240dp/dimens.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/values-w1240dp/dimens.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/values-w600dp/dimens.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/values-w600dp/dimens.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/values/dimens.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/values/dimens.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/values/strings.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/values/strings.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/values/themes.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/values/themes.xml" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -61,7 +90,7 @@
     <property name="project.structure.side.proportion" value="0.2" />
     <property name="settings.editor.selected.configurable" value="tasks" />
     <property name="start.from.branch" value="main" />
-    <property name="tasks.open.task.update.state.enabled" value="false" />
+    <property name="tasks.open.task.update.state.enabled" value="true" />
   </component>
   <component name="RecentsManager">
     <key name="android.template.-1734029512">
@@ -195,7 +224,7 @@
     <task active="true" id="nomdo-mobile-2" summary="Action bar HomeActivity">
       <branch name="main" repository="D:\User\Documents\Data Kuliah (PENS-2110191020)\Semester 5\WPPL\NOMDO\nomdo-mobile" original="true" />
       <branch name="action-bar" repository="D:\User\Documents\Data Kuliah (PENS-2110191020)\Semester 5\WPPL\NOMDO\nomdo-mobile" />
-      <changelist id="ded52e56-9943-4c15-aa2e-cc04dce5e33c" name="nomdo-mobile-2 Action bar HomeActivity" comment="" />
+      <changelist id="" name="nomdo-mobile-2 Action bar HomeActivity" comment="" />
       <created>1632317913000</created>
       <option name="issue" value="true" />
       <url>https://github.com/Nomdo-A5/nomdo-mobile/issues/2</url>
@@ -225,6 +254,19 @@
       <option name="presentableId" value="LOCAL-00010" />
       <option name="project" value="LOCAL" />
       <updated>1632632931156</updated>
+    </task>
+    <task active="true" id="nomdo-mobile-3" summary="Add fragment, mvvm architecture, sidebar, and navigation">
+      <branch name="main" repository="D:\User\Documents\Data Kuliah (PENS-2110191020)\Semester 5\WPPL\NOMDO\nomdo-mobile" original="true" />
+      <branch name="issue-3" repository="D:\User\Documents\Data Kuliah (PENS-2110191020)\Semester 5\WPPL\NOMDO\nomdo-mobile" />
+      <changelist id="6055c875-564b-4613-8126-8ce2d350d1ce" name="issue-3" comment="Add fragment, mvvm architecture, sidebar, and navigation&#10;&#10;Closes #3" />
+      <created>1632633216000</created>
+      <option name="issue" value="true" />
+      <url>https://github.com/Nomdo-A5/nomdo-mobile/issues/3</url>
+      <option name="number" value="3" />
+      <option name="presentableId" value="nomdo-mobile-3" />
+      <option name="project" value="nomdo-mobile" />
+      <option name="type" value="BUG" />
+      <updated>1632633516000</updated>
     </task>
     <option name="localTasksCounter" value="11" />
     <option name="changelistNameFormat" value="${number} ${summary}" />
