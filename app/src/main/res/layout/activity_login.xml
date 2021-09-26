@@ -28,7 +28,7 @@
         app:layout_constraintBottom_toBottomOf="@+id/layout_username_sign_up"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@+id/layout_username_sign_up"
-        app:srcCompat="@drawable/mail" />
+        app:srcCompat="@drawable/ic_mail" />
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/layout_username_sign_up"
@@ -90,7 +90,7 @@
         app:layout_constraintBottom_toBottomOf="@+id/layout_edit_password"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@+id/layout_edit_password"
-        app:srcCompat="@drawable/lock" />
+        app:srcCompat="@drawable/ic_lock" />
 
     <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/btn_sign_in"
