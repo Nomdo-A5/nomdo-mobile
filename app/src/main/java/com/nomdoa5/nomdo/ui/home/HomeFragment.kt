@@ -9,6 +9,7 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.nomdoa5.nomdo.R
+import com.nomdoa5.nomdo.databinding.AppBarMainBinding
 import com.nomdoa5.nomdo.databinding.FragmentHomeBinding
 
 class HomeFragment : Fragment() {
@@ -38,8 +39,17 @@ class HomeFragment : Fragment() {
         return root
     }
 
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+    }
+
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
+    }
+
+    fun setActionBarTitle(title: String) {
+        val tvTitle = view?.findViewById<TextView>(R.id.tv_title)
+        tvTitle!!.text = title
     }
 }

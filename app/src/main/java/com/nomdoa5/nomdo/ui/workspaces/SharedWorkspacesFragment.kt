@@ -1,4 +1,4 @@
-package com.nomdoa5.nomdo.ui.slideshow
+package com.nomdoa5.nomdo.ui.workspaces
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -6,18 +6,13 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
-import com.nomdoa5.nomdo.R
-import com.nomdoa5.nomdo.databinding.FragmentSlideshowBinding
+import com.nomdoa5.nomdo.databinding.FragmentSharedWorkspacesBinding
 
-class SlideshowFragment : Fragment() {
+class SharedWorkspacesFragment : Fragment() {
 
-    private lateinit var slideshowViewModel: SlideshowViewModel
-    private var _binding: FragmentSlideshowBinding? = null
-
-    // This property is only valid between onCreateView and
-    // onDestroyView.
+    private lateinit var sharedWorkspacesViewModel: SharedWorkspacesViewModel
+    private var _binding: FragmentSharedWorkspacesBinding? = null
     private val binding get() = _binding!!
 
     override fun onCreateView(
@@ -25,14 +20,14 @@ class SlideshowFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        slideshowViewModel =
-            ViewModelProvider(this).get(SlideshowViewModel::class.java)
+        sharedWorkspacesViewModel =
+            ViewModelProvider(this).get(SharedWorkspacesViewModel::class.java)
 
-        _binding = FragmentSlideshowBinding.inflate(inflater, container, false)
+        _binding = FragmentSharedWorkspacesBinding.inflate(inflater, container, false)
         val root: View = binding.root
 
         val textView: TextView = binding.textSlideshow
-        slideshowViewModel.text.observe(viewLifecycleOwner, {
+        sharedWorkspacesViewModel.text.observe(viewLifecycleOwner, {
             textView.text = it
         })
         return root

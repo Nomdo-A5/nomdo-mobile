@@ -1,19 +1,22 @@
 package com.nomdoa5.nomdo
 
 import android.os.Bundle
-import android.view.Menu
-import com.google.android.material.snackbar.Snackbar
-import com.google.android.material.navigation.NavigationView
+import android.view.MenuItem
+import android.view.View
+import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
+import androidx.core.view.GravityCompat
+import androidx.drawerlayout.widget.DrawerLayout
 import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
-import androidx.navigation.ui.navigateUp
-import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
-import androidx.drawerlayout.widget.DrawerLayout
-import androidx.appcompat.app.AppCompatActivity
+import com.google.android.material.navigation.NavigationView
+import com.google.android.material.snackbar.Snackbar
 import com.nomdoa5.nomdo.databinding.ActivityMainBinding
 
-class MainActivity : AppCompatActivity() {
+
+class MainActivity : AppCompatActivity(), View.OnClickListener,
+    NavigationView.OnNavigationItemSelectedListener {
 
     private lateinit var appBarConfiguration: AppBarConfiguration
     private lateinit var binding: ActivityMainBinding
@@ -37,21 +40,45 @@ class MainActivity : AppCompatActivity() {
         // menu should be considered as top level destinations.
         appBarConfiguration = AppBarConfiguration(
             setOf(
-                R.id.nav_home, R.id.nav_gallery, R.id.nav_slideshow
+                R.id.nav_home, R.id.nav_my_workspaces, R.id.nav_shared_workspaces
             ), drawerLayout
         )
-        setupActionBarWithNavController(navController, appBarConfiguration)
+
+        binding.appBarMain.navigation.setOnClickListener(this)
+        binding.appBarMain.notifications.setOnClickListener(this)
         navView.setupWithNavController(navController)
     }
 
-    override fun onCreateOptionsMenu(menu: Menu): Boolean {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        menuInflater.inflate(R.menu.main, menu)
-        return true
+    override fun onClick(v: View?) {
+        when (v) {
+            binding.appBarMain.navigation -> {
+                if (!binding.drawerLayout.isDrawerOpen(GravityCompat.START)) {
+                    binding.drawerLayout.openDrawer(GravityCompat.START)
+                } else {
+                    binding.drawerLayout.closeDrawer(GravityCompat.END)
+                }
+            }
+            binding.appBarMain.notifications -> {
+                Toast.makeText(this, "Klik notifikasi ges", Toast.LENGTH_SHORT).show()
+            }
+        }
     }
 
-    override fun onSupportNavigateUp(): Boolean {
-        val navController = findNavController(R.id.nav_host_fragment_content_main)
-        return navController.navigateUp(appBarConfiguration) || super.onSupportNavigateUp()
+    override fun onNavigationItemSelected(item: MenuItem): Boolean {
+        return when(item.itemId){
+            R.id.nav_article->{
+                Toast.makeText(this, "Fitur article belum ada ges", Toast.LENGTH_SHORT).show()
+                true
+            }
+            R.id.nav_settings->{
+                Toast.makeText(this, "Fitur settings belum ada ges", Toast.LENGTH_SHORT).show()
+                true
+            }
+            R.id.nav_logout->{
+                Toast.makeText(this, "Fitur logout belum ada ges", Toast.LENGTH_SHORT).show()
+                true
+            }
+            else -> true
+        }
     }
 }

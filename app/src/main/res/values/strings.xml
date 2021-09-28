@@ -16,12 +16,20 @@
     <string name="title_activity_main">MainActivity</string>
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
-    <string name="nav_header_title">Android Studio</string>
-    <string name="nav_header_subtitle">android.studio@android.com</string>
+    <string name="nav_header_title">Anonymous</string>
+    <string name="nav_header_subtitle">anonymous@gmail.com</string>
     <string name="nav_header_desc">Navigation header</string>
     <string name="action_settings">Settings</string>
 
     <string name="menu_home">Home</string>
     <string name="menu_gallery">Gallery</string>
     <string name="menu_slideshow">Slideshow</string>
+    <string name="article">Article</string>
+    <string name="my_workspaces">My Workspaces</string>
+    <string name="shared_workspaces">Shared Workspaces</string>
+    <string name="settings">Settings</string>
+    <string name="logout">Logout</string>
+    <string name="navigation_drawer">Navigation Drawer</string>
+    <string name="notifications">Notifications</string>
+    <string name="add_action_button">Add Action Button</string>
 </resources>
