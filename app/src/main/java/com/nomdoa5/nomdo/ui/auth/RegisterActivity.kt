@@ -1,4 +1,4 @@
-package com.nomdoa5.nomdo
+package com.nomdoa5.nomdo.ui.auth
 
 import android.os.Bundle
 import android.view.View
