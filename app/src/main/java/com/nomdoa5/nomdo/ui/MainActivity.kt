@@ -1,4 +1,4 @@
-package com.nomdoa5.nomdo
+package com.nomdoa5.nomdo.ui
 
 import android.os.Bundle
 import android.view.MenuItem
@@ -12,6 +12,7 @@ import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupWithNavController
 import com.google.android.material.navigation.NavigationView
 import com.google.android.material.snackbar.Snackbar
+import com.nomdoa5.nomdo.R
 import com.nomdoa5.nomdo.databinding.ActivityMainBinding
 
 
@@ -66,15 +67,15 @@ class MainActivity : AppCompatActivity(), View.OnClickListener,
 
     override fun onNavigationItemSelected(item: MenuItem): Boolean {
         return when(item.itemId){
-            R.id.nav_article->{
+            R.id.nav_article ->{
                 Toast.makeText(this, "Fitur article belum ada ges", Toast.LENGTH_SHORT).show()
                 true
             }
-            R.id.nav_settings->{
+            R.id.nav_settings ->{
                 Toast.makeText(this, "Fitur settings belum ada ges", Toast.LENGTH_SHORT).show()
                 true
             }
-            R.id.nav_logout->{
+            R.id.nav_logout ->{
                 Toast.makeText(this, "Fitur logout belum ada ges", Toast.LENGTH_SHORT).show()
                 true
             }
