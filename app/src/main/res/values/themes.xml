@@ -22,10 +22,23 @@
         <item name="android:statusBarColor" tools:targetApi="l">@color/white</item>
         <item name="android:windowLightStatusBar" tools:targetApi="m">true</item>
     </style>
+
     <style name="Theme.Nomdo.NoActionBar">
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
     </style>
-    <style name="Theme.Nomdo.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
+
+    <style name="Theme.Nomdo.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar">
+        <item name="android:background">@color/white</item>
+    </style>
+
+    <style name="Theme.Nomdo.ToolbarOverlay" parent="Theme.AppCompat.Light.DarkActionBar">
+        <item name="android:textColorSecondary">@color/black</item>
+    </style>
+
+    <style name="Theme.Nomdo.Drawer" parent="Theme.AppCompat.Light.DarkActionBar">
+        <item name="android:textColor">@color/black</item>
+    </style>
+
     <style name="Theme.Nomdo.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
 </resources>
