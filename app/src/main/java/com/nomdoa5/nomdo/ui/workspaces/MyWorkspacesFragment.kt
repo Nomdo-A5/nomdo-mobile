@@ -1,14 +1,13 @@
 package com.nomdoa5.nomdo.ui.workspaces
 
-import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.google.android.material.snackbar.Snackbar
 import com.nomdoa5.nomdo.R
 import com.nomdoa5.nomdo.adapter.WorkspaceAdapter
 import com.nomdoa5.nomdo.databinding.FragmentMyWorkspacesBinding
@@ -67,7 +66,7 @@ class MyWorkspacesFragment : Fragment() {
     }
 
     fun setupRecyclerView(){
-        rvWorkspace = requireView().findViewById(R.id.followingRecyclerView)
+        rvWorkspace = requireView().findViewById(R.id.rv_my_workspaces)
         rvWorkspace.setHasFixedSize(true)
         rvWorkspace.addItemDecoration(WorkspaceAdapter.MarginItemDecoration(15))
         rvWorkspace.layoutManager = LinearLayoutManager(context)
@@ -76,7 +75,7 @@ class MyWorkspacesFragment : Fragment() {
 
         workspaceAdapter.setOnItemClickCallback(object : WorkspaceAdapter.OnItemClickCallback {
             override fun onItemClicked(data: Workspace) {
-                Toast.makeText(context, "Kamu mengklik #${data.idWorkspace}", Toast.LENGTH_SHORT).show()
+                Snackbar.make(requireView(), "Kamu mengklik #${data.idWorkspace}", Snackbar.LENGTH_SHORT).show()
             }
         })
     }

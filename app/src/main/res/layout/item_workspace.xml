@@ -10,7 +10,8 @@
     android:paddingTop="10dp"
     android:paddingEnd="10dp"
     android:paddingRight="10dp"
-    android:paddingBottom="15dp">
+    android:paddingBottom="15dp"
+    tools:targetApi="m">
 
     <TextView
         android:id="@+id/tv_title"

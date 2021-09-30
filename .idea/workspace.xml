@@ -10,23 +10,21 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="18f03fa9-1761-436f-9d00-516cb5af9a29" name="10 RV Home, My &amp; Shared Workspaces" comment="RV Home, My &amp; Shared Workspaces&#10;&#10;closes #10">
-      <change afterPath="$PROJECT_DIR$/app/src/main/java/com/nomdoa5/nomdo/adapter/WorkspaceAdapter.kt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/src/main/res/drawable/bg_rounded.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/src/main/res/drawable/ic_add.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/src/main/res/layout/item_workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/nomdoa5/nomdo/model/Workspace.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/nomdoa5/nomdo/model/Workspace.kt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/src/main/java/com/nomdoa5/nomdo/ui/workspaces/MyWorkspacesFragment.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/nomdoa5/nomdo/ui/workspaces/MyWorkspacesFragment.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/nomdoa5/nomdo/ui/workspaces/SharedWorkspacesFragment.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/nomdoa5/nomdo/ui/workspaces/SharedWorkspacesFragment.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/drawable/bg_rounded.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/drawable/bg_rounded.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/app_bar_main.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/layout/app_bar_main.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/fragment_my_workspaces.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/layout/fragment_my_workspaces.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/res/values-night/themes.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/res/values/strings.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/values/strings.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/res/values/themes.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/values/themes.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/fragment_shared_workspaces.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/layout/fragment_shared_workspaces.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/item_workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/layout/item_workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/values/colors.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/values/colors.xml" afterDir="false" />
     </list>
     <list id="c566fd81-f77f-4865-bdce-b93ab7568360" name="8 Add repository and model" comment="Add repository and model&#10;&#10;closes #8">
       <change beforePath="$PROJECT_DIR$/app/src/main/java/com/nomdoa5/nomdo/HomeActivity.kt" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/activity_home.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/values-night/themes.xml" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -45,9 +43,9 @@
         <option value="layoutResourceFile_vertical" />
         <option value="Kotlin Object" />
         <option value="Kotlin Data Class" />
-        <option value="resourceFile" />
         <option value="layoutResourceFile" />
         <option value="Kotlin Class" />
+        <option value="resourceFile" />
       </list>
     </option>
   </component>
@@ -278,7 +276,7 @@
       <option name="project" value="LOCAL" />
       <updated>1632828837335</updated>
     </task>
-    <task active="true" id="nomdo-mobile-8" summary="Add repository and model">
+    <task id="nomdo-mobile-8" summary="Add repository and model">
       <branch name="main" repository="D:\User\Documents\Data Kuliah (PENS-2110191020)\Semester 5\WPPL\NOMDO\nomdo-mobile" original="true" />
       <branch name="nomdo-mobile-8" repository="D:\User\Documents\Data Kuliah (PENS-2110191020)\Semester 5\WPPL\NOMDO\nomdo-mobile" />
       <changelist id="c566fd81-f77f-4865-bdce-b93ab7568360" name="8 Add repository and model" comment="Add repository and model&#10;&#10;closes #8" />
@@ -291,7 +289,7 @@
       <option name="type" value="BUG" />
       <updated>1632829160402</updated>
     </task>
-    <task active="true" id="nomdo-mobile-10" summary="RV Home, My &amp; Shared Workspaces">
+    <task active="true" id="nomdo-mobile-10" summary="RV My &amp; Shared Workspaces">
       <branch name="main" repository="D:\User\Documents\Data Kuliah (PENS-2110191020)\Semester 5\WPPL\NOMDO\nomdo-mobile" original="true" />
       <branch name="nomdo-mobile-10" repository="D:\User\Documents\Data Kuliah (PENS-2110191020)\Semester 5\WPPL\NOMDO\nomdo-mobile" />
       <changelist id="18f03fa9-1761-436f-9d00-516cb5af9a29" name="10 RV Home, My &amp; Shared Workspaces" comment="RV Home, My &amp; Shared Workspaces&#10;&#10;closes #10" />
@@ -302,9 +300,16 @@
       <option name="presentableId" value="nomdo-mobile-10" />
       <option name="project" value="nomdo-mobile" />
       <option name="type" value="BUG" />
-      <updated>1632844719738</updated>
+      <updated>1632850758000</updated>
     </task>
-    <option name="localTasksCounter" value="13" />
+    <task id="LOCAL-00013" summary="Add WorkspaceAdapter.kt, item_workspace.xml, and RecyclerView to MyWorkspacesFragment.kt">
+      <created>1632850563900</created>
+      <option name="number" value="00013" />
+      <option name="presentableId" value="LOCAL-00013" />
+      <option name="project" value="LOCAL" />
+      <updated>1632850563901</updated>
+    </task>
+    <option name="localTasksCounter" value="14" />
     <option name="changelistNameFormat" value="${number} ${summary}" />
     <servers>
       <GitHub url="https://github.com">
@@ -344,6 +349,7 @@ closes #{number}</commitMessageFormat>
     <MESSAGE value="Initial sidebar, mvvm, and navigation" />
     <MESSAGE value="Added NavDrawer, Navigation, Fragment, and MVVM&#10;&#10;#3" />
     <MESSAGE value="Resolve conflict with main" />
-    <option name="LAST_COMMIT_MESSAGE" value="Resolve conflict with main" />
+    <MESSAGE value="Add WorkspaceAdapter.kt, item_workspace.xml, and RecyclerView to MyWorkspacesFragment.kt" />
+    <option name="LAST_COMMIT_MESSAGE" value="Add WorkspaceAdapter.kt, item_workspace.xml, and RecyclerView to MyWorkspacesFragment.kt" />
   </component>
 </project>
