@@ -1,28 +1,27 @@
-package com.nomdoa5.nomdo.ui.boards
+package com.nomdoa5.nomdo.ui.tasks
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.navigation.Navigation
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.snackbar.Snackbar
 import com.nomdoa5.nomdo.R
-import com.nomdoa5.nomdo.adapter.BoardAdapter
-import com.nomdoa5.nomdo.databinding.FragmentBoardsBinding
-import com.nomdoa5.nomdo.model.Board
+import com.nomdoa5.nomdo.adapter.TaskAdapter
+import com.nomdoa5.nomdo.databinding.FragmentTaskBinding
+import com.nomdoa5.nomdo.model.Task
 
-class BoardsFragment : Fragment() {
+class TaskFragment : Fragment() {
     //    private lateinit var myWorkspacesViewModel: MyWorkspacesViewModel
-    private var _binding: FragmentBoardsBinding? = null
+    private var _binding: FragmentTaskBinding? = null
     private val binding get() = _binding!!
-    private val boardAdapter = BoardAdapter()
-    private var boards = arrayListOf<Board>()
-    private lateinit var boardName: Array<String>
+    private val taskAdapter = TaskAdapter()
+    private var tasks = arrayListOf<Task>()
+    private lateinit var taskName: Array<String>
     private lateinit var createdAt: Array<String>
-    private lateinit var rvBoard: RecyclerView
+    private lateinit var rvTask: RecyclerView
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -32,7 +31,7 @@ class BoardsFragment : Fragment() {
 //        myWorkspacesViewModel =
 //            ViewModelProvider(this).get(MyWorkspacesViewModel::class.java)
 
-        _binding = FragmentBoardsBinding.inflate(inflater, container, false)
+        _binding = FragmentTaskBinding.inflate(inflater, container, false)
         val root: View = binding.root
 
 //        myWorkspacesViewModel.text.observe(viewLifecycleOwner, {
@@ -53,31 +52,30 @@ class BoardsFragment : Fragment() {
     }
 
     fun setData(){
-        boardName = resources.getStringArray(R.array.name)
+        taskName = resources.getStringArray(R.array.name)
         createdAt = resources.getStringArray(R.array.creator)
 
-        for(i in boardName.indices){
-            val board = Board(
+        for(i in taskName.indices){
+            val task = Task(
                 i,
-                boardName[i],
+                taskName[i],
                 "Owned by " + createdAt[i],
             )
-            boards.add(board)
+            tasks.add(task)
         }
     }
 
     fun setupRecyclerView(){
-        rvBoard = requireView().findViewById(R.id.rv_boards)
-        rvBoard.setHasFixedSize(true)
-        rvBoard.addItemDecoration(BoardAdapter.MarginItemDecoration(15))
-        rvBoard.layoutManager = LinearLayoutManager(context)
-        boardAdapter.setData(boards)
-        rvBoard.adapter = boardAdapter
+        rvTask = requireView().findViewById(R.id.rv_tasks)
+        rvTask.setHasFixedSize(true)
+        rvTask.addItemDecoration(TaskAdapter.MarginItemDecoration(15))
+        rvTask.layoutManager = LinearLayoutManager(context)
+        taskAdapter.setData(tasks)
+        rvTask.adapter = taskAdapter
 
-        boardAdapter.setOnItemClickCallback(object : BoardAdapter.OnItemClickCallback {
-            override fun onItemClicked(data: Board) {
-                Snackbar.make(requireView(), "Kamu mengklik #${data.idBoard}", Snackbar.LENGTH_SHORT).show()
-                Navigation.findNavController(requireView()).navigate(R.id.action_nav_boards_to_nav_tasks)
+        taskAdapter.setOnItemClickCallback(object : TaskAdapter.OnItemClickCallback {
+            override fun onItemClicked(data: Task) {
+                Snackbar.make(requireView(), "Kamu mengklik #${data.idTask}", Snackbar.LENGTH_SHORT).show()
             }
         })
     }
