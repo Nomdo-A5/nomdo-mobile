@@ -69,8 +69,10 @@
         android:clickable="true"
         android:drawablePadding="3dp"
         android:fontFamily="@font/roboto_medium"
+        android:gravity="center"
         android:text="Attachment"
-        app:drawableEndCompat="@drawable/ic_add"
+        android:textAlignment="gravity"
+        app:drawableEndCompat="@drawable/ic_add_outline"
         app:drawableStartCompat="@drawable/ic_attach"
         app:layout_constraintEnd_toEndOf="@+id/tv_calendar2"
         app:layout_constraintHorizontal_bias="0.0"
@@ -85,7 +87,8 @@
         app:layout_constraintEnd_toEndOf="@+id/tv_member"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="@+id/tv_member"
-        app:layout_constraintTop_toBottomOf="@+id/tv_member" />
+        app:layout_constraintTop_toBottomOf="@+id/tv_member"
+        tools:listitem="@layout/item_member" />
 
     <TextView
         android:id="@+id/tv_description"
@@ -122,11 +125,13 @@
 
     <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/btn_save"
-        android:layout_width="wrap_content"
+        android:layout_width="100dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="24dp"
         android:background="@drawable/btn_primary"
+        android:fontFamily="@font/roboto_regular"
         android:text="Save"
+        android:textAllCaps="false"
         app:layout_constraintStart_toStartOf="@+id/tv_attachment"
         app:layout_constraintTop_toBottomOf="@+id/tv_attachment" />
 </androidx.constraintlayout.widget.ConstraintLayout>

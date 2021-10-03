@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.navigation.Navigation
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.snackbar.Snackbar
@@ -76,6 +77,7 @@ class MyWorkspacesFragment : Fragment() {
         workspaceAdapter.setOnItemClickCallback(object : WorkspaceAdapter.OnItemClickCallback {
             override fun onItemClicked(data: Workspace) {
                 Snackbar.make(requireView(), "Kamu mengklik #${data.idWorkspace}", Snackbar.LENGTH_SHORT).show()
+                Navigation.findNavController(requireView()).navigate(R.id.action_nav_my_workspaces_to_nav_detail_task)
             }
         })
     }
