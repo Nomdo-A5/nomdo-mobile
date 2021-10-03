@@ -16,5 +16,5 @@ data class Board(
     @SerializedName("opened_at")
     val openedAt: String? = null,
     @SerializedName("id_workspace")
-    val idWorkspace: Int
+    val idWorkspace: Int?=null
 ) : Parcelable
