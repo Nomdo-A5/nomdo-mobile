@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ui.task.DetailTaskFragment">
+
+
+    <TextView
+        android:id="@+id/tv_member"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="24dp"
+        android:layout_marginEnd="24dp"
+        android:fontFamily="@font/roboto_medium"
+        android:text="Members"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/tv_description_title"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:fontFamily="@font/roboto_medium"
+        android:text="Description"
+        app:layout_constraintEnd_toEndOf="@+id/rv_member"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="@+id/rv_member"
+        app:layout_constraintTop_toBottomOf="@+id/rv_member" />
+
+    <TextView
+        android:id="@+id/tv_calendar_title"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:drawablePadding="5dp"
+        android:fontFamily="@font/roboto_medium"
+        android:text="Calendar"
+        app:drawableStartCompat="@drawable/ic_calendar"
+        app:layout_constraintEnd_toEndOf="@+id/tv_description"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="@+id/tv_description"
+        app:layout_constraintTop_toBottomOf="@+id/tv_description" />
+
+    <TextView
+        android:id="@+id/tv_spended_money_title"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:drawablePadding="3dp"
+        android:fontFamily="@font/roboto_medium"
+        android:text="Spended Money"
+        app:drawableStartCompat="@drawable/ic_money"
+        app:layout_constraintEnd_toEndOf="@+id/tv_calendar"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="@+id/tv_calendar"
+        app:layout_constraintTop_toBottomOf="@+id/tv_calendar" />
+
+    <TextView
+        android:id="@+id/tv_attachment"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:clickable="true"
+        android:drawablePadding="3dp"
+        android:fontFamily="@font/roboto_medium"
+        android:gravity="center"
+        android:text="Attachment"
+        android:textAlignment="gravity"
+        app:drawableEndCompat="@drawable/ic_add_outline"
+        app:drawableStartCompat="@drawable/ic_attach"
+        app:layout_constraintEnd_toEndOf="@+id/tv_calendar2"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="@+id/tv_calendar2"
+        app:layout_constraintTop_toBottomOf="@+id/tv_calendar2" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rv_member"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        app:layout_constraintEnd_toEndOf="@+id/tv_member"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="@+id/tv_member"
+        app:layout_constraintTop_toBottomOf="@+id/tv_member"
+        tools:listitem="@layout/item_member" />
+
+    <TextView
+        android:id="@+id/tv_description"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:text="oueioeuieuieuioeuioeuieuoiueiueioeu uoi euoi eui ue iue iueioeu iouu"
+        app:layout_constraintEnd_toEndOf="@+id/tv_description_title"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="@+id/tv_description_title"
+        app:layout_constraintTop_toBottomOf="@+id/tv_description_title" />
+
+    <TextView
+        android:id="@+id/tv_calendar"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:text="Monday, 5 July 2021"
+        app:layout_constraintEnd_toEndOf="@+id/tv_calendar_title"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="@+id/tv_calendar_title"
+        app:layout_constraintTop_toBottomOf="@+id/tv_calendar_title" />
+
+    <TextView
+        android:id="@+id/tv_calendar2"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:text="Rp. 10000"
+        app:layout_constraintEnd_toEndOf="@+id/tv_spended_money_title"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="@+id/tv_spended_money_title"
+        app:layout_constraintTop_toBottomOf="@+id/tv_spended_money_title" />
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/btn_save"
+        android:layout_width="100dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="24dp"
+        android:background="@drawable/btn_primary"
+        android:fontFamily="@font/roboto_regular"
+        android:text="Save"
+        android:textAllCaps="false"
+        app:layout_constraintStart_toStartOf="@+id/tv_attachment"
+        app:layout_constraintTop_toBottomOf="@+id/tv_attachment" />
+</androidx.constraintlayout.widget.ConstraintLayout>
