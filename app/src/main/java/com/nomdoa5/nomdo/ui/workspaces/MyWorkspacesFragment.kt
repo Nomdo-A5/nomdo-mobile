@@ -77,7 +77,7 @@ class MyWorkspacesFragment : Fragment() {
         workspaceAdapter.setOnItemClickCallback(object : WorkspaceAdapter.OnItemClickCallback {
             override fun onItemClicked(data: Workspace) {
                 Snackbar.make(requireView(), "Kamu mengklik #${data.idWorkspace}", Snackbar.LENGTH_SHORT).show()
-                Navigation.findNavController(requireView()).navigate(R.id.action_nav_my_workspaces_to_nav_detail_task)
+                Navigation.findNavController(requireView()).navigate(R.id.action_nav_my_workspaces_to_nav_boards)
             }
         })
     }

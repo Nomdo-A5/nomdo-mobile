@@ -41,7 +41,7 @@ class MainActivity : AppCompatActivity(), View.OnClickListener,
         // menu should be considered as top level destinations.
         appBarConfiguration = AppBarConfiguration(
             setOf(
-                R.id.nav_home, R.id.nav_my_workspaces, R.id.nav_shared_workspaces, R.id.nav_detail_task
+                R.id.nav_home, R.id.nav_my_workspaces, R.id.nav_shared_workspaces, R.id.nav_boards, R.id.nav_detail_task
             ), drawerLayout
         )
 
