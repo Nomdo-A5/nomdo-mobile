@@ -15,7 +15,6 @@
         android:id="@+id/nav_my_workspaces"
         android:name="com.nomdoa5.nomdo.ui.workspaces.MyWorkspacesFragment"
         android:label="@string/menu_gallery"
-=======
         tools:layout="@layout/fragment_my_workspaces" >
         <action
             android:id="@+id/action_nav_my_workspaces_to_nav_boards"
