@@ -17,6 +17,7 @@ class LoginActivity : AppCompatActivity(), View.OnClickListener {
         setContentView(binding.root)
 
         binding.btnSignUpIn.setOnClickListener(this)
+        binding.tvForgot.setOnClickListener(this)
         binding.btnSignIn.setOnClickListener(this)
     }
 
@@ -29,6 +30,9 @@ class LoginActivity : AppCompatActivity(), View.OnClickListener {
         when(v){
             binding.btnSignUpIn -> {
                 startActivity(Intent(this, RegisterActivity::class.java))
+            }
+            binding.tvForgot -> {
+                startActivity(Intent(this, ForgetPassActivity::class.java))
             }
             binding.btnSignIn -> {
                 startActivity(Intent(this, MainActivity::class.java))

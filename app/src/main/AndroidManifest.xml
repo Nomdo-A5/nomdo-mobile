@@ -10,6 +10,15 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Nomdo">
         <activity
+            android:name=".ui.auth.ForgetPassActivity3"
+            android:exported="true" />
+        <activity
+            android:name=".ui.auth.ForgetPassActivity2"
+            android:exported="true" />
+        <activity
+            android:name=".ui.auth.ForgetPassActivity"
+            android:exported="true" />
+        <activity
             android:name=".ui.MainActivity"
             android:exported="true"
             android:label="@string/title_activity_main"
@@ -20,6 +29,10 @@
             android:theme="@style/Theme.Auth" />
         <activity
             android:name=".ui.auth.LoginActivity"
+            android:exported="true"
+            android:theme="@style/Theme.Auth" />
+        <activity
+            android:name=".ui.splash.SplashScreenActivity"
             android:exported="true"
             android:theme="@style/Theme.Auth">
             <intent-filter>

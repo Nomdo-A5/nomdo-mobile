@@ -15,7 +15,8 @@
         android:id="@+id/nav_my_workspaces"
         android:name="com.nomdoa5.nomdo.ui.workspaces.MyWorkspacesFragment"
         android:label="@string/menu_gallery"
-        tools:layout="@layout/fragment_my_workspaces">
+=======
+        tools:layout="@layout/fragment_my_workspaces" >
         <action
             android:id="@+id/action_nav_my_workspaces_to_nav_boards"
             app:destination="@id/nav_boards" />
@@ -24,6 +25,15 @@
     <fragment
         android:id="@+id/nav_shared_workspaces"
         android:name="com.nomdoa5.nomdo.ui.workspaces.SharedWorkspacesFragment"
+        android:label="@string/menu_slideshow"
+        tools:layout="@layout/fragment_shared_workspaces" >
+        <action
+            android:id="@+id/action_nav_shared_workspaces_to_nav_boards"
+            app:destination="@id/nav_boards" />
+    </fragment>
+    <fragment
+        android:id="@+id/nav_boards"
+        android:name="com.nomdoa5.nomdo.ui.boards.BoardsFragment"
         android:label="@string/menu_slideshow"
         tools:layout="@layout/fragment_shared_workspaces" />
 
