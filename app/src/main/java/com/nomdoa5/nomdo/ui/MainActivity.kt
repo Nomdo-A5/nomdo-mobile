@@ -41,7 +41,7 @@ class MainActivity : AppCompatActivity(), View.OnClickListener,
         // menu should be considered as top level destinations.
         appBarConfiguration = AppBarConfiguration(
             setOf(
-                R.id.nav_home, R.id.nav_my_workspaces, R.id.nav_shared_workspaces, R.id.nav_boards
+                R.id.nav_home, R.id.nav_my_workspaces, R.id.nav_shared_workspaces, R.id.nav_boards, R.id.nav_tasks
             ), drawerLayout
         )
 
@@ -67,7 +67,7 @@ class MainActivity : AppCompatActivity(), View.OnClickListener,
 
     override fun onNavigationItemSelected(item: MenuItem): Boolean {
         return when(item.itemId){
-            R.id.nav_detail_task ->{
+            R.id.nav_article ->{
                 Toast.makeText(this, "Fitur article belum ada ges", Toast.LENGTH_SHORT).show()
                 true
             }
