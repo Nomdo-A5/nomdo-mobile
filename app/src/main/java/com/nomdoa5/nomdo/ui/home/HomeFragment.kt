@@ -6,10 +6,8 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.nomdoa5.nomdo.R
-import com.nomdoa5.nomdo.databinding.AppBarMainBinding
 import com.nomdoa5.nomdo.databinding.FragmentHomeBinding
 
 class HomeFragment : Fragment() {
@@ -49,7 +47,7 @@ class HomeFragment : Fragment() {
     }
 
     fun setActionBarTitle(title: String) {
-        val tvTitle = view?.findViewById<TextView>(R.id.tv_title)
+        val tvTitle = view?.findViewById<TextView>(R.id.tv_title_board)
         tvTitle!!.text = title
     }
 }

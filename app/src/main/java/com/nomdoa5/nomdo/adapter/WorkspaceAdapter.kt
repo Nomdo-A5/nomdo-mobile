@@ -43,7 +43,7 @@ class WorkspaceAdapter : RecyclerView.Adapter<WorkspaceAdapter.WorkspaceViewHold
     inner class WorkspaceViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         private val binding = ItemWorkspaceBinding.bind(itemView)
         fun bind(workspaceItem: Workspace) {
-            binding.tvTitle.text = workspaceItem.workspaceName
+            binding.tvTitleWorkspace.text = workspaceItem.workspaceName
             binding.tvCreator.text = workspaceItem.workspaceCreator
 
             itemView.setOnClickListener { onItemClickCallback?.onItemClicked(workspaceItem) }

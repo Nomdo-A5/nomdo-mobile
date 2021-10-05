@@ -14,7 +14,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 public class SplashScreenActivity extends AppCompatActivity {
 
-    private static int SPLASH_SCREEN = 3000;
+    private static int SPLASH_SCREEN = 1500;
 
     Animation topAnim, bottomAnim;
     ImageView image;

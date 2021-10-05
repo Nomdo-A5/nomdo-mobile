@@ -6,47 +6,46 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.nomdoa5.nomdo.R
-import com.nomdoa5.nomdo.databinding.ItemBoardBinding
-import com.nomdoa5.nomdo.model.Board
+import com.nomdoa5.nomdo.databinding.ItemTaskBinding
+import com.nomdoa5.nomdo.model.Task
 
-class BoardAdapter : RecyclerView.Adapter<BoardAdapter.BoardViewHolder>() {
-    private val mData = ArrayList<Board>()
+class TaskAdapter : RecyclerView.Adapter<TaskAdapter.TaskViewHolder>() {
+    private val mData = ArrayList<Task>()
     private var onItemClickCallback: OnItemClickCallback? = null
 
-    fun setData(items: ArrayList<Board>) {
+    fun setData(items: ArrayList<Task>) {
         mData.clear()
         mData.addAll(items)
         notifyDataSetChanged()
     }
 
     interface OnItemClickCallback {
-        fun onItemClicked(data: Board)
+        fun onItemClicked(data: Task)
     }
 
     fun setOnItemClickCallback(onItemClickCallback: OnItemClickCallback) {
         this.onItemClickCallback = onItemClickCallback
     }
 
-    override fun onCreateViewHolder(viewGroup: ViewGroup, position: Int): BoardViewHolder {
+    override fun onCreateViewHolder(viewGroup: ViewGroup, position: Int): TaskViewHolder {
         val mView = LayoutInflater.from(viewGroup.context)
-            .inflate(R.layout.item_board, viewGroup, false)
+            .inflate(R.layout.item_task, viewGroup, false)
 
-        return BoardViewHolder(mView)
+        return TaskViewHolder(mView)
     }
 
-    override fun onBindViewHolder(holder: BoardViewHolder, position: Int) {
+    override fun onBindViewHolder(holder: TaskViewHolder, position: Int) {
         holder.bind(mData[position])
     }
 
     override fun getItemCount(): Int = mData.size
 
-    inner class BoardViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        private val binding = ItemBoardBinding.bind(itemView)
-        fun bind(boardItem: Board) {
-            binding.tvTitleBoard.text = boardItem.boardName
-            binding.tvNumBoard.text = boardItem.idBoard.toString()
+    inner class TaskViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+        private val binding = ItemTaskBinding.bind(itemView)
+        fun bind(taskItem: Task) {
+            binding.tvTitleTask.text = taskItem.taskName
 
-            itemView.setOnClickListener { onItemClickCallback?.onItemClicked(boardItem) }
+            itemView.setOnClickListener { onItemClickCallback?.onItemClicked(taskItem) }
         }
     }
 
