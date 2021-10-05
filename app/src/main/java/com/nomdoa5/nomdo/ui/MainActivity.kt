@@ -67,8 +67,8 @@ class MainActivity : AppCompatActivity(), View.OnClickListener,
 
     override fun onNavigationItemSelected(item: MenuItem): Boolean {
         return when(item.itemId){
-            R.id.nav_article ->{
-                Toast.makeText(this, "Fitur article belum ada ges", Toast.LENGTH_SHORT).show()
+            R.id.nav_detail_task ->{
+                Toast.makeText(this, "Fitur detail task belum ada ges", Toast.LENGTH_SHORT).show()
                 true
             }
             R.id.nav_settings ->{
