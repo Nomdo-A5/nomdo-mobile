@@ -1,6 +1,5 @@
-package com.nomdoa5.nomdo.ui.task
+package com.nomdoa5.nomdo.ui.tasks
 
-import android.net.wifi.p2p.WifiP2pManager
 import android.os.Bundle
 import android.util.Log
 import androidx.fragment.app.Fragment
@@ -12,10 +11,8 @@ import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.snackbar.Snackbar
 import com.nomdoa5.nomdo.R
 import com.nomdoa5.nomdo.adapter.MemberAdapter
-import com.nomdoa5.nomdo.adapter.WorkspaceAdapter
 import com.nomdoa5.nomdo.databinding.FragmentDetailTaskBinding
 import com.nomdoa5.nomdo.model.User
-import com.nomdoa5.nomdo.model.Workspace
 
 class DetailTaskFragment : Fragment() {
     private var _binding: FragmentDetailTaskBinding? = null
