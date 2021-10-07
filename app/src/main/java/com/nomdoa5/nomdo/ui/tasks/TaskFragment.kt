@@ -5,6 +5,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.navigation.Navigation
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.snackbar.Snackbar
@@ -76,6 +77,7 @@ class TaskFragment : Fragment() {
         taskAdapter.setOnItemClickCallback(object : TaskAdapter.OnItemClickCallback {
             override fun onItemClicked(data: Task) {
                 Snackbar.make(requireView(), "Kamu mengklik #${data.idTask}", Snackbar.LENGTH_SHORT).show()
+                Navigation.findNavController(requireView()).navigate(R.id.action_nav_tasks_to_detailTaskFragment)
             }
         })
     }
