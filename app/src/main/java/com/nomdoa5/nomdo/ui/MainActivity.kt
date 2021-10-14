@@ -1,5 +1,6 @@
 package com.nomdoa5.nomdo.ui
 
+import NoFilterAdapter
 import android.app.Dialog
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
@@ -8,6 +9,7 @@ import android.view.MenuItem
 import android.view.View
 import android.view.animation.Animation
 import android.view.animation.AnimationUtils
+import android.widget.AutoCompleteTextView
 import android.widget.ImageView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
@@ -17,7 +19,6 @@ import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupWithNavController
 import com.google.android.material.navigation.NavigationView
-import com.google.android.material.snackbar.Snackbar
 import com.nomdoa5.nomdo.R
 import com.nomdoa5.nomdo.databinding.ActivityMainBinding
 
@@ -53,8 +54,9 @@ class MainActivity : AppCompatActivity(), View.OnClickListener,
     private lateinit var appBarConfiguration: AppBarConfiguration
     private lateinit var binding: ActivityMainBinding
     private lateinit var addWorkspaceDialog: Dialog
+    private lateinit var addBoardDialog: Dialog
+    private lateinit var addTaskDialog: Dialog
     private lateinit var close: ImageView
-
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -62,6 +64,8 @@ class MainActivity : AppCompatActivity(), View.OnClickListener,
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
         addWorkspaceDialog = Dialog(this)
+        addBoardDialog = Dialog(this)
+        addTaskDialog = Dialog(this)
 
         setSupportActionBar(binding.appBarMain.toolbar)
 
@@ -69,6 +73,7 @@ class MainActivity : AppCompatActivity(), View.OnClickListener,
         binding.appBarMain.fabAddWorkspace.setOnClickListener(this)
         binding.appBarMain.fabAddTask.setOnClickListener(this)
         binding.appBarMain.fabAddBoard.setOnClickListener(this)
+        binding.appBarMain.fabAddTask.setOnClickListener(this)
 
         val drawerLayout: DrawerLayout = binding.drawerLayout
         val navView: NavigationView = binding.navView
@@ -110,8 +115,16 @@ class MainActivity : AppCompatActivity(), View.OnClickListener,
             binding.appBarMain.fabAddWorkspace -> {
                 showPopupAddWorkspace()
             }
+            binding.appBarMain.fabAddBoard -> {
+                showPopupAddBoard()
+            }
+            binding.appBarMain.fabAddTask -> {
+                showPopupAddTask()
+            }
             close -> {
                 addWorkspaceDialog.dismiss()
+                addBoardDialog.dismiss()
+                addTaskDialog.dismiss()
             }
         }
     }
@@ -139,6 +152,57 @@ class MainActivity : AppCompatActivity(), View.OnClickListener,
         addWorkspaceDialog.window!!.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
         addWorkspaceDialog.show()
         close = addWorkspaceDialog.findViewById(R.id.img_close_add_workspace)
+        close.setOnClickListener(this)
+    }
+
+    fun showPopupAddBoard() {
+        addBoardDialog.setContentView(R.layout.popup_board)
+        addBoardDialog.window!!.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+
+        val spinner =
+            addBoardDialog.findViewById<AutoCompleteTextView>(R.id.spinner_workspace_add_board)
+        spinner.setAdapter(
+            NoFilterAdapter(
+                this,
+                R.layout.item_dropdown,
+                resources.getStringArray(R.array.name)
+            )
+        )
+        spinner.setText("Alwan Fauzi", false)
+
+        addBoardDialog.show()
+        close = addBoardDialog.findViewById(R.id.img_close_add_board)
+        close.setOnClickListener(this)
+    }
+
+    fun showPopupAddTask() {
+        addTaskDialog.setContentView(R.layout.popup_task)
+        addTaskDialog.window!!.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+
+        val spinnerWorkspace =
+            addTaskDialog.findViewById<AutoCompleteTextView>(R.id.spinner_workspace_add_task)
+        spinnerWorkspace.setAdapter(
+            NoFilterAdapter(
+                this,
+                R.layout.item_dropdown,
+                resources.getStringArray(R.array.name)
+            )
+        )
+        spinnerWorkspace.setText("Fauzi", false)
+
+        val spinnerBoard =
+            addTaskDialog.findViewById<AutoCompleteTextView>(R.id.spinner_board_add_task)
+        spinnerBoard.setAdapter(
+            NoFilterAdapter(
+                this,
+                R.layout.item_dropdown,
+                resources.getStringArray(R.array.creator)
+            )
+        )
+        spinnerBoard.setText("Alwan", false)
+
+        addTaskDialog.show()
+        close = addTaskDialog.findViewById(R.id.img_close_add_task)
         close.setOnClickListener(this)
     }
 
