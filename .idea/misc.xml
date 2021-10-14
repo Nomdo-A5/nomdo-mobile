@@ -4,6 +4,7 @@
     <option name="filePathToZoomLevelMap">
       <map>
         <entry key="..\:/User/Documents/Data Kuliah (PENS-2110191020)/Semester 5/WPPL/NOMDO/nomdo-mobile/app/src/main/res/drawable/bg_rounded.xml" value="0.4" />
+        <entry key="..\:/User/Documents/Data Kuliah (PENS-2110191020)/Semester 5/WPPL/NOMDO/nomdo-mobile/app/src/main/res/drawable/btn_accent.xml" value="0.2755208333333333" />
         <entry key="..\:/User/Documents/Data Kuliah (PENS-2110191020)/Semester 5/WPPL/NOMDO/nomdo-mobile/app/src/main/res/drawable/btn_gray.xml" value="0.24166666666666667" />
         <entry key="..\:/User/Documents/Data Kuliah (PENS-2110191020)/Semester 5/WPPL/NOMDO/nomdo-mobile/app/src/main/res/drawable/ic_add.xml" value="0.24166666666666667" />
         <entry key="..\:/User/Documents/Data Kuliah (PENS-2110191020)/Semester 5/WPPL/NOMDO/nomdo-mobile/app/src/main/res/drawable/ic_user.xml" value="0.15" />
@@ -13,6 +14,10 @@
         <entry key="..\:/User/Documents/Data Kuliah (PENS-2110191020)/Semester 5/WPPL/NOMDO/nomdo-mobile/app/src/main/res/layout/activity_register.xml" value="0.259375" />
         <entry key="..\:/User/Documents/Data Kuliah (PENS-2110191020)/Semester 5/WPPL/NOMDO/nomdo-mobile/app/src/main/res/layout/app_bar_main.xml" value="0.39090909090909093" />
         <entry key="..\:/User/Documents/Data Kuliah (PENS-2110191020)/Semester 5/WPPL/NOMDO/nomdo-mobile/app/src/main/res/layout/content_main.xml" value="0.19907407407407407" />
+        <entry key="..\:/User/Documents/Data Kuliah (PENS-2110191020)/Semester 5/WPPL/NOMDO/nomdo-mobile/app/src/main/res/layout/activity_register.xml" value="0.4" />
+        <entry key="..\:/User/Documents/Data Kuliah (PENS-2110191020)/Semester 5/WPPL/NOMDO/nomdo-mobile/app/src/main/res/layout/app_bar_main.xml" value="0.264" />
+        <entry key="..\:/User/Documents/Data Kuliah (PENS-2110191020)/Semester 5/WPPL/NOMDO/nomdo-mobile/app/src/main/res/layout/content_main.xml" value="0.2553846153846154" />
+        <entry key="..\:/User/Documents/Data Kuliah (PENS-2110191020)/Semester 5/WPPL/NOMDO/nomdo-mobile/app/src/main/res/layout/fragment_detail_task.xml" value="0.5518474374255066" />
         <entry key="..\:/User/Documents/Data Kuliah (PENS-2110191020)/Semester 5/WPPL/NOMDO/nomdo-mobile/app/src/main/res/layout/fragment_home.xml" value="0.19907407407407407" />
         <entry key="..\:/User/Documents/Data Kuliah (PENS-2110191020)/Semester 5/WPPL/NOMDO/nomdo-mobile/app/src/main/res/layout/fragment_my_workspaces.xml" value="0.136" />
         <entry key="..\:/User/Documents/Data Kuliah (PENS-2110191020)/Semester 5/WPPL/NOMDO/nomdo-mobile/app/src/main/res/layout/fragment_shared_workspaces.xml" value="0.1" />
@@ -43,6 +48,8 @@
         <entry key="..\:/Users/Arfan/AndroidStudioProjects/nomdo-mobile/app/src/main/res/layout/item_workspace.xml" value="0.25" />
         <entry key="..\:/Users/Arfan/AndroidStudioProjects/nomdo-mobile/app/src/main/res/layout/nav_header_main.xml" value="0.19384057971014493" />
         <entry key="..\:/Users/Arfan/AndroidStudioProjects/nomdo-mobile/app/src/main/res/menu/activity_main_drawer.xml" value="0.1" />
+        <entry key="..\:/User/Documents/Data Kuliah (PENS-2110191020)/Semester 5/WPPL/NOMDO/nomdo-mobile/app/src/main/res/layout/popup_workspace.xml" value="0.4" />
+        <entry key="..\:/User/Documents/Data Kuliah (PENS-2110191020)/Semester 5/WPPL/NOMDO/nomdo-mobile/app/src/main/res/menu/activity_main_drawer.xml" value="0.2553846153846154" />
         <entry key="..\:/Users/Arfan/AndroidStudioProjects/nomdo/app/src/main/res/drawable/side_nav_bar.xml" value="0.1125" />
         <entry key="..\:/Users/Arfan/AndroidStudioProjects/nomdo/app/src/main/res/layout/activity_home.xml" value="0.12" />
         <entry key="..\:/Users/Arfan/AndroidStudioProjects/nomdo/app/src/main/res/layout/activity_login.xml" value="0.33" />

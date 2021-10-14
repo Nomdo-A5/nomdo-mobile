@@ -1,0 +1,257 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="380dp"
+    android:layout_height="600dp"
+    android:layout_gravity="center"
+    android:background="@drawable/bg_rounded">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:id="@+id/tv_title_add_task"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="48dp"
+            android:fontFamily="@font/roboto_medium"
+            android:text="New Task"
+            android:textSize="24sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <ImageView
+            android:id="@+id/img_close_add_task"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="24dp"
+            android:layout_marginEnd="24dp"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:clickable="true"
+            android:focusable="true"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@drawable/ic_close" />
+
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/layout_name_add_task"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="32dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="32dp"
+            app:boxStrokeColor="@color/black"
+            app:hintTextColor="@color/black"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/layout_spinner_board_add_task"
+            app:startIconDrawable="@drawable/ic_email">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/edit_name_add_task"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Task Name"
+                android:imeOptions="actionNext"
+                android:inputType="text"
+                android:nextFocusDown="@+id/edit_email_sign_up" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <TextView
+            android:id="@+id/tv_add_member_task"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="24dp"
+            android:text="Add Member"
+            android:clickable="true"
+            android:focusable="true"
+            android:background="?attr/selectableItemBackground"
+            android:drawablePadding="5dp"
+            android:gravity="center"
+            app:layout_constraintStart_toEndOf="@+id/img_add_member_task"
+            app:layout_constraintTop_toBottomOf="@+id/layout_spended_add_task"
+            app:drawableEndCompat="@drawable/ic_add_outline" />
+
+        <ImageView
+            android:id="@+id/img_add_member_task"
+            android:layout_width="24dp"
+            android:layout_height="28dp"
+            android:layout_marginStart="12dp"
+            app:layout_constraintBottom_toBottomOf="@+id/tv_add_member_task"
+            app:layout_constraintStart_toStartOf="@+id/layout_spended_add_task"
+            app:layout_constraintTop_toTopOf="@+id/tv_add_member_task"
+            app:srcCompat="@drawable/ic_add_user" />
+
+        <TextView
+            android:id="@+id/tv_date_task"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="32dp"
+            android:text="Due Date"
+            android:clickable="true"
+            android:focusable="true"
+            android:background="?attr/selectableItemBackground"
+            android:drawablePadding="5dp"
+            android:gravity="center"
+            app:layout_constraintStart_toStartOf="@+id/tv_add_member_task"
+            app:layout_constraintTop_toBottomOf="@+id/tv_add_member_task"
+            app:drawableEndCompat="@drawable/ic_add_outline" />
+
+        <ImageView
+            android:id="@+id/img_date_task"
+            android:layout_width="24dp"
+            android:layout_height="28dp"
+            app:layout_constraintBottom_toBottomOf="@+id/tv_date_task"
+            app:layout_constraintStart_toStartOf="@+id/img_add_member_task"
+            app:layout_constraintTop_toTopOf="@+id/tv_date_task"
+            app:srcCompat="@drawable/ic_calendar" />
+
+        <TextView
+            android:id="@+id/tv_attachment_task"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="32dp"
+            android:text="Attachment"
+            android:clickable="true"
+            android:focusable="true"
+            android:background="?attr/selectableItemBackground"
+            android:drawablePadding="5dp"
+            android:gravity="center"
+            app:layout_constraintStart_toStartOf="@+id/tv_date_task"
+            app:layout_constraintTop_toBottomOf="@+id/tv_date_task"
+            app:drawableEndCompat="@drawable/ic_add_outline" />
+
+        <ImageView
+            android:id="@+id/img_attachment_task"
+            android:layout_width="24dp"
+            android:layout_height="28dp"
+            app:layout_constraintBottom_toBottomOf="@+id/tv_attachment_task"
+            app:layout_constraintStart_toStartOf="@+id/img_date_task"
+            app:layout_constraintTop_toTopOf="@+id/tv_attachment_task"
+            app:srcCompat="@drawable/ic_attach" />
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/btn_add_task"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="32dp"
+            android:layout_marginBottom="32dp"
+            android:background="@drawable/btn_primary"
+            android:text="Add"
+            android:textAllCaps="false"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="@+id/layout_spended_add_task"
+            app:layout_constraintStart_toStartOf="@+id/layout_spended_add_task"
+            app:layout_constraintTop_toBottomOf="@+id/tv_attachment_task" />
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/layout_spinner_workspace_add_task"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="32dp"
+            android:layout_marginTop="24dp"
+            android:layout_marginEnd="32dp"
+            android:hint="Workspace"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tv_title_add_task">
+
+            <AutoCompleteTextView
+                android:id="@+id/spinner_workspace_add_task"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:clickable="true"
+                android:dropDownHeight="400dp"
+                android:focusable="true"
+                android:focusableInTouchMode="false"
+                android:inputType="none" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/layout_spinner_board_add_task"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="32dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="32dp"
+            android:hint="Board"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/layout_spinner_workspace_add_task">
+
+            <AutoCompleteTextView
+                android:id="@+id/spinner_board_add_task"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:clickable="true"
+                android:dropDownHeight="400dp"
+                android:focusable="true"
+                android:focusableInTouchMode="false"
+                android:inputType="none" />
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/layout_desc_add_task"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="32dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="32dp"
+            app:boxStrokeColor="@color/black"
+            app:hintTextColor="@color/black"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/layout_name_add_task">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/edit_desc_add_task"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="start"
+                android:hint="Description"
+                android:imeOptions="actionNext"
+                android:inputType="textMultiLine"
+                android:lines="3"
+                android:maxLines="3"
+                android:nextFocusDown="@+id/edit_email_sign_up" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/layout_spended_add_task"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="32dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="32dp"
+            app:boxStrokeColor="@color/black"
+            app:hintTextColor="@color/black"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/layout_desc_add_task"
+            app:startIconDrawable="@drawable/ic_money">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/edit_spended_add_task"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Spended Money"
+                android:imeOptions="actionNext"
+                android:inputType="text"
+                android:nextFocusDown="@+id/edit_email_sign_up" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</ScrollView>

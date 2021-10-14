@@ -24,13 +24,13 @@
         android:layout_height="45dp"
         android:layout_marginStart="32dp"
         android:contentDescription="@string/image_mail"
-        app:layout_constraintBottom_toBottomOf="@+id/layout_username_sign_up"
+        app:layout_constraintBottom_toBottomOf="@+id/layout_balance"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/layout_username_sign_up"
+        app:layout_constraintTop_toTopOf="@+id/layout_balance"
         app:srcCompat="@drawable/ic_mail" />
 
     <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/layout_username_sign_up"
+        android:id="@+id/layout_balance"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
@@ -65,9 +65,9 @@
         app:boxStrokeColor="@color/black"
         app:endIconMode="password_toggle"
         app:hintTextColor="@color/black"
-        app:layout_constraintEnd_toEndOf="@+id/layout_username_sign_up"
-        app:layout_constraintStart_toStartOf="@+id/layout_username_sign_up"
-        app:layout_constraintTop_toBottomOf="@+id/layout_username_sign_up">
+        app:layout_constraintEnd_toEndOf="@+id/layout_balance"
+        app:layout_constraintStart_toStartOf="@+id/layout_balance"
+        app:layout_constraintTop_toBottomOf="@+id/layout_balance">
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/edit_password"
