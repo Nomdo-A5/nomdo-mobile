@@ -6,7 +6,6 @@
     android:layout_height="match_parent"
     tools:context=".ui.auth.LoginActivity">
 
-
     <TextView
         android:id="@+id/tv_sign_in"
         android:layout_width="wrap_content"
