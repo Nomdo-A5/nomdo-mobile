@@ -13,14 +13,14 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="48dp"
         android:fontFamily="@font/roboto_medium"
-        android:text="New Workspace"
+        android:text="New Board"
         android:textSize="24sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <ImageView
-        android:id="@+id/img_close_add_workspace"
+        android:id="@+id/img_close_add_board"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="24dp"
@@ -32,77 +32,56 @@
         app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@drawable/ic_close" />
 
-    <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/layout_balance_add_workspace"
-        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        app:boxStrokeColor="@color/black"
-        app:hintTextColor="@color/black"
-        app:layout_constraintEnd_toEndOf="@+id/layout_name_add_workspace"
-        app:layout_constraintStart_toStartOf="@+id/layout_name_add_workspace"
-        app:layout_constraintTop_toBottomOf="@+id/layout_name_add_workspace"
-        app:startIconDrawable="@drawable/ic_money">
-
-        <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/edit_balance_add_workspace"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="Available Balance"
-            android:imeOptions="actionNext"
-            android:inputType="text"
-            android:nextFocusDown="@+id/edit_email_sign_up" />
-    </com.google.android.material.textfield.TextInputLayout>
 
     <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/layout_name_add_workspace"
+        android:id="@+id/layout_name_add_board"
         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-        app:startIconDrawable="@drawable/ic_email"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="32dp"
-        android:layout_marginTop="24dp"
+        android:layout_marginTop="16dp"
         android:layout_marginEnd="32dp"
         app:boxStrokeColor="@color/black"
         app:hintTextColor="@color/black"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tv_title_add_task">
+        app:layout_constraintTop_toBottomOf="@+id/layout_spinner_workspace_add_board"
+        app:startIconDrawable="@drawable/ic_email">
 
         <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/edit_name_add_workspace"
+            android:id="@+id/edit_name_add_board"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Workspace Name"
+            android:hint="Board Name"
             android:imeOptions="actionNext"
             android:inputType="text"
             android:nextFocusDown="@+id/edit_email_sign_up" />
     </com.google.android.material.textfield.TextInputLayout>
 
     <TextView
-        android:id="@+id/tv_add_member_workspace"
+        android:id="@+id/tv_add_member_board"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
         android:layout_marginTop="24dp"
         android:text="Add Member"
         android:textSize="14sp"
-        app:layout_constraintStart_toEndOf="@+id/img_add_member"
-        app:layout_constraintTop_toBottomOf="@+id/layout_balance_add_workspace" />
+        app:layout_constraintStart_toEndOf="@+id/img_add_member_board"
+        app:layout_constraintTop_toBottomOf="@+id/layout_name_add_board" />
 
     <ImageView
-        android:id="@+id/img_add_member"
+        android:id="@+id/img_add_member_board"
         android:layout_width="24dp"
         android:layout_height="28dp"
         android:layout_marginStart="12dp"
-        app:layout_constraintBottom_toBottomOf="@+id/tv_add_member_workspace"
-        app:layout_constraintStart_toStartOf="@+id/layout_balance_add_workspace"
-        app:layout_constraintTop_toTopOf="@+id/tv_add_member_workspace"
+        app:layout_constraintBottom_toBottomOf="@+id/tv_add_member_board"
+        app:layout_constraintStart_toStartOf="@+id/layout_name_add_board"
+        app:layout_constraintTop_toTopOf="@+id/tv_add_member_board"
         app:srcCompat="@drawable/ic_add_user" />
 
     <androidx.appcompat.widget.AppCompatButton
-        android:id="@+id/btn_add_workspace"
+        android:id="@+id/btn_add_board"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="32dp"
@@ -110,6 +89,30 @@
         android:text="Add"
         android:textAllCaps="false"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="@+id/layout_balance_add_workspace"
-        app:layout_constraintStart_toStartOf="@+id/layout_balance_add_workspace" />
+        app:layout_constraintEnd_toEndOf="@+id/layout_name_add_board"
+        app:layout_constraintStart_toStartOf="@+id/layout_name_add_board" />
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/layout_spinner_workspace_add_board"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="32dp"
+        android:layout_marginTop="24dp"
+        android:layout_marginEnd="32dp"
+        android:hint="Workspace"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tv_title_add_task">
+
+        <AutoCompleteTextView
+            android:id="@+id/spinner_workspace_add_board"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:clickable="true"
+            android:focusable="true"
+            android:focusableInTouchMode="false"
+            android:dropDownHeight="400dp"
+            android:inputType="none" />
+    </com.google.android.material.textfield.TextInputLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>
