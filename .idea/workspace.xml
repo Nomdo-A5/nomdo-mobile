@@ -9,17 +9,22 @@
     <option name="autoReloadType" value="NONE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="7238b67a-4596-4db1-8079-e50e68daf280" name="15 Add Detail Task Fragment" comment="Add Detail Task Fragment&#10;&#10;closes #15">
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+    <list default="true" id="b276b1e2-6e43-4574-aa30-349676a08ab0" name="28 Add popup create board, task and modify popup" comment="Add popup create board, task and modify popup&#10;&#10;closes #28">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/activity_login.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/layout/activity_login.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/build.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/app/build.gradle" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/nomdoa5/nomdo/repository/remote/ApiResponse.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/nomdoa5/nomdo/repository/remote/ApiResponse.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/nomdoa5/nomdo/repository/remote/RetrofitClient.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/nomdoa5/nomdo/repository/remote/RetrofitClient.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/nomdoa5/nomdo/ui/tasks/TasksViewModel.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/nomdoa5/nomdo/ui/tasks/TasksViewModel.kt" afterDir="false" />
     </list>
+    <list id="18f03fa9-1761-436f-9d00-516cb5af9a29" name="10 RV Home, My &amp; Shared Workspaces" comment="RV Home, My &amp; Shared Workspaces&#10;&#10;closes #10" />
+    <list id="706a78b7-e086-4ec7-af8b-b9a02162d947" name="25 Add Fragment Create Workspace" comment="Add Fragment Create Workspace and modify FAB&#10;&#10;closes #25" />
+    <list id="c566fd81-f77f-4865-bdce-b93ab7568360" name="8 Add repository and model" comment="Add repository and model&#10;&#10;closes #8" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
-  <component name="ExecutionTargetManager" SELECTED_TARGET="device_and_snapshot_combo_box_target[C:\Users\Arfan\.android\avd\Nexus_5X_API_26.avd]" />
+  <component name="ExecutionTargetManager" SELECTED_TARGET="device_and_snapshot_combo_box_target[]" />
   <component name="ExternalProjectsData">
     <projectState path="$PROJECT_DIR$">
       <ProjectState />
@@ -302,7 +307,6 @@
     <task active="true" id="nomdo-mobile-15" summary="Add Detail Task Fragment">
       <branch name="main" repository="D:\User\Documents\Data Kuliah (PENS-2110191020)\Semester 5\WPPL\NOMDO\nomdo-mobile" original="true" />
       <branch name="nomdo-mobile-15" repository="D:\User\Documents\Data Kuliah (PENS-2110191020)\Semester 5\WPPL\NOMDO\nomdo-mobile" />
-      <changelist id="7238b67a-4596-4db1-8079-e50e68daf280" name="15 Add Detail Task Fragment" comment="Add Detail Task Fragment&#10;&#10;closes #15" />
       <option name="closed" value="true" />
       <created>1633246751000</created>
       <option name="issue" value="true" />

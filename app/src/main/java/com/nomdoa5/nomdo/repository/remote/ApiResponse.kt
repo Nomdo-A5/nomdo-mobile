@@ -1,5 +1,6 @@
 package com.nomdoa5.nomdo.repository.remote
 
+import com.nomdoa5.nomdo.model.Task
 import retrofit2.Call
 import retrofit2.http.GET
 import retrofit2.http.Headers
@@ -7,12 +8,9 @@ import retrofit2.http.Path
 import retrofit2.http.Query
 
 interface ApiResponse {
-//    @GET("search/users")
-//    @Headers("Authorization: ${BuildConfig.GITHUB_TOKEN}")
-//    fun getSearchUsers(
-//        @Query("q") query: String,
-//    ): Call<SearchResponse>
-//
+    @GET("task")
+        fun getTask(): Call<Task>
+
 //    @GET("users/{username}")
 //    @Headers("Authorization: ${BuildConfig.GITHUB_TOKEN}")
 //    fun getDetailUsers(
