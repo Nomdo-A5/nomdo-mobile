@@ -1,4 +1,4 @@
-package com.nomdoa5.nomdo.adapter
+package com.nomdoa5.nomdo.helpers.adapter
 
 import android.graphics.Rect
 import android.view.LayoutInflater
@@ -6,10 +6,10 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.nomdoa5.nomdo.R
-import com.nomdoa5.nomdo.databinding.ItemTaskBinding
-import com.nomdoa5.nomdo.model.Task
+import com.nomdoa5.nomdo.databinding.ItemHomeBinding
+import com.nomdoa5.nomdo.repository.model.Task
 
-class TaskAdapter : RecyclerView.Adapter<TaskAdapter.TaskViewHolder>() {
+class HomeAdapter : RecyclerView.Adapter<HomeAdapter.HomeViewHolder>() {
     private val mData = ArrayList<Task>()
     private var onItemClickCallback: OnItemClickCallback? = null
 
@@ -27,25 +27,25 @@ class TaskAdapter : RecyclerView.Adapter<TaskAdapter.TaskViewHolder>() {
         this.onItemClickCallback = onItemClickCallback
     }
 
-    override fun onCreateViewHolder(viewGroup: ViewGroup, position: Int): TaskViewHolder {
+    override fun onCreateViewHolder(viewGroup: ViewGroup, position: Int): HomeViewHolder {
         val mView = LayoutInflater.from(viewGroup.context)
-            .inflate(R.layout.item_task, viewGroup, false)
+            .inflate(R.layout.item_home, viewGroup, false)
 
-        return TaskViewHolder(mView)
+        return HomeViewHolder(mView)
     }
 
-    override fun onBindViewHolder(holder: TaskViewHolder, position: Int) {
+    override fun onBindViewHolder(holder: HomeViewHolder, position: Int) {
         holder.bind(mData[position])
     }
 
     override fun getItemCount(): Int = mData.size
 
-    inner class TaskViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        private val binding = ItemTaskBinding.bind(itemView)
-        fun bind(taskItem: Task) {
-            binding.tvTitleTask.text = taskItem.taskName
+    inner class HomeViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+        private val binding = ItemHomeBinding.bind(itemView)
+        fun bind(homeItem: Task) {
+            binding.tvTitleHome.text = homeItem.taskName
 
-            itemView.setOnClickListener { onItemClickCallback?.onItemClicked(taskItem) }
+            itemView.setOnClickListener { onItemClickCallback?.onItemClicked(homeItem) }
         }
     }
 

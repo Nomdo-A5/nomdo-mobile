@@ -1,4 +1,4 @@
-package com.nomdoa5.nomdo.adapter
+package com.nomdoa5.nomdo.helpers.adapter
 
 import android.graphics.Rect
 import android.view.LayoutInflater
@@ -7,7 +7,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.nomdoa5.nomdo.R
 import com.nomdoa5.nomdo.databinding.ItemBoardBinding
-import com.nomdoa5.nomdo.model.Board
+import com.nomdoa5.nomdo.repository.model.Board
 
 class BoardAdapter : RecyclerView.Adapter<BoardAdapter.BoardViewHolder>() {
     private val mData = ArrayList<Board>()

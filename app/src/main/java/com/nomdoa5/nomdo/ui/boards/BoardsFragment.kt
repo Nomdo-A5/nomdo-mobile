@@ -10,9 +10,9 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.snackbar.Snackbar
 import com.nomdoa5.nomdo.R
-import com.nomdoa5.nomdo.adapter.BoardAdapter
+import com.nomdoa5.nomdo.helpers.adapter.BoardAdapter
 import com.nomdoa5.nomdo.databinding.FragmentBoardsBinding
-import com.nomdoa5.nomdo.model.Board
+import com.nomdoa5.nomdo.repository.model.Board
 
 class BoardsFragment : Fragment() {
     //    private lateinit var myWorkspacesViewModel: MyWorkspacesViewModel

@@ -10,9 +10,9 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.snackbar.Snackbar
 import com.nomdoa5.nomdo.R
-import com.nomdoa5.nomdo.adapter.MemberAdapter
+import com.nomdoa5.nomdo.helpers.adapter.MemberAdapter
 import com.nomdoa5.nomdo.databinding.FragmentDetailTaskBinding
-import com.nomdoa5.nomdo.model.User
+import com.nomdoa5.nomdo.repository.model.User
 
 class DetailTaskFragment : Fragment() {
     private var _binding: FragmentDetailTaskBinding? = null

@@ -1,15 +1,34 @@
 package com.nomdoa5.nomdo.repository.remote
 
-import com.nomdoa5.nomdo.model.Task
+import android.content.Context
+import androidx.datastore.core.DataStore
+import androidx.datastore.preferences.core.Preferences
+import androidx.datastore.preferences.preferencesDataStore
+import androidx.lifecycle.ViewModelProvider
+import com.nomdoa5.nomdo.helpers.ViewModelFactory
+import com.nomdoa5.nomdo.repository.local.UserPreferences
+import com.nomdoa5.nomdo.repository.model.request.LoginRequest
+import com.nomdoa5.nomdo.repository.model.request.RegisterRequest
+import com.nomdoa5.nomdo.repository.model.Task
+import com.nomdoa5.nomdo.repository.model.response.LoginResponse
+import com.nomdoa5.nomdo.repository.model.response.LogoutResponse
+import com.nomdoa5.nomdo.ui.auth.AuthViewModel
 import retrofit2.Call
-import retrofit2.http.GET
-import retrofit2.http.Headers
-import retrofit2.http.Path
-import retrofit2.http.Query
+import retrofit2.http.*
 
 interface ApiResponse {
+
     @GET("task")
-        fun getTask(): Call<Task>
+    fun getTask(): Call<Task>
+
+    @POST("login")
+    fun login(@Body loginRequest: LoginRequest): Call<LoginResponse>
+
+    @POST("logout")
+    fun logout(@Header("Authorization") token: String): Call<LogoutResponse>
+
+    @POST("register")
+    fun register(@Body register: RegisterRequest): Call<RegisterRequest>
 
 //    @GET("users/{username}")
 //    @Headers("Authorization: ${BuildConfig.GITHUB_TOKEN}")

@@ -10,9 +10,9 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.snackbar.Snackbar
 import com.nomdoa5.nomdo.R
-import com.nomdoa5.nomdo.adapter.WorkspaceAdapter
+import com.nomdoa5.nomdo.helpers.adapter.WorkspaceAdapter
 import com.nomdoa5.nomdo.databinding.FragmentSharedWorkspacesBinding
-import com.nomdoa5.nomdo.model.Workspace
+import com.nomdoa5.nomdo.repository.model.Workspace
 
 class SharedWorkspacesFragment : Fragment() {
     private var _binding: FragmentSharedWorkspacesBinding? = null

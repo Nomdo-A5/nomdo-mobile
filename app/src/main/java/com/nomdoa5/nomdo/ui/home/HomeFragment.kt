@@ -9,9 +9,9 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.snackbar.Snackbar
 import com.nomdoa5.nomdo.R
-import com.nomdoa5.nomdo.adapter.HomeAdapter
+import com.nomdoa5.nomdo.helpers.adapter.HomeAdapter
 import com.nomdoa5.nomdo.databinding.FragmentHomeBinding
-import com.nomdoa5.nomdo.model.Task
+import com.nomdoa5.nomdo.repository.model.Task
 
 class HomeFragment : Fragment() {
     //    private lateinit var myWorkspacesViewModel: MyWorkspacesViewModel

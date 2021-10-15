@@ -2,6 +2,8 @@ package com.nomdoa5.nomdo.ui
 
 import NoFilterAdapter
 import android.app.Dialog
+import android.content.Context
+import android.content.Intent
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
@@ -14,18 +16,26 @@ import android.widget.ImageView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.GravityCompat
+import androidx.datastore.core.DataStore
+import androidx.datastore.preferences.core.Preferences
+import androidx.datastore.preferences.preferencesDataStore
 import androidx.drawerlayout.widget.DrawerLayout
+import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.Navigation
 import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupWithNavController
 import com.google.android.material.navigation.NavigationView
 import com.nomdoa5.nomdo.R
 import com.nomdoa5.nomdo.databinding.ActivityMainBinding
+import com.nomdoa5.nomdo.helpers.ViewModelFactory
+import com.nomdoa5.nomdo.repository.local.UserPreferences
+import com.nomdoa5.nomdo.ui.auth.AuthViewModel
+import com.nomdoa5.nomdo.ui.auth.LoginActivity
 
+private val Context.dataStore: DataStore<Preferences> by preferencesDataStore(name = "settings")
 
-class MainActivity : AppCompatActivity(), View.OnClickListener,
-    NavigationView.OnNavigationItemSelectedListener {
-
+class MainActivity : AppCompatActivity(), View.OnClickListener{
     private val rotateOpen: Animation by lazy {
         AnimationUtils.loadAnimation(
             this,
@@ -50,6 +60,7 @@ class MainActivity : AppCompatActivity(), View.OnClickListener,
             R.anim.to_botton_anim
         )
     }
+    private lateinit var authViewModel: AuthViewModel
     private var clicked = false
     private lateinit var appBarConfiguration: AppBarConfiguration
     private lateinit var binding: ActivityMainBinding
@@ -68,6 +79,7 @@ class MainActivity : AppCompatActivity(), View.OnClickListener,
         addTaskDialog = Dialog(this)
 
         setSupportActionBar(binding.appBarMain.toolbar)
+        setupViewModel()
 
         binding.appBarMain.fab.setOnClickListener(this)
         binding.appBarMain.fabAddWorkspace.setOnClickListener(this)
@@ -86,7 +98,8 @@ class MainActivity : AppCompatActivity(), View.OnClickListener,
                 R.id.nav_my_workspaces,
                 R.id.nav_shared_workspaces,
                 R.id.nav_boards,
-                R.id.nav_tasks
+                R.id.nav_tasks,
+                R.id.nav_logout
             ), drawerLayout
         )
 
@@ -129,22 +142,9 @@ class MainActivity : AppCompatActivity(), View.OnClickListener,
         }
     }
 
-    override fun onNavigationItemSelected(item: MenuItem): Boolean {
-        return when (item.itemId) {
-            R.id.nav_detail_task -> {
-                Toast.makeText(this, "Fitur detail task belum ada ges", Toast.LENGTH_SHORT).show()
-                true
-            }
-            R.id.nav_settings -> {
-                Toast.makeText(this, "Fitur settings belum ada ges", Toast.LENGTH_SHORT).show()
-                true
-            }
-            R.id.nav_logout -> {
-                Toast.makeText(this, "Fitur logout belum ada ges", Toast.LENGTH_SHORT).show()
-                true
-            }
-            else -> true
-        }
+    override fun onBackPressed() {
+        super.onBackPressed()
+        finishAffinity()
     }
 
     fun showPopupAddWorkspace() {
@@ -244,4 +244,8 @@ class MainActivity : AppCompatActivity(), View.OnClickListener,
         }
     }
 
+    fun setupViewModel(){
+        val pref = UserPreferences.getInstance(dataStore)
+        authViewModel = ViewModelProvider(this, ViewModelFactory(pref)).get(AuthViewModel::class.java)
+    }
 }

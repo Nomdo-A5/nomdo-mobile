@@ -4,7 +4,7 @@ import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.nomdoa5.nomdo.model.Task
+import com.nomdoa5.nomdo.repository.model.Task
 import com.nomdoa5.nomdo.repository.remote.ApiResponse
 import com.nomdoa5.nomdo.repository.remote.RetrofitClient
 import retrofit2.Call
