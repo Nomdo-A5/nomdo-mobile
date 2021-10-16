@@ -1,4 +1,4 @@
-package com.nomdoa5.nomdo.adapter
+package com.nomdoa5.nomdo.helpers.adapter
 
 import android.graphics.Rect
 import android.view.LayoutInflater
@@ -7,7 +7,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.nomdoa5.nomdo.R
 import com.nomdoa5.nomdo.databinding.ItemWorkspaceBinding
-import com.nomdoa5.nomdo.model.Workspace
+import com.nomdoa5.nomdo.repository.model.Workspace
 
 class WorkspaceAdapter : RecyclerView.Adapter<WorkspaceAdapter.WorkspaceViewHolder>() {
     private val mData = ArrayList<Workspace>()

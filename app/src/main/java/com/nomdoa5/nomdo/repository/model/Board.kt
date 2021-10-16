@@ -1,9 +1,8 @@
-package com.nomdoa5.nomdo.model
+package com.nomdoa5.nomdo.repository.model
 
 import android.os.Parcelable
 import com.google.gson.annotations.SerializedName
 import kotlinx.parcelize.Parcelize
-import java.sql.Timestamp
 
 @Parcelize
 data class Board(

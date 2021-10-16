@@ -48,9 +48,16 @@
             android:id="@+id/action_nav_tasks_to_detailTaskFragment"
             app:destination="@id/detailTaskFragment" />
     </fragment>
+
     <fragment
         android:id="@+id/detailTaskFragment"
         android:name="com.nomdoa5.nomdo.ui.tasks.DetailTaskFragment"
         android:label="fragment_detail_task"
         tools:layout="@layout/fragment_detail_task" />
+
+    <fragment
+        android:id="@+id/nav_logout"
+        android:name="com.nomdoa5.nomdo.ui.LogoutFragment"
+        android:label="@string/logout"
+        tools:layout="@layout/dialog_fragment_logout" />
 </navigation>

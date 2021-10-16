@@ -1,6 +1,5 @@
-package com.nomdoa5.nomdo.model
+package com.nomdoa5.nomdo.repository.model
 
-import android.app.ActivityManager
 import android.os.Parcelable
 import com.google.gson.annotations.SerializedName
 import kotlinx.parcelize.Parcelize

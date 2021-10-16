@@ -91,7 +91,7 @@
         app:layout_constraintTop_toTopOf="@+id/layout_edit_password"
         app:srcCompat="@drawable/ic_lock" />
 
-    <androidx.appcompat.widget.AppCompatButton
+    <com.apachat.loadingbutton.core.customViews.CircularProgressButton
         android:id="@+id/btn_sign_in"
         android:layout_width="250dp"
         android:layout_height="wrap_content"
@@ -101,6 +101,9 @@
         android:padding="10dp"
         android:text="@string/sign_in"
         android:textAllCaps="false"
+        app:initialCornerAngle="30dp"
+        app:finalCornerAngle="30dp"
+        app:spinning_bar_padding="8dp"
         app:layout_constraintEnd_toEndOf="@+id/btn_google_sign_in"
         app:layout_constraintStart_toStartOf="@+id/btn_google_sign_in"
         app:layout_constraintTop_toBottomOf="@+id/tv_forgot" />

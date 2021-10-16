@@ -3,12 +3,43 @@ package com.nomdoa5.nomdo.ui.workspaces
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.nomdoa5.nomdo.repository.model.response.WorkspaceResponse
+import com.nomdoa5.nomdo.repository.model.response.LoginResponse
+import com.nomdoa5.nomdo.repository.remote.ApiResponse
+import com.nomdoa5.nomdo.repository.remote.RetrofitClient
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
 
 class MyWorkspacesViewModel : ViewModel() {
+    private val listWorkspace = MutableLiveData<WorkspaceResponse>()
+    private val workspaceState = MutableLiveData<Boolean>()
 
-    private val _text = MutableLiveData<String>().apply {
-        value = "This is My Workspaces Fragment"
+    fun setWorkspace(token: String) {
+        val service = RetrofitClient.buildService(ApiResponse::class.java)
+        val requestCall = service.getWorkspace(token = "Bearer $token")
+
+        requestCall.enqueue(object : Callback<WorkspaceResponse> {
+
+            override fun onResponse(
+                call: Call<WorkspaceResponse>,
+                response: Response<WorkspaceResponse>
+            ) {
+                listWorkspace.postValue(response.body())
+                workspaceState.postValue(true)
+            }
+
+            override fun onFailure(call: Call<WorkspaceResponse>, t: Throwable) {
+                workspaceState.postValue(false)
+            }
+        })
     }
 
-    val text: LiveData<String> = _text
+    fun getWorkspaceState(): LiveData<Boolean> {
+        return workspaceState
+    }
+
+    fun getWorkspace(): LiveData<WorkspaceResponse>{
+        return listWorkspace
+    }
 }

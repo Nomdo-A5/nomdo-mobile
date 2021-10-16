@@ -9,17 +9,34 @@
     <option name="autoReloadType" value="NONE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="7238b67a-4596-4db1-8079-e50e68daf280" name="15 Add Detail Task Fragment" comment="Add Detail Task Fragment&#10;&#10;closes #15">
+    <list default="true" id="11a80424-5a62-484d-abf7-f471fe1b1be5" name="32 Add Auth API" comment="Add Auth API&#10;&#10;closes #32">
+      <change afterPath="$PROJECT_DIR$/app/src/main/java/com/nomdoa5/nomdo/repository/model/request/BoardRequest.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/src/main/java/com/nomdoa5/nomdo/repository/model/response/WorkspaceResponse.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/src/main/java/com/nomdoa5/nomdo/ui/splash/SplashScreenActivity.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/src/main/res/drawable/ic_check.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/build.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/app/build.gradle" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/AndroidManifest.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/AndroidManifest.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/nomdoa5/nomdo/repository/remote/ApiResponse.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/nomdoa5/nomdo/repository/remote/ApiResponse.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/nomdoa5/nomdo/ui/MainActivity.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/nomdoa5/nomdo/ui/MainActivity.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/nomdoa5/nomdo/ui/auth/AuthViewModel.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/nomdoa5/nomdo/ui/auth/AuthViewModel.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/nomdoa5/nomdo/ui/auth/LoginActivity.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/nomdoa5/nomdo/ui/auth/LoginActivity.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/nomdoa5/nomdo/ui/auth/RegisterActivity.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/nomdoa5/nomdo/ui/auth/RegisterActivity.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/nomdoa5/nomdo/ui/home/HomeFragment.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/nomdoa5/nomdo/ui/home/HomeFragment.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/nomdoa5/nomdo/ui/splash/SplashScreenActivity.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/nomdoa5/nomdo/ui/workspaces/MyWorkspacesFragment.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/nomdoa5/nomdo/ui/workspaces/MyWorkspacesFragment.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/nomdoa5/nomdo/ui/workspaces/MyWorkspacesViewModel.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/nomdoa5/nomdo/ui/workspaces/MyWorkspacesViewModel.kt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/activity_login.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/layout/activity_login.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/activity_register.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/layout/activity_register.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/activity_splash_screen.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/layout/activity_splash_screen.xml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
-  <component name="ExecutionTargetManager" SELECTED_TARGET="device_and_snapshot_combo_box_target[C:\Users\Arfan\.android\avd\Nexus_5X_API_26.avd]" />
+  <component name="ExecutionTargetManager" SELECTED_TARGET="device_and_snapshot_combo_box_target[]" />
   <component name="ExternalProjectsData">
     <projectState path="$PROJECT_DIR$">
       <ProjectState />
@@ -31,10 +48,10 @@
         <option value="layoutResourceFile_vertical" />
         <option value="Kotlin Object" />
         <option value="Kotlin Data Class" />
-        <option value="layoutResourceFile" />
-        <option value="Class" />
-        <option value="Kotlin Class" />
         <option value="resourceFile" />
+        <option value="Class" />
+        <option value="layoutResourceFile" />
+        <option value="Kotlin Class" />
       </list>
     </option>
   </component>
@@ -65,7 +82,7 @@
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="last_directory_selection" value="$PROJECT_DIR$/app/src/main/res/drawable" />
     <property name="last_opened_file_path" value="$USER_HOME$/Downloads/TextDrawable-master" />
-    <property name="project.structure.last.edited" value="Modules" />
+    <property name="project.structure.last.edited" value="Dependencies" />
     <property name="project.structure.proportion" value="0.17" />
     <property name="project.structure.side.proportion" value="0.2" />
     <property name="settings.editor.selected.configurable" value="tasks" />
@@ -82,10 +99,19 @@
       <recent name="D:\User\Documents\Data Kuliah (PENS-2110191020)\Semester 5\WPPL - Bu Umi, Bu Desy, Pak Andik\NOMDO\nomdo-mobile\app\src\main\res\font" />
     </key>
     <key name="MoveKotlinTopLevelDeclarationsDialog.RECENTS_KEY">
-      <recent name="com.nomdoa5.nomdo.ui.tasks" />
-      <recent name="com.nomdoa5.nomdo.ui.auth" />
-      <recent name="com.nomdoa5.nomdo.ui" />
-      <recent name="com.nomdoa5.nomdo.ui.workspaces" />
+      <recent name="com.nomdoa5.nomdo.repository.model.request" />
+      <recent name="com.nomdoa5.nomdo.repository.remote" />
+      <recent name="com.nomdoa5.nomdo.repository.model.response" />
+      <recent name="com.nomdoa5.nomdo.helpers" />
+      <recent name="com.nomdoa5.nomdo.model.request" />
+    </key>
+    <key name="MoveClassesOrPackagesDialog.RECENTS_KEY">
+      <recent name="com.nomdoa5.nomdo.helpers" />
+    </key>
+    <key name="CopyKotlinDeclarationDialog.RECENTS_KEY">
+      <recent name="com.nomdoa5.nomdo.repository.model" />
+      <recent name="com.nomdoa5.nomdo.repository.model.response" />
+      <recent name="com.nomdoa5.nomdo.model" />
     </key>
   </component>
   <component name="RunManager">
@@ -299,10 +325,9 @@
       <option name="project" value="LOCAL" />
       <updated>1632850563901</updated>
     </task>
-    <task active="true" id="nomdo-mobile-15" summary="Add Detail Task Fragment">
+    <task id="nomdo-mobile-15" summary="Add Detail Task Fragment">
       <branch name="main" repository="D:\User\Documents\Data Kuliah (PENS-2110191020)\Semester 5\WPPL\NOMDO\nomdo-mobile" original="true" />
       <branch name="nomdo-mobile-15" repository="D:\User\Documents\Data Kuliah (PENS-2110191020)\Semester 5\WPPL\NOMDO\nomdo-mobile" />
-      <changelist id="7238b67a-4596-4db1-8079-e50e68daf280" name="15 Add Detail Task Fragment" comment="Add Detail Task Fragment&#10;&#10;closes #15" />
       <option name="closed" value="true" />
       <created>1633246751000</created>
       <option name="issue" value="true" />
@@ -311,7 +336,7 @@
       <option name="presentableId" value="nomdo-mobile-15" />
       <option name="project" value="nomdo-mobile" />
       <option name="type" value="BUG" />
-      <updated>1633268726000</updated>
+      <updated>1634300279555</updated>
     </task>
     <task id="LOCAL-00014" summary="Add Detail Task UI">
       <created>1633246939814</created>
@@ -348,7 +373,34 @@
       <option name="project" value="LOCAL" />
       <updated>1633930952001</updated>
     </task>
-    <option name="localTasksCounter" value="19" />
+    <task active="true" id="nomdo-mobile-32" summary="Add Auth API">
+      <branch name="main" repository="D:\User\Documents\Data Kuliah (PENS-2110191020)\Semester 5\WPPL\NOMDO\nomdo-mobile" original="true" />
+      <branch name="nomdo-mobile-32" repository="D:\User\Documents\Data Kuliah (PENS-2110191020)\Semester 5\WPPL\NOMDO\nomdo-mobile" />
+      <changelist id="11a80424-5a62-484d-abf7-f471fe1b1be5" name="32 Add Auth API" comment="Add Auth API&#10;&#10;closes #32" />
+      <created>1634300228000</created>
+      <option name="issue" value="true" />
+      <url>https://github.com/Nomdo-A5/nomdo-mobile/issues/32</url>
+      <option name="number" value="32" />
+      <option name="presentableId" value="nomdo-mobile-32" />
+      <option name="project" value="nomdo-mobile" />
+      <option name="type" value="BUG" />
+      <updated>1634300279555</updated>
+    </task>
+    <task id="LOCAL-00019" summary="Add base retrofit">
+      <created>1634300331933</created>
+      <option name="number" value="00019" />
+      <option name="presentableId" value="LOCAL-00019" />
+      <option name="project" value="LOCAL" />
+      <updated>1634300331933</updated>
+    </task>
+    <task id="LOCAL-00020" summary="Add auth API and datastore for storing auth token">
+      <created>1634325139948</created>
+      <option name="number" value="00020" />
+      <option name="presentableId" value="LOCAL-00020" />
+      <option name="project" value="LOCAL" />
+      <updated>1634325139948</updated>
+    </task>
+    <option name="localTasksCounter" value="21" />
     <option name="changelistNameFormat" value="${number} ${summary}" />
     <servers>
       <GitHub url="https://github.com">
@@ -394,6 +446,8 @@ closes #{number}</commitMessageFormat>
     <MESSAGE value="Added DetailTaskFragment.kt, ic_add_outline.xml, and remove themes.xml(night)," />
     <MESSAGE value="Added DetailTaskFragment.kt, RV Member, MemberAdapter.kt, and new drawable" />
     <MESSAGE value="Add Detail Task Fragment&#10;&#10;closes #15" />
-    <option name="LAST_COMMIT_MESSAGE" value="Add Detail Task Fragment&#10;&#10;closes #15" />
+    <MESSAGE value="Add base retrofit" />
+    <MESSAGE value="Add auth API and datastore for storing auth token" />
+    <option name="LAST_COMMIT_MESSAGE" value="Add auth API and datastore for storing auth token" />
   </component>
 </project>
