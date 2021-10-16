@@ -10,56 +10,33 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="11a80424-5a62-484d-abf7-f471fe1b1be5" name="32 Add Auth API" comment="Add Auth API&#10;&#10;closes #32">
-      <change afterPath="$PROJECT_DIR$/app/src/main/java/com/nomdoa5/nomdo/helpers/ViewModelFactory.kt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/src/main/java/com/nomdoa5/nomdo/repository/local/UserPreferences.kt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/src/main/java/com/nomdoa5/nomdo/repository/model/request/LoginRequest.kt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/src/main/java/com/nomdoa5/nomdo/repository/model/request/RegisterRequest.kt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/src/main/java/com/nomdoa5/nomdo/repository/model/response/LoginResponse.kt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/src/main/java/com/nomdoa5/nomdo/repository/model/response/LogoutResponse.kt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/src/main/java/com/nomdoa5/nomdo/ui/LogoutFragment.kt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/src/main/java/com/nomdoa5/nomdo/ui/auth/AuthViewModel.kt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/src/main/res/layout/dialog_fragment_logout.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/src/main/res/xml/network_security_config.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/src/main/java/com/nomdoa5/nomdo/repository/model/request/BoardRequest.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/src/main/java/com/nomdoa5/nomdo/repository/model/response/WorkspaceResponse.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/src/main/java/com/nomdoa5/nomdo/ui/splash/SplashScreenActivity.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/src/main/res/drawable/ic_check.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/build.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/app/build.gradle" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/src/main/AndroidManifest.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/AndroidManifest.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/nomdoa5/nomdo/adapter/BoardAdapter.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/nomdoa5/nomdo/helpers/adapter/BoardAdapter.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/nomdoa5/nomdo/adapter/HomeAdapter.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/nomdoa5/nomdo/helpers/adapter/HomeAdapter.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/nomdoa5/nomdo/adapter/MemberAdapter.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/nomdoa5/nomdo/helpers/adapter/MemberAdapter.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/nomdoa5/nomdo/adapter/NoFilterAdapter.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/nomdoa5/nomdo/helpers/adapter/NoFilterAdapter.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/nomdoa5/nomdo/adapter/TaskAdapter.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/nomdoa5/nomdo/helpers/adapter/TaskAdapter.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/nomdoa5/nomdo/adapter/WorkspaceAdapter.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/nomdoa5/nomdo/helpers/adapter/WorkspaceAdapter.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/nomdoa5/nomdo/model/Article.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/nomdoa5/nomdo/repository/model/Article.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/nomdoa5/nomdo/model/Attachment.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/nomdoa5/nomdo/repository/model/Attachment.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/nomdoa5/nomdo/model/Balance.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/nomdoa5/nomdo/repository/model/Balance.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/nomdoa5/nomdo/model/Board.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/nomdoa5/nomdo/repository/model/Board.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/nomdoa5/nomdo/model/Notification.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/nomdoa5/nomdo/repository/model/Notification.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/nomdoa5/nomdo/model/Report.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/nomdoa5/nomdo/repository/model/Report.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/nomdoa5/nomdo/model/Task.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/nomdoa5/nomdo/repository/model/Task.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/nomdoa5/nomdo/model/User.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/nomdoa5/nomdo/repository/model/User.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/nomdoa5/nomdo/model/Workspace.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/nomdoa5/nomdo/repository/model/Workspace.kt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/src/main/java/com/nomdoa5/nomdo/repository/remote/ApiResponse.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/nomdoa5/nomdo/repository/remote/ApiResponse.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/nomdoa5/nomdo/repository/remote/RetrofitClient.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/nomdoa5/nomdo/repository/remote/RetrofitClient.kt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/src/main/java/com/nomdoa5/nomdo/ui/MainActivity.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/nomdoa5/nomdo/ui/MainActivity.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/nomdoa5/nomdo/ui/auth/AuthViewModel.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/nomdoa5/nomdo/ui/auth/AuthViewModel.kt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/src/main/java/com/nomdoa5/nomdo/ui/auth/LoginActivity.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/nomdoa5/nomdo/ui/auth/LoginActivity.kt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/src/main/java/com/nomdoa5/nomdo/ui/auth/RegisterActivity.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/nomdoa5/nomdo/ui/auth/RegisterActivity.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/nomdoa5/nomdo/ui/boards/BoardsFragment.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/nomdoa5/nomdo/ui/boards/BoardsFragment.kt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/src/main/java/com/nomdoa5/nomdo/ui/home/HomeFragment.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/nomdoa5/nomdo/ui/home/HomeFragment.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/nomdoa5/nomdo/ui/tasks/DetailTaskFragment.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/nomdoa5/nomdo/ui/tasks/DetailTaskFragment.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/nomdoa5/nomdo/ui/tasks/TaskFragment.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/nomdoa5/nomdo/ui/tasks/TaskFragment.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/nomdoa5/nomdo/ui/tasks/TasksViewModel.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/nomdoa5/nomdo/ui/tasks/TasksViewModel.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/nomdoa5/nomdo/ui/splash/SplashScreenActivity.java" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/app/src/main/java/com/nomdoa5/nomdo/ui/workspaces/MyWorkspacesFragment.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/nomdoa5/nomdo/ui/workspaces/MyWorkspacesFragment.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/nomdoa5/nomdo/ui/workspaces/SharedWorkspacesFragment.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/nomdoa5/nomdo/ui/workspaces/SharedWorkspacesFragment.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/res/menu/activity_main_drawer.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/menu/activity_main_drawer.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/res/navigation/mobile_navigation.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/navigation/mobile_navigation.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/nomdoa5/nomdo/ui/workspaces/MyWorkspacesViewModel.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/nomdoa5/nomdo/ui/workspaces/MyWorkspacesViewModel.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/activity_login.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/layout/activity_login.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/activity_register.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/layout/activity_register.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/activity_splash_screen.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/layout/activity_splash_screen.xml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
-  <component name="ExecutionTargetManager" SELECTED_TARGET="device_and_snapshot_combo_box_target[QV706GDC1H]" />
+  <component name="ExecutionTargetManager" SELECTED_TARGET="device_and_snapshot_combo_box_target[]" />
   <component name="ExternalProjectsData">
     <projectState path="$PROJECT_DIR$">
       <ProjectState />
@@ -73,8 +50,8 @@
         <option value="Kotlin Data Class" />
         <option value="resourceFile" />
         <option value="Class" />
-        <option value="Kotlin Class" />
         <option value="layoutResourceFile" />
+        <option value="Kotlin Class" />
       </list>
     </option>
   </component>
@@ -105,7 +82,7 @@
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="last_directory_selection" value="$PROJECT_DIR$/app/src/main/res/drawable" />
     <property name="last_opened_file_path" value="$USER_HOME$/Downloads/TextDrawable-master" />
-    <property name="project.structure.last.edited" value="Modules" />
+    <property name="project.structure.last.edited" value="Dependencies" />
     <property name="project.structure.proportion" value="0.17" />
     <property name="project.structure.side.proportion" value="0.2" />
     <property name="settings.editor.selected.configurable" value="tasks" />
@@ -122,16 +99,17 @@
       <recent name="D:\User\Documents\Data Kuliah (PENS-2110191020)\Semester 5\WPPL - Bu Umi, Bu Desy, Pak Andik\NOMDO\nomdo-mobile\app\src\main\res\font" />
     </key>
     <key name="MoveKotlinTopLevelDeclarationsDialog.RECENTS_KEY">
+      <recent name="com.nomdoa5.nomdo.repository.model.request" />
+      <recent name="com.nomdoa5.nomdo.repository.remote" />
+      <recent name="com.nomdoa5.nomdo.repository.model.response" />
       <recent name="com.nomdoa5.nomdo.helpers" />
       <recent name="com.nomdoa5.nomdo.model.request" />
-      <recent name="com.nomdoa5.nomdo.model.response" />
-      <recent name="com.nomdoa5.nomdo.ui.tasks" />
-      <recent name="com.nomdoa5.nomdo.ui.auth" />
     </key>
     <key name="MoveClassesOrPackagesDialog.RECENTS_KEY">
       <recent name="com.nomdoa5.nomdo.helpers" />
     </key>
     <key name="CopyKotlinDeclarationDialog.RECENTS_KEY">
+      <recent name="com.nomdoa5.nomdo.repository.model" />
       <recent name="com.nomdoa5.nomdo.repository.model.response" />
       <recent name="com.nomdoa5.nomdo.model" />
     </key>
@@ -415,7 +393,14 @@
       <option name="project" value="LOCAL" />
       <updated>1634300331933</updated>
     </task>
-    <option name="localTasksCounter" value="20" />
+    <task id="LOCAL-00020" summary="Add auth API and datastore for storing auth token">
+      <created>1634325139948</created>
+      <option name="number" value="00020" />
+      <option name="presentableId" value="LOCAL-00020" />
+      <option name="project" value="LOCAL" />
+      <updated>1634325139948</updated>
+    </task>
+    <option name="localTasksCounter" value="21" />
     <option name="changelistNameFormat" value="${number} ${summary}" />
     <servers>
       <GitHub url="https://github.com">
@@ -462,6 +447,7 @@ closes #{number}</commitMessageFormat>
     <MESSAGE value="Added DetailTaskFragment.kt, RV Member, MemberAdapter.kt, and new drawable" />
     <MESSAGE value="Add Detail Task Fragment&#10;&#10;closes #15" />
     <MESSAGE value="Add base retrofit" />
-    <option name="LAST_COMMIT_MESSAGE" value="Add base retrofit" />
+    <MESSAGE value="Add auth API and datastore for storing auth token" />
+    <option name="LAST_COMMIT_MESSAGE" value="Add auth API and datastore for storing auth token" />
   </component>
 </project>

@@ -142,11 +142,6 @@ class MainActivity : AppCompatActivity(), View.OnClickListener{
         }
     }
 
-    override fun onBackPressed() {
-        super.onBackPressed()
-        finishAffinity()
-    }
-
     fun showPopupAddWorkspace() {
         addWorkspaceDialog.setContentView(R.layout.popup_workspace)
         addWorkspaceDialog.window!!.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))

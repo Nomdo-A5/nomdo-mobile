@@ -42,6 +42,7 @@ class RegisterActivity : AppCompatActivity(), View.OnClickListener {
                 finish()
             }
             binding.btnSignUp -> {
+                binding.btnSignUp.startAnimation()
                 val username = binding.editUsernameSignUp.text.toString()
                 val email = binding.editEmailSignUp.text.toString()
                 val password = binding.editPasswordSignUp.text.toString()
@@ -51,9 +52,11 @@ class RegisterActivity : AppCompatActivity(), View.OnClickListener {
 
                 authViewModel.getRegisterStatus().observe(this, {
                     if(it){
+                        binding.btnSignUp.revertAnimation()
                         Toast.makeText(this, "Register Success", Toast.LENGTH_SHORT).show()
                         finish()
                     }else{
+                        binding.btnSignUp.revertAnimation()
                         Toast.makeText(this, "Register Failed!", Toast.LENGTH_SHORT).show()
                     }
                 })

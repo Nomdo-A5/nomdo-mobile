@@ -35,14 +35,12 @@
             android:name=".ui.auth.LoginActivity"
             android:exported="true"
             android:theme="@style/Theme.Auth" />
-        <activity
-            android:name=".ui.splash.SplashScreenActivity"
+        <activity android:name=".ui.splash.SplashScreenActivity"
             android:exported="true"
             android:theme="@style/Theme.Auth">
             <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
+                <action android:name="android.intent.action.MAIN"/>
+                <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
     </application>

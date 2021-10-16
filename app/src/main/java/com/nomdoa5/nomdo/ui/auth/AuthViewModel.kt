@@ -8,6 +8,9 @@ import com.nomdoa5.nomdo.repository.model.response.LoginResponse
 import com.nomdoa5.nomdo.repository.model.response.LogoutResponse
 import com.nomdoa5.nomdo.repository.remote.ApiResponse
 import com.nomdoa5.nomdo.repository.remote.RetrofitClient
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 import retrofit2.Call
 import retrofit2.Callback
@@ -24,7 +27,10 @@ class AuthViewModel(private val pref: UserPreferences) : ViewModel() {
 
         requestCall.enqueue(object : Callback<LoginResponse> {
 
-            override fun onResponse(call: Call<LoginResponse>, response: Response<LoginResponse>) {
+            override fun onResponse(
+                call: Call<LoginResponse>,
+                response: Response<LoginResponse>
+            ) {
                 val statusCode = response.body()!!.statusCode
                 val responseToken = response.body()!!.accessToken
 
@@ -39,14 +45,14 @@ class AuthViewModel(private val pref: UserPreferences) : ViewModel() {
             }
 
             override fun onFailure(call: Call<LoginResponse>, t: Throwable) {
-                loginState.postValue(true)
+                loginState.postValue(false)
             }
         })
     }
 
     fun logout(token: String) {
         val service = RetrofitClient.buildService(ApiResponse::class.java)
-        val requestCall = service.logout(token)
+        val requestCall = service.logout(token = "Bearer $token")
 
         requestCall.enqueue(object : Callback<LogoutResponse> {
 

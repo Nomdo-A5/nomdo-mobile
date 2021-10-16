@@ -142,9 +142,9 @@
         app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@drawable/ic_back" />
 
-    <androidx.appcompat.widget.AppCompatButton
+    <com.apachat.loadingbutton.core.customViews.CircularProgressButton
         android:id="@+id/btn_sign_up"
-        android:layout_width="250dp"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="32dp"
         android:background="@drawable/btn_accent"
@@ -153,13 +153,16 @@
         android:text="@string/sign_up"
         android:textAlignment="center"
         android:textAllCaps="false"
-        app:layout_constraintEnd_toEndOf="@+id/layout_confirm_sign_up"
-        app:layout_constraintStart_toStartOf="@+id/layout_confirm_sign_up"
-        app:layout_constraintTop_toBottomOf="@+id/layout_confirm_sign_up" />
+        app:finalCornerAngle="30dp"
+        app:initialCornerAngle="30dp"
+        app:layout_constraintEnd_toEndOf="@+id/btn_google_sign_up"
+        app:layout_constraintStart_toStartOf="@+id/btn_google_sign_up"
+        app:layout_constraintTop_toBottomOf="@+id/layout_confirm_sign_up"
+        app:spinning_bar_padding="8dp" />
 
     <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/btn_google_sign_up"
-        android:layout_width="0dp"
+        android:layout_width="250dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
         android:background="@drawable/btn_gray"
@@ -170,8 +173,8 @@
         android:textAlignment="gravity"
         android:textAllCaps="false"
         app:drawableStartCompat="@drawable/ic_google"
-        app:layout_constraintEnd_toEndOf="@+id/btn_sign_up"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.495"
-        app:layout_constraintStart_toStartOf="@+id/btn_sign_up"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/btn_sign_up" />
 </androidx.constraintlayout.widget.ConstraintLayout>
