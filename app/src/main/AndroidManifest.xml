@@ -10,6 +10,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Nomdo">
         <activity
+            android:name=".ui.balance.MoneyReport"
+            android:exported="true" />
+        <activity
             android:name=".ui.auth.ForgetPassActivity3"
             android:exported="true" />
         <activity
