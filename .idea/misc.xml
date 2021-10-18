@@ -21,6 +21,7 @@
         <entry key="..\:/Users/Arfan/AndroidStudioProjects/nomdo-mobile/app/src/main/res/drawable/btn_accent.xml" value="0.2203125" />
         <entry key="..\:/Users/Arfan/AndroidStudioProjects/nomdo-mobile/app/src/main/res/drawable/custom_progressbar.xml" value="0.2203125" />
         <entry key="..\:/Users/Arfan/AndroidStudioProjects/nomdo-mobile/app/src/main/res/drawable/ic_add_outline.xml" value="0.2203125" />
+        <entry key="..\:/Users/Arfan/AndroidStudioProjects/nomdo-mobile/app/src/main/res/drawable/ic_board.xml" value="0.1" />
         <entry key="..\:/Users/Arfan/AndroidStudioProjects/nomdo-mobile/app/src/main/res/drawable/ic_download.xml" value="0.2203125" />
         <entry key="..\:/Users/Arfan/AndroidStudioProjects/nomdo-mobile/app/src/main/res/drawable/ic_edit.xml" value="0.2203125" />
         <entry key="..\:/Users/Arfan/AndroidStudioProjects/nomdo-mobile/app/src/main/res/layout/activity_forget_pass.xml" value="0.25" />
@@ -42,7 +43,7 @@
         <entry key="..\:/Users/Arfan/AndroidStudioProjects/nomdo-mobile/app/src/main/res/layout/fragment_my_workspaces.xml" value="0.17391304347826086" />
         <entry key="..\:/Users/Arfan/AndroidStudioProjects/nomdo-mobile/app/src/main/res/layout/fragment_task.xml" value="0.18" />
         <entry key="..\:/Users/Arfan/AndroidStudioProjects/nomdo-mobile/app/src/main/res/layout/item_balance.xml" value="0.1" />
-        <entry key="..\:/Users/Arfan/AndroidStudioProjects/nomdo-mobile/app/src/main/res/layout/item_board.xml" value="0.22" />
+        <entry key="..\:/Users/Arfan/AndroidStudioProjects/nomdo-mobile/app/src/main/res/layout/item_board.xml" value="0.5" />
         <entry key="..\:/Users/Arfan/AndroidStudioProjects/nomdo-mobile/app/src/main/res/layout/item_home.xml" value="0.18" />
         <entry key="..\:/Users/Arfan/AndroidStudioProjects/nomdo-mobile/app/src/main/res/layout/item_task.xml" value="0.22" />
         <entry key="..\:/Users/Arfan/AndroidStudioProjects/nomdo-mobile/app/src/main/res/layout/item_workspace.xml" value="0.25" />
