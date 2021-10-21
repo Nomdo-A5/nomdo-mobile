@@ -2,15 +2,14 @@ package com.nomdoa5.nomdo.ui.auth
 
 import androidx.lifecycle.*
 import com.nomdoa5.nomdo.repository.local.UserPreferences
+import com.nomdoa5.nomdo.repository.model.User
 import com.nomdoa5.nomdo.repository.model.request.LoginRequest
 import com.nomdoa5.nomdo.repository.model.request.RegisterRequest
 import com.nomdoa5.nomdo.repository.model.response.LoginResponse
 import com.nomdoa5.nomdo.repository.model.response.LogoutResponse
+import com.nomdoa5.nomdo.repository.model.response.UserResponse
 import com.nomdoa5.nomdo.repository.remote.ApiResponse
 import com.nomdoa5.nomdo.repository.remote.RetrofitClient
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 import retrofit2.Call
 import retrofit2.Callback
@@ -20,13 +19,14 @@ class AuthViewModel(private val pref: UserPreferences) : ViewModel() {
     private val isRegisterSuccess = MutableLiveData<Boolean>()
     private val loginState = MutableLiveData<Boolean>()
     private val logoutState = MutableLiveData<Boolean>()
+    private val user = MutableLiveData<ArrayList<User>>()
+    private val userState = MutableLiveData<Boolean>()
 
     fun login(account: LoginRequest) {
         val service = RetrofitClient.buildService(ApiResponse::class.java)
         val requestCall = service.login(account)
 
         requestCall.enqueue(object : Callback<LoginResponse> {
-
             override fun onResponse(
                 call: Call<LoginResponse>,
                 response: Response<LoginResponse>
@@ -46,6 +46,21 @@ class AuthViewModel(private val pref: UserPreferences) : ViewModel() {
 
             override fun onFailure(call: Call<LoginResponse>, t: Throwable) {
                 loginState.postValue(false)
+            }
+        })
+    }
+
+    fun setUser(token: String) {
+        val service = RetrofitClient.buildService(ApiResponse::class.java)
+        val requestCall = service.getUser(token = "Bearer $token")
+
+        requestCall.enqueue(object : Callback<UserResponse> {
+            override fun onResponse(call: Call<UserResponse>, response: Response<UserResponse>) {
+                user.postValue(response.body()!!.user)
+                userState.postValue(true)
+            }
+            override fun onFailure(call: Call<UserResponse>, t: Throwable) {
+                userState.postValue(false)
             }
         })
     }
@@ -92,6 +107,14 @@ class AuthViewModel(private val pref: UserPreferences) : ViewModel() {
                 isRegisterSuccess.postValue(false)
             }
         })
+    }
+
+    fun getUser(): LiveData<ArrayList<User>> {
+        return user
+    }
+
+    fun getUserState(): LiveData<Boolean> {
+        return userState
     }
 
     fun getRegisterStatus(): LiveData<Boolean> {

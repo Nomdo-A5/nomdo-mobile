@@ -44,7 +44,7 @@ class BoardAdapter : RecyclerView.Adapter<BoardAdapter.BoardViewHolder>() {
         private val binding = ItemBoardBinding.bind(itemView)
         fun bind(boardItem: Board) {
             binding.tvTitleBoard.text = boardItem.boardName
-            binding.tvNumBoard.text = boardItem.idBoard.toString()
+            binding.tvNumBoard.text = boardItem.id.toString()
 
             itemView.setOnClickListener { onItemClickCallback?.onItemClicked(boardItem) }
         }

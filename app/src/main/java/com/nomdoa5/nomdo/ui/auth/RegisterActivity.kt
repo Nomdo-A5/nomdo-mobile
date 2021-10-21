@@ -3,6 +3,7 @@ package com.nomdoa5.nomdo.ui.auth
 import android.content.Context
 import android.os.Bundle
 import android.view.View
+import android.view.inputmethod.InputMethodManager
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.datastore.core.DataStore
@@ -42,6 +43,7 @@ class RegisterActivity : AppCompatActivity(), View.OnClickListener {
                 finish()
             }
             binding.btnSignUp -> {
+                closeKeyboard()
                 binding.btnSignUp.startAnimation()
                 val username = binding.editUsernameSignUp.text.toString()
                 val email = binding.editEmailSignUp.text.toString()
@@ -67,5 +69,14 @@ class RegisterActivity : AppCompatActivity(), View.OnClickListener {
     fun setupViewModel(){
         val pref = UserPreferences.getInstance(dataStore)
         authViewModel = ViewModelProvider(this, ViewModelFactory(pref)).get(AuthViewModel::class.java)
+    }
+
+    private fun closeKeyboard() {
+        val view: View? = this.currentFocus
+        if (view != null) {
+            val imm: InputMethodManager =
+                getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+            imm.hideSoftInputFromWindow(view.windowToken, 0)
+        }
     }
 }

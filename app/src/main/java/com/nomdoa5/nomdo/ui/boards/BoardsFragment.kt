@@ -1,21 +1,35 @@
 package com.nomdoa5.nomdo.ui.boards
 
+import android.content.Context
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.datastore.core.DataStore
+import androidx.datastore.preferences.core.Preferences
+import androidx.datastore.preferences.preferencesDataStore
+import androidx.fragment.app.Fragment
+import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.Navigation
+import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.snackbar.Snackbar
 import com.nomdoa5.nomdo.R
-import com.nomdoa5.nomdo.helpers.adapter.BoardAdapter
 import com.nomdoa5.nomdo.databinding.FragmentBoardsBinding
+import com.nomdoa5.nomdo.helpers.ViewModelFactory
+import com.nomdoa5.nomdo.helpers.adapter.BoardAdapter
+import com.nomdoa5.nomdo.repository.local.UserPreferences
 import com.nomdoa5.nomdo.repository.model.Board
+import com.nomdoa5.nomdo.repository.model.request.BoardRequest
+import com.nomdoa5.nomdo.ui.auth.AuthViewModel
+import com.nomdoa5.nomdo.ui.workspaces.SharedWorkspacesFragmentDirections
+
+private val Context.dataStore: DataStore<Preferences> by preferencesDataStore(name = "auth")
 
 class BoardsFragment : Fragment() {
-    //    private lateinit var myWorkspacesViewModel: MyWorkspacesViewModel
+    private lateinit var boardsViewModel: BoardsViewModel
+    private lateinit var authViewModel: AuthViewModel
     private var _binding: FragmentBoardsBinding? = null
     private val binding get() = _binding!!
     private val boardAdapter = BoardAdapter()
@@ -23,26 +37,22 @@ class BoardsFragment : Fragment() {
     private lateinit var boardName: Array<String>
     private lateinit var createdAt: Array<String>
     private lateinit var rvBoard: RecyclerView
+    private val args: BoardsFragmentArgs by navArgs()
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-//        myWorkspacesViewModel =
-//            ViewModelProvider(this).get(MyWorkspacesViewModel::class.java)
-
         _binding = FragmentBoardsBinding.inflate(inflater, container, false)
         val root: View = binding.root
 
-//        myWorkspacesViewModel.text.observe(viewLifecycleOwner, {
-//            textView.text = it
-//        })
         return root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        setupViewModel()
         setData()
         setupRecyclerView()
     }
@@ -52,11 +62,11 @@ class BoardsFragment : Fragment() {
         _binding = null
     }
 
-    fun setData(){
+    fun setData() {
         boardName = resources.getStringArray(R.array.name)
         createdAt = resources.getStringArray(R.array.creator)
 
-        for(i in boardName.indices){
+        for (i in boardName.indices) {
             val board = Board(
                 i,
                 boardName[i],
@@ -66,19 +76,43 @@ class BoardsFragment : Fragment() {
         }
     }
 
-    fun setupRecyclerView(){
+    fun setupRecyclerView() {
+        binding.swipeMyBoards.isRefreshing = true
         rvBoard = requireView().findViewById(R.id.rv_boards)
         rvBoard.setHasFixedSize(true)
         rvBoard.addItemDecoration(BoardAdapter.MarginItemDecoration(15))
         rvBoard.layoutManager = LinearLayoutManager(context)
-        boardAdapter.setData(boards)
+//        boardAdapter.setData(boards)
+        authViewModel.getAuthToken().observe(viewLifecycleOwner, {
+            boardsViewModel.setBoard(it!!, args.idWorkspace)
+        })
+
+        boardsViewModel.getBoard().observe(viewLifecycleOwner, {
+            boardAdapter.setData(it)
+            binding.swipeMyBoards.isRefreshing = false
+        })
         rvBoard.adapter = boardAdapter
 
         boardAdapter.setOnItemClickCallback(object : BoardAdapter.OnItemClickCallback {
             override fun onItemClicked(data: Board) {
-                Snackbar.make(requireView(), "Kamu mengklik #${data.idBoard}", Snackbar.LENGTH_SHORT).show()
-                Navigation.findNavController(requireView()).navigate(R.id.action_nav_boards_to_nav_tasks)
+                Snackbar.make(
+                    requireView(),
+                    "Kamu mengklik #${data.id}",
+                    Snackbar.LENGTH_SHORT
+                ).show()
+
+                val action =
+                    BoardsFragmentDirections.actionNavBoardsToNavTasks(data.id.toString())
+                Navigation.findNavController(requireView()).navigate(action)
             }
         })
+    }
+
+    fun setupViewModel() {
+        val pref = UserPreferences.getInstance(requireContext().dataStore)
+        authViewModel =
+            ViewModelProvider(this, ViewModelFactory(pref)).get(AuthViewModel::class.java)
+        boardsViewModel =
+            ViewModelProvider(this).get(BoardsViewModel::class.java)
     }
 }

@@ -60,15 +60,11 @@ class LoginActivity : AppCompatActivity(), View.OnClickListener {
             binding.btnSignIn -> {
                 closeKeyboard()
                 binding.btnSignIn.startAnimation()
-//                val mediator = MediatorLiveData<Boolean>()
                 val email = binding.editUsername.text.toString()
                 val password = binding.editPassword.text.toString()
                 val login = LoginRequest(email, password)
                 authViewModel.login(login)
-//
-//                mediator.addSource(authViewModel.getLoginState(), {
-//
-//                })
+
                 authViewModel.getLoginState().observe(this, {
                     if (it) {
                         Toast.makeText(this, "Login Success", Toast.LENGTH_SHORT).show()

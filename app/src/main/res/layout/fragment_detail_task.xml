@@ -74,10 +74,10 @@
         android:textAlignment="gravity"
         app:drawableEndCompat="@drawable/ic_add_outline"
         app:drawableStartCompat="@drawable/ic_attach"
-        app:layout_constraintEnd_toEndOf="@+id/tv_calendar2"
+        app:layout_constraintEnd_toEndOf="@+id/tv_spended_money"
         app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="@+id/tv_calendar2"
-        app:layout_constraintTop_toBottomOf="@+id/tv_calendar2" />
+        app:layout_constraintStart_toStartOf="@+id/tv_spended_money"
+        app:layout_constraintTop_toBottomOf="@+id/tv_spended_money" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rv_member"
@@ -95,7 +95,7 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
-        android:text="oueioeuieuieuioeuioeuieuoiueiueioeu uoi euoi eui ue iue iueioeu iouu"
+        android:text="-"
         app:layout_constraintEnd_toEndOf="@+id/tv_description_title"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="@+id/tv_description_title"
@@ -106,18 +106,18 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
-        android:text="Monday, 5 July 2021"
+        android:text="-"
         app:layout_constraintEnd_toEndOf="@+id/tv_calendar_title"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="@+id/tv_calendar_title"
         app:layout_constraintTop_toBottomOf="@+id/tv_calendar_title" />
 
     <TextView
-        android:id="@+id/tv_calendar2"
+        android:id="@+id/tv_spended_money"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
-        android:text="Rp. 10000"
+        android:text="-"
         app:layout_constraintEnd_toEndOf="@+id/tv_spended_money_title"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="@+id/tv_spended_money_title"

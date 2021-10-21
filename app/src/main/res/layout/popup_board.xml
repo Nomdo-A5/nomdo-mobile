@@ -8,7 +8,7 @@
     android:background="@drawable/bg_rounded">
 
     <TextView
-        android:id="@+id/tv_title_add_task"
+        android:id="@+id/tv_title_add_board"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="48dp"
@@ -80,12 +80,15 @@
         app:layout_constraintTop_toTopOf="@+id/tv_add_member_board"
         app:srcCompat="@drawable/ic_add_user" />
 
-    <androidx.appcompat.widget.AppCompatButton
+    <com.apachat.loadingbutton.core.customViews.CircularProgressButton
         android:id="@+id/btn_add_board"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="32dp"
         android:background="@drawable/btn_primary"
+        app:initialCornerAngle="30dp"
+        app:finalCornerAngle="30dp"
+        app:spinning_bar_padding="8dp"
         android:text="Add"
         android:textAllCaps="false"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -103,7 +106,7 @@
         android:hint="Workspace"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tv_title_add_task">
+        app:layout_constraintTop_toBottomOf="@+id/tv_title_add_board">
 
         <AutoCompleteTextView
             android:id="@+id/spinner_workspace_add_board"
