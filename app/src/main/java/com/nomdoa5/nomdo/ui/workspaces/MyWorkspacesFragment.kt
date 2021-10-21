@@ -13,6 +13,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.Navigation
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.google.android.material.snackbar.Snackbar
 import com.nomdoa5.nomdo.R
 import com.nomdoa5.nomdo.helpers.adapter.WorkspaceAdapter
@@ -24,7 +25,7 @@ import com.nomdoa5.nomdo.ui.auth.AuthViewModel
 
 private val Context.dataStore: DataStore<Preferences> by preferencesDataStore(name = "auth")
 
-class MyWorkspacesFragment : Fragment() {
+class MyWorkspacesFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener {
     private lateinit var authViewModel: AuthViewModel
     private lateinit var myWorkspacesViewModel: MyWorkspacesViewModel
     private var _binding: FragmentMyWorkspacesBinding? = null
@@ -50,8 +51,8 @@ class MyWorkspacesFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        binding.swipeMyWorkspaces.setOnRefreshListener(this)
         setupViewModel()
-        setData()
         setupRecyclerView()
     }
 
@@ -75,34 +76,61 @@ class MyWorkspacesFragment : Fragment() {
     }
 
     fun setupRecyclerView() {
+        binding.swipeMyWorkspaces.isRefreshing = true
         rvWorkspace = requireView().findViewById(R.id.rv_my_workspaces)
         rvWorkspace.setHasFixedSize(true)
         rvWorkspace.addItemDecoration(WorkspaceAdapter.MarginItemDecoration(15))
         rvWorkspace.layoutManager = LinearLayoutManager(context)
-        workspaceAdapter.setData(workspaces)
+
+        authViewModel.getAuthToken().observe(viewLifecycleOwner, {
+            myWorkspacesViewModel.setWorkspace(it!!)
+        })
+
+        myWorkspacesViewModel.getWorkspace().observe(viewLifecycleOwner, {
+            workspaceAdapter.setData(it)
+            binding.swipeMyWorkspaces.isRefreshing = false
+        })
         rvWorkspace.adapter = workspaceAdapter
 
         workspaceAdapter.setOnItemClickCallback(object : WorkspaceAdapter.OnItemClickCallback {
             override fun onItemClicked(data: Workspace) {
                 Snackbar.make(
                     requireView(),
-                    "Kamu mengklik #${data.idWorkspace}",
+                    "Kamu mengklik #${data.id}",
                     Snackbar.LENGTH_SHORT
                 ).show()
-                Navigation.findNavController(requireView())
-                    .navigate(R.id.action_nav_my_workspaces_to_nav_boards)
+
+                val action = MyWorkspacesFragmentDirections.actionNavMyWorkspacesToNavBoards(data.id.toString())
+                Navigation.findNavController(requireView()).navigate(action)
             }
         })
     }
 
     fun setupViewModel() {
         val pref = UserPreferences.getInstance(requireContext().dataStore)
-        authViewModel = ViewModelProvider(this, ViewModelFactory(pref)).get(AuthViewModel::class.java)
+        authViewModel =
+            ViewModelProvider(this, ViewModelFactory(pref)).get(AuthViewModel::class.java)
         myWorkspacesViewModel =
             ViewModelProvider(this).get(MyWorkspacesViewModel::class.java)
+    }
 
+    private fun showLoading(state: Boolean) {
+        if (state) {
+            binding.progressBarMyWorkspaces.visibility = View.VISIBLE
+        } else {
+            binding.progressBarMyWorkspaces.visibility = View.GONE
+        }
+    }
+
+    override fun onRefresh() {
         authViewModel.getAuthToken().observe(viewLifecycleOwner, {
             myWorkspacesViewModel.setWorkspace(it!!)
+        })
+
+        myWorkspacesViewModel.getWorkspaceState().observe(viewLifecycleOwner, {
+            if(it){
+                binding.swipeMyWorkspaces.isRefreshing = false
+            }
         })
     }
 }

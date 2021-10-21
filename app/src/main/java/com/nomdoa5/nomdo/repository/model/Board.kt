@@ -6,14 +6,15 @@ import kotlinx.parcelize.Parcelize
 
 @Parcelize
 data class Board(
-    @SerializedName("id_board")
-    val idBoard: Int,
+    val id: Int,
     @SerializedName("board_name")
     val boardName: String? = null,
+    @SerializedName("board_description")
+    val boardDescription: String? = null,
     @SerializedName("created_at")
     val createdAt: String? = null,
-    @SerializedName("opened_at")
+    @SerializedName("updated_at")
     val openedAt: String? = null,
-    @SerializedName("id_workspace")
+    @SerializedName("workspace_id")
     val idWorkspace: Int?=null
 ) : Parcelable

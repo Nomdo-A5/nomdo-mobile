@@ -136,7 +136,7 @@
             app:layout_constraintTop_toTopOf="@+id/tv_attachment_task"
             app:srcCompat="@drawable/ic_attach" />
 
-        <androidx.appcompat.widget.AppCompatButton
+        <com.apachat.loadingbutton.core.customViews.CircularProgressButton
             android:id="@+id/btn_add_task"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -144,6 +144,9 @@
             android:layout_marginBottom="32dp"
             android:background="@drawable/btn_primary"
             android:text="Add"
+            app:initialCornerAngle="30dp"
+            app:finalCornerAngle="30dp"
+            app:spinning_bar_padding="8dp"
             android:textAllCaps="false"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="@+id/layout_spended_add_task"

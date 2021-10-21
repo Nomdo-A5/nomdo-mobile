@@ -6,8 +6,7 @@ import kotlinx.parcelize.Parcelize
 
 @Parcelize
 data class Workspace(
-    @SerializedName("id_workspace")
-    val idWorkspace: Int,
+    val id: Int,
     @SerializedName("workspace_name")
     val workspaceName: String? = null,
     val workspaceCreator: String? = null,

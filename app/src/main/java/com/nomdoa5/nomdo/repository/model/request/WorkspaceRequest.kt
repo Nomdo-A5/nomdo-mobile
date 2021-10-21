@@ -5,9 +5,7 @@ import com.google.gson.annotations.SerializedName
 import kotlinx.parcelize.Parcelize
 
 @Parcelize
-data class BoardRequest(
-    @SerializedName("board_name")
-    val boardName: String,
-    @SerializedName("workspace_id")
-    val workspaceId: Int,
+data class WorkspaceRequest(
+    @SerializedName("workspace_name")
+    val workspaceName: String? = null,
 ) : Parcelable
