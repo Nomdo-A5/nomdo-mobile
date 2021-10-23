@@ -1,6 +1,7 @@
 package com.nomdoa5.nomdo.ui.home
 
 import android.os.Bundle
+import android.view.KeyEvent
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -9,9 +10,9 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.snackbar.Snackbar
 import com.nomdoa5.nomdo.R
-import com.nomdoa5.nomdo.adapter.HomeAdapter
+import com.nomdoa5.nomdo.helpers.adapter.HomeAdapter
 import com.nomdoa5.nomdo.databinding.FragmentHomeBinding
-import com.nomdoa5.nomdo.model.Task
+import com.nomdoa5.nomdo.repository.model.Task
 
 class HomeFragment : Fragment() {
     //    private lateinit var myWorkspacesViewModel: MyWorkspacesViewModel
@@ -44,6 +45,7 @@ class HomeFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         setData()
         setupRecyclerView()
+        setupOnBackPressed()
     }
 
     override fun onDestroyView() {
@@ -51,11 +53,12 @@ class HomeFragment : Fragment() {
         _binding = null
     }
 
-    fun setData(){
+
+    fun setData() {
         homeName = resources.getStringArray(R.array.name)
         createdAt = resources.getStringArray(R.array.creator)
 
-        for(i in homeName.indices){
+        for (i in homeName.indices) {
             val home = Task(
                 i,
                 homeName[i],
@@ -65,7 +68,7 @@ class HomeFragment : Fragment() {
         }
     }
 
-    fun setupRecyclerView(){
+    fun setupRecyclerView() {
         rvHome = requireView().findViewById(R.id.rv_homes)
         rvHome.setHasFixedSize(true)
         rvHome.addItemDecoration(HomeAdapter.MarginItemDecoration(15))
@@ -75,7 +78,22 @@ class HomeFragment : Fragment() {
 
         homeAdapter.setOnItemClickCallback(object : HomeAdapter.OnItemClickCallback {
             override fun onItemClicked(data: Task) {
-                Snackbar.make(requireView(), "Kamu mengklik #${data.idTask}", Snackbar.LENGTH_SHORT).show()
+                Snackbar.make(requireView(), "Kamu mengklik #${data.idTask}", Snackbar.LENGTH_SHORT)
+                    .show()
+            }
+        })
+    }
+
+    fun setupOnBackPressed(){
+        requireView().setFocusableInTouchMode(true)
+        requireView().requestFocus()
+        requireView().setOnKeyListener(object : View.OnKeyListener {
+            override fun onKey(v: View?, keyCode: Int, event: KeyEvent?): Boolean {
+                return if (keyCode == KeyEvent.KEYCODE_BACK) {
+
+                    requireActivity().finishAffinity()
+                    true
+                } else false
             }
         })
     }

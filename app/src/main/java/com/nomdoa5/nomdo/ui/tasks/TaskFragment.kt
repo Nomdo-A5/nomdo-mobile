@@ -1,21 +1,34 @@
 package com.nomdoa5.nomdo.ui.tasks
 
+import android.content.Context
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.datastore.core.DataStore
+import androidx.datastore.preferences.core.Preferences
+import androidx.datastore.preferences.preferencesDataStore
+import androidx.fragment.app.Fragment
+import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.Navigation
+import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.snackbar.Snackbar
 import com.nomdoa5.nomdo.R
-import com.nomdoa5.nomdo.adapter.TaskAdapter
 import com.nomdoa5.nomdo.databinding.FragmentTaskBinding
-import com.nomdoa5.nomdo.model.Task
+import com.nomdoa5.nomdo.helpers.ViewModelFactory
+import com.nomdoa5.nomdo.helpers.adapter.TaskAdapter
+import com.nomdoa5.nomdo.repository.local.UserPreferences
+import com.nomdoa5.nomdo.repository.model.Task
+import com.nomdoa5.nomdo.ui.auth.AuthViewModel
+import com.nomdoa5.nomdo.ui.workspaces.SharedWorkspacesFragmentDirections
+
+private val Context.dataStore: DataStore<Preferences> by preferencesDataStore(name = "auth")
 
 class TaskFragment : Fragment() {
-    //    private lateinit var myWorkspacesViewModel: MyWorkspacesViewModel
+    private lateinit var tasksViewModel: TasksViewModel
+    private lateinit var authViewModel: AuthViewModel
     private var _binding: FragmentTaskBinding? = null
     private val binding get() = _binding!!
     private val taskAdapter = TaskAdapter()
@@ -23,27 +36,23 @@ class TaskFragment : Fragment() {
     private lateinit var taskName: Array<String>
     private lateinit var createdAt: Array<String>
     private lateinit var rvTask: RecyclerView
+    private val args: TaskFragmentArgs by navArgs()
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-//        myWorkspacesViewModel =
-//            ViewModelProvider(this).get(MyWorkspacesViewModel::class.java)
-
         _binding = FragmentTaskBinding.inflate(inflater, container, false)
         val root: View = binding.root
 
-//        myWorkspacesViewModel.text.observe(viewLifecycleOwner, {
-//            textView.text = it
-//        })
         return root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setData()
+        setupViewModel()
         setupRecyclerView()
     }
 
@@ -67,18 +76,35 @@ class TaskFragment : Fragment() {
     }
 
     fun setupRecyclerView(){
+        binding.swipeMyTask.isRefreshing = true
         rvTask = requireView().findViewById(R.id.rv_tasks)
         rvTask.setHasFixedSize(true)
         rvTask.addItemDecoration(TaskAdapter.MarginItemDecoration(15))
         rvTask.layoutManager = LinearLayoutManager(context)
-        taskAdapter.setData(tasks)
+//        taskAdapter.setData(tasks)
+        authViewModel.getAuthToken().observe(viewLifecycleOwner, {
+            tasksViewModel.setTask(it!!, args.idBoard)
+        })
+
+        tasksViewModel.getTask().observe(viewLifecycleOwner, {
+            taskAdapter.setData(it)
+            binding.swipeMyTask.isRefreshing = false
+        })
         rvTask.adapter = taskAdapter
 
         taskAdapter.setOnItemClickCallback(object : TaskAdapter.OnItemClickCallback {
             override fun onItemClicked(data: Task) {
-                Snackbar.make(requireView(), "Kamu mengklik #${data.idTask}", Snackbar.LENGTH_SHORT).show()
-                Navigation.findNavController(requireView()).navigate(R.id.action_nav_tasks_to_detailTaskFragment)
+                val action = TaskFragmentDirections.actionNavTasksToDetailTaskFragment(data.idTask.toString())
+                Navigation.findNavController(requireView()).navigate(action)
             }
         })
+    }
+
+    fun setupViewModel() {
+        val pref = UserPreferences.getInstance(requireContext().dataStore)
+        authViewModel =
+            ViewModelProvider(this, ViewModelFactory(pref)).get(AuthViewModel::class.java)
+        tasksViewModel =
+            ViewModelProvider(this).get(TasksViewModel::class.java)
     }
 }

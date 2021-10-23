@@ -1,4 +1,4 @@
-package com.nomdoa5.nomdo.adapter
+package com.nomdoa5.nomdo.helpers.adapter
 
 import android.graphics.Rect
 import android.view.LayoutInflater
@@ -7,7 +7,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.nomdoa5.nomdo.R
 import com.nomdoa5.nomdo.databinding.ItemBoardBinding
-import com.nomdoa5.nomdo.model.Board
+import com.nomdoa5.nomdo.repository.model.Board
 
 class BoardAdapter : RecyclerView.Adapter<BoardAdapter.BoardViewHolder>() {
     private val mData = ArrayList<Board>()
@@ -44,7 +44,7 @@ class BoardAdapter : RecyclerView.Adapter<BoardAdapter.BoardViewHolder>() {
         private val binding = ItemBoardBinding.bind(itemView)
         fun bind(boardItem: Board) {
             binding.tvTitleBoard.text = boardItem.boardName
-            binding.tvNumBoard.text = boardItem.idBoard.toString()
+            binding.tvNumBoard.text = boardItem.id.toString()
 
             itemView.setOnClickListener { onItemClickCallback?.onItemClicked(boardItem) }
         }

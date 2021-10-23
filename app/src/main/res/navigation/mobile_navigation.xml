@@ -38,6 +38,9 @@
         <action
             android:id="@+id/action_nav_boards_to_nav_tasks"
             app:destination="@id/nav_tasks" />
+        <argument
+            android:name="idWorkspace"
+            app:argType="string" />
     </fragment>
     <fragment
         android:id="@+id/nav_tasks"
@@ -47,10 +50,24 @@
         <action
             android:id="@+id/action_nav_tasks_to_detailTaskFragment"
             app:destination="@id/detailTaskFragment" />
+        <argument
+            android:name="idBoard"
+            app:argType="string" />
     </fragment>
+
     <fragment
         android:id="@+id/detailTaskFragment"
         android:name="com.nomdoa5.nomdo.ui.tasks.DetailTaskFragment"
         android:label="fragment_detail_task"
-        tools:layout="@layout/fragment_detail_task" />
+        tools:layout="@layout/fragment_detail_task" >
+        <argument
+            android:name="idTask"
+            app:argType="string" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/nav_logout"
+        android:name="com.nomdoa5.nomdo.ui.LogoutFragment"
+        android:label="@string/logout"
+        tools:layout="@layout/dialog_fragment_logout" />
 </navigation>

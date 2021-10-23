@@ -10,9 +10,9 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.snackbar.Snackbar
 import com.nomdoa5.nomdo.R
-import com.nomdoa5.nomdo.adapter.WorkspaceAdapter
+import com.nomdoa5.nomdo.helpers.adapter.WorkspaceAdapter
 import com.nomdoa5.nomdo.databinding.FragmentSharedWorkspacesBinding
-import com.nomdoa5.nomdo.model.Workspace
+import com.nomdoa5.nomdo.repository.model.Workspace
 
 class SharedWorkspacesFragment : Fragment() {
     private var _binding: FragmentSharedWorkspacesBinding? = null
@@ -69,8 +69,9 @@ class SharedWorkspacesFragment : Fragment() {
 
         workspaceAdapter.setOnItemClickCallback(object : WorkspaceAdapter.OnItemClickCallback {
             override fun onItemClicked(data: Workspace) {
-                Snackbar.make(requireView(), "Kamu mengklik #${data.idWorkspace}", Snackbar.LENGTH_SHORT).show()
-                Navigation.findNavController(requireView()).navigate(R.id.action_nav_shared_workspaces_to_nav_boards)
+                Snackbar.make(requireView(), "Kamu mengklik #${data.id}", Snackbar.LENGTH_SHORT).show()
+                val action = SharedWorkspacesFragmentDirections.actionNavSharedWorkspacesToNavBoards(data.id.toString())
+                Navigation.findNavController(requireView()).navigate(action)
             }
         })
     }
