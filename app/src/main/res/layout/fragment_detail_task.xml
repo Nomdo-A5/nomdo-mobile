@@ -1,137 +1,192 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context=".ui.tasks.DetailTaskFragment">
+    android:layout_height="match_parent">
 
-
-    <TextView
-        android:id="@+id/tv_member"
-        android:layout_width="0dp"
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginStart="24dp"
-        android:layout_marginTop="24dp"
-        android:layout_marginEnd="24dp"
-        android:fontFamily="@font/roboto_medium"
-        android:text="Members"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        tools:context=".ui.tasks.DetailTaskFragment">
 
-    <TextView
-        android:id="@+id/tv_description_title"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:fontFamily="@font/roboto_medium"
-        android:text="Description"
-        app:layout_constraintEnd_toEndOf="@+id/rv_member"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="@+id/rv_member"
-        app:layout_constraintTop_toBottomOf="@+id/rv_member" />
 
-    <TextView
-        android:id="@+id/tv_calendar_title"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:drawablePadding="5dp"
-        android:fontFamily="@font/roboto_medium"
-        android:text="Calendar"
-        app:drawableStartCompat="@drawable/ic_calendar"
-        app:layout_constraintEnd_toEndOf="@+id/tv_description"
-        app:layout_constraintHorizontal_bias="1.0"
-        app:layout_constraintStart_toStartOf="@+id/tv_description"
-        app:layout_constraintTop_toBottomOf="@+id/tv_description" />
+        <TextView
+            android:id="@+id/tv_member"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="24dp"
+            android:layout_marginTop="24dp"
+            android:layout_marginEnd="24dp"
+            android:fontFamily="@font/roboto_medium"
+            android:text="Members"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
-    <TextView
-        android:id="@+id/tv_spended_money_title"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:drawablePadding="3dp"
-        android:fontFamily="@font/roboto_medium"
-        android:text="Spended Money"
-        app:drawableStartCompat="@drawable/ic_money"
-        app:layout_constraintEnd_toEndOf="@+id/tv_calendar"
-        app:layout_constraintHorizontal_bias="1.0"
-        app:layout_constraintStart_toStartOf="@+id/tv_calendar"
-        app:layout_constraintTop_toBottomOf="@+id/tv_calendar" />
+        <TextView
+            android:id="@+id/tv_calendar_title"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:drawablePadding="5dp"
+            android:fontFamily="@font/roboto_medium"
+            android:text="Calendar"
+            app:drawableStartCompat="@drawable/ic_calendar"
+            app:layout_constraintEnd_toEndOf="@+id/layout_desc_update_task"
+            app:layout_constraintHorizontal_bias="1.0"
+            app:layout_constraintStart_toStartOf="@+id/layout_desc_update_task"
+            app:layout_constraintTop_toBottomOf="@+id/layout_desc_update_task" />
 
-    <TextView
-        android:id="@+id/tv_attachment"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:clickable="true"
-        android:drawablePadding="3dp"
-        android:fontFamily="@font/roboto_medium"
-        android:gravity="center"
-        android:text="Attachment"
-        android:textAlignment="gravity"
-        app:drawableEndCompat="@drawable/ic_add_outline"
-        app:drawableStartCompat="@drawable/ic_attach"
-        app:layout_constraintEnd_toEndOf="@+id/tv_spended_money"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="@+id/tv_spended_money"
-        app:layout_constraintTop_toBottomOf="@+id/tv_spended_money" />
+        <TextView
+            android:id="@+id/tv_spended_money_title"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:drawablePadding="3dp"
+            android:fontFamily="@font/roboto_medium"
+            android:text="Spended Money"
+            app:drawableStartCompat="@drawable/ic_money"
+            app:layout_constraintEnd_toEndOf="@+id/tv_calendar"
+            app:layout_constraintHorizontal_bias="1.0"
+            app:layout_constraintStart_toStartOf="@+id/tv_calendar"
+            app:layout_constraintTop_toBottomOf="@+id/tv_calendar" />
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/rv_member"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        app:layout_constraintEnd_toEndOf="@+id/tv_member"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="@+id/tv_member"
-        app:layout_constraintTop_toBottomOf="@+id/tv_member"
-        tools:listitem="@layout/item_member" />
+        <TextView
+            android:id="@+id/tv_attachment"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:clickable="true"
+            android:drawablePadding="3dp"
+            android:fontFamily="@font/roboto_medium"
+            android:gravity="center"
+            android:text="Attachment"
+            android:textAlignment="gravity"
+            app:drawableEndCompat="@drawable/ic_add_outline"
+            app:drawableStartCompat="@drawable/ic_attach"
+            app:layout_constraintEnd_toEndOf="@+id/tv_spended_money"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="@+id/tv_spended_money"
+            app:layout_constraintTop_toBottomOf="@+id/tv_spended_money" />
 
-    <TextView
-        android:id="@+id/tv_description"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:text="-"
-        app:layout_constraintEnd_toEndOf="@+id/tv_description_title"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="@+id/tv_description_title"
-        app:layout_constraintTop_toBottomOf="@+id/tv_description_title" />
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rv_member"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            app:layout_constraintEnd_toEndOf="@+id/tv_member"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="@+id/tv_member"
+            app:layout_constraintTop_toBottomOf="@+id/tv_member"
+            tools:listitem="@layout/item_member" />
 
-    <TextView
-        android:id="@+id/tv_calendar"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:text="-"
-        app:layout_constraintEnd_toEndOf="@+id/tv_calendar_title"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="@+id/tv_calendar_title"
-        app:layout_constraintTop_toBottomOf="@+id/tv_calendar_title" />
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/layout_name_update_task"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            app:boxStrokeColor="@color/black"
+            app:hintTextColor="@color/black"
+            app:layout_constraintEnd_toEndOf="@+id/rv_member"
+            app:layout_constraintStart_toStartOf="@+id/rv_member"
+            app:layout_constraintTop_toBottomOf="@+id/rv_member"
+            app:startIconDrawable="@drawable/ic_email">
 
-    <TextView
-        android:id="@+id/tv_spended_money"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:text="-"
-        app:layout_constraintEnd_toEndOf="@+id/tv_spended_money_title"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="@+id/tv_spended_money_title"
-        app:layout_constraintTop_toBottomOf="@+id/tv_spended_money_title" />
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/edit_name_update_task"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Task Name"
+                android:imeOptions="actionNext"
+                android:inputType="text"
+                android:nextFocusDown="@+id/edit_email_sign_up" />
+        </com.google.android.material.textfield.TextInputLayout>
 
-    <androidx.appcompat.widget.AppCompatButton
-        android:id="@+id/btn_save"
-        android:layout_width="100dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="24dp"
-        android:background="@drawable/btn_primary"
-        android:fontFamily="@font/roboto_regular"
-        android:text="Save"
-        android:textAllCaps="false"
-        app:layout_constraintStart_toStartOf="@+id/tv_attachment"
-        app:layout_constraintTop_toBottomOf="@+id/tv_attachment" />
-</androidx.constraintlayout.widget.ConstraintLayout>
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/layout_desc_update_task"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            app:boxStrokeColor="@color/black"
+            app:hintTextColor="@color/black"
+            app:layout_constraintEnd_toEndOf="@+id/layout_name_update_task"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="@+id/layout_name_update_task"
+            app:layout_constraintTop_toBottomOf="@+id/layout_name_update_task">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/edit_desc_update_task"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="start"
+                android:hint="Description"
+                android:imeOptions="actionNext"
+                android:inputType="textMultiLine"
+                android:lines="3"
+                android:maxLines="3"
+                android:nextFocusDown="@+id/edit_email_sign_up" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <TextView
+            android:id="@+id/tv_calendar"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:text="-"
+            app:layout_constraintEnd_toEndOf="@+id/tv_calendar_title"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="@+id/tv_calendar_title"
+            app:layout_constraintTop_toBottomOf="@+id/tv_calendar_title" />
+
+        <TextView
+            android:id="@+id/tv_spended_money"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:text="-"
+            app:layout_constraintEnd_toEndOf="@+id/tv_spended_money_title"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="@+id/tv_spended_money_title"
+            app:layout_constraintTop_toBottomOf="@+id/tv_spended_money_title" />
+
+        <com.apachat.loadingbutton.core.customViews.CircularProgressButton
+            android:id="@+id/btn_update_task"
+            android:layout_width="100dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:layout_marginBottom="24dp"
+            android:background="@drawable/btn_primary"
+            android:fontFamily="@font/roboto_regular"
+            android:text="Save"
+            android:textAllCaps="false"
+            app:finalCornerAngle="30dp"
+            app:initialCornerAngle="30dp"
+            app:layout_constraintBottom_toBottomOf="@id/btn_delete_update_task"
+            app:layout_constraintEnd_toEndOf="@+id/tv_spended_money"
+            app:layout_constraintStart_toStartOf="@+id/tv_attachment"
+            app:layout_constraintTop_toBottomOf="@+id/tv_attachment"
+            app:spinning_bar_padding="8dp" />
+
+        <com.apachat.loadingbutton.core.customViews.CircularProgressButton
+            android:id="@+id/btn_delete_update_task"
+            android:layout_width="100dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="24dp"
+            android:background="@drawable/btn_gray"
+            android:fontFamily="@font/roboto_regular"
+            android:text="Delete"
+            android:textAllCaps="false"
+            app:finalCornerAngle="30dp"
+            app:initialCornerAngle="30dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="@+id/btn_update_task"
+            app:layout_constraintTop_toBottomOf="@+id/btn_update_task"
+            app:spinning_bar_padding="8dp" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</ScrollView>

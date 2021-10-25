@@ -14,6 +14,7 @@ import androidx.navigation.Navigation
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.google.android.material.snackbar.Snackbar
 import com.nomdoa5.nomdo.R
 import com.nomdoa5.nomdo.databinding.FragmentTaskBinding
@@ -26,7 +27,7 @@ import com.nomdoa5.nomdo.ui.workspaces.SharedWorkspacesFragmentDirections
 
 private val Context.dataStore: DataStore<Preferences> by preferencesDataStore(name = "auth")
 
-class TaskFragment : Fragment() {
+class TaskFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener {
     private lateinit var tasksViewModel: TasksViewModel
     private lateinit var authViewModel: AuthViewModel
     private var _binding: FragmentTaskBinding? = null
@@ -51,6 +52,7 @@ class TaskFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        binding.swipeMyTask.setOnRefreshListener(this)
         setData()
         setupViewModel()
         setupRecyclerView()
@@ -94,7 +96,8 @@ class TaskFragment : Fragment() {
 
         taskAdapter.setOnItemClickCallback(object : TaskAdapter.OnItemClickCallback {
             override fun onItemClicked(data: Task) {
-                val action = TaskFragmentDirections.actionNavTasksToDetailTaskFragment(data.idTask.toString())
+                val task = Task(data.idTask, data.taskName, data.taskDescription, data.boardId)
+                val action = TaskFragmentDirections.actionNavTasksToDetailTaskFragment(task)
                 Navigation.findNavController(requireView()).navigate(action)
             }
         })
@@ -106,5 +109,17 @@ class TaskFragment : Fragment() {
             ViewModelProvider(this, ViewModelFactory(pref)).get(AuthViewModel::class.java)
         tasksViewModel =
             ViewModelProvider(this).get(TasksViewModel::class.java)
+    }
+
+    override fun onRefresh() {
+        authViewModel.getAuthToken().observe(viewLifecycleOwner, {
+            tasksViewModel.setTask(it!!, args.idBoard)
+        })
+
+        tasksViewModel.getSetTaskState().observe(viewLifecycleOwner, {
+            if (it) {
+                binding.swipeMyTask.isRefreshing = false
+            }
+        })
     }
 }

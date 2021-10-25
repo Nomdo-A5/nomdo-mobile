@@ -61,8 +61,8 @@
         android:label="fragment_detail_task"
         tools:layout="@layout/fragment_detail_task" >
         <argument
-            android:name="idTask"
-            app:argType="string" />
+            android:name="task"
+            app:argType="com.nomdoa5.nomdo.repository.model.Task" />
     </fragment>
 
     <fragment
@@ -70,4 +70,16 @@
         android:name="com.nomdoa5.nomdo.ui.LogoutFragment"
         android:label="@string/logout"
         tools:layout="@layout/dialog_fragment_logout" />
+    <fragment
+        android:id="@+id/updateWorkspaceDialogFragment"
+        android:name="com.nomdoa5.nomdo.ui.dialog.UpdateWorkspaceDialogFragment"
+        android:label="updateWorkspaceDialogFragment">
+        <argument
+            android:name="workspace"
+            app:argType="com.nomdoa5.nomdo.repository.model.Workspace" />
+    </fragment>
+    <fragment
+        android:id="@+id/updateBoardDialogFragment"
+        android:name="com.nomdoa5.nomdo.ui.dialog.UpdateBoardDialogFragment"
+        android:label="UpdateBoardDialogFragment" />
 </navigation>

@@ -8,10 +8,10 @@ import androidx.recyclerview.widget.RecyclerView
 import com.nomdoa5.nomdo.R
 import com.nomdoa5.nomdo.databinding.ItemBoardBinding
 import com.nomdoa5.nomdo.repository.model.Board
+import com.nomdoa5.nomdo.repository.model.Workspace
 
-class BoardAdapter : RecyclerView.Adapter<BoardAdapter.BoardViewHolder>() {
+class BoardAdapter(private val listener: BoardAdapter.OnBoardClickListener) : RecyclerView.Adapter<BoardAdapter.BoardViewHolder>() {
     private val mData = ArrayList<Board>()
-    private var onItemClickCallback: OnItemClickCallback? = null
 
     fun setData(items: ArrayList<Board>) {
         mData.clear()
@@ -19,12 +19,9 @@ class BoardAdapter : RecyclerView.Adapter<BoardAdapter.BoardViewHolder>() {
         notifyDataSetChanged()
     }
 
-    interface OnItemClickCallback {
-        fun onItemClicked(data: Board)
-    }
-
-    fun setOnItemClickCallback(onItemClickCallback: OnItemClickCallback) {
-        this.onItemClickCallback = onItemClickCallback
+    interface OnBoardClickListener {
+        fun onBoardClick(data: Board)
+        fun onBoardLongClick(data: Board)
     }
 
     override fun onCreateViewHolder(viewGroup: ViewGroup, position: Int): BoardViewHolder {
@@ -46,7 +43,11 @@ class BoardAdapter : RecyclerView.Adapter<BoardAdapter.BoardViewHolder>() {
             binding.tvTitleBoard.text = boardItem.boardName
             binding.tvNumBoard.text = boardItem.id.toString()
 
-            itemView.setOnClickListener { onItemClickCallback?.onItemClicked(boardItem) }
+            itemView.setOnClickListener { listener.onBoardClick(boardItem) }
+            itemView.setOnLongClickListener {
+                listener.onBoardLongClick(boardItem)
+                false
+            }
         }
     }
 

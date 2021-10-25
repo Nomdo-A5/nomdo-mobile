@@ -2,7 +2,6 @@ package com.nomdoa5.nomdo.ui.auth
 
 import android.content.Context
 import android.content.Intent
-import android.graphics.Color
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
@@ -12,18 +11,15 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.core.graphics.drawable.toBitmap
-import androidx.core.os.HandlerCompat.postDelayed
 import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.preferencesDataStore
-import androidx.lifecycle.MediatorLiveData
-import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.nomdoa5.nomdo.R
 import com.nomdoa5.nomdo.databinding.ActivityLoginBinding
 import com.nomdoa5.nomdo.helpers.ViewModelFactory
 import com.nomdoa5.nomdo.repository.local.UserPreferences
-import com.nomdoa5.nomdo.repository.model.request.LoginRequest
+import com.nomdoa5.nomdo.repository.model.request.auth.LoginRequest
 import com.nomdoa5.nomdo.ui.MainActivity
 
 private val Context.dataStore: DataStore<Preferences> by preferencesDataStore(name = "auth")

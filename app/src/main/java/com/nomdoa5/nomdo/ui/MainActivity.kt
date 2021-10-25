@@ -30,13 +30,13 @@ import com.nomdoa5.nomdo.R
 import com.nomdoa5.nomdo.databinding.ActivityMainBinding
 import com.nomdoa5.nomdo.helpers.ViewModelFactory
 import com.nomdoa5.nomdo.repository.local.UserPreferences
-import com.nomdoa5.nomdo.repository.model.request.BoardRequest
-import com.nomdoa5.nomdo.repository.model.request.TaskRequest
-import com.nomdoa5.nomdo.repository.model.request.WorkspaceRequest
+import com.nomdoa5.nomdo.repository.model.request.board.BoardRequest
+import com.nomdoa5.nomdo.repository.model.request.task.TaskRequest
+import com.nomdoa5.nomdo.repository.model.request.workspace.WorkspaceRequest
 import com.nomdoa5.nomdo.ui.auth.AuthViewModel
 import com.nomdoa5.nomdo.ui.boards.BoardsViewModel
 import com.nomdoa5.nomdo.ui.tasks.TasksViewModel
-import com.nomdoa5.nomdo.ui.workspaces.MyWorkspacesViewModel
+import com.nomdoa5.nomdo.ui.workspaces.WorkspacesViewModel
 
 
 private val Context.dataStore: DataStore<Preferences> by preferencesDataStore(name = "settings")
@@ -67,7 +67,7 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
         )
     }
     private lateinit var authViewModel: AuthViewModel
-    private lateinit var myWorkspacesViewModel: MyWorkspacesViewModel
+    private lateinit var workspacesViewModel: WorkspacesViewModel
     private lateinit var boardsViewModel: BoardsViewModel
     private lateinit var tasksViewModel: TasksViewModel
     private var clicked = false
@@ -103,7 +103,7 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
         addBoardDialog = Dialog(this)
         addTaskDialog = Dialog(this)
 
-        setSupportActionBar(binding.appBarMain.toolbar)
+        setSupportActionBar(binding.appBarMain.appBarLayout.toolbar)
         setupViewModel()
         setupDrawer()
         setupPopup()
@@ -113,20 +113,20 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
         binding.appBarMain.fabAddTask.setOnClickListener(this)
         binding.appBarMain.fabAddBoard.setOnClickListener(this)
         binding.appBarMain.fabAddTask.setOnClickListener(this)
-        binding.appBarMain.navigation.setOnClickListener(this)
-        binding.appBarMain.notifications.setOnClickListener(this)
+        binding.appBarMain.appBarLayout.navigation.setOnClickListener(this)
+        binding.appBarMain.appBarLayout.notifications.setOnClickListener(this)
     }
 
     override fun onClick(v: View?) {
         when (v) {
-            binding.appBarMain.navigation -> {
+            binding.appBarMain.appBarLayout.navigation -> {
                 if (!binding.drawerLayout.isDrawerOpen(GravityCompat.START)) {
                     binding.drawerLayout.openDrawer(GravityCompat.START)
                 } else {
                     binding.drawerLayout.closeDrawer(GravityCompat.END)
                 }
             }
-            binding.appBarMain.notifications -> {
+            binding.appBarMain.appBarLayout.notifications -> {
                 Toast.makeText(this, "Klik notifikasi ges", Toast.LENGTH_SHORT).show()
             }
             binding.appBarMain.fab -> {
@@ -159,10 +159,10 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
                     addWorkspaceDialog.findViewById<TextInputEditText>(R.id.edit_name_add_workspace).text.toString()
                 val workspace = WorkspaceRequest(workspaceName)
                 authViewModel.getAuthToken().observe(this, {
-                    myWorkspacesViewModel.addWorkspace(it!!, workspace)
+                    workspacesViewModel.addWorkspace(it!!, workspace)
                 })
 
-                myWorkspacesViewModel.getAddWorkspaceState().observe(this, {
+                workspacesViewModel.getAddWorkspaceState().observe(this, {
                     if (it) {
                         Toast.makeText(this, "Workspace Added", Toast.LENGTH_SHORT).show()
                         btnAddWorkspace.doneLoadingAnimation(
@@ -265,10 +265,10 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
             addBoardDialog.findViewById(R.id.spinner_workspace_add_board)
 
         authViewModel.getAuthToken().observe(this, {
-            myWorkspacesViewModel.setWorkspace(it!!)
+            workspacesViewModel.setWorkspace(it!!)
         })
 
-        myWorkspacesViewModel.getWorkspace().observe(this, {
+        workspacesViewModel.getWorkspace().observe(this, {
             val workspaceName = ArrayList<String>()
             for (i in it) {
                 workspaceName.add(i.workspaceName!!)
@@ -303,10 +303,10 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
             addTaskDialog.findViewById(R.id.spinner_board_add_task)
 
         authViewModel.getAuthToken().observe(this, {
-            myWorkspacesViewModel.setWorkspace(it!!)
+            workspacesViewModel.setWorkspace(it!!)
         })
 
-        myWorkspacesViewModel.getWorkspace().observe(this, {
+        workspacesViewModel.getWorkspace().observe(this, {
             val workspaceName = ArrayList<String>()
             for (i in it) {
                 workspaceName.add(i.workspaceName!!)
@@ -323,6 +323,7 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
 
         spinnerWorkspace.setOnItemClickListener(object : AdapterView.OnItemClickListener {
             override fun onItemClick(p0: AdapterView<*>?, p1: View?, position: Int, p3: Long) {
+                spinnerBoard.setText("", false)
                 spinnerWorkspacePosition = workspaceAdapterId[position].toInt()
                 authViewModel.getAuthToken().observe(this@MainActivity, {
                     boardsViewModel.setBoard(it!!, spinnerWorkspacePosition.toString())
@@ -399,17 +400,17 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
         val pref = UserPreferences.getInstance(dataStore)
         authViewModel =
             ViewModelProvider(this, ViewModelFactory(pref)).get(AuthViewModel::class.java)
-        myWorkspacesViewModel = ViewModelProvider(this).get(MyWorkspacesViewModel::class.java)
+        workspacesViewModel = ViewModelProvider(this).get(WorkspacesViewModel::class.java)
         boardsViewModel = ViewModelProvider(this).get(BoardsViewModel::class.java)
         tasksViewModel = ViewModelProvider(this).get(TasksViewModel::class.java)
     }
 
     fun setupWorkspaceAdapter() {
         authViewModel.getAuthToken().observe(this, {
-            myWorkspacesViewModel.setWorkspace(it!!)
+            workspacesViewModel.setWorkspace(it!!)
         })
 
-        myWorkspacesViewModel.getWorkspace().observe(this, {
+        workspacesViewModel.getWorkspace().observe(this, {
             val workspaceName = ArrayList<String>()
             for (i in it) {
                 workspaceName.add(i.workspaceName!!)
@@ -484,11 +485,6 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
         }
     }
 
-    fun setActionBarTitle(title: String) {
-        val toolbarTitle = binding.appBarMain.toolbar.findViewById<TextView>(R.id.toolbar_title)
-        toolbarTitle.text = title
-    }
-
     fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
         when (parent!!.id) {
             R.id.spinner_workspace_add_task -> {
@@ -501,5 +497,11 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
                 spinnerBoardPosition = position
             }
         }
+    }
+
+    fun fragmentMethod() {
+        Toast.makeText(this@MainActivity, "Method called From Fragment",
+            Toast.LENGTH_LONG).show()
+        binding.appBarMain.appBarLayout.toolbarTitle.setText("Shared workspace gan")
     }
 }

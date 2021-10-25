@@ -2,9 +2,11 @@ package com.nomdoa5.nomdo.ui.workspaces
 
 import android.content.Context
 import android.os.Bundle
+import android.view.ActionMode
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.preferencesDataStore
@@ -22,20 +24,22 @@ import com.nomdoa5.nomdo.helpers.ViewModelFactory
 import com.nomdoa5.nomdo.repository.local.UserPreferences
 import com.nomdoa5.nomdo.repository.model.Workspace
 import com.nomdoa5.nomdo.ui.auth.AuthViewModel
+import com.nomdoa5.nomdo.ui.dialog.UpdateWorkspaceDialogFragment
+import com.nomdoa5.nomdo.ui.dialog.UpdateWorkspaceDialogFragmentArgs
 
 private val Context.dataStore: DataStore<Preferences> by preferencesDataStore(name = "auth")
 
-class MyWorkspacesFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener {
+class MyWorkspacesFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener,
+    WorkspaceAdapter.OnWorkspaceClickListener {
     private lateinit var authViewModel: AuthViewModel
-    private lateinit var myWorkspacesViewModel: MyWorkspacesViewModel
+    private lateinit var workspacesViewModel: WorkspacesViewModel
     private var _binding: FragmentMyWorkspacesBinding? = null
     private val binding get() = _binding!!
-    private val workspaceAdapter = WorkspaceAdapter()
+    private val workspaceAdapter = WorkspaceAdapter(this)
     private var workspaces = arrayListOf<Workspace>()
     private lateinit var workspaceName: Array<String>
     private lateinit var workspaceCreator: Array<String>
     private lateinit var rvWorkspace: RecyclerView
-
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -61,6 +65,7 @@ class MyWorkspacesFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener {
         _binding = null
     }
 
+
     fun setData() {
         workspaceName = resources.getStringArray(R.array.name)
         workspaceCreator = resources.getStringArray(R.array.creator)
@@ -83,35 +88,22 @@ class MyWorkspacesFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener {
         rvWorkspace.layoutManager = LinearLayoutManager(context)
 
         authViewModel.getAuthToken().observe(viewLifecycleOwner, {
-            myWorkspacesViewModel.setWorkspace(it!!)
+            workspacesViewModel.setWorkspace(it!!)
         })
 
-        myWorkspacesViewModel.getWorkspace().observe(viewLifecycleOwner, {
+        workspacesViewModel.getWorkspace().observe(viewLifecycleOwner, {
             workspaceAdapter.setData(it)
             binding.swipeMyWorkspaces.isRefreshing = false
         })
         rvWorkspace.adapter = workspaceAdapter
-
-        workspaceAdapter.setOnItemClickCallback(object : WorkspaceAdapter.OnItemClickCallback {
-            override fun onItemClicked(data: Workspace) {
-                Snackbar.make(
-                    requireView(),
-                    "Kamu mengklik #${data.id}",
-                    Snackbar.LENGTH_SHORT
-                ).show()
-
-                val action = MyWorkspacesFragmentDirections.actionNavMyWorkspacesToNavBoards(data.id.toString())
-                Navigation.findNavController(requireView()).navigate(action)
-            }
-        })
     }
 
     fun setupViewModel() {
         val pref = UserPreferences.getInstance(requireContext().dataStore)
         authViewModel =
             ViewModelProvider(this, ViewModelFactory(pref)).get(AuthViewModel::class.java)
-        myWorkspacesViewModel =
-            ViewModelProvider(this).get(MyWorkspacesViewModel::class.java)
+        workspacesViewModel =
+            ViewModelProvider(this).get(WorkspacesViewModel::class.java)
     }
 
     private fun showLoading(state: Boolean) {
@@ -124,13 +116,34 @@ class MyWorkspacesFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener {
 
     override fun onRefresh() {
         authViewModel.getAuthToken().observe(viewLifecycleOwner, {
-            myWorkspacesViewModel.setWorkspace(it!!)
+            workspacesViewModel.setWorkspace(it!!)
         })
 
-        myWorkspacesViewModel.getWorkspaceState().observe(viewLifecycleOwner, {
-            if(it){
+        workspacesViewModel.getWorkspaceState().observe(viewLifecycleOwner, {
+            if (it) {
                 binding.swipeMyWorkspaces.isRefreshing = false
             }
         })
+    }
+
+    override fun onWorkspaceClick(data: Workspace) {
+        Snackbar.make(
+            requireView(),
+            "Kamu mengklik #${data.id}",
+            Snackbar.LENGTH_SHORT
+        ).show()
+
+        val action =
+            MyWorkspacesFragmentDirections.actionNavMyWorkspacesToNavBoards(data.id.toString())
+        Navigation.findNavController(requireView()).navigate(action)
+    }
+
+    override fun onWorkspaceLongClick(data: Workspace) {
+        Toast.makeText(requireContext(), "Longpress ${data.id}", Toast.LENGTH_SHORT).show()
+        val addDialogFragment = UpdateWorkspaceDialogFragment()
+        val bundle = Bundle()
+        bundle.putParcelable("EXTRA_WORKSPACE", data)
+        addDialogFragment.arguments = bundle
+        addDialogFragment.show(requireActivity().supportFragmentManager, "Update Dialog")
     }
 }
