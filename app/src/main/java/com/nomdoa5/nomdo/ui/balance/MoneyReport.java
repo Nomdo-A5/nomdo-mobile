@@ -2,16 +2,14 @@ package com.nomdoa5.nomdo.ui.balance;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.Handler;
 import android.view.View;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import com.nomdoa5.nomdo.R;
-import com.nomdoa5.nomdo.adapter.BalanceAdapter;
+import com.nomdoa5.nomdo.helpers.adapter.BalanceAdapter;
 import com.nomdoa5.nomdo.databinding.ActivityMoneyReportBinding;
-import com.nomdoa5.nomdo.model.BalanceModel;
-import com.nomdoa5.nomdo.ui.balance.MoneyReport;
+import com.nomdoa5.nomdo.repository.model.BalanceModel;
 import com.nomdoa5.nomdo.ui.tasks.DetailTaskFragment;
 
 import java.util.ArrayList;
@@ -45,11 +43,11 @@ public class MoneyReport extends AppCompatActivity implements View.OnClickListen
     }
 
     private List<BalanceModel> getList(){
-        List<BalanceModel> balance_list = new ArrayList<>();
-        balance_list.add(new BalanceModel("1", "Foto Copy", "0", "2000"));
-        balance_list.add(new BalanceModel("2", "Paid Promote", "500000", "0"));
-        balance_list.add(new BalanceModel("3", "Konsumsi", "0", "20000"));
-        return balance_list;
+        List<BalanceModel> balance_Model_list = new ArrayList<>();
+        balance_Model_list.add(new BalanceModel("1", "Foto Copy", "0", "2000"));
+        balance_Model_list.add(new BalanceModel("2", "Paid Promote", "500000", "0"));
+        balance_Model_list.add(new BalanceModel("3", "Konsumsi", "0", "20000"));
+        return balance_Model_list;
     }
 
     @Override

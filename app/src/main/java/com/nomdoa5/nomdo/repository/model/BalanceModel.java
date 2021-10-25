@@ -1,4 +1,4 @@
-package com.nomdoa5.nomdo.model;
+package com.nomdoa5.nomdo.repository.model;
 
 public class BalanceModel {
     String id;

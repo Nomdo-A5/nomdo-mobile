@@ -9,56 +9,26 @@
     <option name="autoReloadType" value="NONE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="70876a03-ee51-446b-9f6f-80e610249465" name="36 PATCH, PUT, DELETE request for Workspace, Board, and Task" comment="PATCH, PUT, DELETE request for Workspace, Board, and Task&#10;&#10;closes #36">
-      <change afterPath="$PROJECT_DIR$/app/src/main/res/layout/toolbar_main.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/nomdoa5/nomdo/ui/MainActivity.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/nomdoa5/nomdo/ui/MainActivity.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/nomdoa5/nomdo/ui/workspaces/SharedWorkspacesFragment.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/nomdoa5/nomdo/ui/workspaces/SharedWorkspacesFragment.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/app_bar_main.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/layout/app_bar_main.xml" afterDir="false" />
-    </list>
-    <list id="11a80424-5a62-484d-abf7-f471fe1b1be5" name="32 Add Auth API" comment="Add Auth API&#10;&#10;closes #32">
-      <change afterPath="$PROJECT_DIR$/app/src/main/java/com/nomdoa5/nomdo/repository/model/request/DeleteRequest.kt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/src/main/java/com/nomdoa5/nomdo/repository/model/request/board/UpdateBoardRequest.kt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/src/main/java/com/nomdoa5/nomdo/repository/model/request/task/UpdateTaskRequest.kt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/src/main/java/com/nomdoa5/nomdo/repository/model/request/workspace/DeleteWorkspaceRequest.kt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/src/main/java/com/nomdoa5/nomdo/repository/model/request/workspace/UpdateWorkspaceRequest.kt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/src/main/java/com/nomdoa5/nomdo/ui/dialog/UpdateBoardDialogFragment.kt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/src/main/java/com/nomdoa5/nomdo/ui/dialog/UpdateWorkspaceDialogFragment.kt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/src/main/res/layout/dialog_fragment_update_board.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/src/main/res/layout/dialog_fragment_update_task.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/src/main/res/layout/dialog_fragment_update_workspace.xml" afterDir="false" />
+    <list default="true" id="e6e22519-3cc6-44ce-ba4f-1beb5f7308f8" name="39 Fix unused directory" comment="Fix unused directory&#10;&#10;closes #39">
+      <change afterPath="$PROJECT_DIR$/app/src/main/java/com/nomdoa5/nomdo/helpers/adapter/BalanceAdapter.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/build.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/app/build.gradle" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/nomdoa5/nomdo/helpers/adapter/BoardAdapter.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/nomdoa5/nomdo/helpers/adapter/BoardAdapter.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/nomdoa5/nomdo/helpers/adapter/WorkspaceAdapter.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/nomdoa5/nomdo/helpers/adapter/WorkspaceAdapter.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/nomdoa5/nomdo/repository/model/request/BoardRequest.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/nomdoa5/nomdo/repository/model/request/board/BoardRequest.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/nomdoa5/nomdo/repository/model/request/LoginRequest.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/nomdoa5/nomdo/repository/model/request/auth/LoginRequest.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/nomdoa5/nomdo/repository/model/request/RegisterRequest.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/nomdoa5/nomdo/repository/model/request/auth/RegisterRequest.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/nomdoa5/nomdo/repository/model/request/TaskRequest.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/nomdoa5/nomdo/repository/model/request/task/TaskRequest.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/nomdoa5/nomdo/repository/model/request/WorkspaceRequest.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/nomdoa5/nomdo/repository/model/request/workspace/WorkspaceRequest.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/nomdoa5/nomdo/repository/remote/ApiResponse.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/nomdoa5/nomdo/repository/remote/ApiService.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/nomdoa5/nomdo/ui/MainActivity.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/nomdoa5/nomdo/ui/MainActivity.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/nomdoa5/nomdo/ui/auth/AuthViewModel.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/nomdoa5/nomdo/ui/auth/AuthViewModel.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/nomdoa5/nomdo/ui/auth/LoginActivity.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/nomdoa5/nomdo/ui/auth/LoginActivity.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/nomdoa5/nomdo/ui/auth/RegisterActivity.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/nomdoa5/nomdo/ui/auth/RegisterActivity.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/nomdoa5/nomdo/ui/boards/BoardsFragment.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/nomdoa5/nomdo/ui/boards/BoardsFragment.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/nomdoa5/nomdo/ui/boards/BoardsViewModel.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/nomdoa5/nomdo/ui/boards/BoardsViewModel.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/nomdoa5/nomdo/ui/tasks/DetailTaskFragment.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/nomdoa5/nomdo/ui/tasks/DetailTaskFragment.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/nomdoa5/nomdo/ui/tasks/TaskFragment.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/nomdoa5/nomdo/ui/tasks/TaskFragment.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/nomdoa5/nomdo/ui/tasks/TasksViewModel.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/nomdoa5/nomdo/ui/tasks/TasksViewModel.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/nomdoa5/nomdo/ui/workspaces/MyWorkspacesFragment.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/nomdoa5/nomdo/ui/workspaces/MyWorkspacesFragment.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/nomdoa5/nomdo/ui/workspaces/MyWorkspacesViewModel.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/nomdoa5/nomdo/ui/workspaces/WorkspacesViewModel.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/nomdoa5/nomdo/ui/workspaces/SharedWorkspacesFragment.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/nomdoa5/nomdo/ui/workspaces/SharedWorkspacesFragment.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/fragment_detail_task.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/layout/fragment_detail_task.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/popup_task.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/layout/popup_task.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/res/navigation/mobile_navigation.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/navigation/mobile_navigation.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/nomdoa5/nomdo/adapter/BalanceAdapter.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/nomdoa5/nomdo/model/BalanceModel.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/nomdoa5/nomdo/repository/model/BalanceModel.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/nomdoa5/nomdo/repository/model/Balance.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/nomdoa5/nomdo/repository/model/Balance.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/nomdoa5/nomdo/ui/balance/MoneyReport.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/nomdoa5/nomdo/ui/balance/MoneyReport.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/drawable/ic_workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/drawable/ic_workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/app_bar_main.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/layout/app_bar_main.xml" afterDir="false" />
+    </list>
+    <list id="70876a03-ee51-446b-9f6f-80e610249465" name="36 PATCH, PUT, DELETE request for Workspace, Board, and Task" comment="PATCH, PUT, DELETE request for Workspace, Board, and Task&#10;&#10;closes #36">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
-  <component name="ExecutionTargetManager" SELECTED_TARGET="device_and_snapshot_combo_box_target[QV706GDC1H]" />
+  <component name="ExecutionTargetManager" SELECTED_TARGET="device_and_snapshot_combo_box_target[]" />
   <component name="ExternalProjectsData">
     <projectState path="$PROJECT_DIR$">
       <ProjectState />
@@ -71,9 +41,9 @@
         <option value="Kotlin Object" />
         <option value="Kotlin Data Class" />
         <option value="resourceFile" />
-        <option value="Class" />
         <option value="Kotlin Class" />
         <option value="layoutResourceFile" />
+        <option value="Class" />
       </list>
     </option>
   </component>
@@ -83,7 +53,7 @@
   <component name="Git.Settings">
     <option name="RECENT_BRANCH_BY_REPOSITORY">
       <map>
-        <entry key="$PROJECT_DIR$" value="nomdo-mobile-13" />
+        <entry key="$PROJECT_DIR$" value="main" />
       </map>
     </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
@@ -97,42 +67,23 @@
     </file-type-list>
   </component>
   <component name="LineStatusTrackerManager">
-    <file path="$PROJECT_DIR$/app/src/main/java/com/nomdoa5/nomdo/ui/MainActivity.kt">
+    <file path="$PROJECT_DIR$/.idea/workspace.xml">
       <ranges>
-        <range start1="32" end1="35" start2="32" end2="35" changelist="11a80424-5a62-484d-abf7-f471fe1b1be5" />
-        <range start1="38" end1="39" start2="38" end2="39" changelist="11a80424-5a62-484d-abf7-f471fe1b1be5" />
-        <range start1="69" end1="70" start2="69" end2="70" changelist="11a80424-5a62-484d-abf7-f471fe1b1be5" />
-        <range start1="105" end1="106" start2="105" end2="106" changelist="70876a03-ee51-446b-9f6f-80e610249465" />
-        <range start1="115" end1="117" start2="115" end2="117" changelist="70876a03-ee51-446b-9f6f-80e610249465" />
-        <range start1="121" end1="122" start2="121" end2="122" changelist="70876a03-ee51-446b-9f6f-80e610249465" />
-        <range start1="128" end1="129" start2="128" end2="129" changelist="70876a03-ee51-446b-9f6f-80e610249465" />
-        <range start1="161" end1="162" start2="161" end2="162" changelist="11a80424-5a62-484d-abf7-f471fe1b1be5" />
-        <range start1="164" end1="165" start2="164" end2="165" changelist="11a80424-5a62-484d-abf7-f471fe1b1be5" />
-        <range start1="267" end1="268" start2="267" end2="268" changelist="11a80424-5a62-484d-abf7-f471fe1b1be5" />
-        <range start1="270" end1="271" start2="270" end2="271" changelist="11a80424-5a62-484d-abf7-f471fe1b1be5" />
-        <range start1="305" end1="306" start2="305" end2="306" changelist="11a80424-5a62-484d-abf7-f471fe1b1be5" />
-        <range start1="308" end1="309" start2="308" end2="309" changelist="11a80424-5a62-484d-abf7-f471fe1b1be5" />
-        <range start1="325" end1="325" start2="325" end2="326" changelist="11a80424-5a62-484d-abf7-f471fe1b1be5" />
-        <range start1="401" end1="402" start2="402" end2="403" changelist="11a80424-5a62-484d-abf7-f471fe1b1be5" />
-        <range start1="408" end1="409" start2="409" end2="410" changelist="11a80424-5a62-484d-abf7-f471fe1b1be5" />
-        <range start1="411" end1="412" start2="412" end2="413" changelist="11a80424-5a62-484d-abf7-f471fe1b1be5" />
-        <range start1="485" end1="490" start2="486" end2="486" changelist="70876a03-ee51-446b-9f6f-80e610249465" />
-        <range start1="504" end1="504" start2="500" end2="506" changelist="70876a03-ee51-446b-9f6f-80e610249465" />
-      </ranges>
-    </file>
-    <file path="$PROJECT_DIR$/app/src/main/java/com/nomdoa5/nomdo/ui/workspaces/SharedWorkspacesFragment.kt">
-      <ranges>
-        <range start1="6" end1="6" start2="6" end2="7" changelist="11a80424-5a62-484d-abf7-f471fe1b1be5" />
-        <range start1="15" end1="15" start2="16" end2="17" changelist="70876a03-ee51-446b-9f6f-80e610249465" />
-        <range start1="16" end1="17" start2="18" end2="19" changelist="11a80424-5a62-484d-abf7-f471fe1b1be5" />
-        <range start1="19" end1="20" start2="21" end2="22" changelist="11a80424-5a62-484d-abf7-f471fe1b1be5" />
-        <range start1="32" end1="33" start2="34" end2="35" changelist="70876a03-ee51-446b-9f6f-80e610249465" />
-        <range start1="40" end1="40" start2="42" end2="43" changelist="70876a03-ee51-446b-9f6f-80e610249465" />
-        <range start1="47" end1="48" start2="50" end2="51" changelist="11a80424-5a62-484d-abf7-f471fe1b1be5" />
-        <range start1="51" end1="52" start2="54" end2="55" changelist="11a80424-5a62-484d-abf7-f471fe1b1be5" />
-        <range start1="61" end1="62" start2="64" end2="65" changelist="11a80424-5a62-484d-abf7-f471fe1b1be5" />
-        <range start1="68" end1="68" start2="71" end2="72" changelist="11a80424-5a62-484d-abf7-f471fe1b1be5" />
-        <range start1="69" end1="76" start2="73" end2="82" changelist="11a80424-5a62-484d-abf7-f471fe1b1be5" />
+        <range start1="11" end1="15" start2="11" end2="20" changelist="e6e22519-3cc6-44ce-ba4f-1beb5f7308f8" />
+        <range start1="17" end1="29" start2="22" end2="23" changelist="e6e22519-3cc6-44ce-ba4f-1beb5f7308f8" />
+        <range start1="30" end1="54" start2="24" end2="24" changelist="e6e22519-3cc6-44ce-ba4f-1beb5f7308f8" />
+        <range start1="60" end1="61" start2="30" end2="31" changelist="e6e22519-3cc6-44ce-ba4f-1beb5f7308f8" />
+        <range start1="73" end1="74" start2="43" end2="43" changelist="e6e22519-3cc6-44ce-ba4f-1beb5f7308f8" />
+        <range start1="76" end1="76" start2="45" end2="46" changelist="e6e22519-3cc6-44ce-ba4f-1beb5f7308f8" />
+        <range start1="85" end1="86" start2="55" end2="56" changelist="e6e22519-3cc6-44ce-ba4f-1beb5f7308f8" />
+        <range start1="99" end1="100" start2="69" end2="70" changelist="e6e22519-3cc6-44ce-ba4f-1beb5f7308f8" />
+        <range start1="101" end1="135" start2="71" end2="85" changelist="e6e22519-3cc6-44ce-ba4f-1beb5f7308f8" />
+        <range start1="145" end1="145" start2="95" end2="96" changelist="e6e22519-3cc6-44ce-ba4f-1beb5f7308f8" />
+        <range start1="451" end1="452" start2="402" end2="403" changelist="e6e22519-3cc6-44ce-ba4f-1beb5f7308f8" />
+        <range start1="488" end1="489" start2="439" end2="440" changelist="e6e22519-3cc6-44ce-ba4f-1beb5f7308f8" />
+        <range start1="500" end1="501" start2="451" end2="479" changelist="e6e22519-3cc6-44ce-ba4f-1beb5f7308f8" />
+        <range start1="502" end1="503" start2="480" end2="481" changelist="e6e22519-3cc6-44ce-ba4f-1beb5f7308f8" />
+        <range start1="550" end1="551" start2="528" end2="531" changelist="70876a03-ee51-446b-9f6f-80e610249465" />
       </ranges>
     </file>
   </component>
@@ -143,6 +94,7 @@
     <option name="showLibraryContents" value="true" />
   </component>
   <component name="PropertiesComponent">
+    <property name="ASKED_MARK_IGNORED_FILES_AS_EXCLUDED" value="true" />
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="last_directory_selection" value="$PROJECT_DIR$/app/src/main/res/drawable" />
@@ -449,7 +401,7 @@
     <task id="nomdo-mobile-32" summary="Add Auth API">
       <branch name="main" repository="D:\User\Documents\Data Kuliah (PENS-2110191020)\Semester 5\WPPL\NOMDO\nomdo-mobile" original="true" />
       <branch name="nomdo-mobile-32" repository="D:\User\Documents\Data Kuliah (PENS-2110191020)\Semester 5\WPPL\NOMDO\nomdo-mobile" />
-      <changelist id="11a80424-5a62-484d-abf7-f471fe1b1be5" name="32 Add Auth API" comment="Add Auth API&#10;&#10;closes #32" />
+      <changelist id="" name="32 Add Auth API" comment="Add Auth API&#10;&#10;closes #32" />
       <created>1634300228000</created>
       <option name="issue" value="true" />
       <url>https://github.com/Nomdo-A5/nomdo-mobile/issues/32</url>
@@ -486,7 +438,7 @@
       <option name="type" value="BUG" />
       <updated>1635125115814</updated>
     </task>
-    <task active="true" id="nomdo-mobile-36" summary="PATCH, PUT, DELETE request for Workspace, Board, and Task">
+    <task id="nomdo-mobile-36" summary="PATCH, PUT, DELETE request for Workspace, Board, and Task">
       <branch name="main" repository="D:\User\Documents\Data Kuliah (PENS-2110191020)\Semester 5\WPPL\NOMDO\nomdo-mobile" original="true" />
       <branch name="nomdo-mobile-36" repository="D:\User\Documents\Data Kuliah (PENS-2110191020)\Semester 5\WPPL\NOMDO\nomdo-mobile" />
       <changelist id="70876a03-ee51-446b-9f6f-80e610249465" name="36 PATCH, PUT, DELETE request for Workspace, Board, and Task" comment="PATCH, PUT, DELETE request for Workspace, Board, and Task&#10;&#10;closes #36" />
@@ -498,9 +450,36 @@
       <option name="presentableId" value="nomdo-mobile-36" />
       <option name="project" value="nomdo-mobile" />
       <option name="type" value="BUG" />
-      <updated>1635125117000</updated>
+      <updated>1635127379429</updated>
     </task>
-    <option name="localTasksCounter" value="21" />
+    <task id="LOCAL-00021" summary="Added CRUD Workspace, Board, and Task. Also added initial custom toolbar for next issue&#10;&#10;Closes #{id}">
+      <created>1635126724256</created>
+      <option name="number" value="00021" />
+      <option name="presentableId" value="LOCAL-00021" />
+      <option name="project" value="LOCAL" />
+      <updated>1635126724256</updated>
+    </task>
+    <task id="LOCAL-00022" summary="Add file to .gitignore">
+      <created>1635126958330</created>
+      <option name="number" value="00022" />
+      <option name="presentableId" value="LOCAL-00022" />
+      <option name="project" value="LOCAL" />
+      <updated>1635126958330</updated>
+    </task>
+    <task active="true" id="nomdo-mobile-39" summary="Fix unused directory">
+      <branch name="nomdo-mobile-36" repository="D:\User\Documents\Data Kuliah (PENS-2110191020)\Semester 5\WPPL\NOMDO\nomdo-mobile" original="true" />
+      <branch name="nomdo-mobile-39" repository="D:\User\Documents\Data Kuliah (PENS-2110191020)\Semester 5\WPPL\NOMDO\nomdo-mobile" />
+      <changelist id="e6e22519-3cc6-44ce-ba4f-1beb5f7308f8" name="39 Fix unused directory" comment="Fix unused directory&#10;&#10;closes #39" />
+      <created>1635127365000</created>
+      <option name="issue" value="true" />
+      <url>https://github.com/Nomdo-A5/nomdo-mobile/issues/39</url>
+      <option name="number" value="39" />
+      <option name="presentableId" value="nomdo-mobile-39" />
+      <option name="project" value="nomdo-mobile" />
+      <option name="type" value="BUG" />
+      <updated>1635127517000</updated>
+    </task>
+    <option name="localTasksCounter" value="23" />
     <option name="changelistNameFormat" value="${number} ${summary}" />
     <servers>
       <GitHub url="https://github.com">
@@ -548,6 +527,8 @@ closes #{number}</commitMessageFormat>
     <MESSAGE value="Add Detail Task Fragment&#10;&#10;closes #15" />
     <MESSAGE value="Add base retrofit" />
     <MESSAGE value="Add auth API and datastore for storing auth token" />
-    <option name="LAST_COMMIT_MESSAGE" value="Add auth API and datastore for storing auth token" />
+    <MESSAGE value="Added CRUD Workspace, Board, and Task. Also added initial custom toolbar for next issue&#10;&#10;Closes #{id}" />
+    <MESSAGE value="Add file to .gitignore" />
+    <option name="LAST_COMMIT_MESSAGE" value="Add file to .gitignore" />
   </component>
 </project>

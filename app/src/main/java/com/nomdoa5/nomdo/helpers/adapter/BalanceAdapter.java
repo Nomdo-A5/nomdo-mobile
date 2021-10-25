@@ -1,4 +1,4 @@
-package com.nomdoa5.nomdo.adapter;
+package com.nomdoa5.nomdo.helpers.adapter;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -10,7 +10,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.nomdoa5.nomdo.R;
-import com.nomdoa5.nomdo.model.BalanceModel;
+import com.nomdoa5.nomdo.repository.model.BalanceModel;
 
 import java.util.List;
 
