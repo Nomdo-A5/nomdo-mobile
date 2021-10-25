@@ -93,15 +93,15 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="32dp"
-            android:text="Due Date"
-            android:clickable="true"
-            android:focusable="true"
             android:background="?attr/selectableItemBackground"
+            android:clickable="true"
             android:drawablePadding="5dp"
+            android:focusable="true"
             android:gravity="center"
+            android:text="Due Date"
+            app:drawableEndCompat="@drawable/ic_add_outline"
             app:layout_constraintStart_toStartOf="@+id/tv_add_member_task"
-            app:layout_constraintTop_toBottomOf="@+id/tv_add_member_task"
-            app:drawableEndCompat="@drawable/ic_add_outline" />
+            app:layout_constraintTop_toBottomOf="@+id/tv_add_member_task" />
 
         <ImageView
             android:id="@+id/img_date_task"

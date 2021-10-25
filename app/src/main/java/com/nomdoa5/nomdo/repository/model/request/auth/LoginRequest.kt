@@ -1,4 +1,4 @@
-package com.nomdoa5.nomdo.repository.model.request
+package com.nomdoa5.nomdo.repository.model.request.auth
 
 import android.os.Parcelable
 import kotlinx.parcelize.Parcelize

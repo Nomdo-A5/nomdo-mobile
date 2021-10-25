@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.preferencesDataStore
@@ -21,18 +22,18 @@ import com.nomdoa5.nomdo.helpers.ViewModelFactory
 import com.nomdoa5.nomdo.helpers.adapter.BoardAdapter
 import com.nomdoa5.nomdo.repository.local.UserPreferences
 import com.nomdoa5.nomdo.repository.model.Board
-import com.nomdoa5.nomdo.repository.model.request.BoardRequest
 import com.nomdoa5.nomdo.ui.auth.AuthViewModel
-import com.nomdoa5.nomdo.ui.workspaces.SharedWorkspacesFragmentDirections
+import com.nomdoa5.nomdo.ui.dialog.UpdateBoardDialogFragment
+import com.nomdoa5.nomdo.ui.dialog.UpdateWorkspaceDialogFragment
 
 private val Context.dataStore: DataStore<Preferences> by preferencesDataStore(name = "auth")
 
-class BoardsFragment : Fragment() {
+class BoardsFragment : Fragment(), BoardAdapter.OnBoardClickListener {
     private lateinit var boardsViewModel: BoardsViewModel
     private lateinit var authViewModel: AuthViewModel
     private var _binding: FragmentBoardsBinding? = null
     private val binding get() = _binding!!
-    private val boardAdapter = BoardAdapter()
+    private val boardAdapter = BoardAdapter(this)
     private var boards = arrayListOf<Board>()
     private lateinit var boardName: Array<String>
     private lateinit var createdAt: Array<String>
@@ -66,6 +67,7 @@ class BoardsFragment : Fragment() {
         boardName = resources.getStringArray(R.array.name)
         createdAt = resources.getStringArray(R.array.creator)
 
+
         for (i in boardName.indices) {
             val board = Board(
                 i,
@@ -93,19 +95,6 @@ class BoardsFragment : Fragment() {
         })
         rvBoard.adapter = boardAdapter
 
-        boardAdapter.setOnItemClickCallback(object : BoardAdapter.OnItemClickCallback {
-            override fun onItemClicked(data: Board) {
-                Snackbar.make(
-                    requireView(),
-                    "Kamu mengklik #${data.id}",
-                    Snackbar.LENGTH_SHORT
-                ).show()
-
-                val action =
-                    BoardsFragmentDirections.actionNavBoardsToNavTasks(data.id.toString())
-                Navigation.findNavController(requireView()).navigate(action)
-            }
-        })
     }
 
     fun setupViewModel() {
@@ -114,5 +103,26 @@ class BoardsFragment : Fragment() {
             ViewModelProvider(this, ViewModelFactory(pref)).get(AuthViewModel::class.java)
         boardsViewModel =
             ViewModelProvider(this).get(BoardsViewModel::class.java)
+    }
+
+    override fun onBoardClick(data: Board) {
+        Snackbar.make(
+            requireView(),
+            "Kamu mengklik #${data.id}",
+            Snackbar.LENGTH_SHORT
+        ).show()
+
+        val action =
+            BoardsFragmentDirections.actionNavBoardsToNavTasks(data.id.toString())
+        Navigation.findNavController(requireView()).navigate(action)
+    }
+
+    override fun onBoardLongClick(data: Board) {
+        Toast.makeText(requireContext(), "Longpress ${data.id}", Toast.LENGTH_SHORT).show()
+        val addBoardFragment = UpdateBoardDialogFragment()
+        val bundle = Bundle()
+        bundle.putParcelable("EXTRA_BOARD", data)
+        addBoardFragment.arguments = bundle
+        addBoardFragment.show(requireActivity().supportFragmentManager, "Update Dialog")
     }
 }

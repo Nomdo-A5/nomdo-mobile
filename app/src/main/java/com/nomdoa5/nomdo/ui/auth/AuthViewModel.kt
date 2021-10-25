@@ -3,12 +3,12 @@ package com.nomdoa5.nomdo.ui.auth
 import androidx.lifecycle.*
 import com.nomdoa5.nomdo.repository.local.UserPreferences
 import com.nomdoa5.nomdo.repository.model.User
-import com.nomdoa5.nomdo.repository.model.request.LoginRequest
-import com.nomdoa5.nomdo.repository.model.request.RegisterRequest
+import com.nomdoa5.nomdo.repository.model.request.auth.LoginRequest
+import com.nomdoa5.nomdo.repository.model.request.auth.RegisterRequest
 import com.nomdoa5.nomdo.repository.model.response.LoginResponse
 import com.nomdoa5.nomdo.repository.model.response.LogoutResponse
 import com.nomdoa5.nomdo.repository.model.response.UserResponse
-import com.nomdoa5.nomdo.repository.remote.ApiResponse
+import com.nomdoa5.nomdo.repository.remote.ApiService
 import com.nomdoa5.nomdo.repository.remote.RetrofitClient
 import kotlinx.coroutines.launch
 import retrofit2.Call
@@ -23,7 +23,7 @@ class AuthViewModel(private val pref: UserPreferences) : ViewModel() {
     private val userState = MutableLiveData<Boolean>()
 
     fun login(account: LoginRequest) {
-        val service = RetrofitClient.buildService(ApiResponse::class.java)
+        val service = RetrofitClient.buildService(ApiService::class.java)
         val requestCall = service.login(account)
 
         requestCall.enqueue(object : Callback<LoginResponse> {
@@ -51,7 +51,7 @@ class AuthViewModel(private val pref: UserPreferences) : ViewModel() {
     }
 
     fun setUser(token: String) {
-        val service = RetrofitClient.buildService(ApiResponse::class.java)
+        val service = RetrofitClient.buildService(ApiService::class.java)
         val requestCall = service.getUser(token = "Bearer $token")
 
         requestCall.enqueue(object : Callback<UserResponse> {
@@ -66,7 +66,7 @@ class AuthViewModel(private val pref: UserPreferences) : ViewModel() {
     }
 
     fun logout(token: String) {
-        val service = RetrofitClient.buildService(ApiResponse::class.java)
+        val service = RetrofitClient.buildService(ApiService::class.java)
         val requestCall = service.logout(token = "Bearer $token")
 
         requestCall.enqueue(object : Callback<LogoutResponse> {
@@ -87,7 +87,7 @@ class AuthViewModel(private val pref: UserPreferences) : ViewModel() {
     }
 
     fun register(newAccount: RegisterRequest) {
-        val service = RetrofitClient.buildService(ApiResponse::class.java)
+        val service = RetrofitClient.buildService(ApiService::class.java)
         val requestCall = service.register(newAccount)
 
         requestCall.enqueue(object : Callback<RegisterRequest> {

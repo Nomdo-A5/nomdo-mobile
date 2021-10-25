@@ -13,7 +13,7 @@ import androidx.lifecycle.ViewModelProvider
 import com.nomdoa5.nomdo.databinding.ActivityRegisterBinding
 import com.nomdoa5.nomdo.helpers.ViewModelFactory
 import com.nomdoa5.nomdo.repository.local.UserPreferences
-import com.nomdoa5.nomdo.repository.model.request.RegisterRequest
+import com.nomdoa5.nomdo.repository.model.request.auth.RegisterRequest
 
 private val Context.dataStore: DataStore<Preferences> by preferencesDataStore(name = "auth")
 
