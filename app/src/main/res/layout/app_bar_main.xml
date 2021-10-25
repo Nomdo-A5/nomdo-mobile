@@ -49,6 +49,7 @@
         android:layout_marginBottom="16dp"
         android:contentDescription="@string/add_action_button"
 
+        android:visibility="gone"
         app:backgroundTint="@color/accent"
         app:layout_constraintBottom_toTopOf="@+id/fab"
         app:layout_constraintEnd_toEndOf="@+id/fab"
@@ -64,6 +65,7 @@
         android:layout_marginStart="8dp"
         android:layout_marginBottom="16dp"
         android:contentDescription="@string/add_action_button"
+        android:visibility="gone"
         app:backgroundTint="@color/accent"
         app:layout_constraintBottom_toTopOf="@+id/fab_add_workspace"
         app:layout_constraintEnd_toEndOf="@+id/fab_add_workspace"
@@ -79,6 +81,7 @@
         android:layout_gravity="bottom|end"
         android:layout_marginBottom="16dp"
         android:contentDescription="@string/add_action_button"
+        android:visibility="gone"
         app:backgroundTint="@color/accent"
         app:layout_constraintBottom_toTopOf="@+id/fab_add_board"
         app:layout_constraintEnd_toEndOf="@+id/fab_add_board"

@@ -7,7 +7,7 @@ import kotlinx.parcelize.Parcelize
 @Parcelize
 data class Balance(
     @SerializedName("id_balance")
-    val idBalance: Int,
+    val id: Int,
     @SerializedName("status_income")
     val statusIncome: Boolean? = null,
     val nominal: Int? = null,
