@@ -83,7 +83,7 @@
   <component name="Git.Settings">
     <option name="RECENT_BRANCH_BY_REPOSITORY">
       <map>
-        <entry key="$PROJECT_DIR$" value="main" />
+        <entry key="$PROJECT_DIR$" value="nomdo-mobile-13" />
       </map>
     </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
@@ -164,6 +164,10 @@
       <recent name="D:\User\Documents\Data Kuliah (PENS-2110191020)\Semester 5\WPPL\NOMDO\nomdo-mobile\app\src\main\res\drawable" />
       <recent name="D:\User\Documents\Data Kuliah (PENS-2110191020)\Semester 5\WPPL - Bu Umi, Bu Desy, Pak Andik\NOMDO\nomdo-mobile\app\src\main\res\drawable" />
       <recent name="D:\User\Documents\Data Kuliah (PENS-2110191020)\Semester 5\WPPL - Bu Umi, Bu Desy, Pak Andik\NOMDO\nomdo-mobile\app\src\main\res\font" />
+    </key>
+    <key name="android.template.-650658545">
+      <recent name="com.nomdoa5.nomdo.ui.balance" />
+      <recent name="com.nomdoa5.nomdo.ui" />
     </key>
     <key name="MoveKotlinTopLevelDeclarationsDialog.RECENTS_KEY">
       <recent name="com.nomdoa5.nomdo.repository.model.request.auth" />
