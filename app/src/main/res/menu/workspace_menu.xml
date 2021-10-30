@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <item
+        android:id="@+id/member_menu_workspace"
+        android:title="Member"
+        app:showAsAction="never" />
+    <item
+        android:id="@+id/board_menu_workspace"
+        android:title="Board"
+        app:showAsAction="never" />
+    <item
+        android:id="@+id/money_report_menu_workspace"
+        android:title="Money Report"
+        app:showAsAction="never"/>
+</menu>

@@ -2,22 +2,25 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="380dp"
-    android:layout_height="400dp"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
     android:layout_gravity="center"
     android:background="@drawable/bg_rounded">
 
     <TextView
         android:id="@+id/tv_title_add_workspace"
-        android:layout_width="wrap_content"
+        android:layout_width="270dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="48dp"
+        android:layout_marginStart="32dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="32dp"
         android:fontFamily="@font/roboto_medium"
         android:text="New Workspace"
+        android:textAlignment="center"
         android:textSize="24sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toBottomOf="@+id/img_close_add_workspace" />
 
     <ImageView
         android:id="@+id/img_close_add_workspace"
@@ -58,17 +61,15 @@
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/layout_name_add_workspace"
         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-        app:startIconDrawable="@drawable/ic_email"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="32dp"
         android:layout_marginTop="24dp"
-        android:layout_marginEnd="32dp"
         app:boxStrokeColor="@color/black"
         app:hintTextColor="@color/black"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tv_title_add_workspace">
+        app:layout_constraintEnd_toEndOf="@+id/tv_title_add_workspace"
+        app:layout_constraintStart_toStartOf="@+id/tv_title_add_workspace"
+        app:layout_constraintTop_toBottomOf="@+id/tv_title_add_workspace"
+        app:startIconDrawable="@drawable/ic_email">
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/edit_name_add_workspace"
@@ -105,14 +106,16 @@
         android:id="@+id/btn_add_workspace"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="24dp"
         android:layout_marginBottom="32dp"
         android:background="@drawable/btn_primary"
         android:text="Add"
         android:textAllCaps="false"
-        app:initialCornerAngle="30dp"
         app:finalCornerAngle="30dp"
-        app:spinning_bar_padding="8dp"
+        app:initialCornerAngle="30dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="@+id/layout_balance_add_workspace"
-        app:layout_constraintStart_toStartOf="@+id/layout_balance_add_workspace" />
+        app:layout_constraintStart_toStartOf="@+id/layout_balance_add_workspace"
+        app:layout_constraintTop_toBottomOf="@+id/tv_add_member_workspace"
+        app:spinning_bar_padding="8dp" />
 </androidx.constraintlayout.widget.ConstraintLayout>
