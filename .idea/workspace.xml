@@ -9,11 +9,14 @@
     <option name="autoReloadType" value="NONE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="70876a03-ee51-446b-9f6f-80e610249465" name="36 PATCH, PUT, DELETE request for Workspace, Board, and Task" comment="PATCH, PUT, DELETE request for Workspace, Board, and Task&#10;&#10;closes #36">
+    <list default="true" id="11a80424-5a62-484d-abf7-f471fe1b1be5" name="32 Add Auth API" comment="Add Auth API&#10;&#10;closes #32">
+      <change afterPath="$PROJECT_DIR$/app/src/main/java/com/nomdoa5/nomdo/repository/model/request/TaskRequest.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/src/main/java/com/nomdoa5/nomdo/repository/model/request/WorkspaceRequest.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/src/main/java/com/nomdoa5/nomdo/repository/model/response/BoardResponse.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/src/main/java/com/nomdoa5/nomdo/repository/model/response/TaskResponse.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/src/main/java/com/nomdoa5/nomdo/repository/model/response/UserResponse.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/src/main/java/com/nomdoa5/nomdo/ui/MainViewModel.kt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-    </list>
-    <list id="11a80424-5a62-484d-abf7-f471fe1b1be5" name="32 Add Auth API" comment="Add Auth API&#10;&#10;closes #32">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -33,10 +36,6 @@
         <option value="layoutResourceFile_vertical" />
         <option value="Kotlin Object" />
         <option value="Kotlin Data Class" />
-        <option value="resourceFile" />
-        <option value="Class" />
-        <option value="Kotlin Class" />
-        <option value="layoutResourceFile" />
       </list>
     </option>
   </component>
@@ -59,26 +58,6 @@
       <filtered-out-file-type name="COMMIT_BY_MESSAGE" />
     </file-type-list>
   </component>
-  <component name="LineStatusTrackerManager">
-    <file path="$PROJECT_DIR$/.idea/workspace.xml">
-      <ranges>
-        <range start1="11" end1="13" start2="11" end2="12" changelist="70876a03-ee51-446b-9f6f-80e610249465" />
-        <range start1="14" end1="21" start2="13" end2="13" changelist="70876a03-ee51-446b-9f6f-80e610249465" />
-        <range start1="22" end1="23" start2="14" end2="15" changelist="70876a03-ee51-446b-9f6f-80e610249465" />
-        <range start1="30" end1="31" start2="22" end2="23" changelist="11a80424-5a62-484d-abf7-f471fe1b1be5" />
-        <range start1="43" end1="43" start2="35" end2="36" changelist="11a80424-5a62-484d-abf7-f471fe1b1be5" />
-        <range start1="45" end1="46" start2="38" end2="38" changelist="11a80424-5a62-484d-abf7-f471fe1b1be5" />
-        <range start1="55" end1="56" start2="47" end2="48" changelist="11a80424-5a62-484d-abf7-f471fe1b1be5" />
-        <range start1="67" end1="88" start2="59" end2="59" changelist="70876a03-ee51-446b-9f6f-80e610249465" />
-        <range start1="96" end1="97" start2="67" end2="67" changelist="11a80424-5a62-484d-abf7-f471fe1b1be5" />
-        <range start1="403" end1="404" start2="373" end2="374" changelist="11a80424-5a62-484d-abf7-f471fe1b1be5" />
-        <range start1="440" end1="441" start2="410" end2="411" changelist="11a80424-5a62-484d-abf7-f471fe1b1be5" />
-        <range start1="452" end1="480" start2="422" end2="423" changelist="11a80424-5a62-484d-abf7-f471fe1b1be5" />
-        <range start1="481" end1="482" start2="424" end2="425" changelist="11a80424-5a62-484d-abf7-f471fe1b1be5" />
-        <range start1="529" end1="532" start2="472" end2="473" changelist="11a80424-5a62-484d-abf7-f471fe1b1be5" />
-      </ranges>
-    </file>
-  </component>
   <component name="ProjectId" id="1yMGZZqYjbzqEeICWR7ColJZRZo" />
   <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
   <component name="ProjectViewState">
@@ -89,12 +68,10 @@
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="last_directory_selection" value="$PROJECT_DIR$/app/src/main/res/drawable" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/app/src/main/res/layout" />
+    <property name="last_opened_file_path" value="$USER_HOME$/Downloads/TextDrawable-master" />
     <property name="project.structure.last.edited" value="Dependencies" />
     <property name="project.structure.proportion" value="0.17" />
     <property name="project.structure.side.proportion" value="0.2" />
-    <property name="settings.editor.selected.configurable" value="tasks" />
-    <property name="start.from.branch" value="main" />
     <property name="tasks.open.task.update.state.enabled" value="true" />
   </component>
   <component name="RecentsManager">
@@ -102,8 +79,6 @@
       <recent name="com.nomdoa5.nomdo" />
     </key>
     <key name="CopyFile.RECENT_KEYS">
-      <recent name="D:\User\Documents\Data Kuliah (PENS-2110191020)\Semester 5\WPPL\NOMDO\nomdo-mobile\app\src\main\res\layout" />
-      <recent name="D:\User\Documents\Data Kuliah (PENS-2110191020)\Semester 5\WPPL\NOMDO\nomdo-mobile\app\src\main\java\com\nomdoa5\nomdo\ui\dialog" />
       <recent name="D:\User\Documents\Data Kuliah (PENS-2110191020)\Semester 5\WPPL\NOMDO\nomdo-mobile\app\src\main\res\drawable" />
       <recent name="D:\User\Documents\Data Kuliah (PENS-2110191020)\Semester 5\WPPL - Bu Umi, Bu Desy, Pak Andik\NOMDO\nomdo-mobile\app\src\main\res\drawable" />
       <recent name="D:\User\Documents\Data Kuliah (PENS-2110191020)\Semester 5\WPPL - Bu Umi, Bu Desy, Pak Andik\NOMDO\nomdo-mobile\app\src\main\res\font" />
@@ -113,21 +88,20 @@
       <recent name="com.nomdoa5.nomdo.ui" />
     </key>
     <key name="MoveKotlinTopLevelDeclarationsDialog.RECENTS_KEY">
-      <recent name="com.nomdoa5.nomdo.repository.model.request.auth" />
       <recent name="com.nomdoa5.nomdo.repository.model.request" />
-      <recent name="com.nomdoa5.nomdo.repository.model.request.task" />
-      <recent name="com.nomdoa5.nomdo.repository.model.request.board" />
-      <recent name="com.nomdoa5.nomdo.repository.model.request.workspace" />
+      <recent name="com.nomdoa5.nomdo.repository.remote" />
+      <recent name="com.nomdoa5.nomdo.repository.model.response" />
+      <recent name="com.nomdoa5.nomdo.helpers" />
+      <recent name="com.nomdoa5.nomdo.model.request" />
     </key>
     <key name="MoveClassesOrPackagesDialog.RECENTS_KEY">
       <recent name="com.nomdoa5.nomdo.helpers" />
     </key>
     <key name="CopyKotlinDeclarationDialog.RECENTS_KEY">
-      <recent name="com.nomdoa5.nomdo.repository.model.request.task" />
-      <recent name="com.nomdoa5.nomdo.repository.model.request.board" />
-      <recent name="com.nomdoa5.nomdo.repository.model.request.workspace" />
-      <recent name="com.nomdoa5.nomdo.repository.model.request" />
       <recent name="com.nomdoa5.nomdo.repository.model.response" />
+      <recent name="com.nomdoa5.nomdo.repository.model.request" />
+      <recent name="com.nomdoa5.nomdo.repository.model" />
+      <recent name="com.nomdoa5.nomdo.model" />
     </key>
   </component>
   <component name="RunManager">
@@ -389,59 +363,6 @@
       <option name="project" value="LOCAL" />
       <updated>1633930952001</updated>
     </task>
-    <task id="nomdo-mobile-32" summary="Add Auth API">
-      <branch name="main" repository="D:\User\Documents\Data Kuliah (PENS-2110191020)\Semester 5\WPPL\NOMDO\nomdo-mobile" original="true" />
-      <branch name="nomdo-mobile-32" repository="D:\User\Documents\Data Kuliah (PENS-2110191020)\Semester 5\WPPL\NOMDO\nomdo-mobile" />
-      <changelist id="11a80424-5a62-484d-abf7-f471fe1b1be5" name="32 Add Auth API" comment="Add Auth API&#10;&#10;closes #32" />
-      <created>1634300228000</created>
-      <option name="issue" value="true" />
-      <url>https://github.com/Nomdo-A5/nomdo-mobile/issues/32</url>
-      <option name="number" value="32" />
-      <option name="presentableId" value="nomdo-mobile-32" />
-      <option name="project" value="nomdo-mobile" />
-      <option name="type" value="BUG" />
-      <updated>1634300279555</updated>
-    </task>
-    <task id="LOCAL-00019" summary="Add base retrofit">
-      <created>1634300331933</created>
-      <option name="number" value="00019" />
-      <option name="presentableId" value="LOCAL-00019" />
-      <option name="project" value="LOCAL" />
-      <updated>1634300331933</updated>
-    </task>
-    <task id="LOCAL-00020" summary="Add auth API and datastore for storing auth token">
-      <created>1634325139948</created>
-      <option name="number" value="00020" />
-      <option name="presentableId" value="LOCAL-00020" />
-      <option name="project" value="LOCAL" />
-      <updated>1634325139948</updated>
-    </task>
-    <task id="nomdo-mobile-34" summary="Workspace, Task, Board API GET Request">
-      <branch name="origin/main" repository="D:\User\Documents\Data Kuliah (PENS-2110191020)\Semester 5\WPPL\NOMDO\nomdo-mobile" original="true" />
-      <branch name="nomdo-mobile-34" repository="D:\User\Documents\Data Kuliah (PENS-2110191020)\Semester 5\WPPL\NOMDO\nomdo-mobile" />
-      <option name="closed" value="true" />
-      <created>1634370593000</created>
-      <option name="issue" value="true" />
-      <url>https://github.com/Nomdo-A5/nomdo-mobile/issues/34</url>
-      <option name="number" value="34" />
-      <option name="presentableId" value="nomdo-mobile-34" />
-      <option name="project" value="nomdo-mobile" />
-      <option name="type" value="BUG" />
-      <updated>1635125115814</updated>
-    </task>
-    <task active="true" id="nomdo-mobile-36" summary="PATCH, PUT, DELETE request for Workspace, Board, and Task">
-      <branch name="main" repository="D:\User\Documents\Data Kuliah (PENS-2110191020)\Semester 5\WPPL\NOMDO\nomdo-mobile" original="true" />
-      <branch name="nomdo-mobile-36" repository="D:\User\Documents\Data Kuliah (PENS-2110191020)\Semester 5\WPPL\NOMDO\nomdo-mobile" />
-      <changelist id="70876a03-ee51-446b-9f6f-80e610249465" name="36 PATCH, PUT, DELETE request for Workspace, Board, and Task" comment="PATCH, PUT, DELETE request for Workspace, Board, and Task&#10;&#10;closes #36" />
-      <option name="closed" value="true" />
-      <created>1634800655000</created>
-      <option name="issue" value="true" />
-      <url>https://github.com/Nomdo-A5/nomdo-mobile/issues/36</url>
-      <option name="number" value="36" />
-      <option name="presentableId" value="nomdo-mobile-36" />
-      <option name="project" value="nomdo-mobile" />
-      <option name="type" value="BUG" />
-      <updated>1635125117000</updated>
     </task>
     <option name="localTasksCounter" value="21" />
     <option name="changelistNameFormat" value="${number} ${summary}" />
@@ -451,7 +372,7 @@
 
 closes #{number}</commitMessageFormat>
         <option name="preferredOpenTaskState">
-          <CustomTaskState id="RESOLVED" predefined="true" name="Resolved" />
+          <CustomTaskState id="OPEN" predefined="true" name="Open" />
         </option>
         <option name="repoAuthor" value="Nomdo-A5" />
         <option name="repoName" value="nomdo-mobile" />
