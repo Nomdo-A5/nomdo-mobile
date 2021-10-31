@@ -8,6 +8,7 @@ import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
+import android.view.MenuItem
 import android.view.View
 import android.view.animation.Animation
 import android.view.animation.AnimationUtils
@@ -35,13 +36,16 @@ import com.nomdoa5.nomdo.repository.model.request.task.TaskRequest
 import com.nomdoa5.nomdo.repository.model.request.workspace.WorkspaceRequest
 import com.nomdoa5.nomdo.ui.auth.AuthViewModel
 import com.nomdoa5.nomdo.ui.boards.BoardsViewModel
+import com.nomdoa5.nomdo.ui.dialog.CreateBoardDialogFragment
+import com.nomdoa5.nomdo.ui.dialog.CreateTaskDialogFragment
+import com.nomdoa5.nomdo.ui.dialog.CreateWorkspaceDialogFragment
 import com.nomdoa5.nomdo.ui.tasks.TasksViewModel
 import com.nomdoa5.nomdo.ui.workspaces.WorkspacesViewModel
 
 
 private val Context.dataStore: DataStore<Preferences> by preferencesDataStore(name = "settings")
 
-class MainActivity : AppCompatActivity(), View.OnClickListener {
+class MainActivity : AppCompatActivity(), View.OnClickListener, PopupMenu.OnMenuItemClickListener {
     private val rotateOpen: Animation by lazy {
         AnimationUtils.loadAnimation(
             this,
@@ -106,7 +110,6 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
         setSupportActionBar(binding.appBarMain.appBarLayout.toolbar)
         setupViewModel()
         setupDrawer()
-        setupPopup()
 
         binding.appBarMain.fab.setOnClickListener(this)
         binding.appBarMain.fabAddWorkspace.setOnClickListener(this)
@@ -135,13 +138,16 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
                 clicked = !clicked
             }
             binding.appBarMain.fabAddWorkspace -> {
-                showPopupAddWorkspace()
+                val addWorkspaceFragment = CreateWorkspaceDialogFragment()
+                addWorkspaceFragment.show(supportFragmentManager, "Add Workspace Dialog")
             }
             binding.appBarMain.fabAddBoard -> {
-                showPopupAddBoard()
+                val addBoardFragment = CreateBoardDialogFragment()
+                addBoardFragment.show(supportFragmentManager, "Add Board Dialog")
             }
             binding.appBarMain.fabAddTask -> {
-                showPopupAddTask()
+                val addTaskFragment = CreateTaskDialogFragment()
+                addTaskFragment.show(supportFragmentManager, "Add Task Dialog")
             }
             closeWorkspace -> {
                 addWorkspaceDialog.dismiss()
@@ -238,126 +244,6 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
         }
     }
 
-    fun setupPopup() {
-        addWorkspaceDialog.setContentView(R.layout.popup_workspace)
-        addBoardDialog.setContentView(R.layout.popup_board)
-        addTaskDialog.setContentView(R.layout.popup_task)
-
-        btnAddWorkspace = addWorkspaceDialog.findViewById(R.id.btn_add_workspace)
-        btnAddBoard = addBoardDialog.findViewById(R.id.btn_add_board)
-        btnAddTask = addTaskDialog.findViewById(R.id.btn_add_task)
-        closeWorkspace = addWorkspaceDialog.findViewById(R.id.img_close_add_workspace)
-        closeBoard = addBoardDialog.findViewById(R.id.img_close_add_board)
-        closeTask = addTaskDialog.findViewById(R.id.img_close_add_task)
-    }
-
-    fun showPopupAddWorkspace() {
-        addWorkspaceDialog.window!!.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
-        closeWorkspace.setOnClickListener(this)
-        btnAddWorkspace.setOnClickListener(this)
-        addWorkspaceDialog.show()
-    }
-
-    fun showPopupAddBoard() {
-        addBoardDialog.window!!.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
-
-        spinnerWorkspace =
-            addBoardDialog.findViewById(R.id.spinner_workspace_add_board)
-
-        authViewModel.getAuthToken().observe(this, {
-            workspacesViewModel.setWorkspace(it!!)
-        })
-
-        workspacesViewModel.getWorkspace().observe(this, {
-            val workspaceName = ArrayList<String>()
-            for (i in it) {
-                workspaceName.add(i.workspaceName!!)
-                workspaceAdapterId.add(i.id.toString())
-            }
-            workspaceAdapter =
-                NoFilterAdapter(
-                    this,
-                    R.layout.item_dropdown,
-                    workspaceName.toArray(Array<String?>(workspaceName.size) { null })
-                )
-            spinnerWorkspace.setAdapter(workspaceAdapter)
-        })
-
-        spinnerWorkspace.setOnItemClickListener(object : AdapterView.OnItemClickListener {
-            override fun onItemClick(p0: AdapterView<*>?, p1: View?, position: Int, p3: Long) {
-                spinnerWorkspacePosition = workspaceAdapterId[position].toInt()
-            }
-        })
-
-        closeBoard.setOnClickListener(this)
-        btnAddBoard.setOnClickListener(this)
-        addBoardDialog.show()
-    }
-
-    fun showPopupAddTask() {
-        addTaskDialog.window!!.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
-
-        spinnerWorkspace =
-            addTaskDialog.findViewById(R.id.spinner_workspace_add_task)
-        spinnerBoard =
-            addTaskDialog.findViewById(R.id.spinner_board_add_task)
-
-        authViewModel.getAuthToken().observe(this, {
-            workspacesViewModel.setWorkspace(it!!)
-        })
-
-        workspacesViewModel.getWorkspace().observe(this, {
-            val workspaceName = ArrayList<String>()
-            for (i in it) {
-                workspaceName.add(i.workspaceName!!)
-                workspaceAdapterId.add(i.id.toString())
-            }
-            workspaceAdapter =
-                NoFilterAdapter(
-                    this,
-                    R.layout.item_dropdown,
-                    workspaceName.toArray(Array<String?>(workspaceName.size) { null })
-                )
-            spinnerWorkspace.setAdapter(workspaceAdapter)
-        })
-
-        spinnerWorkspace.setOnItemClickListener(object : AdapterView.OnItemClickListener {
-            override fun onItemClick(p0: AdapterView<*>?, p1: View?, position: Int, p3: Long) {
-                spinnerBoard.setText("", false)
-                spinnerWorkspacePosition = workspaceAdapterId[position].toInt()
-                authViewModel.getAuthToken().observe(this@MainActivity, {
-                    boardsViewModel.setBoard(it!!, spinnerWorkspacePosition.toString())
-                })
-                boardsViewModel.getBoard().observe(this@MainActivity, {
-                    val boardName = ArrayList<String>()
-                    for (i in it) {
-                        boardName.add(i.boardName!!)
-                        boardAdapterId.add(i.id.toString())
-                    }
-                    boardAdapter =
-                        NoFilterAdapter(
-                            this@MainActivity,
-                            R.layout.item_dropdown,
-                            boardName.toArray(Array<String?>(boardName.size) { null })
-                        )
-                    spinnerBoard.setAdapter(boardAdapter)
-                })
-            }
-        })
-
-        spinnerBoard.setOnItemClickListener(object : AdapterView.OnItemClickListener {
-            override fun onItemClick(p0: AdapterView<*>?, p1: View?, position: Int, p3: Long) {
-                spinnerBoardPosition = boardAdapterId[position].toInt()
-                val tv = addBoardDialog.findViewById<TextView>(R.id.tv_title_add_task)
-
-            }
-        })
-
-        closeTask.setOnClickListener(this)
-        btnAddTask.setOnClickListener(this)
-        addTaskDialog.show()
-    }
-
     private fun setFabAnimation(clicked: Boolean) {
         if (!clicked) {
             binding.appBarMain.fabAddBoard.visibility = View.VISIBLE
@@ -405,46 +291,6 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
         tasksViewModel = ViewModelProvider(this).get(TasksViewModel::class.java)
     }
 
-    fun setupWorkspaceAdapter() {
-        authViewModel.getAuthToken().observe(this, {
-            workspacesViewModel.setWorkspace(it!!)
-        })
-
-        workspacesViewModel.getWorkspace().observe(this, {
-            val workspaceName = ArrayList<String>()
-            for (i in it) {
-                workspaceName.add(i.workspaceName!!)
-                workspaceAdapterId.add(i.id.toString())
-            }
-            workspaceAdapter =
-                NoFilterAdapter(
-                    this,
-                    R.layout.item_dropdown,
-                    workspaceName.toArray(Array<String?>(workspaceName.size) { null })
-                )
-        })
-    }
-
-    fun setupBoardAdapter(idWorkspace: String) {
-        authViewModel.getAuthToken().observe(this, {
-            boardsViewModel.setBoard(it!!, idWorkspace)
-        })
-
-        boardsViewModel.getBoard().observe(this, {
-            val boardName = ArrayList<String>()
-            for (i in it) {
-                boardName.add(i.boardName!!)
-                boardAdapterId.add(i.id.toString())
-            }
-            boardAdapter =
-                NoFilterAdapter(
-                    this,
-                    R.layout.item_dropdown,
-                    boardName.toArray(Array<String?>(boardName.size) { null })
-                )
-        })
-    }
-
     fun setupDrawer() {
         val header = binding.navView.getHeaderView(0)
         val profile = header.findViewById<ImageView>(R.id.nav_header_avatar)
@@ -485,23 +331,32 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
         }
     }
 
-    fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
-        when (parent!!.id) {
-            R.id.spinner_workspace_add_task -> {
-                spinnerWorkspacePosition = position
-                Toast.makeText(this, position.toString(), Toast.LENGTH_SHORT).show()
-                setupBoardAdapter(spinnerWorkspacePosition.toString())
-                spinnerBoard.setAdapter(boardAdapter)
-            }
-            R.id.spinner_board_add_task -> {
-                spinnerBoardPosition = position
-            }
+    fun fragmentMethod() {
+        Toast.makeText(
+            this@MainActivity, "Method called From Fragment",
+            Toast.LENGTH_LONG
+        ).show()
+        binding.appBarMain.appBarLayout.toolbarTitle.setText("Shared workspace gan")
+        binding.appBarMain.appBarLayout.toolbarTitle.setOnClickListener { v ->
+            val popup = PopupMenu(this, v)
+            popup.setOnMenuItemClickListener(this)
+            popup.inflate(R.menu.workspace_menu)
+            popup.show()
         }
     }
 
-    fun fragmentMethod() {
-        Toast.makeText(this@MainActivity, "Method called From Fragment",
-            Toast.LENGTH_LONG).show()
-        binding.appBarMain.appBarLayout.toolbarTitle.setText("Shared workspace gan")
+    override fun onMenuItemClick(item: MenuItem?): Boolean {
+        when (item!!.itemId) {
+            R.id.board_menu_workspace -> {
+                Toast.makeText(this, "Ngeklik board", Toast.LENGTH_SHORT).show()
+            }
+            R.id.money_report_menu_workspace -> {
+                Toast.makeText(this, "Ngeklik money report", Toast.LENGTH_SHORT).show()
+            }
+            R.id.member_menu_workspace -> {
+                Toast.makeText(this, "Ngeklik member", Toast.LENGTH_SHORT).show()
+            }
+        }
+        return true
     }
 }
