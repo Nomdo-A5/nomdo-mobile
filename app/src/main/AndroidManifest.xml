@@ -14,7 +14,7 @@
         android:theme="@style/Theme.Nomdo"
         tools:targetApi="n">
         <activity
-            android:name=".ui.balance.MoneyReport"
+            android:name=".ui.balances.MoneyReport"
             android:exported="true" />
         <activity
             android:name=".ui.auth.ForgetPassActivity3"

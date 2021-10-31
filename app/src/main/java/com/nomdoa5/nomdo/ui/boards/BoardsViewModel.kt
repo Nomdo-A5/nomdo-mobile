@@ -21,9 +21,9 @@ class BoardsViewModel : ViewModel() {
     private val updateBoardState = MutableLiveData<Boolean>()
     private val deleteBoardState = MutableLiveData<Boolean>()
 
-    fun setBoard(token: String, idWorkspace: String) {
+    fun setBoard(token: String, idBoard: String) {
         val service = RetrofitClient.buildService(ApiService::class.java)
-        val requestCall = service.getBoard(token = "Bearer $token", idWorkspace)
+        val requestCall = service.getBoard(token = "Bearer $token", idBoard)
 
         requestCall.enqueue(object : Callback<BoardResponse> {
             override fun onResponse(call: Call<BoardResponse>, response: Response<BoardResponse>) {

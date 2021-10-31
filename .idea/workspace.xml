@@ -9,11 +9,7 @@
     <option name="autoReloadType" value="NONE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="4519d244-ced9-4ca5-9086-3c1e20d86bd9" name="42 Add spinner in toolbar" comment="Add spinner in toolbar&#10;&#10;closes #42">
-      <change afterPath="$PROJECT_DIR$/app/src/main/java/com/nomdoa5/nomdo/ui/dialog/CreateBoardDialogFragment.kt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/src/main/java/com/nomdoa5/nomdo/ui/dialog/CreateTaskDialogFragment.kt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/src/main/java/com/nomdoa5/nomdo/ui/dialog/CreateWorkspaceDialogFragment.kt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/src/main/res/menu/board_menu.xml" afterDir="false" />
+
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/src/main/java/com/nomdoa5/nomdo/ui/MainActivity.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/nomdoa5/nomdo/ui/MainActivity.kt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/popup_board.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/layout/dialog_fragment_create_board.xml" afterDir="false" />
@@ -21,10 +17,7 @@
       <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/popup_workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/layout/dialog_fragment_create_workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/src/main/res/menu/main.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/menu/workspace_menu.xml" afterDir="false" />
     </list>
-    <list id="5aba796d-54a4-41e7-8d56-5ac7e5c52ee3" name="43 Add toolbar template" comment="Add toolbar template&#10;&#10;closes #43">
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-    </list>
+
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -42,10 +35,7 @@
         <option value="layoutResourceFile_vertical" />
         <option value="Kotlin Object" />
         <option value="Kotlin Data Class" />
-        <option value="resourceFile" />
-        <option value="Kotlin Class" />
-        <option value="layoutResourceFile" />
-        <option value="Class" />
+
       </list>
     </option>
   </component>
@@ -68,31 +58,7 @@
       <filtered-out-file-type name="COMMIT_BY_MESSAGE" />
     </file-type-list>
   </component>
-  <component name="LineStatusTrackerManager">
-    <file path="$PROJECT_DIR$/.idea/workspace.xml">
-      <ranges>
-        <range start1="11" end1="13" start2="11" end2="16" changelist="4519d244-ced9-4ca5-9086-3c1e20d86bd9" />
-        <range start1="14" end1="14" start2="17" end2="22" changelist="4519d244-ced9-4ca5-9086-3c1e20d86bd9" />
-        <range start1="15" end1="16" start2="23" end2="25" changelist="4519d244-ced9-4ca5-9086-3c1e20d86bd9" />
-        <range start1="36" end1="37" start2="45" end2="45" changelist="4519d244-ced9-4ca5-9086-3c1e20d86bd9" />
-        <range start1="39" end1="39" start2="47" end2="48" changelist="4519d244-ced9-4ca5-9086-3c1e20d86bd9" />
-        <range start1="48" end1="49" start2="57" end2="58" changelist="4519d244-ced9-4ca5-9086-3c1e20d86bd9" />
-        <range start1="64" end1="78" start2="73" end2="92" changelist="4519d244-ced9-4ca5-9086-3c1e20d86bd9" />
-        <range start1="88" end1="88" start2="102" end2="103" changelist="4519d244-ced9-4ca5-9086-3c1e20d86bd9" />
-        <range start1="91" end1="92" start2="106" end2="107" changelist="4519d244-ced9-4ca5-9086-3c1e20d86bd9" />
-        <range start1="104" end1="105" start2="119" end2="119" changelist="4519d244-ced9-4ca5-9086-3c1e20d86bd9" />
-        <range start1="106" end1="106" start2="120" end2="122" changelist="4519d244-ced9-4ca5-9086-3c1e20d86bd9" />
-        <range start1="108" end1="109" start2="124" end2="124" changelist="4519d244-ced9-4ca5-9086-3c1e20d86bd9" />
-        <range start1="394" end1="395" start2="409" end2="409" changelist="4519d244-ced9-4ca5-9086-3c1e20d86bd9" />
-        <range start1="431" end1="432" start2="445" end2="446" changelist="4519d244-ced9-4ca5-9086-3c1e20d86bd9" />
-        <range start1="434" end1="435" start2="448" end2="448" changelist="4519d244-ced9-4ca5-9086-3c1e20d86bd9" />
-        <range start1="443" end1="444" start2="456" end2="496" changelist="4519d244-ced9-4ca5-9086-3c1e20d86bd9" />
-        <range start1="445" end1="446" start2="497" end2="498" changelist="5aba796d-54a4-41e7-8d56-5ac7e5c52ee3" />
-        <range start1="453" end1="454" start2="505" end2="506" changelist="4519d244-ced9-4ca5-9086-3c1e20d86bd9" />
-        <range start1="493" end1="494" start2="545" end2="548" changelist="5aba796d-54a4-41e7-8d56-5ac7e5c52ee3" />
-      </ranges>
-    </file>
-  </component>
+
   <component name="ProjectId" id="1yMGZZqYjbzqEeICWR7ColJZRZo" />
   <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
   <component name="ProjectViewState">
@@ -104,12 +70,10 @@
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="last_directory_selection" value="$PROJECT_DIR$/app/src/main/res/drawable" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/app/src/main/java/com/nomdoa5/nomdo/ui/dialog" />
+
     <property name="project.structure.last.edited" value="Dependencies" />
     <property name="project.structure.proportion" value="0.17" />
     <property name="project.structure.side.proportion" value="0.2" />
-    <property name="settings.editor.selected.configurable" value="tasks" />
-    <property name="start.from.branch" value="main" />
     <property name="tasks.open.task.update.state.enabled" value="true" />
   </component>
   <component name="RecentsManager">
@@ -117,9 +81,7 @@
       <recent name="com.nomdoa5.nomdo" />
     </key>
     <key name="CopyFile.RECENT_KEYS">
-      <recent name="D:\User\Documents\Data Kuliah (PENS-2110191020)\Semester 5\WPPL\NOMDO\nomdo-mobile\app\src\main\java\com\nomdoa5\nomdo\ui\dialog" />
-      <recent name="D:\User\Documents\Data Kuliah (PENS-2110191020)\Semester 5\WPPL\NOMDO\nomdo-mobile\app\src\main\res\menu" />
-      <recent name="D:\User\Documents\Data Kuliah (PENS-2110191020)\Semester 5\WPPL\NOMDO\nomdo-mobile\app\src\main\res\layout" />
+
       <recent name="D:\User\Documents\Data Kuliah (PENS-2110191020)\Semester 5\WPPL\NOMDO\nomdo-mobile\app\src\main\res\drawable" />
       <recent name="D:\User\Documents\Data Kuliah (PENS-2110191020)\Semester 5\WPPL - Bu Umi, Bu Desy, Pak Andik\NOMDO\nomdo-mobile\app\src\main\res\drawable" />
     </key>
@@ -128,21 +90,20 @@
       <recent name="com.nomdoa5.nomdo.ui" />
     </key>
     <key name="MoveKotlinTopLevelDeclarationsDialog.RECENTS_KEY">
-      <recent name="com.nomdoa5.nomdo.repository.model.request.auth" />
       <recent name="com.nomdoa5.nomdo.repository.model.request" />
-      <recent name="com.nomdoa5.nomdo.repository.model.request.task" />
-      <recent name="com.nomdoa5.nomdo.repository.model.request.board" />
-      <recent name="com.nomdoa5.nomdo.repository.model.request.workspace" />
+      <recent name="com.nomdoa5.nomdo.repository.remote" />
+      <recent name="com.nomdoa5.nomdo.repository.model.response" />
+      <recent name="com.nomdoa5.nomdo.helpers" />
+      <recent name="com.nomdoa5.nomdo.model.request" />
     </key>
     <key name="MoveClassesOrPackagesDialog.RECENTS_KEY">
       <recent name="com.nomdoa5.nomdo.helpers" />
     </key>
     <key name="CopyKotlinDeclarationDialog.RECENTS_KEY">
-      <recent name="com.nomdoa5.nomdo.repository.model.request.task" />
-      <recent name="com.nomdoa5.nomdo.repository.model.request.board" />
-      <recent name="com.nomdoa5.nomdo.repository.model.request.workspace" />
-      <recent name="com.nomdoa5.nomdo.repository.model.request" />
       <recent name="com.nomdoa5.nomdo.repository.model.response" />
+      <recent name="com.nomdoa5.nomdo.repository.model.request" />
+      <recent name="com.nomdoa5.nomdo.repository.model" />
+      <recent name="com.nomdoa5.nomdo.model" />
     </key>
   </component>
   <component name="RunManager">
@@ -404,96 +365,7 @@
       <option name="project" value="LOCAL" />
       <updated>1633930952001</updated>
     </task>
-    <task id="nomdo-mobile-32" summary="Add Auth API">
-      <branch name="main" repository="D:\User\Documents\Data Kuliah (PENS-2110191020)\Semester 5\WPPL\NOMDO\nomdo-mobile" original="true" />
-      <branch name="nomdo-mobile-32" repository="D:\User\Documents\Data Kuliah (PENS-2110191020)\Semester 5\WPPL\NOMDO\nomdo-mobile" />
-      <created>1634300228000</created>
-      <option name="issue" value="true" />
-      <url>https://github.com/Nomdo-A5/nomdo-mobile/issues/32</url>
-      <option name="number" value="32" />
-      <option name="presentableId" value="nomdo-mobile-32" />
-      <option name="project" value="nomdo-mobile" />
-      <option name="type" value="BUG" />
-      <updated>1634300279555</updated>
-    </task>
-    <task id="LOCAL-00019" summary="Add base retrofit">
-      <created>1634300331933</created>
-      <option name="number" value="00019" />
-      <option name="presentableId" value="LOCAL-00019" />
-      <option name="project" value="LOCAL" />
-      <updated>1634300331933</updated>
-    </task>
-    <task id="LOCAL-00020" summary="Add auth API and datastore for storing auth token">
-      <created>1634325139948</created>
-      <option name="number" value="00020" />
-      <option name="presentableId" value="LOCAL-00020" />
-      <option name="project" value="LOCAL" />
-      <updated>1634325139948</updated>
-    </task>
-    <task id="nomdo-mobile-34" summary="Workspace, Task, Board API GET Request">
-      <branch name="origin/main" repository="D:\User\Documents\Data Kuliah (PENS-2110191020)\Semester 5\WPPL\NOMDO\nomdo-mobile" original="true" />
-      <branch name="nomdo-mobile-34" repository="D:\User\Documents\Data Kuliah (PENS-2110191020)\Semester 5\WPPL\NOMDO\nomdo-mobile" />
-      <option name="closed" value="true" />
-      <created>1634370593000</created>
-      <option name="issue" value="true" />
-      <url>https://github.com/Nomdo-A5/nomdo-mobile/issues/34</url>
-      <option name="number" value="34" />
-      <option name="presentableId" value="nomdo-mobile-34" />
-      <option name="project" value="nomdo-mobile" />
-      <option name="type" value="BUG" />
-      <updated>1635125115814</updated>
-    </task>
-    <task id="nomdo-mobile-36" summary="PATCH, PUT, DELETE request for Workspace, Board, and Task">
-      <branch name="main" repository="D:\User\Documents\Data Kuliah (PENS-2110191020)\Semester 5\WPPL\NOMDO\nomdo-mobile" original="true" />
-      <branch name="nomdo-mobile-36" repository="D:\User\Documents\Data Kuliah (PENS-2110191020)\Semester 5\WPPL\NOMDO\nomdo-mobile" />
-      <option name="closed" value="true" />
-      <created>1634800655000</created>
-      <option name="issue" value="true" />
-      <url>https://github.com/Nomdo-A5/nomdo-mobile/issues/36</url>
-      <option name="number" value="36" />
-      <option name="presentableId" value="nomdo-mobile-36" />
-      <option name="project" value="nomdo-mobile" />
-      <option name="type" value="BUG" />
-      <updated>1635127379429</updated>
-    </task>
-    <task id="LOCAL-00021" summary="Added CRUD Workspace, Board, and Task. Also added initial custom toolbar for next issue&#10;&#10;Closes #{id}">
-      <created>1635126724256</created>
-      <option name="number" value="00021" />
-      <option name="presentableId" value="LOCAL-00021" />
-      <option name="project" value="LOCAL" />
-      <updated>1635126724256</updated>
-    </task>
-    <task id="LOCAL-00022" summary="Add file to .gitignore">
-      <created>1635126958330</created>
-      <option name="number" value="00022" />
-      <option name="presentableId" value="LOCAL-00022" />
-      <option name="project" value="LOCAL" />
-      <updated>1635126958330</updated>
-    </task>
-    <task id="nomdo-mobile-39" summary="Fix unused directory">
-      <branch name="nomdo-mobile-36" repository="D:\User\Documents\Data Kuliah (PENS-2110191020)\Semester 5\WPPL\NOMDO\nomdo-mobile" original="true" />
-      <branch name="nomdo-mobile-39" repository="D:\User\Documents\Data Kuliah (PENS-2110191020)\Semester 5\WPPL\NOMDO\nomdo-mobile" />
-      <created>1635127365000</created>
-      <option name="issue" value="true" />
-      <url>https://github.com/Nomdo-A5/nomdo-mobile/issues/39</url>
-      <option name="number" value="39" />
-      <option name="presentableId" value="nomdo-mobile-39" />
-      <option name="project" value="nomdo-mobile" />
-      <option name="type" value="BUG" />
-      <updated>1635127517000</updated>
-    </task>
-    <task active="true" id="nomdo-mobile-42" summary="Add spinner in toolbar">
-      <branch name="main" repository="D:\User\Documents\Data Kuliah (PENS-2110191020)\Semester 5\WPPL\NOMDO\nomdo-mobile" original="true" />
-      <branch name="nomdo-mobile-42" repository="D:\User\Documents\Data Kuliah (PENS-2110191020)\Semester 5\WPPL\NOMDO\nomdo-mobile" />
-      <changelist id="4519d244-ced9-4ca5-9086-3c1e20d86bd9" name="42 Add spinner in toolbar" comment="Add spinner in toolbar&#10;&#10;closes #42" />
-      <created>1635133931000</created>
-      <option name="issue" value="true" />
-      <url>https://github.com/Nomdo-A5/nomdo-mobile/issues/42</url>
-      <option name="number" value="42" />
-      <option name="presentableId" value="nomdo-mobile-42" />
-      <option name="project" value="nomdo-mobile" />
-      <option name="type" value="BUG" />
-      <updated>1635147750000</updated>
+
     </task>
     <option name="localTasksCounter" value="21" />
     <option name="changelistNameFormat" value="${number} ${summary}" />

@@ -1,4 +1,4 @@
-package com.nomdoa5.nomdo.ui.balance;
+package com.nomdoa5.nomdo.ui.balances;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -53,7 +53,7 @@ public class MoneyReport extends AppCompatActivity implements View.OnClickListen
     @Override
     public void onClick(View view) {
         if (binding.imgEdit.equals(view)) {
-            Intent intent = new Intent(com.nomdoa5.nomdo.ui.balance.MoneyReport.this, DetailTaskFragment.class);
+            Intent intent = new Intent(com.nomdoa5.nomdo.ui.balances.MoneyReport.this, DetailTaskFragment.class);
             startActivity(intent);
         }
         else if (binding.imgDownload.equals(view)){

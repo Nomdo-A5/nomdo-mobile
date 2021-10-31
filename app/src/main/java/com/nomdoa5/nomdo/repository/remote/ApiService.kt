@@ -4,6 +4,8 @@ import com.nomdoa5.nomdo.repository.model.Task
 import com.nomdoa5.nomdo.repository.model.request.DeleteRequest
 import com.nomdoa5.nomdo.repository.model.request.auth.LoginRequest
 import com.nomdoa5.nomdo.repository.model.request.auth.RegisterRequest
+import com.nomdoa5.nomdo.repository.model.request.balance.BalanceRequest
+import com.nomdoa5.nomdo.repository.model.request.balance.UpdateBalanceRequest
 import com.nomdoa5.nomdo.repository.model.request.board.BoardRequest
 import com.nomdoa5.nomdo.repository.model.request.board.UpdateBoardRequest
 import com.nomdoa5.nomdo.repository.model.request.task.TaskRequest
@@ -112,4 +114,28 @@ interface ApiService {
         @Header("Authorization") token: String,
         @Body task: DeleteRequest
     ): Call<TaskResponse>
+
+    @GET("balance")
+    fun getBalance(
+        @Header("Authorization") token: String,
+        @Query("balance_id") idWorkspace: String,
+    ): Call<BalanceResponse>
+
+    @POST("balance")
+    fun addBalance(
+        @Header("Authorization") token: String,
+        @Body task: BalanceRequest
+    ): Call<BalanceResponse>
+
+    @PATCH("balance")
+    fun updateBalance(
+        @Header("Authorization") token: String,
+        @Body balance: UpdateBalanceRequest
+    ): Call<BalanceResponse>
+
+    @DELETE("balance")
+    fun deleteBalance(
+        @Header("Authorization") token: String,
+        @Body balance: DeleteRequest
+    ): Call<BalanceResponse>
 }
