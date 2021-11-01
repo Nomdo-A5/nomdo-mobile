@@ -29,6 +29,9 @@
         <action
             android:id="@+id/action_nav_shared_workspaces_to_nav_boards"
             app:destination="@id/nav_boards" />
+        <action
+            android:id="@+id/action_nav_shared_workspaces_to_moneyReportFragment"
+            app:destination="@id/moneyReportFragment" />
     </fragment>
     <fragment
         android:id="@+id/nav_boards"
@@ -82,4 +85,8 @@
         android:id="@+id/updateBoardDialogFragment"
         android:name="com.nomdoa5.nomdo.ui.dialog.UpdateBoardDialogFragment"
         android:label="UpdateBoardDialogFragment" />
+    <fragment
+        android:id="@+id/moneyReportFragment"
+        android:name="com.nomdoa5.nomdo.ui.balance.MoneyReportFragment"
+        android:label="MoneyReportFragment" />
 </navigation>

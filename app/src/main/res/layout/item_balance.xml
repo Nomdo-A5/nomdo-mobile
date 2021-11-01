@@ -12,7 +12,8 @@
             android:fontFamily="@font/roboto_bold"
             android:gravity="center"
             android:padding="10dp"
-            android:textSize="16dp" />
+            android:textSize="16dp"
+            android:text="Coba"/>
 
         <TextView
             android:id="@+id/tv_keterangan"
@@ -20,7 +21,8 @@
             android:fontFamily="@font/roboto_bold"
             android:gravity="center"
             android:padding="10dp"
-            android:textSize="16dp" />
+            android:textSize="16dp"
+            android:text="ges"/>
 
         <TextView
             android:id="@+id/tv_outcome"
@@ -28,7 +30,8 @@
             android:fontFamily="@font/roboto_bold"
             android:gravity="center"
             android:padding="10dp"
-            android:textSize="16dp" />
+            android:textSize="16dp"
+            android:text="jiahahahy"/>
 
         <TextView
             android:id="@+id/tv_income"
@@ -36,7 +39,8 @@
             android:fontFamily="@font/roboto_bold"
             android:gravity="center"
             android:padding="10dp"
-            android:textSize="16dp" />
+            android:textSize="16dp"
+            android:text="hayu"/>
 
     </TableRow>
 
