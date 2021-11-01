@@ -33,6 +33,7 @@ class SharedWorkspacesFragment : Fragment(), WorkspaceAdapter.OnWorkspaceClickLi
         _binding = FragmentSharedWorkspacesBinding.inflate(inflater, container, false)
         val root: View = binding.root
         (activity as MainActivity?)!!.fragmentMethod()
+
         return root
     }
 

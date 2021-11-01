@@ -1,10 +1,7 @@
 package com.nomdoa5.nomdo.ui
 
-import NoFilterAdapter
 import android.app.Dialog
 import android.content.Context
-import android.graphics.Color
-import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
@@ -22,6 +19,7 @@ import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.preferencesDataStore
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.Navigation
 import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupWithNavController
@@ -40,6 +38,7 @@ import com.nomdoa5.nomdo.ui.dialog.CreateBoardDialogFragment
 import com.nomdoa5.nomdo.ui.dialog.CreateTaskDialogFragment
 import com.nomdoa5.nomdo.ui.dialog.CreateWorkspaceDialogFragment
 import com.nomdoa5.nomdo.ui.tasks.TasksViewModel
+import com.nomdoa5.nomdo.ui.workspaces.SharedWorkspacesFragmentDirections
 import com.nomdoa5.nomdo.ui.workspaces.WorkspacesViewModel
 
 
@@ -86,14 +85,7 @@ class MainActivity : AppCompatActivity(), View.OnClickListener, PopupMenu.OnMenu
     private lateinit var btnAddWorkspace: CircularProgressButton
     private lateinit var btnAddBoard: CircularProgressButton
     private lateinit var btnAddTask: CircularProgressButton
-    private lateinit var spinnerWorkspace: AutoCompleteTextView
-    private lateinit var spinnerBoard: AutoCompleteTextView
-    private lateinit var workspaceAdapter: NoFilterAdapter
-    private lateinit var boardAdapter: NoFilterAdapter
     private lateinit var board: BoardRequest
-    private lateinit var workspace: WorkspaceRequest
-    private val workspaceAdapterId = ArrayList<String>()
-    private val boardAdapterId = ArrayList<String>()
     private var spinnerBoardPosition: Int? = null
     private var spinnerWorkspacePosition: Int? = null
 
@@ -349,6 +341,9 @@ class MainActivity : AppCompatActivity(), View.OnClickListener, PopupMenu.OnMenu
         when (item!!.itemId) {
             R.id.board_menu_workspace -> {
                 Toast.makeText(this, "Ngeklik board", Toast.LENGTH_SHORT).show()
+                val action =
+                    SharedWorkspacesFragmentDirections.actionNavSharedWorkspacesToMoneyReportFragment()
+                Navigation.findNavController(findViewById(R.id.nav_host_fragment_content_main)).navigate(action)
             }
             R.id.money_report_menu_workspace -> {
                 Toast.makeText(this, "Ngeklik money report", Toast.LENGTH_SHORT).show()
