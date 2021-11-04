@@ -11,7 +11,7 @@
     app:layout_constraintTop_toTopOf="parent">
 
     <androidx.appcompat.widget.Toolbar
-        android:id="@+id/toolbar"
+        android:id="@+id/toolbar_main"
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
         android:layout_alignParentTop="true"
@@ -27,12 +27,12 @@
         app:contentInsetStart="0dp">
 
         <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/layout_toolbar"
+            android:id="@+id/layout_toolbar_main"
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
             <ImageView
-                android:id="@+id/navigation"
+                android:id="@+id/toolbar_main_navigation"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
@@ -44,7 +44,7 @@
                 app:layout_constraintTop_toTopOf="parent" />
 
             <TextView
-                android:id="@+id/toolbar_title"
+                android:id="@+id/toolbar_main_title"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/roboto_medium"
@@ -57,7 +57,7 @@
                 app:layout_constraintTop_toTopOf="parent" />
 
             <ImageView
-                android:id="@+id/notifications"
+                android:id="@+id/toolbar_main_notifications"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="16dp"

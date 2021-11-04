@@ -22,6 +22,7 @@ import com.nomdoa5.nomdo.helpers.ViewModelFactory
 import com.nomdoa5.nomdo.helpers.adapter.TaskAdapter
 import com.nomdoa5.nomdo.repository.local.UserPreferences
 import com.nomdoa5.nomdo.repository.model.Task
+import com.nomdoa5.nomdo.ui.MainActivity
 import com.nomdoa5.nomdo.ui.auth.AuthViewModel
 import com.nomdoa5.nomdo.ui.workspaces.SharedWorkspacesFragmentDirections
 
@@ -46,6 +47,7 @@ class TaskFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener {
     ): View {
         _binding = FragmentTaskBinding.inflate(inflater, container, false)
         val root: View = binding.root
+        (activity as MainActivity?)!!.setupToolbarBoard()
 
         return root
     }

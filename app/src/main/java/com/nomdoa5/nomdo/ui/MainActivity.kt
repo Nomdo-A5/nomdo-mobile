@@ -33,6 +33,7 @@ import com.nomdoa5.nomdo.repository.model.request.board.BoardRequest
 import com.nomdoa5.nomdo.repository.model.request.task.TaskRequest
 import com.nomdoa5.nomdo.repository.model.request.workspace.WorkspaceRequest
 import com.nomdoa5.nomdo.ui.auth.AuthViewModel
+import com.nomdoa5.nomdo.ui.boards.BoardsFragmentDirections
 import com.nomdoa5.nomdo.ui.boards.BoardsViewModel
 import com.nomdoa5.nomdo.ui.dialog.CreateBoardDialogFragment
 import com.nomdoa5.nomdo.ui.dialog.CreateTaskDialogFragment
@@ -99,7 +100,7 @@ class MainActivity : AppCompatActivity(), View.OnClickListener, PopupMenu.OnMenu
         addBoardDialog = Dialog(this)
         addTaskDialog = Dialog(this)
 
-        setSupportActionBar(binding.appBarMain.appBarLayout.toolbar)
+        setupToolbarMain()
         setupViewModel()
         setupDrawer()
 
@@ -108,20 +109,24 @@ class MainActivity : AppCompatActivity(), View.OnClickListener, PopupMenu.OnMenu
         binding.appBarMain.fabAddTask.setOnClickListener(this)
         binding.appBarMain.fabAddBoard.setOnClickListener(this)
         binding.appBarMain.fabAddTask.setOnClickListener(this)
-        binding.appBarMain.appBarLayout.navigation.setOnClickListener(this)
-        binding.appBarMain.appBarLayout.notifications.setOnClickListener(this)
+        binding.appBarMain.appBarLayout.toolbarMainNavigation.setOnClickListener(this)
+        binding.appBarMain.appBarLayoutWorkspace.navigation.setOnClickListener(this)
+        binding.appBarMain.appBarLayoutBoard.navigation.setOnClickListener(this)
+        binding.appBarMain.appBarLayout.toolbarMainNotifications.setOnClickListener(this)
     }
 
     override fun onClick(v: View?) {
         when (v) {
-            binding.appBarMain.appBarLayout.navigation -> {
+            binding.appBarMain.appBarLayout.toolbarMainNavigation,
+            binding.appBarMain.appBarLayoutWorkspace.navigation,
+            binding.appBarMain.appBarLayoutBoard.navigation -> {
                 if (!binding.drawerLayout.isDrawerOpen(GravityCompat.START)) {
                     binding.drawerLayout.openDrawer(GravityCompat.START)
                 } else {
                     binding.drawerLayout.closeDrawer(GravityCompat.END)
                 }
             }
-            binding.appBarMain.appBarLayout.notifications -> {
+            binding.appBarMain.appBarLayout.toolbarMainNotifications -> {
                 Toast.makeText(this, "Klik notifikasi ges", Toast.LENGTH_SHORT).show()
             }
             binding.appBarMain.fab -> {
@@ -323,13 +328,31 @@ class MainActivity : AppCompatActivity(), View.OnClickListener, PopupMenu.OnMenu
         }
     }
 
-    fun fragmentMethod() {
-        Toast.makeText(
-            this@MainActivity, "Method called From Fragment",
-            Toast.LENGTH_LONG
-        ).show()
-        binding.appBarMain.appBarLayout.toolbarTitle.setText("Shared workspace gan")
-        binding.appBarMain.appBarLayout.toolbarTitle.setOnClickListener { v ->
+    fun setupToolbarMain() {
+        binding.appBarMain.appBarLayout.root.visibility = View.VISIBLE
+        binding.appBarMain.appBarLayoutWorkspace.root.visibility = View.GONE
+        binding.appBarMain.appBarLayoutBoard.root.visibility = View.GONE
+    }
+
+    fun setupToolbarWorkspace() {
+        binding.appBarMain.appBarLayout.root.visibility = View.GONE
+        binding.appBarMain.appBarLayoutWorkspace.root.visibility = View.VISIBLE
+        binding.appBarMain.appBarLayoutBoard.root.visibility = View.GONE
+
+        binding.appBarMain.appBarLayoutWorkspace.dropdown.setOnClickListener { v ->
+            val popup = PopupMenu(this, v)
+            popup.setOnMenuItemClickListener(this)
+            popup.inflate(R.menu.workspace_menu)
+            popup.show()
+        }
+    }
+
+    fun setupToolbarBoard() {
+        binding.appBarMain.appBarLayout.root.visibility = View.GONE
+        binding.appBarMain.appBarLayoutWorkspace.root.visibility = View.GONE
+        binding.appBarMain.appBarLayoutBoard.root.visibility = View.VISIBLE
+
+        binding.appBarMain.appBarLayoutBoard.dropdown.setOnClickListener { v ->
             val popup = PopupMenu(this, v)
             popup.setOnMenuItemClickListener(this)
             popup.inflate(R.menu.workspace_menu)
@@ -342,8 +365,9 @@ class MainActivity : AppCompatActivity(), View.OnClickListener, PopupMenu.OnMenu
             R.id.board_menu_workspace -> {
                 Toast.makeText(this, "Ngeklik board", Toast.LENGTH_SHORT).show()
                 val action =
-                    SharedWorkspacesFragmentDirections.actionNavSharedWorkspacesToMoneyReportFragment()
-                Navigation.findNavController(findViewById(R.id.nav_host_fragment_content_main)).navigate(action)
+                    BoardsFragmentDirections.actionNavBoardsToMoneyReportFragment()
+                Navigation.findNavController(findViewById(R.id.nav_host_fragment_content_main))
+                    .navigate(action)
             }
             R.id.money_report_menu_workspace -> {
                 Toast.makeText(this, "Ngeklik money report", Toast.LENGTH_SHORT).show()
