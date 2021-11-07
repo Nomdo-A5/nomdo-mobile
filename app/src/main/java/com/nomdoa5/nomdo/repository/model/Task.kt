@@ -6,12 +6,16 @@ import kotlinx.parcelize.Parcelize
 
 @Parcelize
 data class Task(
-    @SerializedName("id_task")
-    val idTask: Int,
+    @SerializedName("id")
+    val id: Int,
     @SerializedName("task_name")
     val taskName: String? = null,
     @SerializedName("task_description")
     val taskDescription: String? = null,
-    @SerializedName("board_id")
-    val boardId: String? = null,
+    @SerializedName("due_date")
+    val dueDate: String? = null,
+    @SerializedName("is_done")
+    val isDone: String? = null,
+    @SerializedName("is_finishedBy")
+    val isFinishedBy: String? = null,
 ) : Parcelable

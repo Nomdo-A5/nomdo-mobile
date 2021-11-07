@@ -82,7 +82,7 @@ interface ApiService {
     @DELETE("boards")
     fun deleteBoard(
         @Header("Authorization") token: String,
-        @Body board: DeleteRequest
+        @Query("id") id: String,
     ): Call<BoardResponse>
 
     @GET("task")
@@ -112,7 +112,7 @@ interface ApiService {
     @DELETE("task")
     fun deleteTask(
         @Header("Authorization") token: String,
-        @Body task: DeleteRequest
+        @Query("id") id: String,
     ): Call<TaskResponse>
 
     @GET("balance")

@@ -13,6 +13,7 @@ import com.nomdoa5.nomdo.R
 import com.nomdoa5.nomdo.helpers.adapter.HomeAdapter
 import com.nomdoa5.nomdo.databinding.FragmentHomeBinding
 import com.nomdoa5.nomdo.repository.model.Task
+import com.nomdoa5.nomdo.ui.MainActivity
 
 class HomeFragment : Fragment() {
     //    private lateinit var myWorkspacesViewModel: MyWorkspacesViewModel
@@ -29,15 +30,9 @@ class HomeFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-//        myWorkspacesViewModel =
-//            ViewModelProvider(this).get(MyWorkspacesViewModel::class.java)
-
         _binding = FragmentHomeBinding.inflate(inflater, container, false)
         val root: View = binding.root
 
-//        myWorkspacesViewModel.text.observe(viewLifecycleOwner, {
-//            textView.text = it
-//        })
         return root
     }
 
@@ -78,7 +73,7 @@ class HomeFragment : Fragment() {
 
         homeAdapter.setOnItemClickCallback(object : HomeAdapter.OnItemClickCallback {
             override fun onItemClicked(data: Task) {
-                Snackbar.make(requireView(), "Kamu mengklik #${data.idTask}", Snackbar.LENGTH_SHORT)
+                Snackbar.make(requireView(), "Kamu mengklik #${data.id}", Snackbar.LENGTH_SHORT)
                     .show()
             }
         })

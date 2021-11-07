@@ -109,7 +109,7 @@ class DetailTaskFragment : Fragment(), View.OnClickListener {
 
     fun setupDetailTask() {
         authViewModel.getAuthToken().observe(viewLifecycleOwner, {
-            tasksViewModel.setDetailTask(it!!, args.task.idTask.toString())
+            tasksViewModel.setDetailTask(it!!, args.task.id.toString())
         })
 
         binding.editNameUpdateTask.setText(args.task.taskName)
@@ -122,7 +122,7 @@ class DetailTaskFragment : Fragment(), View.OnClickListener {
                 binding.btnUpdateTask.startAnimation()
                 val taskName = binding.editNameUpdateTask.text.toString()
                 val taskDescription = binding.editDescUpdateTask.text.toString()
-                val task = UpdateTaskRequest(args.task.idTask, taskName, taskDescription)
+                val task = UpdateTaskRequest(args.task.id, taskName, taskDescription)
 
                 authViewModel.getAuthToken().observe(viewLifecycleOwner, {
                     tasksViewModel.updateTask(it!!, task)
@@ -144,8 +144,8 @@ class DetailTaskFragment : Fragment(), View.OnClickListener {
             }
             binding.btnDeleteUpdateTask -> {
                 authViewModel.getAuthToken().observe(viewLifecycleOwner, {
-                    val task = DeleteRequest(args.task.idTask)
-                    tasksViewModel.deleteTask(it!!, task)
+                    val idTask = args.task.id.toString()
+                    tasksViewModel.deleteTask(it!!, idTask)
                 })
             }
         }

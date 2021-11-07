@@ -5,6 +5,8 @@ import android.content.Context
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -30,6 +32,7 @@ import com.nomdoa5.nomdo.databinding.DialogFragmentUpdateBoardBinding
 import com.nomdoa5.nomdo.repository.model.Board
 import com.nomdoa5.nomdo.repository.model.request.DeleteRequest
 import com.nomdoa5.nomdo.repository.model.request.board.UpdateBoardRequest
+import com.nomdoa5.nomdo.repository.model.request.task.TaskRequest
 import com.nomdoa5.nomdo.repository.model.request.workspace.WorkspaceRequest
 import com.nomdoa5.nomdo.ui.boards.BoardsViewModel
 import com.nomdoa5.nomdo.ui.tasks.TasksViewModel
@@ -60,6 +63,7 @@ class CreateTaskDialogFragment : DialogFragment(), View.OnClickListener {
         _binding = DialogFragmentCreateTaskBinding.inflate(inflater, container, false)
         val root: View = binding.root
         dialog!!.window!!.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+
         return root
     }
 
@@ -81,29 +85,28 @@ class CreateTaskDialogFragment : DialogFragment(), View.OnClickListener {
         when (v) {
             binding.btnAddTask -> {
                 binding.btnAddTask.startAnimation()
-                val workspaceName = binding.editNameAddTask.text.toString()
-                val workspace = WorkspaceRequest(workspaceName)
+
+                val taskName = binding.editNameAddTask.text.toString()
+                val taskDescription = binding.editDescAddTask.text.toString()
+                val task = TaskRequest(taskName, taskDescription, spinnerBoardPosition)
                 authViewModel.getAuthToken().observe(this, {
-                    workspacesViewModel.addWorkspace(it!!, workspace)
+                    tasksViewModel.addTask(it!!, task)
                 })
 
-                workspacesViewModel.getAddWorkspaceState().observe(this, {
+                tasksViewModel.getAddTaskState().observe(this, {
                     if (it) {
-                        Toast.makeText(requireContext(), "Workspace Added", Toast.LENGTH_SHORT)
-                            .show()
+                        Toast.makeText(requireContext(), "Task Added", Toast.LENGTH_SHORT).show()
                         binding.btnAddTask.doneLoadingAnimation(
                             resources.getColor(R.color.teal_200),
                             ContextCompat.getDrawable(requireContext(), R.drawable.ic_check)!!
                                 .toBitmap()
                         )
-                        dismiss()
+                        Handler(Looper.getMainLooper()).postDelayed({
+                            dismiss()
+                        }, 1000)
                     } else {
                         binding.btnAddTask.revertAnimation()
-                        Toast.makeText(
-                            requireContext(),
-                            "Add Workspace Failed!!",
-                            Toast.LENGTH_SHORT
-                        ).show()
+                        Toast.makeText(requireContext(), "Add Task Failed!!", Toast.LENGTH_SHORT).show()
                     }
                 })
 
@@ -146,7 +149,6 @@ class CreateTaskDialogFragment : DialogFragment(), View.OnClickListener {
         binding.spinnerWorkspaceAddTask.setOnItemClickListener(object :
             AdapterView.OnItemClickListener {
             override fun onItemClick(p0: AdapterView<*>?, p1: View?, position: Int, p3: Long) {
-                binding.spinnerWorkspaceAddTask.setText("", false)
                 spinnerWorkspacePosition = workspaceAdapterId[position].toInt()
                 authViewModel.getAuthToken().observe(this@CreateTaskDialogFragment, {
                     boardsViewModel.setBoard(it!!, spinnerWorkspacePosition.toString())

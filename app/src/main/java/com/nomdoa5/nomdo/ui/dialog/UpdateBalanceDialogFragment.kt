@@ -53,7 +53,7 @@ class UpdateBalanceDialogFragment : DialogFragment(), View.OnClickListener {
         super.onViewCreated(view, savedInstanceState)
 
         balance = requireArguments().getParcelable("EXTRA_WORKSPACE")!!
-        binding.editNameUpdateBalance.setText(balance.balanceName)
+//        binding.editTitleUpdateBalance.setText(balance.balanceName)
         binding.btnUpdateBalance.setOnClickListener(this)
         binding.btnDeleteBalance.setOnClickListener(this)
         binding.imgCloseUpdateBalance.setOnClickListener(this)
@@ -69,12 +69,12 @@ class UpdateBalanceDialogFragment : DialogFragment(), View.OnClickListener {
         when (v) {
             binding.btnUpdateBalance -> {
                 binding.btnUpdateBalance.startAnimation()
-                val newBalanceTitle = binding.editNameUpdateBalance.text.toString()
-                val newBalance = UpdateBalanceRequest(balance.id, newBalanceTitle)
+                //val newBalanceTitle = binding.editNameUpdateBalance.text.toString()
+//                val newBalance = UpdateBalanceRequest(balance.id, newBalanceTitle)
 
-                authViewModel.getAuthToken().observe(this, {
-                    balancesViewModel.updateBalance(it!!, newBalance)
-                })
+//                authViewModel.getAuthToken().observe(this, {
+//                    balancesViewModel.updateBalance(it!!, newBalance)
+//                })
 
                 balancesViewModel.getUpdateBalanceState()
                     .observe(this, object : Observer<Boolean?> {
@@ -109,9 +109,9 @@ class UpdateBalanceDialogFragment : DialogFragment(), View.OnClickListener {
             }
             binding.btnDeleteBalance -> {
                 binding.btnDeleteBalance.startAnimation()
-                authViewModel.getAuthToken().observe(this, {
-                    balancesViewModel.deleteBalance(it!!, balance.id.toString())
-                })
+//                authViewModel.getAuthToken().observe(this, {
+//                    balancesViewModel.deleteBalance(it!!, balance.id.toString())
+//                })
 
                 balancesViewModel.getDeleteBalanceState().observe(this, {
                     if(it){

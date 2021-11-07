@@ -5,6 +5,8 @@ import android.content.Context
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -27,6 +29,7 @@ import com.nomdoa5.nomdo.ui.auth.AuthViewModel
 import com.nomdoa5.nomdo.databinding.DialogFragmentUpdateBoardBinding
 import com.nomdoa5.nomdo.repository.model.Board
 import com.nomdoa5.nomdo.repository.model.request.DeleteRequest
+import com.nomdoa5.nomdo.repository.model.request.board.BoardRequest
 import com.nomdoa5.nomdo.repository.model.request.board.UpdateBoardRequest
 import com.nomdoa5.nomdo.repository.model.request.workspace.WorkspaceRequest
 import com.nomdoa5.nomdo.ui.boards.BoardsViewModel
@@ -41,7 +44,7 @@ class CreateBoardDialogFragment : DialogFragment(), View.OnClickListener {
     private lateinit var workspacesViewModel: WorkspacesViewModel
     private lateinit var boardsViewModel: BoardsViewModel
     private lateinit var authViewModel: AuthViewModel
-    private lateinit var board: Board
+    private lateinit var board: BoardRequest
     private var spinnerWorkspacePosition: Int? = null
     private val workspaceAdapterId = ArrayList<String>()
 
@@ -74,24 +77,27 @@ class CreateBoardDialogFragment : DialogFragment(), View.OnClickListener {
         when (v) {
             binding.btnAddBoard -> {
                 binding.btnAddBoard.startAnimation()
-                val workspaceName = binding.editNameAddBoard.text.toString()
-                val workspace = WorkspaceRequest(workspaceName)
+                val boardName = binding.editNameAddBoard.text.toString()
+
+                board = BoardRequest(boardName, spinnerWorkspacePosition!!)
                 authViewModel.getAuthToken().observe(this, {
-                    workspacesViewModel.addWorkspace(it!!, workspace)
+                    boardsViewModel.addBoard(it!!, board)
                 })
 
-                workspacesViewModel.getAddWorkspaceState().observe(this, {
+                boardsViewModel.getAddBoardState().observe(this, {
                     if (it) {
-                        Toast.makeText(requireContext(), "Workspace Added", Toast.LENGTH_SHORT).show()
+                        Toast.makeText(requireContext(), "Board Added", Toast.LENGTH_SHORT).show()
                         binding.btnAddBoard.doneLoadingAnimation(
                             resources.getColor(R.color.teal_200),
                             ContextCompat.getDrawable(requireContext(), R.drawable.ic_check)!!
                                 .toBitmap()
                         )
-                        dismiss()
+                        Handler(Looper.getMainLooper()).postDelayed({
+                            dismiss()
+                        }, 1000)
                     } else {
                         binding.btnAddBoard.revertAnimation()
-                        Toast.makeText(requireContext(), "Add Workspace Failed!!", Toast.LENGTH_SHORT).show()
+                        Toast.makeText(requireContext(), "Add Board Failed!!", Toast.LENGTH_SHORT).show()
                     }
                 })
 

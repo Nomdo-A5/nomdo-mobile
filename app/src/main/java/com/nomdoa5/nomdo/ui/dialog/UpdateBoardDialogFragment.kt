@@ -107,9 +107,9 @@ class UpdateBoardDialogFragment : DialogFragment(), View.OnClickListener {
             }
             binding.btnDeleteBoard -> {
                 binding.btnDeleteBoard.startAnimation()
-                val deleteRequest = DeleteRequest(board.id)
+                val idBoard = board.id.toString()
                 authViewModel.getAuthToken().observe(this, {
-                    boardsViewModel.deleteBoard(it!!, deleteRequest)
+                    boardsViewModel.deleteBoard(it!!, idBoard)
                 })
 
                 boardsViewModel.getDeleteBoardState().observe(this, {

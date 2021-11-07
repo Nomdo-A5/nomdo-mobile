@@ -22,6 +22,7 @@ import com.nomdoa5.nomdo.helpers.ViewModelFactory
 import com.nomdoa5.nomdo.helpers.adapter.BoardAdapter
 import com.nomdoa5.nomdo.repository.local.UserPreferences
 import com.nomdoa5.nomdo.repository.model.Board
+import com.nomdoa5.nomdo.ui.MainActivity
 import com.nomdoa5.nomdo.ui.auth.AuthViewModel
 import com.nomdoa5.nomdo.ui.dialog.UpdateBoardDialogFragment
 import com.nomdoa5.nomdo.ui.dialog.UpdateWorkspaceDialogFragment
@@ -47,6 +48,7 @@ class BoardsFragment : Fragment(), BoardAdapter.OnBoardClickListener {
     ): View {
         _binding = FragmentBoardsBinding.inflate(inflater, container, false)
         val root: View = binding.root
+        (activity as MainActivity?)!!.setupToolbarWorkspace()
 
         return root
     }

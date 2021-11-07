@@ -56,9 +56,9 @@ class BoardsViewModel : ViewModel() {
         })
     }
 
-    fun deleteBoard(token: String, idDelete: DeleteRequest) {
+    fun deleteBoard(token: String, id: String) {
         val service = RetrofitClient.buildService(ApiService::class.java)
-        val requestCall = service.deleteBoard(token = "Bearer $token", idDelete)
+        val requestCall = service.deleteBoard(token = "Bearer $token", id)
 
         requestCall.enqueue(object : Callback<BoardResponse> {
             override fun onResponse(call: Call<BoardResponse>, response: Response<BoardResponse>) {
