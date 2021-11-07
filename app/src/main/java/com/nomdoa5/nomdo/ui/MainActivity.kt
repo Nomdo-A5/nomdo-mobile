@@ -15,9 +15,11 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.core.graphics.drawable.toBitmap
 import androidx.core.view.GravityCompat
+import androidx.databinding.DataBindingUtil
 import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.preferencesDataStore
+import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.Navigation
 import androidx.navigation.findNavController
@@ -27,6 +29,7 @@ import com.apachat.loadingbutton.core.customViews.CircularProgressButton
 import com.google.android.material.textfield.TextInputEditText
 import com.nomdoa5.nomdo.R
 import com.nomdoa5.nomdo.databinding.ActivityMainBinding
+import com.nomdoa5.nomdo.databinding.NavHeaderMainBinding
 import com.nomdoa5.nomdo.helpers.ViewModelFactory
 import com.nomdoa5.nomdo.repository.local.UserPreferences
 import com.nomdoa5.nomdo.repository.model.request.board.BoardRequest
@@ -71,12 +74,14 @@ class MainActivity : AppCompatActivity(), View.OnClickListener, PopupMenu.OnMenu
         )
     }
     private lateinit var authViewModel: AuthViewModel
+    private lateinit var mainViewModel: MainViewModel
     private lateinit var workspacesViewModel: WorkspacesViewModel
     private lateinit var boardsViewModel: BoardsViewModel
     private lateinit var tasksViewModel: TasksViewModel
     private var clicked = false
     private lateinit var appBarConfiguration: AppBarConfiguration
     private lateinit var binding: ActivityMainBinding
+    private lateinit var headerBinding: NavHeaderMainBinding
     private lateinit var addWorkspaceDialog: Dialog
     private lateinit var addBoardDialog: Dialog
     private lateinit var addTaskDialog: Dialog
@@ -95,13 +100,18 @@ class MainActivity : AppCompatActivity(), View.OnClickListener, PopupMenu.OnMenu
         super.onCreate(savedInstanceState)
 
         binding = ActivityMainBinding.inflate(layoutInflater)
+        headerBinding = DataBindingUtil.setContentView(this, R.layout.nav_header_main)
+        setupViewModel()
+        headerBinding.mainViewModel = mainViewModel
+        headerBinding.lifecycleOwner = this
+
         setContentView(binding.root)
+
         addWorkspaceDialog = Dialog(this)
         addBoardDialog = Dialog(this)
         addTaskDialog = Dialog(this)
 
         setupToolbarMain()
-        setupViewModel()
         setupDrawer()
 
         binding.appBarMain.fab.setOnClickListener(this)
@@ -283,6 +293,7 @@ class MainActivity : AppCompatActivity(), View.OnClickListener, PopupMenu.OnMenu
         val pref = UserPreferences.getInstance(dataStore)
         authViewModel =
             ViewModelProvider(this, ViewModelFactory(pref)).get(AuthViewModel::class.java)
+        mainViewModel = ViewModelProvider(this).get(MainViewModel::class.java)
         workspacesViewModel = ViewModelProvider(this).get(WorkspacesViewModel::class.java)
         boardsViewModel = ViewModelProvider(this).get(BoardsViewModel::class.java)
         tasksViewModel = ViewModelProvider(this).get(TasksViewModel::class.java)
@@ -295,13 +306,7 @@ class MainActivity : AppCompatActivity(), View.OnClickListener, PopupMenu.OnMenu
         val email = header.findViewById<TextView>(R.id.nav_header_email)
 
         authViewModel.getAuthToken().observe(this, {
-            authViewModel.setUser(it!!)
-        })
-
-        email.text = "saohu"
-        authViewModel.getUser().observe(this, {
-            name.setText(it[0].name.toString())
-            email.text = "it[0].email.toString()"
+            mainViewModel.setUser(it!!)
         })
 
         val navController = findNavController(R.id.nav_host_fragment_content_main)

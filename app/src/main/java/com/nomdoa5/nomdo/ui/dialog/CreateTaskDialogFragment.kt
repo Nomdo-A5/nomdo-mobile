@@ -149,7 +149,6 @@ class CreateTaskDialogFragment : DialogFragment(), View.OnClickListener {
         binding.spinnerWorkspaceAddTask.setOnItemClickListener(object :
             AdapterView.OnItemClickListener {
             override fun onItemClick(p0: AdapterView<*>?, p1: View?, position: Int, p3: Long) {
-                binding.spinnerWorkspaceAddTask.setText("", false)
                 spinnerWorkspacePosition = workspaceAdapterId[position].toInt()
                 authViewModel.getAuthToken().observe(this@CreateTaskDialogFragment, {
                     boardsViewModel.setBoard(it!!, spinnerWorkspacePosition.toString())

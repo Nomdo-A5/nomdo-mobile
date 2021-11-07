@@ -73,7 +73,7 @@ class HomeFragment : Fragment() {
 
         homeAdapter.setOnItemClickCallback(object : HomeAdapter.OnItemClickCallback {
             override fun onItemClicked(data: Task) {
-                Snackbar.make(requireView(), "Kamu mengklik #${data.idTask}", Snackbar.LENGTH_SHORT)
+                Snackbar.make(requireView(), "Kamu mengklik #${data.id}", Snackbar.LENGTH_SHORT)
                     .show()
             }
         })

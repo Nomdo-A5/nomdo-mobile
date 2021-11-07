@@ -69,9 +69,9 @@ class TasksViewModel : ViewModel() {
         })
     }
 
-    fun deleteTask(token: String, task: DeleteRequest) {
+    fun deleteTask(token: String, id: String) {
         val service = RetrofitClient.buildService(ApiService::class.java)
-        val requestCall = service.deleteTask(token = "Bearer $token", task)
+        val requestCall = service.deleteTask(token = "Bearer $token", id)
 
         requestCall.enqueue(object : Callback<TaskResponse> {
             override fun onResponse(call: Call<TaskResponse>, response: Response<TaskResponse>) {

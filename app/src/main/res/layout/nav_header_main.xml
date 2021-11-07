@@ -1,10 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout>
+<layout xmlns:tools="http://schemas.android.com/tools">
+
     <data>
         <variable
-            name="viewmodel"
-            type="com.nomdoa5.nomdo.ui.auth.AuthViewModel" />
+            name="mainViewModel"
+            type="com.nomdoa5.nomdo.ui.MainViewModel" />
     </data>
+
     <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:id="@+id/nav_header_main"
         android:layout_width="match_parent"
@@ -32,14 +34,16 @@
             android:layout_height="wrap_content"
             android:fontFamily="@font/roboto_medium"
             android:paddingTop="@dimen/nav_header_vertical_spacing"
-            android:text="@string/nav_header_title"
-            android:textAppearance="@style/TextAppearance.AppCompat.Body1" />
+            android:text="@{mainViewModel.userName}"
+            android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+            tools:text="Anonymous" />
 
         <TextView
             android:id="@+id/nav_header_email"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:fontFamily="@font/roboto_regular"
-            android:text="@string/nav_header_subtitle" />
+            android:text="@{mainViewModel.userEmail}"
+            tools:text="@string/nav_header_subtitle" />
     </LinearLayout>
 </layout>

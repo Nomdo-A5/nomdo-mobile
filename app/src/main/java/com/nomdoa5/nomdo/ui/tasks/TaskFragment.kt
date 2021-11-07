@@ -98,8 +98,7 @@ class TaskFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener {
 
         taskAdapter.setOnItemClickCallback(object : TaskAdapter.OnItemClickCallback {
             override fun onItemClicked(data: Task) {
-                val task = Task(data.idTask, data.taskName, data.taskDescription, data.boardId)
-                val action = TaskFragmentDirections.actionNavTasksToDetailTaskFragment(task)
+                val action = TaskFragmentDirections.actionNavTasksToDetailTaskFragment(data)
                 Navigation.findNavController(requireView()).navigate(action)
             }
         })
