@@ -13,8 +13,4 @@ data class User(
     val emailVerifiedAt: String? = null,
     @SerializedName("image_url")
     val imageUrl: String? = null,
-    @SerializedName("created_at")
-    val createdAt: String? = null,
-    @SerializedName("updated_at")
-    val updatedAt: String? = null,
 ) : Parcelable

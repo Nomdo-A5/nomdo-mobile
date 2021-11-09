@@ -1,4 +1,4 @@
-package com.nomdoa5.nomdo.ui.workspaces
+package com.nomdoa5.nomdo.ui.workspace
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData

@@ -5,6 +5,9 @@ import com.google.gson.annotations.SerializedName
 import kotlinx.parcelize.Parcelize
 
 @Parcelize
-data class DeleteRequest(
-    val id : Int?,
+data class ReportRequest(
+    @SerializedName("id_report")
+    val idReport: Int,
+    @SerializedName("report_name")
+    val reportName: String? = null,
 ) : Parcelable

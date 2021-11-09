@@ -19,7 +19,6 @@ import androidx.databinding.DataBindingUtil
 import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.preferencesDataStore
-import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.Navigation
 import androidx.navigation.findNavController
@@ -36,14 +35,13 @@ import com.nomdoa5.nomdo.repository.model.request.board.BoardRequest
 import com.nomdoa5.nomdo.repository.model.request.task.TaskRequest
 import com.nomdoa5.nomdo.repository.model.request.workspace.WorkspaceRequest
 import com.nomdoa5.nomdo.ui.auth.AuthViewModel
-import com.nomdoa5.nomdo.ui.boards.BoardsFragmentDirections
-import com.nomdoa5.nomdo.ui.boards.BoardsViewModel
-import com.nomdoa5.nomdo.ui.dialog.CreateBoardDialogFragment
-import com.nomdoa5.nomdo.ui.dialog.CreateTaskDialogFragment
-import com.nomdoa5.nomdo.ui.dialog.CreateWorkspaceDialogFragment
-import com.nomdoa5.nomdo.ui.tasks.TasksViewModel
-import com.nomdoa5.nomdo.ui.workspaces.SharedWorkspacesFragmentDirections
-import com.nomdoa5.nomdo.ui.workspaces.WorkspacesViewModel
+import com.nomdoa5.nomdo.ui.board.BoardsFragmentDirections
+import com.nomdoa5.nomdo.ui.board.BoardViewModel
+import com.nomdoa5.nomdo.ui.board.CreateBoardDialogFragment
+import com.nomdoa5.nomdo.ui.task.CreateTaskDialogFragment
+import com.nomdoa5.nomdo.ui.task.TaskViewModel
+import com.nomdoa5.nomdo.ui.workspace.CreateWorkspaceDialogFragment
+import com.nomdoa5.nomdo.ui.workspace.WorkspacesViewModel
 
 
 private val Context.dataStore: DataStore<Preferences> by preferencesDataStore(name = "settings")
@@ -76,8 +74,8 @@ class MainActivity : AppCompatActivity(), View.OnClickListener, PopupMenu.OnMenu
     private lateinit var authViewModel: AuthViewModel
     private lateinit var mainViewModel: MainViewModel
     private lateinit var workspacesViewModel: WorkspacesViewModel
-    private lateinit var boardsViewModel: BoardsViewModel
-    private lateinit var tasksViewModel: TasksViewModel
+    private lateinit var boardsViewModel: BoardViewModel
+    private lateinit var taskViewModel: TaskViewModel
     private var clicked = false
     private lateinit var appBarConfiguration: AppBarConfiguration
     private lateinit var binding: ActivityMainBinding
@@ -228,10 +226,10 @@ class MainActivity : AppCompatActivity(), View.OnClickListener, PopupMenu.OnMenu
                     addTaskDialog.findViewById<TextInputEditText>(R.id.edit_desc_add_task).text.toString()
                 val task = TaskRequest(taskName, taskDescription, spinnerBoardPosition)
                 authViewModel.getAuthToken().observe(this, {
-                    tasksViewModel.addTask(it!!, task)
+                    taskViewModel.addTask(it!!, task)
                 })
 
-                tasksViewModel.getAddTaskState().observe(this, {
+                taskViewModel.getAddTaskState().observe(this, {
                     if (it) {
                         Toast.makeText(this, "Task Added", Toast.LENGTH_SHORT).show()
                         btnAddTask.doneLoadingAnimation(
@@ -295,8 +293,8 @@ class MainActivity : AppCompatActivity(), View.OnClickListener, PopupMenu.OnMenu
             ViewModelProvider(this, ViewModelFactory(pref)).get(AuthViewModel::class.java)
         mainViewModel = ViewModelProvider(this).get(MainViewModel::class.java)
         workspacesViewModel = ViewModelProvider(this).get(WorkspacesViewModel::class.java)
-        boardsViewModel = ViewModelProvider(this).get(BoardsViewModel::class.java)
-        tasksViewModel = ViewModelProvider(this).get(TasksViewModel::class.java)
+        boardsViewModel = ViewModelProvider(this).get(BoardViewModel::class.java)
+        taskViewModel = ViewModelProvider(this).get(TaskViewModel::class.java)
     }
 
     fun setupDrawer() {

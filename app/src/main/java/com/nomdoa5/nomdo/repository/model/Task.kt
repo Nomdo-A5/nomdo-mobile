@@ -15,7 +15,7 @@ data class Task(
     @SerializedName("due_date")
     val dueDate: String? = null,
     @SerializedName("is_done")
-    val isDone: String? = null,
+    val isDone: Int? = null,
     @SerializedName("is_finishedBy")
-    val isFinishedBy: String? = null,
+    val isFinishedBy: Int? = null,
 ) : Parcelable

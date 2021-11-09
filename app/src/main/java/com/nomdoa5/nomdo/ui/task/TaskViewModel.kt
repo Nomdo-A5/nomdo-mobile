@@ -1,10 +1,9 @@
-package com.nomdoa5.nomdo.ui.tasks
+package com.nomdoa5.nomdo.ui.task
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.nomdoa5.nomdo.repository.model.Task
-import com.nomdoa5.nomdo.repository.model.request.DeleteRequest
 import com.nomdoa5.nomdo.repository.model.request.task.TaskRequest
 import com.nomdoa5.nomdo.repository.model.request.task.UpdateTaskRequest
 import com.nomdoa5.nomdo.repository.model.response.TaskResponse
@@ -14,7 +13,7 @@ import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
-class TasksViewModel : ViewModel() {
+class TaskViewModel : ViewModel() {
     private val listTask = MutableLiveData<ArrayList<Task>>()
     private val detailTask = MutableLiveData<Task>()
     private val setTaskState = MutableLiveData<Boolean>()

@@ -1,4 +1,4 @@
-package com.nomdoa5.nomdo.ui.dialog
+package com.nomdoa5.nomdo.ui.balance
 
 import android.content.Context
 import android.graphics.Color
@@ -21,12 +21,7 @@ import com.nomdoa5.nomdo.databinding.DialogFragmentUpdateBalanceBinding
 import com.nomdoa5.nomdo.helpers.ViewModelFactory
 import com.nomdoa5.nomdo.repository.local.UserPreferences
 import com.nomdoa5.nomdo.repository.model.Balance
-import com.nomdoa5.nomdo.repository.model.request.balance.UpdateBalanceRequest
 import com.nomdoa5.nomdo.ui.auth.AuthViewModel
-import okhttp3.internal.wait
-import androidx.lifecycle.ViewModelProviders
-import com.nomdoa5.nomdo.repository.model.request.balance.DeleteBalanceRequest
-import com.nomdoa5.nomdo.ui.balances.BalancesViewModel
 
 
 private val Context.dataStore: DataStore<Preferences> by preferencesDataStore(name = "auth")
@@ -34,7 +29,7 @@ private val Context.dataStore: DataStore<Preferences> by preferencesDataStore(na
 class UpdateBalanceDialogFragment : DialogFragment(), View.OnClickListener {
     private var _binding: DialogFragmentUpdateBalanceBinding? = null
     private val binding get() = _binding!!
-    private lateinit var balancesViewModel: BalancesViewModel
+    private lateinit var balanceViewModel: BalanceViewModel
     private lateinit var authViewModel: AuthViewModel
     private lateinit var balance: Balance
 
@@ -76,7 +71,7 @@ class UpdateBalanceDialogFragment : DialogFragment(), View.OnClickListener {
 //                    balancesViewModel.updateBalance(it!!, newBalance)
 //                })
 
-                balancesViewModel.getUpdateBalanceState()
+                balanceViewModel.getUpdateBalanceState()
                     .observe(this, object : Observer<Boolean?> {
                         override fun onChanged(isLoading: Boolean?) {
                             if (isLoading!!) {
@@ -113,7 +108,7 @@ class UpdateBalanceDialogFragment : DialogFragment(), View.OnClickListener {
 //                    balancesViewModel.deleteBalance(it!!, balance.id.toString())
 //                })
 
-                balancesViewModel.getDeleteBalanceState().observe(this, {
+                balanceViewModel.getDeleteBalanceState().observe(this, {
                     if(it){
                         Toast.makeText(
                             requireContext(),
@@ -151,6 +146,6 @@ class UpdateBalanceDialogFragment : DialogFragment(), View.OnClickListener {
         val pref = UserPreferences.getInstance(requireContext().dataStore)
         authViewModel =
             ViewModelProvider(this, ViewModelFactory(pref)).get(AuthViewModel::class.java)
-        balancesViewModel = ViewModelProvider(this).get(BalancesViewModel::class.java)
+        balanceViewModel = ViewModelProvider(this).get(BalanceViewModel::class.java)
     }
 }

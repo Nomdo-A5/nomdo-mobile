@@ -1,4 +1,4 @@
-package com.nomdoa5.nomdo.ui.dialog
+package com.nomdoa5.nomdo.ui.board
 
 import android.content.Context
 import android.graphics.Color
@@ -17,33 +17,29 @@ import androidx.fragment.app.DialogFragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.nomdoa5.nomdo.R
-import com.nomdoa5.nomdo.databinding.DialogFragmentUpdateWorkspaceBinding
 import com.nomdoa5.nomdo.helpers.ViewModelFactory
 import com.nomdoa5.nomdo.repository.local.UserPreferences
-import com.nomdoa5.nomdo.repository.model.Workspace
-import com.nomdoa5.nomdo.repository.model.request.workspace.UpdateWorkspaceRequest
 import com.nomdoa5.nomdo.ui.auth.AuthViewModel
-import com.nomdoa5.nomdo.ui.workspaces.WorkspacesViewModel
-import okhttp3.internal.wait
-import androidx.lifecycle.ViewModelProviders
-import com.nomdoa5.nomdo.repository.model.request.workspace.DeleteWorkspaceRequest
+import com.nomdoa5.nomdo.databinding.DialogFragmentUpdateBoardBinding
+import com.nomdoa5.nomdo.repository.model.Board
+import com.nomdoa5.nomdo.repository.model.request.board.UpdateBoardRequest
 
 
 private val Context.dataStore: DataStore<Preferences> by preferencesDataStore(name = "auth")
 
-class UpdateWorkspaceDialogFragment : DialogFragment(), View.OnClickListener {
-    private var _binding: DialogFragmentUpdateWorkspaceBinding? = null
+class UpdateBoardDialogFragment : DialogFragment(), View.OnClickListener {
+    private var _binding: DialogFragmentUpdateBoardBinding? = null
     private val binding get() = _binding!!
-    private lateinit var workspacesViewModel: WorkspacesViewModel
+    private lateinit var boardsViewModel: BoardViewModel
     private lateinit var authViewModel: AuthViewModel
-    private lateinit var workspace: Workspace
+    private lateinit var board: Board
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        _binding = DialogFragmentUpdateWorkspaceBinding.inflate(inflater, container, false)
+        _binding = DialogFragmentUpdateBoardBinding.inflate(inflater, container, false)
         val root: View = binding.root
         dialog!!.window!!.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
         return root
@@ -52,11 +48,11 @@ class UpdateWorkspaceDialogFragment : DialogFragment(), View.OnClickListener {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        workspace = requireArguments().getParcelable("EXTRA_WORKSPACE")!!
-        binding.editNameUpdateWorkspace.setText(workspace.workspaceName)
-        binding.btnUpdateWorkspace.setOnClickListener(this)
-        binding.btnDeleteWorkspace.setOnClickListener(this)
-        binding.imgCloseUpdateWorkspace.setOnClickListener(this)
+        board = requireArguments().getParcelable("EXTRA_BOARD")!!
+        binding.editNameUpdateBoard.setText(board.boardName)
+        binding.btnUpdateBoard.setOnClickListener(this)
+        binding.btnDeleteBoard.setOnClickListener(this)
+        binding.imgCloseUpdateBoard.setOnClickListener(this)
         setupViewModel()
     }
 
@@ -67,25 +63,25 @@ class UpdateWorkspaceDialogFragment : DialogFragment(), View.OnClickListener {
 
     override fun onClick(v: View?) {
         when (v) {
-            binding.btnUpdateWorkspace -> {
-                binding.btnUpdateWorkspace.startAnimation()
-                val newWorkspaceTitle = binding.editNameUpdateWorkspace.text.toString()
-                val newWorkspace = UpdateWorkspaceRequest(workspace.id, newWorkspaceTitle)
+            binding.btnUpdateBoard -> {
+                binding.btnUpdateBoard.startAnimation()
+                val newBoardTitle = binding.editNameUpdateBoard.text.toString()
+                val newBoard = UpdateBoardRequest(board.id, newBoardTitle, board.boardDescription.toString())
 
                 authViewModel.getAuthToken().observe(this, {
-                    workspacesViewModel.updateWorkspace(it!!, newWorkspace)
+                    boardsViewModel.updateBoard(it!!, newBoard)
                 })
 
-                workspacesViewModel.getUpdateWorkspaceState()
+                boardsViewModel.getUpdateBoardState()
                     .observe(this, object : Observer<Boolean?> {
                         override fun onChanged(isLoading: Boolean?) {
                             if (isLoading!!) {
                                 Toast.makeText(
                                     requireContext(),
-                                    "Update Workspace Success!",
+                                    "Update Board Success!",
                                     Toast.LENGTH_SHORT
                                 ).show()
-                                binding.btnUpdateWorkspace.doneLoadingAnimation(
+                                binding.btnUpdateBoard.doneLoadingAnimation(
                                     resources.getColor(R.color.teal_200),
                                     ContextCompat.getDrawable(
                                         requireContext(),
@@ -97,30 +93,31 @@ class UpdateWorkspaceDialogFragment : DialogFragment(), View.OnClickListener {
                             } else {
                                 Toast.makeText(
                                     requireContext(),
-                                    "Update Workspace Failed!",
+                                    "Update Board Failed!",
                                     Toast.LENGTH_SHORT
                                 )
                                     .show()
-                                binding.btnUpdateWorkspace.revertAnimation()
+                                binding.btnUpdateBoard.revertAnimation()
                             }
                         }
                     })
 
             }
-            binding.btnDeleteWorkspace -> {
-                binding.btnDeleteWorkspace.startAnimation()
+            binding.btnDeleteBoard -> {
+                binding.btnDeleteBoard.startAnimation()
+                val idBoard = board.id.toString()
                 authViewModel.getAuthToken().observe(this, {
-                    workspacesViewModel.deleteWorkspace(it!!, workspace.id.toString())
+                    boardsViewModel.deleteBoard(it!!, idBoard)
                 })
 
-                workspacesViewModel.getDeleteWorkspaceState().observe(this, {
+                boardsViewModel.getDeleteBoardState().observe(this, {
                     if(it){
                         Toast.makeText(
                             requireContext(),
                             "Delete Workspace Success",
                             Toast.LENGTH_SHORT
                         ).show()
-                        binding.btnUpdateWorkspace.doneLoadingAnimation(
+                        binding.btnDeleteBoard.doneLoadingAnimation(
                             resources.getColor(R.color.teal_200),
                             ContextCompat.getDrawable(
                                 requireContext(),
@@ -135,13 +132,13 @@ class UpdateWorkspaceDialogFragment : DialogFragment(), View.OnClickListener {
                             "Delete Workspace Failed!",
                             Toast.LENGTH_SHORT
                         ).show()
-                        binding.btnUpdateWorkspace.revertAnimation()
+                        binding.btnDeleteBoard.revertAnimation()
                         dismiss()
                     }
                 })
                 dismiss()
             }
-            binding.imgCloseUpdateWorkspace -> {
+            binding.imgCloseUpdateBoard -> {
                 dismiss()
             }
         }
@@ -151,6 +148,6 @@ class UpdateWorkspaceDialogFragment : DialogFragment(), View.OnClickListener {
         val pref = UserPreferences.getInstance(requireContext().dataStore)
         authViewModel =
             ViewModelProvider(this, ViewModelFactory(pref)).get(AuthViewModel::class.java)
-        workspacesViewModel = ViewModelProvider(this).get(WorkspacesViewModel::class.java)
+        boardsViewModel = ViewModelProvider(this).get(BoardViewModel::class.java)
     }
 }

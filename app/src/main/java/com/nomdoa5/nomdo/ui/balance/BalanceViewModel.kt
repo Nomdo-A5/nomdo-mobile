@@ -1,10 +1,9 @@
-package com.nomdoa5.nomdo.ui.balances
+package com.nomdoa5.nomdo.ui.balance
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.nomdoa5.nomdo.repository.model.Balance
-import com.nomdoa5.nomdo.repository.model.request.DeleteRequest
 import com.nomdoa5.nomdo.repository.model.request.balance.BalanceRequest
 import com.nomdoa5.nomdo.repository.model.request.balance.UpdateBalanceRequest
 import com.nomdoa5.nomdo.repository.model.response.BalanceResponse
@@ -14,7 +13,7 @@ import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
-class BalancesViewModel : ViewModel() {
+class BalanceViewModel : ViewModel() {
     private val listBalance = MutableLiveData<ArrayList<Balance>>()
     private val setBalanceState = MutableLiveData<Boolean>()
     private val addBalanceState = MutableLiveData<Boolean>()
@@ -56,9 +55,9 @@ class BalancesViewModel : ViewModel() {
         })
     }
 
-    fun deleteBalance(token: String, idDelete: DeleteRequest) {
+    fun deleteBalance(token: String, id: String) {
         val service = RetrofitClient.buildService(ApiService::class.java)
-        val requestCall = service.deleteBalance(token = "Bearer $token", idDelete)
+        val requestCall = service.deleteBalance(token = "Bearer $token", id)
 
         requestCall.enqueue(object : Callback<BalanceResponse> {
             override fun onResponse(call: Call<BalanceResponse>, response: Response<BalanceResponse>) {

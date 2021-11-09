@@ -1,9 +1,7 @@
-package com.nomdoa5.nomdo.ui.tasks
+package com.nomdoa5.nomdo.ui.task
 
 import android.content.Context
 import android.os.Bundle
-import android.os.Handler
-import android.os.Looper
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -25,14 +23,13 @@ import com.nomdoa5.nomdo.helpers.ViewModelFactory
 import com.nomdoa5.nomdo.helpers.adapter.MemberAdapter
 import com.nomdoa5.nomdo.repository.local.UserPreferences
 import com.nomdoa5.nomdo.repository.model.User
-import com.nomdoa5.nomdo.repository.model.request.DeleteRequest
 import com.nomdoa5.nomdo.repository.model.request.task.UpdateTaskRequest
 import com.nomdoa5.nomdo.ui.auth.AuthViewModel
 
 private val Context.dataStore: DataStore<Preferences> by preferencesDataStore(name = "auth")
 
 class DetailTaskFragment : Fragment(), View.OnClickListener {
-    private lateinit var tasksViewModel: TasksViewModel
+    private lateinit var taskViewModel: TaskViewModel
     private lateinit var authViewModel: AuthViewModel
     private var _binding: FragmentDetailTaskBinding? = null
     private val binding get() = _binding!!
@@ -103,13 +100,13 @@ class DetailTaskFragment : Fragment(), View.OnClickListener {
         val pref = UserPreferences.getInstance(requireContext().dataStore)
         authViewModel =
             ViewModelProvider(this, ViewModelFactory(pref)).get(AuthViewModel::class.java)
-        tasksViewModel =
-            ViewModelProvider(this).get(TasksViewModel::class.java)
+        taskViewModel =
+            ViewModelProvider(this).get(TaskViewModel::class.java)
     }
 
     fun setupDetailTask() {
         authViewModel.getAuthToken().observe(viewLifecycleOwner, {
-            tasksViewModel.setDetailTask(it!!, args.task.id.toString())
+            taskViewModel.setDetailTask(it!!, args.task.id.toString())
         })
 
         binding.editNameUpdateTask.setText(args.task.taskName)
@@ -125,10 +122,10 @@ class DetailTaskFragment : Fragment(), View.OnClickListener {
                 val task = UpdateTaskRequest(args.task.id, taskName, taskDescription)
 
                 authViewModel.getAuthToken().observe(viewLifecycleOwner, {
-                    tasksViewModel.updateTask(it!!, task)
+                    taskViewModel.updateTask(it!!, task)
                 })
 
-                tasksViewModel.getUpdateTaskState().observe(this, {
+                taskViewModel.getUpdateTaskState().observe(this, {
                     if (it) {
                         Toast.makeText(requireContext(), "Board Added", Toast.LENGTH_SHORT).show()
                         binding.btnUpdateTask.doneLoadingAnimation(
@@ -145,7 +142,7 @@ class DetailTaskFragment : Fragment(), View.OnClickListener {
             binding.btnDeleteUpdateTask -> {
                 authViewModel.getAuthToken().observe(viewLifecycleOwner, {
                     val idTask = args.task.id.toString()
-                    tasksViewModel.deleteTask(it!!, idTask)
+                    taskViewModel.deleteTask(it!!, idTask)
                 })
             }
         }

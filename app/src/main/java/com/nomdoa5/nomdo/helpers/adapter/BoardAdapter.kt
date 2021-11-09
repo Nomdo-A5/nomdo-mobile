@@ -10,7 +10,7 @@ import com.nomdoa5.nomdo.databinding.ItemBoardBinding
 import com.nomdoa5.nomdo.repository.model.Board
 import com.nomdoa5.nomdo.repository.model.Workspace
 
-class BoardAdapter(private val listener: BoardAdapter.OnBoardClickListener) : RecyclerView.Adapter<BoardAdapter.BoardViewHolder>() {
+class BoardAdapter(private val listener: OnBoardClickListener) : RecyclerView.Adapter<BoardAdapter.BoardViewHolder>() {
     private val mData = ArrayList<Board>()
 
     fun setData(items: ArrayList<Board>) {
