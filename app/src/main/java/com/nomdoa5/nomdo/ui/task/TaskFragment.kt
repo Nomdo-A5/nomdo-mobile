@@ -1,10 +1,13 @@
-package com.nomdoa5.nomdo.ui.tasks
+package com.nomdoa5.nomdo.ui.task
 
 import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
+import androidx.core.content.ContextCompat
+import androidx.core.graphics.drawable.toBitmap
 import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.preferencesDataStore
@@ -15,25 +18,26 @@ import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
-import com.google.android.material.snackbar.Snackbar
 import com.nomdoa5.nomdo.R
 import com.nomdoa5.nomdo.databinding.FragmentTaskBinding
+import com.nomdoa5.nomdo.databinding.ItemTaskBinding
 import com.nomdoa5.nomdo.helpers.ViewModelFactory
 import com.nomdoa5.nomdo.helpers.adapter.TaskAdapter
 import com.nomdoa5.nomdo.repository.local.UserPreferences
 import com.nomdoa5.nomdo.repository.model.Task
+import com.nomdoa5.nomdo.repository.model.request.task.UpdateTaskRequest
 import com.nomdoa5.nomdo.ui.MainActivity
 import com.nomdoa5.nomdo.ui.auth.AuthViewModel
-import com.nomdoa5.nomdo.ui.workspaces.SharedWorkspacesFragmentDirections
 
 private val Context.dataStore: DataStore<Preferences> by preferencesDataStore(name = "auth")
 
-class TaskFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener {
-    private lateinit var tasksViewModel: TasksViewModel
+class TaskFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener,
+    TaskAdapter.OnTaskClickListener {
+    private lateinit var taskViewModel: TaskViewModel
     private lateinit var authViewModel: AuthViewModel
     private var _binding: FragmentTaskBinding? = null
     private val binding get() = _binding!!
-    private val taskAdapter = TaskAdapter()
+    private val taskAdapter = TaskAdapter(this)
     private var tasks = arrayListOf<Task>()
     private lateinit var taskName: Array<String>
     private lateinit var createdAt: Array<String>
@@ -87,39 +91,60 @@ class TaskFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener {
         rvTask.layoutManager = LinearLayoutManager(context)
 //        taskAdapter.setData(tasks)
         authViewModel.getAuthToken().observe(viewLifecycleOwner, {
-            tasksViewModel.setTask(it!!, args.idBoard)
+            taskViewModel.setTask(it!!, args.idBoard)
         })
 
-        tasksViewModel.getTask().observe(viewLifecycleOwner, {
+        taskViewModel.getTask().observe(viewLifecycleOwner, {
             taskAdapter.setData(it)
             binding.swipeMyTask.isRefreshing = false
         })
         rvTask.adapter = taskAdapter
-
-        taskAdapter.setOnItemClickCallback(object : TaskAdapter.OnItemClickCallback {
-            override fun onItemClicked(data: Task) {
-                val action = TaskFragmentDirections.actionNavTasksToDetailTaskFragment(data)
-                Navigation.findNavController(requireView()).navigate(action)
-            }
-        })
     }
 
     fun setupViewModel() {
         val pref = UserPreferences.getInstance(requireContext().dataStore)
         authViewModel =
             ViewModelProvider(this, ViewModelFactory(pref)).get(AuthViewModel::class.java)
-        tasksViewModel =
-            ViewModelProvider(this).get(TasksViewModel::class.java)
+        taskViewModel =
+            ViewModelProvider(this).get(TaskViewModel::class.java)
     }
 
     override fun onRefresh() {
         authViewModel.getAuthToken().observe(viewLifecycleOwner, {
-            tasksViewModel.setTask(it!!, args.idBoard)
+            taskViewModel.setTask(it!!, args.idBoard)
         })
 
-        tasksViewModel.getSetTaskState().observe(viewLifecycleOwner, {
+        taskViewModel.getSetTaskState().observe(viewLifecycleOwner, {
             if (it) {
                 binding.swipeMyTask.isRefreshing = false
+            }
+        })
+    }
+
+    override fun onTaskClick(data: Task) {
+        val action = TaskFragmentDirections.actionNavTasksToDetailTaskFragment(data)
+        Navigation.findNavController(requireView()).navigate(action)
+    }
+
+    override fun onCbTaskClick(data: Task) {
+        var check: Int? = data.isDone
+        if(check!! > 0){
+            check = 0
+        }else{
+            check = 1
+        }
+
+        val task = UpdateTaskRequest(data.id, data.taskName, data.taskDescription, data.dueDate, check, data.isFinishedBy)
+
+        authViewModel.getAuthToken().observe(viewLifecycleOwner, {
+            taskViewModel.updateTask(it!!, task)
+        })
+
+        taskViewModel.getUpdateTaskState().observe(this, {
+            if (it) {
+                Toast.makeText(requireContext(), "Check Updated", Toast.LENGTH_SHORT).show()
+            } else {
+                Toast.makeText(requireContext(), "Error ya ges ya", Toast.LENGTH_SHORT).show()
             }
         })
     }

@@ -1,17 +1,18 @@
 package com.nomdoa5.nomdo.helpers.adapter
 
 import android.graphics.Rect
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.nomdoa5.nomdo.R
 import com.nomdoa5.nomdo.databinding.ItemTaskBinding
+import com.nomdoa5.nomdo.repository.model.Board
 import com.nomdoa5.nomdo.repository.model.Task
 
-class TaskAdapter : RecyclerView.Adapter<TaskAdapter.TaskViewHolder>() {
+class TaskAdapter(private val listener: OnTaskClickListener) : RecyclerView.Adapter<TaskAdapter.TaskViewHolder>() {
     private val mData = ArrayList<Task>()
-    private var onItemClickCallback: OnItemClickCallback? = null
 
     fun setData(items: ArrayList<Task>) {
         mData.clear()
@@ -19,12 +20,9 @@ class TaskAdapter : RecyclerView.Adapter<TaskAdapter.TaskViewHolder>() {
         notifyDataSetChanged()
     }
 
-    interface OnItemClickCallback {
-        fun onItemClicked(data: Task)
-    }
-
-    fun setOnItemClickCallback(onItemClickCallback: OnItemClickCallback) {
-        this.onItemClickCallback = onItemClickCallback
+    interface OnTaskClickListener {
+        fun onTaskClick(data: Task)
+        fun onCbTaskClick(data: Task)
     }
 
     override fun onCreateViewHolder(viewGroup: ViewGroup, position: Int): TaskViewHolder {
@@ -44,8 +42,10 @@ class TaskAdapter : RecyclerView.Adapter<TaskAdapter.TaskViewHolder>() {
         private val binding = ItemTaskBinding.bind(itemView)
         fun bind(taskItem: Task) {
             binding.tvTitleTask.text = taskItem.taskName
+            binding.cbTask.isChecked = taskItem.isDone!! > 0
 
-            itemView.setOnClickListener { onItemClickCallback?.onItemClicked(taskItem) }
+            itemView.setOnClickListener { listener.onTaskClick(taskItem) }
+            binding.cbTask.setOnClickListener{ listener.onCbTaskClick(taskItem) }
         }
     }
 

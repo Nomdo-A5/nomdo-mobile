@@ -1,7 +1,7 @@
 package com.nomdoa5.nomdo.repository.remote
 
 import com.nomdoa5.nomdo.repository.model.Task
-import com.nomdoa5.nomdo.repository.model.request.DeleteRequest
+import com.nomdoa5.nomdo.repository.model.request.ReportRequest
 import com.nomdoa5.nomdo.repository.model.request.auth.LoginRequest
 import com.nomdoa5.nomdo.repository.model.request.auth.RegisterRequest
 import com.nomdoa5.nomdo.repository.model.request.balance.BalanceRequest
@@ -18,6 +18,7 @@ import retrofit2.http.*
 
 interface ApiService {
 
+    //    AUTH
     @POST("login")
     fun login(
         @Body loginRequest: LoginRequest
@@ -38,6 +39,8 @@ interface ApiService {
         @Body register: RegisterRequest
     ): Call<RegisterRequest>
 
+
+    //     WORKSPACE
     @GET("workspace")
     fun getWorkspace(
         @Header("Authorization") token: String
@@ -61,6 +64,8 @@ interface ApiService {
         @Query("id") id: String,
     ): Call<WorkspaceResponse>
 
+
+    //     BOARD
     @GET("boards")
     fun getBoard(
         @Header("Authorization") token: String,
@@ -85,6 +90,8 @@ interface ApiService {
         @Query("id") id: String,
     ): Call<BoardResponse>
 
+
+    //    TASK
     @GET("task")
     fun getTask(
         @Header("Authorization") token: String,
@@ -115,6 +122,22 @@ interface ApiService {
         @Query("id") id: String,
     ): Call<TaskResponse>
 
+
+    //    RESPONSE
+    @GET("report")
+    fun getReport(
+        @Header("Authorization") token: String,
+        @Query("id") id: String,
+    ): Call<ReportResponse>
+
+    @POST("report")
+    fun addReport(
+        @Header("Authorization") token: String,
+        @Query("id") report: ReportRequest,
+    ): Call<ReportResponse>
+
+
+    //    BALANCE
     @GET("balance")
     fun getBalance(
         @Header("Authorization") token: String,
@@ -136,6 +159,6 @@ interface ApiService {
     @DELETE("balance")
     fun deleteBalance(
         @Header("Authorization") token: String,
-        @Body balance: DeleteRequest
+        @Query("id") id: String,
     ): Call<BalanceResponse>
 }

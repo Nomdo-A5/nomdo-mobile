@@ -1,10 +1,9 @@
-package com.nomdoa5.nomdo.ui.boards
+package com.nomdoa5.nomdo.ui.board
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.nomdoa5.nomdo.repository.model.Board
-import com.nomdoa5.nomdo.repository.model.request.DeleteRequest
 import com.nomdoa5.nomdo.repository.model.request.board.BoardRequest
 import com.nomdoa5.nomdo.repository.model.request.board.UpdateBoardRequest
 import com.nomdoa5.nomdo.repository.model.response.BoardResponse
@@ -14,7 +13,7 @@ import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
-class BoardsViewModel : ViewModel() {
+class BoardViewModel : ViewModel() {
     private val listBoard = MutableLiveData<ArrayList<Board>>()
     private val setBoardState = MutableLiveData<Boolean>()
     private val addBoardState = MutableLiveData<Boolean>()

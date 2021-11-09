@@ -1,10 +1,9 @@
-package com.nomdoa5.nomdo.ui.workspaces
+package com.nomdoa5.nomdo.ui.workspace
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.nomdoa5.nomdo.repository.model.Workspace
-import com.nomdoa5.nomdo.repository.model.request.workspace.DeleteWorkspaceRequest
 import com.nomdoa5.nomdo.repository.model.request.workspace.UpdateWorkspaceRequest
 import com.nomdoa5.nomdo.repository.model.request.workspace.WorkspaceRequest
 import com.nomdoa5.nomdo.repository.model.response.WorkspaceResponse

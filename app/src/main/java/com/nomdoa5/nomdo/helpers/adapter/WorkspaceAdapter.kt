@@ -42,7 +42,6 @@ class WorkspaceAdapter(private val listener: OnWorkspaceClickListener) :
         private val binding = ItemWorkspaceBinding.bind(itemView)
         fun bind(workspaceItem: Workspace) {
             binding.tvTitleWorkspace.text = workspaceItem.workspaceName
-            binding.tvCreator.text = workspaceItem.workspaceCreator
 
             itemView.setOnClickListener { listener.onWorkspaceClick(workspaceItem) }
             itemView.setOnLongClickListener {

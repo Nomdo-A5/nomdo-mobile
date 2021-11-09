@@ -6,11 +6,16 @@ import kotlinx.parcelize.Parcelize
 
 @Parcelize
 data class UpdateTaskRequest(
-    val id: Int? = null,
+    @SerializedName("id")
+    val id: Int,
     @SerializedName("task_name")
     val taskName: String? = null,
     @SerializedName("task_description")
     val taskDescription: String? = null,
-    @SerializedName("board_id")
-    val boardId: Int? = null,
+    @SerializedName("due_date")
+    val dueDate: String? = null,
+    @SerializedName("is_done")
+    val isDone: Int? = null,
+    @SerializedName("is_finishedBy")
+    val isFinishedBy: Int? = null,
 ) : Parcelable

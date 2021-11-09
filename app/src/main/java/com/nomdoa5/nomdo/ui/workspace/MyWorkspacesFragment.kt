@@ -1,8 +1,7 @@
-package com.nomdoa5.nomdo.ui.workspaces
+package com.nomdoa5.nomdo.ui.workspace
 
 import android.content.Context
 import android.os.Bundle
-import android.view.ActionMode
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -18,14 +17,12 @@ import androidx.recyclerview.widget.RecyclerView
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.google.android.material.snackbar.Snackbar
 import com.nomdoa5.nomdo.R
-import com.nomdoa5.nomdo.helpers.adapter.WorkspaceAdapter
 import com.nomdoa5.nomdo.databinding.FragmentMyWorkspacesBinding
 import com.nomdoa5.nomdo.helpers.ViewModelFactory
+import com.nomdoa5.nomdo.helpers.adapter.WorkspaceAdapter
 import com.nomdoa5.nomdo.repository.local.UserPreferences
 import com.nomdoa5.nomdo.repository.model.Workspace
 import com.nomdoa5.nomdo.ui.auth.AuthViewModel
-import com.nomdoa5.nomdo.ui.dialog.UpdateWorkspaceDialogFragment
-import com.nomdoa5.nomdo.ui.dialog.UpdateWorkspaceDialogFragmentArgs
 
 private val Context.dataStore: DataStore<Preferences> by preferencesDataStore(name = "auth")
 
@@ -74,7 +71,6 @@ class MyWorkspacesFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener,
             val workspace = Workspace(
                 i,
                 workspaceName[i],
-                "Owned by " + workspaceCreator[i],
             )
             workspaces.add(workspace)
         }

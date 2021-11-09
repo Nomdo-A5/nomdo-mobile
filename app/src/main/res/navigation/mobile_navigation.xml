@@ -13,7 +13,7 @@
 
     <fragment
         android:id="@+id/nav_my_workspaces"
-        android:name="com.nomdoa5.nomdo.ui.workspaces.MyWorkspacesFragment"
+        android:name="com.nomdoa5.nomdo.ui.workspace.MyWorkspacesFragment"
         android:label="@string/menu_gallery"
         tools:layout="@layout/fragment_my_workspaces" >
         <action
@@ -23,7 +23,7 @@
 
     <fragment
         android:id="@+id/nav_shared_workspaces"
-        android:name="com.nomdoa5.nomdo.ui.workspaces.SharedWorkspacesFragment"
+        android:name="com.nomdoa5.nomdo.ui.workspace.SharedWorkspacesFragment"
         android:label="@string/menu_slideshow"
         tools:layout="@layout/fragment_shared_workspaces" >
         <action
@@ -35,7 +35,7 @@
     </fragment>
     <fragment
         android:id="@+id/nav_boards"
-        android:name="com.nomdoa5.nomdo.ui.boards.BoardsFragment"
+        android:name="com.nomdoa5.nomdo.ui.board.BoardsFragment"
         android:label="@string/menu_slideshow"
         tools:layout="@layout/fragment_boards" >
         <action
@@ -50,7 +50,7 @@
     </fragment>
     <fragment
         android:id="@+id/nav_tasks"
-        android:name="com.nomdoa5.nomdo.ui.tasks.TaskFragment"
+        android:name="com.nomdoa5.nomdo.ui.task.TaskFragment"
         android:label="@string/menu_slideshow"
         tools:layout="@layout/fragment_task" >
         <action
@@ -63,7 +63,7 @@
 
     <fragment
         android:id="@+id/detailTaskFragment"
-        android:name="com.nomdoa5.nomdo.ui.tasks.DetailTaskFragment"
+        android:name="com.nomdoa5.nomdo.ui.task.DetailTaskFragment"
         android:label="fragment_detail_task"
         tools:layout="@layout/fragment_detail_task" >
         <argument
@@ -78,7 +78,7 @@
         tools:layout="@layout/dialog_fragment_logout" />
     <fragment
         android:id="@+id/updateWorkspaceDialogFragment"
-        android:name="com.nomdoa5.nomdo.ui.dialog.UpdateWorkspaceDialogFragment"
+        android:name="com.nomdoa5.nomdo.ui.workspace.UpdateWorkspaceDialogFragment"
         android:label="updateWorkspaceDialogFragment">
         <argument
             android:name="workspace"
@@ -86,7 +86,7 @@
     </fragment>
     <fragment
         android:id="@+id/updateBoardDialogFragment"
-        android:name="com.nomdoa5.nomdo.ui.dialog.UpdateBoardDialogFragment"
+        android:name="com.nomdoa5.nomdo.ui.board.UpdateBoardDialogFragment"
         android:label="UpdateBoardDialogFragment" />
     <fragment
         android:id="@+id/moneyReportFragment"

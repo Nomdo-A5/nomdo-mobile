@@ -1,4 +1,4 @@
-package com.nomdoa5.nomdo.ui.workspaces
+package com.nomdoa5.nomdo.ui.workspace
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -57,7 +57,6 @@ class SharedWorkspacesFragment : Fragment(), WorkspaceAdapter.OnWorkspaceClickLi
             val workspace = Workspace(
                 i,
                 workspaceName[i],
-                "Owned by " + workspaceCreator[i],
             )
             workspaces.add(workspace)
         }

@@ -1,4 +1,4 @@
-package com.nomdoa5.nomdo.ui.balance
+package com.nomdoa5.nomdo.ui.board
 
 import android.content.Context
 import android.os.Bundle
@@ -11,39 +11,42 @@ import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.preferencesDataStore
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.Navigation
+import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.snackbar.Snackbar
 import com.nomdoa5.nomdo.R
-import com.nomdoa5.nomdo.databinding.FragmentMoneyReportBinding
+import com.nomdoa5.nomdo.databinding.FragmentBoardsBinding
 import com.nomdoa5.nomdo.helpers.ViewModelFactory
-import com.nomdoa5.nomdo.helpers.adapter.BalanceAdapter
 import com.nomdoa5.nomdo.helpers.adapter.BoardAdapter
 import com.nomdoa5.nomdo.repository.local.UserPreferences
-import com.nomdoa5.nomdo.repository.model.BalanceModel
 import com.nomdoa5.nomdo.repository.model.Board
+import com.nomdoa5.nomdo.ui.MainActivity
 import com.nomdoa5.nomdo.ui.auth.AuthViewModel
-import com.nomdoa5.nomdo.ui.boards.BoardsViewModel
-import com.nomdoa5.nomdo.ui.dialog.UpdateBoardDialogFragment
-import java.util.*
 
 private val Context.dataStore: DataStore<Preferences> by preferencesDataStore(name = "auth")
 
-class MoneyReportFragment : Fragment(), BoardAdapter.OnBoardClickListener {
-    private lateinit var boardsViewModel: BoardsViewModel
+class BoardsFragment : Fragment(), BoardAdapter.OnBoardClickListener {
+    private lateinit var boardViewModel: BoardViewModel
     private lateinit var authViewModel: AuthViewModel
-    private var _binding: FragmentMoneyReportBinding? = null
+    private var _binding: FragmentBoardsBinding? = null
     private val binding get() = _binding!!
-    private lateinit var balanceAdapter : BalanceAdapter
-    private lateinit var rvBalance: RecyclerView
+    private val boardAdapter = BoardAdapter(this)
+    private var boards = arrayListOf<Board>()
+    private lateinit var boardName: Array<String>
+    private lateinit var createdAt: Array<String>
+    private lateinit var rvBoard: RecyclerView
+    private val args: BoardsFragmentArgs by navArgs()
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        _binding = FragmentMoneyReportBinding.inflate(inflater, container, false)
+        _binding = FragmentBoardsBinding.inflate(inflater, container, false)
         val root: View = binding.root
+        (activity as MainActivity?)!!.setupToolbarWorkspace()
 
         return root
     }
@@ -51,6 +54,7 @@ class MoneyReportFragment : Fragment(), BoardAdapter.OnBoardClickListener {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setupViewModel()
+        setData()
         setupRecyclerView()
     }
 
@@ -59,28 +63,46 @@ class MoneyReportFragment : Fragment(), BoardAdapter.OnBoardClickListener {
         _binding = null
     }
 
-    private fun getList(): List<BalanceModel>? {
-        val balance_Model_list: MutableList<BalanceModel> = ArrayList()
-        balance_Model_list.add(BalanceModel("1", "Foto Copy", "0", "2000"))
-        balance_Model_list.add(BalanceModel("2", "Paid Promote", "500000", "0"))
-        balance_Model_list.add(BalanceModel("3", "Konsumsi", "0", "20000"))
-        return balance_Model_list
+    fun setData() {
+        boardName = resources.getStringArray(R.array.name)
+        createdAt = resources.getStringArray(R.array.creator)
+
+
+        for (i in boardName.indices) {
+            val board = Board(
+                i,
+                boardName[i],
+                "Owned by " + createdAt[i],
+            )
+            boards.add(board)
+        }
     }
 
     fun setupRecyclerView() {
-        balanceAdapter = BalanceAdapter(requireContext(), getList())
-        rvBalance = requireView().findViewById(R.id.rv_balance)
-        rvBalance.setHasFixedSize(true)
-        rvBalance.layoutManager = LinearLayoutManager(context)
-        rvBalance.adapter = balanceAdapter
+        binding.swipeMyBoards.isRefreshing = true
+        rvBoard = requireView().findViewById(R.id.rv_boards)
+        rvBoard.setHasFixedSize(true)
+        rvBoard.addItemDecoration(BoardAdapter.MarginItemDecoration(15))
+        rvBoard.layoutManager = LinearLayoutManager(context)
+//        boardAdapter.setData(boards)
+        authViewModel.getAuthToken().observe(viewLifecycleOwner, {
+            boardViewModel.setBoard(it!!, args.idWorkspace)
+        })
+
+        boardViewModel.getBoard().observe(viewLifecycleOwner, {
+            boardAdapter.setData(it)
+            binding.swipeMyBoards.isRefreshing = false
+        })
+        rvBoard.adapter = boardAdapter
+
     }
 
     fun setupViewModel() {
         val pref = UserPreferences.getInstance(requireContext().dataStore)
         authViewModel =
             ViewModelProvider(this, ViewModelFactory(pref)).get(AuthViewModel::class.java)
-        boardsViewModel =
-            ViewModelProvider(this).get(BoardsViewModel::class.java)
+        boardViewModel =
+            ViewModelProvider(this).get(BoardViewModel::class.java)
     }
 
     override fun onBoardClick(data: Board) {
@@ -89,6 +111,10 @@ class MoneyReportFragment : Fragment(), BoardAdapter.OnBoardClickListener {
             "Kamu mengklik #${data.id}",
             Snackbar.LENGTH_SHORT
         ).show()
+
+        val action =
+            BoardsFragmentDirections.actionNavBoardsToNavTasks(data.id.toString())
+        Navigation.findNavController(requireView()).navigate(action)
     }
 
     override fun onBoardLongClick(data: Board) {
