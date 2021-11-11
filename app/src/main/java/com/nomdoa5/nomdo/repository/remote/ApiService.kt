@@ -13,6 +13,12 @@ import com.nomdoa5.nomdo.repository.model.request.task.UpdateTaskRequest
 import com.nomdoa5.nomdo.repository.model.request.workspace.UpdateWorkspaceRequest
 import com.nomdoa5.nomdo.repository.model.request.workspace.WorkspaceRequest
 import com.nomdoa5.nomdo.repository.model.response.*
+import com.nomdoa5.nomdo.repository.model.response.board.BoardResponse
+import com.nomdoa5.nomdo.repository.model.response.board.CreateBoardResponse
+import com.nomdoa5.nomdo.repository.model.response.task.CreateTaskResponse
+import com.nomdoa5.nomdo.repository.model.response.task.TaskResponse
+import com.nomdoa5.nomdo.repository.model.response.workspace.CreateWorkspaceResponse
+import com.nomdoa5.nomdo.repository.model.response.workspace.WorkspaceResponse
 import retrofit2.Call
 import retrofit2.http.*
 
@@ -50,13 +56,13 @@ interface ApiService {
     fun addWorkspace(
         @Header("Authorization") token: String,
         @Body workspace: WorkspaceRequest
-    ): Call<WorkspaceResponse>
+    ): Call<CreateWorkspaceResponse>
 
     @PATCH("workspace")
     fun updateWorkspace(
         @Header("Authorization") token: String,
         @Body workspace: UpdateWorkspaceRequest
-    ): Call<WorkspaceResponse>
+    ): Call<CreateWorkspaceResponse>
 
     @DELETE("workspace")
     fun deleteWorkspace(
@@ -76,13 +82,13 @@ interface ApiService {
     fun addBoard(
         @Header("Authorization") token: String,
         @Body board: BoardRequest
-    ): Call<BoardResponse>
+    ): Call<CreateBoardResponse>
 
     @PATCH("boards")
     fun updateBoard(
         @Header("Authorization") token: String,
         @Body board: UpdateBoardRequest
-    ): Call<BoardResponse>
+    ): Call<CreateBoardResponse>
 
     @DELETE("boards")
     fun deleteBoard(
@@ -108,13 +114,13 @@ interface ApiService {
     fun addTask(
         @Header("Authorization") token: String,
         @Body task: TaskRequest
-    ): Call<TaskResponse>
+    ): Call<CreateTaskResponse>
 
     @PATCH("task")
     fun updateTask(
         @Header("Authorization") token: String,
         @Body task: UpdateTaskRequest
-    ): Call<TaskResponse>
+    ): Call<CreateTaskResponse>
 
     @DELETE("task")
     fun deleteTask(
@@ -123,7 +129,7 @@ interface ApiService {
     ): Call<TaskResponse>
 
 
-    //    RESPONSE
+    //    MONEY REPORT
     @GET("report")
     fun getReport(
         @Header("Authorization") token: String,
@@ -133,7 +139,7 @@ interface ApiService {
     @POST("report")
     fun addReport(
         @Header("Authorization") token: String,
-        @Query("id") report: ReportRequest,
+        @Body report: ReportRequest,
     ): Call<ReportResponse>
 
 

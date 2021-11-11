@@ -115,7 +115,7 @@ class TaskFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener,
         })
 
         taskViewModel.getSetTaskState().observe(viewLifecycleOwner, {
-            if (it) {
+            if (it == true) {
                 binding.swipeMyTask.isRefreshing = false
             }
         })

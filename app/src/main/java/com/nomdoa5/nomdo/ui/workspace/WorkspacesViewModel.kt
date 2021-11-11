@@ -6,7 +6,8 @@ import androidx.lifecycle.ViewModel
 import com.nomdoa5.nomdo.repository.model.Workspace
 import com.nomdoa5.nomdo.repository.model.request.workspace.UpdateWorkspaceRequest
 import com.nomdoa5.nomdo.repository.model.request.workspace.WorkspaceRequest
-import com.nomdoa5.nomdo.repository.model.response.WorkspaceResponse
+import com.nomdoa5.nomdo.repository.model.response.workspace.CreateWorkspaceResponse
+import com.nomdoa5.nomdo.repository.model.response.workspace.WorkspaceResponse
 import com.nomdoa5.nomdo.repository.remote.ApiService
 import com.nomdoa5.nomdo.repository.remote.RetrofitClient
 import retrofit2.Call
@@ -15,6 +16,7 @@ import retrofit2.Response
 
 class WorkspacesViewModel : ViewModel() {
     private val listWorkspace = MutableLiveData<ArrayList<Workspace>>()
+    private val createdWorkspace = MutableLiveData<Workspace>()
     private val workspaceState = MutableLiveData<Boolean>()
     private val addWorkspaceState = MutableLiveData<Boolean>()
     private val updateWorkspaceState = MutableLiveData<Boolean>()
@@ -44,15 +46,16 @@ class WorkspacesViewModel : ViewModel() {
         val service = RetrofitClient.buildService(ApiService::class.java)
         val requestCall = service.addWorkspace(token = "Bearer $token", newWorkspace)
 
-        requestCall.enqueue(object : Callback<WorkspaceResponse> {
+        requestCall.enqueue(object : Callback<CreateWorkspaceResponse> {
             override fun onResponse(
-                call: Call<WorkspaceResponse>,
-                response: Response<WorkspaceResponse>
+                call: Call<CreateWorkspaceResponse>,
+                response: Response<CreateWorkspaceResponse>
             ) {
+                createdWorkspace.postValue(response.body()!!.workspace)
                 addWorkspaceState.postValue(true)
             }
 
-            override fun onFailure(call: Call<WorkspaceResponse>, t: Throwable) {
+            override fun onFailure(call: Call<CreateWorkspaceResponse>, t: Throwable) {
                 addWorkspaceState.postValue(false)
             }
         })
@@ -62,15 +65,15 @@ class WorkspacesViewModel : ViewModel() {
         val service = RetrofitClient.buildService(ApiService::class.java)
         val requestCall = service.updateWorkspace(token = "Bearer $token", workspace)
 
-        requestCall.enqueue(object : Callback<WorkspaceResponse> {
+        requestCall.enqueue(object : Callback<CreateWorkspaceResponse> {
             override fun onResponse(
-                call: Call<WorkspaceResponse>,
-                response: Response<WorkspaceResponse>
+                call: Call<CreateWorkspaceResponse>,
+                response: Response<CreateWorkspaceResponse>
             ) {
                 updateWorkspaceState.value = true
             }
 
-            override fun onFailure(call: Call<WorkspaceResponse>, t: Throwable) {
+            override fun onFailure(call: Call<CreateWorkspaceResponse>, t: Throwable) {
                 updateWorkspaceState.value = false
             }
         })
@@ -114,4 +117,7 @@ class WorkspacesViewModel : ViewModel() {
         return listWorkspace
     }
 
+    fun getCreatedWorkspace(): LiveData<Workspace> {
+        return createdWorkspace
+    }
 }

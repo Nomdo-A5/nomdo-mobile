@@ -1,4 +1,4 @@
-package com.nomdoa5.nomdo.repository.model.response
+package com.nomdoa5.nomdo.repository.model.response.task
 
 import android.os.Parcelable
 import com.google.gson.annotations.SerializedName

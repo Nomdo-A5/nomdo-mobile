@@ -6,6 +6,11 @@ import kotlinx.parcelize.Parcelize
 
 @Parcelize
 data class BalanceRequest(
-    @SerializedName("balance_name")
-    val balanceName: String? = null,
+    @SerializedName("workspace_id")
+    val workspaceId: Int?,
+    val nominal: String? = null,
+    @SerializedName("balance_description")
+    val balanceDescription: String? = null,
+    @SerializedName("is_income")
+    val isIncome: Int? = null,
 ) : Parcelable

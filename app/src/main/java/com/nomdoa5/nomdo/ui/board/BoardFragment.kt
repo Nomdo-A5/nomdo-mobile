@@ -15,6 +15,7 @@ import androidx.navigation.Navigation
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.google.android.material.snackbar.Snackbar
 import com.nomdoa5.nomdo.R
 import com.nomdoa5.nomdo.databinding.FragmentBoardsBinding
@@ -27,7 +28,8 @@ import com.nomdoa5.nomdo.ui.auth.AuthViewModel
 
 private val Context.dataStore: DataStore<Preferences> by preferencesDataStore(name = "auth")
 
-class BoardsFragment : Fragment(), BoardAdapter.OnBoardClickListener {
+class BoardsFragment : Fragment(), BoardAdapter.OnBoardClickListener,
+    SwipeRefreshLayout.OnRefreshListener {
     private lateinit var boardViewModel: BoardViewModel
     private lateinit var authViewModel: AuthViewModel
     private var _binding: FragmentBoardsBinding? = null
@@ -53,6 +55,7 @@ class BoardsFragment : Fragment(), BoardAdapter.OnBoardClickListener {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        binding.swipeMyBoards.setOnRefreshListener(this)
         setupViewModel()
         setData()
         setupRecyclerView()
@@ -124,5 +127,17 @@ class BoardsFragment : Fragment(), BoardAdapter.OnBoardClickListener {
         bundle.putParcelable("EXTRA_BOARD", data)
         addBoardFragment.arguments = bundle
         addBoardFragment.show(requireActivity().supportFragmentManager, "Update Dialog")
+    }
+
+    override fun onRefresh() {
+        authViewModel.getAuthToken().observe(viewLifecycleOwner, {
+            boardViewModel.setBoard(it!!, args.idWorkspace)
+        })
+
+        boardViewModel.getSetBoardState().observe(viewLifecycleOwner, {
+            if (it) {
+                binding.swipeMyBoards.isRefreshing = false
+            }
+        })
     }
 }

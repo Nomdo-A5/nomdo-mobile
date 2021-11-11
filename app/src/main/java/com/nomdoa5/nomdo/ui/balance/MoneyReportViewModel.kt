@@ -15,14 +15,14 @@ import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
-class ReportViewModel : ViewModel() {
+class MoneyReportViewModel : ViewModel() {
     private val listReport = MutableLiveData<ReportResponse>()
     private val setReportState = MutableLiveData<Boolean>()
     private val addBalanceState = MutableLiveData<Boolean>()
     private val updateBalanceState = MutableLiveData<Boolean>()
     private val deleteBalanceState = MutableLiveData<Boolean>()
 
-    fun setReport(token: String, idReport: String) {
+    fun setMoneyReport(token: String, idReport: String) {
         val service = RetrofitClient.buildService(ApiService::class.java)
         val requestCall = service.getReport(token = "Bearer $token", idReport)
 
@@ -45,7 +45,7 @@ class ReportViewModel : ViewModel() {
         })
     }
 
-    fun addReport(token: String, newReport: ReportRequest) {
+    fun addMoneyReport(token: String, newReport: ReportRequest) {
         val service = RetrofitClient.buildService(ApiService::class.java)
         val requestCall = service.addReport(token = "Bearer $token", newReport)
 
@@ -63,11 +63,11 @@ class ReportViewModel : ViewModel() {
         })
     }
 
-    fun getReportState(): LiveData<Boolean> {
+    fun getMoneyReportState(): LiveData<Boolean> {
         return setReportState
     }
 
-    fun getReport(): LiveData<ReportResponse> {
+    fun getMoneyReport(): LiveData<ReportResponse> {
         return listReport
     }
 }
