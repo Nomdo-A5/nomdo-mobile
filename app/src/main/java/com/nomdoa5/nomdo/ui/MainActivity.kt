@@ -35,6 +35,7 @@ import com.nomdoa5.nomdo.repository.model.request.board.BoardRequest
 import com.nomdoa5.nomdo.repository.model.request.task.TaskRequest
 import com.nomdoa5.nomdo.repository.model.request.workspace.WorkspaceRequest
 import com.nomdoa5.nomdo.ui.auth.AuthViewModel
+import com.nomdoa5.nomdo.ui.balance.CreateBalanceDialogFragment
 import com.nomdoa5.nomdo.ui.board.BoardsFragmentDirections
 import com.nomdoa5.nomdo.ui.board.BoardViewModel
 import com.nomdoa5.nomdo.ui.board.CreateBoardDialogFragment
@@ -117,6 +118,7 @@ class MainActivity : AppCompatActivity(), View.OnClickListener, PopupMenu.OnMenu
         binding.appBarMain.fabAddTask.setOnClickListener(this)
         binding.appBarMain.fabAddBoard.setOnClickListener(this)
         binding.appBarMain.fabAddTask.setOnClickListener(this)
+        binding.appBarMain.fabAddBalance.setOnClickListener(this)
         binding.appBarMain.appBarLayout.toolbarMainNavigation.setOnClickListener(this)
         binding.appBarMain.appBarLayoutWorkspace.navigation.setOnClickListener(this)
         binding.appBarMain.appBarLayoutBoard.navigation.setOnClickListener(this)
@@ -153,6 +155,10 @@ class MainActivity : AppCompatActivity(), View.OnClickListener, PopupMenu.OnMenu
             binding.appBarMain.fabAddTask -> {
                 val addTaskFragment = CreateTaskDialogFragment()
                 addTaskFragment.show(supportFragmentManager, "Add Task Dialog")
+            }
+            binding.appBarMain.fabAddBalance -> {
+                val addBalanceFragment = CreateBalanceDialogFragment()
+                addBalanceFragment.show(supportFragmentManager, "Add Balance Dialog")
             }
             closeWorkspace -> {
                 addWorkspaceDialog.dismiss()
@@ -230,7 +236,7 @@ class MainActivity : AppCompatActivity(), View.OnClickListener, PopupMenu.OnMenu
                 })
 
                 taskViewModel.getAddTaskState().observe(this, {
-                    if (it) {
+                    if (it!!) {
                         Toast.makeText(this, "Task Added", Toast.LENGTH_SHORT).show()
                         btnAddTask.doneLoadingAnimation(
                             resources.getColor(R.color.teal_200),
@@ -254,16 +260,20 @@ class MainActivity : AppCompatActivity(), View.OnClickListener, PopupMenu.OnMenu
             binding.appBarMain.fabAddBoard.visibility = View.VISIBLE
             binding.appBarMain.fabAddTask.visibility = View.VISIBLE
             binding.appBarMain.fabAddWorkspace.visibility = View.VISIBLE
+            binding.appBarMain.fabAddBalance.visibility = View.VISIBLE
             binding.appBarMain.tvAddBoard.visibility = View.VISIBLE
             binding.appBarMain.tvAddTask.visibility = View.VISIBLE
             binding.appBarMain.tvAddWorkspace.visibility = View.VISIBLE
+            binding.appBarMain.tvAddBalance.visibility = View.VISIBLE
         } else {
             binding.appBarMain.fabAddBoard.visibility = View.GONE
             binding.appBarMain.fabAddTask.visibility = View.GONE
             binding.appBarMain.fabAddWorkspace.visibility = View.GONE
+            binding.appBarMain.fabAddBalance.visibility = View.GONE
             binding.appBarMain.tvAddBoard.visibility = View.GONE
             binding.appBarMain.tvAddTask.visibility = View.GONE
             binding.appBarMain.tvAddWorkspace.visibility = View.GONE
+            binding.appBarMain.tvAddBalance.visibility = View.GONE
         }
     }
 
@@ -272,17 +282,21 @@ class MainActivity : AppCompatActivity(), View.OnClickListener, PopupMenu.OnMenu
             binding.appBarMain.fabAddBoard.startAnimation(fromBottom)
             binding.appBarMain.fabAddTask.startAnimation(fromBottom)
             binding.appBarMain.fabAddWorkspace.startAnimation(fromBottom)
+            binding.appBarMain.fabAddBalance.startAnimation(fromBottom)
             binding.appBarMain.tvAddBoard.startAnimation(fromBottom)
             binding.appBarMain.tvAddTask.startAnimation(fromBottom)
             binding.appBarMain.tvAddWorkspace.startAnimation(fromBottom)
+            binding.appBarMain.tvAddBalance.startAnimation(fromBottom)
             binding.appBarMain.fab.startAnimation(rotateOpen)
         } else {
             binding.appBarMain.fabAddBoard.startAnimation(toBottom)
             binding.appBarMain.fabAddTask.startAnimation(toBottom)
             binding.appBarMain.fabAddWorkspace.startAnimation(toBottom)
+            binding.appBarMain.fabAddBalance.startAnimation(toBottom)
             binding.appBarMain.tvAddBoard.startAnimation(toBottom)
             binding.appBarMain.tvAddTask.startAnimation(toBottom)
             binding.appBarMain.tvAddWorkspace.startAnimation(toBottom)
+            binding.appBarMain.tvAddBalance.startAnimation(toBottom)
             binding.appBarMain.fab.startAnimation(rotateClose)
         }
     }

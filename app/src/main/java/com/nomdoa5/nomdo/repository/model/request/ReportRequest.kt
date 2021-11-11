@@ -6,8 +6,8 @@ import kotlinx.parcelize.Parcelize
 
 @Parcelize
 data class ReportRequest(
-    @SerializedName("id_report")
-    val idReport: Int,
     @SerializedName("report_name")
     val reportName: String? = null,
+    @SerializedName("workspace_id")
+    val workspaceId: Int,
 ) : Parcelable

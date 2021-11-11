@@ -6,7 +6,8 @@ import androidx.lifecycle.ViewModel
 import com.nomdoa5.nomdo.repository.model.Board
 import com.nomdoa5.nomdo.repository.model.request.board.BoardRequest
 import com.nomdoa5.nomdo.repository.model.request.board.UpdateBoardRequest
-import com.nomdoa5.nomdo.repository.model.response.BoardResponse
+import com.nomdoa5.nomdo.repository.model.response.board.BoardResponse
+import com.nomdoa5.nomdo.repository.model.response.board.CreateBoardResponse
 import com.nomdoa5.nomdo.repository.remote.ApiService
 import com.nomdoa5.nomdo.repository.remote.RetrofitClient
 import retrofit2.Call
@@ -44,12 +45,12 @@ class BoardViewModel : ViewModel() {
         val service = RetrofitClient.buildService(ApiService::class.java)
         val requestCall = service.updateBoard(token = "Bearer $token", board)
 
-        requestCall.enqueue(object : Callback<BoardResponse> {
-            override fun onResponse(call: Call<BoardResponse>, response: Response<BoardResponse>) {
+        requestCall.enqueue(object : Callback<CreateBoardResponse> {
+            override fun onResponse(call: Call<CreateBoardResponse>, response: Response<CreateBoardResponse>) {
                 updateBoardState.value = true
             }
 
-            override fun onFailure(call: Call<BoardResponse>, t: Throwable) {
+            override fun onFailure(call: Call<CreateBoardResponse>, t: Throwable) {
                 updateBoardState.value = false
             }
         })
@@ -75,11 +76,11 @@ class BoardViewModel : ViewModel() {
         val service = RetrofitClient.buildService(ApiService::class.java)
         val requestCall = service.addBoard(token = "Bearer $token", newBoard)
 
-        requestCall.enqueue(object : Callback<BoardResponse> {
-            override fun onResponse(call: Call<BoardResponse>, response: Response<BoardResponse>) {
+        requestCall.enqueue(object : Callback<CreateBoardResponse> {
+            override fun onResponse(call: Call<CreateBoardResponse>, response: Response<CreateBoardResponse>) {
                 addBoardState.postValue(true)
             }
-            override fun onFailure(call: Call<BoardResponse>, t: Throwable) {
+            override fun onFailure(call: Call<CreateBoardResponse>, t: Throwable) {
                 addBoardState.postValue(false)
             }
         })

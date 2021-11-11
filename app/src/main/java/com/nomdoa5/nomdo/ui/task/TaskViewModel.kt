@@ -6,7 +6,8 @@ import androidx.lifecycle.ViewModel
 import com.nomdoa5.nomdo.repository.model.Task
 import com.nomdoa5.nomdo.repository.model.request.task.TaskRequest
 import com.nomdoa5.nomdo.repository.model.request.task.UpdateTaskRequest
-import com.nomdoa5.nomdo.repository.model.response.TaskResponse
+import com.nomdoa5.nomdo.repository.model.response.task.CreateTaskResponse
+import com.nomdoa5.nomdo.repository.model.response.task.TaskResponse
 import com.nomdoa5.nomdo.repository.remote.ApiService
 import com.nomdoa5.nomdo.repository.remote.RetrofitClient
 import retrofit2.Call
@@ -16,13 +17,14 @@ import retrofit2.Response
 class TaskViewModel : ViewModel() {
     private val listTask = MutableLiveData<ArrayList<Task>>()
     private val detailTask = MutableLiveData<Task>()
-    private val setTaskState = MutableLiveData<Boolean>()
+    private val setTaskState = MutableLiveData<Boolean?>()
     private val addTaskState = MutableLiveData<Boolean>()
     private val updateTaskState = MutableLiveData<Boolean>()
     private val deleteTaskState = MutableLiveData<Boolean>()
     private val detailTaskState = MutableLiveData<Boolean>()
 
     fun setTask(token: String, idBoard: String) {
+        setTaskState.postValue(null)
         val service = RetrofitClient.buildService(ApiService::class.java)
         val requestCall = service.getTask(token = "Bearer $token", idBoard)
 
@@ -42,12 +44,11 @@ class TaskViewModel : ViewModel() {
         val service = RetrofitClient.buildService(ApiService::class.java)
         val requestCall = service.addTask(token = "Bearer $token", newTask)
 
-        requestCall.enqueue(object : Callback<TaskResponse> {
-            override fun onResponse(call: Call<TaskResponse>, response: Response<TaskResponse>) {
+        requestCall.enqueue(object : Callback<CreateTaskResponse> {
+            override fun onResponse(call: Call<CreateTaskResponse>, response: Response<CreateTaskResponse>) {
                 addTaskState.postValue(true)
             }
-
-            override fun onFailure(call: Call<TaskResponse>, t: Throwable) {
+            override fun onFailure(call: Call<CreateTaskResponse>, t: Throwable) {
                 addTaskState.postValue(false)
             }
         })
@@ -57,12 +58,12 @@ class TaskViewModel : ViewModel() {
         val service = RetrofitClient.buildService(ApiService::class.java)
         val requestCall = service.updateTask(token = "Bearer $token", newTask)
 
-        requestCall.enqueue(object : Callback<TaskResponse> {
-            override fun onResponse(call: Call<TaskResponse>, response: Response<TaskResponse>) {
+        requestCall.enqueue(object : Callback<CreateTaskResponse> {
+            override fun onResponse(call: Call<CreateTaskResponse>, response: Response<CreateTaskResponse>) {
                 updateTaskState.postValue(true)
             }
 
-            override fun onFailure(call: Call<TaskResponse>, t: Throwable) {
+            override fun onFailure(call: Call<CreateTaskResponse>, t: Throwable) {
                 updateTaskState.postValue(false)
             }
         })
@@ -99,7 +100,7 @@ class TaskViewModel : ViewModel() {
         })
     }
 
-    fun getSetTaskState(): LiveData<Boolean> {
+    fun getSetTaskState(): LiveData<Boolean?> {
         return setTaskState
     }
 
