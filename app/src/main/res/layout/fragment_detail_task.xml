@@ -40,20 +40,6 @@
             app:layout_constraintTop_toBottomOf="@+id/layout_desc_update_task" />
 
         <TextView
-            android:id="@+id/tv_spended_money_title"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
-            android:drawablePadding="3dp"
-            android:fontFamily="@font/roboto_medium"
-            android:text="Spended Money"
-            app:drawableStartCompat="@drawable/ic_money"
-            app:layout_constraintEnd_toEndOf="@+id/tv_calendar"
-            app:layout_constraintHorizontal_bias="1.0"
-            app:layout_constraintStart_toStartOf="@+id/tv_calendar"
-            app:layout_constraintTop_toBottomOf="@+id/tv_calendar" />
-
-        <TextView
             android:id="@+id/tv_attachment"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -66,10 +52,10 @@
             android:textAlignment="gravity"
             app:drawableEndCompat="@drawable/ic_add_outline"
             app:drawableStartCompat="@drawable/ic_attach"
-            app:layout_constraintEnd_toEndOf="@+id/tv_spended_money"
+            app:layout_constraintEnd_toEndOf="@+id/tv_calendar"
             app:layout_constraintHorizontal_bias="0.0"
-            app:layout_constraintStart_toStartOf="@+id/tv_spended_money"
-            app:layout_constraintTop_toBottomOf="@+id/tv_spended_money" />
+            app:layout_constraintStart_toStartOf="@+id/tv_calendar"
+            app:layout_constraintTop_toBottomOf="@+id/tv_calendar" />
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rv_member"
@@ -142,17 +128,6 @@
             app:layout_constraintStart_toStartOf="@+id/tv_calendar_title"
             app:layout_constraintTop_toBottomOf="@+id/tv_calendar_title" />
 
-        <TextView
-            android:id="@+id/tv_spended_money"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:text="-"
-            app:layout_constraintEnd_toEndOf="@+id/tv_spended_money_title"
-            app:layout_constraintHorizontal_bias="0.0"
-            app:layout_constraintStart_toStartOf="@+id/tv_spended_money_title"
-            app:layout_constraintTop_toBottomOf="@+id/tv_spended_money_title" />
-
         <com.apachat.loadingbutton.core.customViews.CircularProgressButton
             android:id="@+id/btn_update_task"
             android:layout_width="100dp"
@@ -166,7 +141,7 @@
             app:finalCornerAngle="30dp"
             app:initialCornerAngle="30dp"
             app:layout_constraintBottom_toBottomOf="@id/btn_delete_update_task"
-            app:layout_constraintEnd_toEndOf="@+id/tv_spended_money"
+            app:layout_constraintEnd_toEndOf="@+id/tv_calendar"
             app:layout_constraintStart_toStartOf="@+id/tv_attachment"
             app:layout_constraintTop_toBottomOf="@+id/tv_attachment"
             app:spinning_bar_padding="8dp" />
@@ -176,7 +151,7 @@
             android:layout_width="100dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
-            android:layout_marginBottom="24dp"
+            android:layout_marginBottom="32dp"
             android:background="@drawable/btn_gray"
             android:fontFamily="@font/roboto_regular"
             android:text="Delete"
@@ -184,6 +159,7 @@
             app:finalCornerAngle="30dp"
             app:initialCornerAngle="30dp"
             app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="@+id/btn_update_task"
             app:layout_constraintStart_toStartOf="@+id/btn_update_task"
             app:layout_constraintTop_toBottomOf="@+id/btn_update_task"
             app:spinning_bar_padding="8dp" />

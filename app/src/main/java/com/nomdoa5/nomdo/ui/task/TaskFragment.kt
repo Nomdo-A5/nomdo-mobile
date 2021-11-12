@@ -51,7 +51,7 @@ class TaskFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener,
     ): View {
         _binding = FragmentTaskBinding.inflate(inflater, container, false)
         val root: View = binding.root
-        (activity as MainActivity?)!!.setupToolbarBoard()
+        (activity as MainActivity?)!!.setupToolbarBoard(args.board.boardName!!, args.workspaceName)
 
         return root
     }
@@ -91,7 +91,7 @@ class TaskFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener,
         rvTask.layoutManager = LinearLayoutManager(context)
 //        taskAdapter.setData(tasks)
         authViewModel.getAuthToken().observe(viewLifecycleOwner, {
-            taskViewModel.setTask(it!!, args.idBoard)
+            taskViewModel.setTask(it!!, args.board.id.toString())
         })
 
         taskViewModel.getTask().observe(viewLifecycleOwner, {
@@ -111,7 +111,7 @@ class TaskFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener,
 
     override fun onRefresh() {
         authViewModel.getAuthToken().observe(viewLifecycleOwner, {
-            taskViewModel.setTask(it!!, args.idBoard)
+            taskViewModel.setTask(it!!, args.board.id.toString())
         })
 
         taskViewModel.getSetTaskState().observe(viewLifecycleOwner, {

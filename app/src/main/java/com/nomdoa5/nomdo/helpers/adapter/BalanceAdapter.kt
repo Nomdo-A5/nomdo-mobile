@@ -8,6 +8,8 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.nomdoa5.nomdo.R
 import com.nomdoa5.nomdo.repository.model.BalanceModel
+import java.text.DecimalFormat
+import java.text.NumberFormat
 
 class BalanceAdapter(var context: Context, var balance_list: List<BalanceModel>?) :
     RecyclerView.Adapter<BalanceAdapter.ViewHolder>() {
@@ -19,10 +21,18 @@ class BalanceAdapter(var context: Context, var balance_list: List<BalanceModel>?
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         if (balance_list != null && balance_list!!.size > 0) {
             val model = balance_list!![position]
-            holder.tv_id.text = model.id
-            holder.tv_keterangan.text = model.keterangan
-            holder.tv_income.text = model.income
-            holder.tv_outcome.text = model.outcome
+            holder.tv_description.text = model.keterangan
+
+            val formatter = DecimalFormat("#,###")
+            val formattedNumber = formatter.format(model.outcome.toDouble())
+
+            holder.tv_nominal.text = formattedNumber
+
+            if(model.income.equals("1")){
+                holder.tv_type.text = "Income"
+            }else{
+                holder.tv_type.text = "Outcome"
+            }
         } else {
             return
         }
@@ -33,16 +43,14 @@ class BalanceAdapter(var context: Context, var balance_list: List<BalanceModel>?
     }
 
     inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        var tv_id: TextView
-        var tv_keterangan: TextView
-        var tv_income: TextView
-        var tv_outcome: TextView
+        var tv_description: TextView
+        var tv_type: TextView
+        var tv_nominal: TextView
 
         init {
-            tv_id = itemView.findViewById(R.id.tv_id)
-            tv_keterangan = itemView.findViewById(R.id.tv_keterangan)
-            tv_income = itemView.findViewById(R.id.tv_income)
-            tv_outcome = itemView.findViewById(R.id.tv_outcome)
+            tv_description = itemView.findViewById(R.id.tv_description_balance)
+            tv_type = itemView.findViewById(R.id.tv_type_balance)
+            tv_nominal = itemView.findViewById(R.id.tv_nominal_balance)
         }
     }
 }

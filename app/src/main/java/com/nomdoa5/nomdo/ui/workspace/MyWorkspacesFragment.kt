@@ -130,7 +130,7 @@ class MyWorkspacesFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener,
         ).show()
 
         val action =
-            MyWorkspacesFragmentDirections.actionNavMyWorkspacesToNavBoards(data.id.toString())
+            MyWorkspacesFragmentDirections.actionNavMyWorkspacesToNavBoards(data)
         Navigation.findNavController(requireView()).navigate(action)
     }
 

@@ -32,7 +32,7 @@ class SharedWorkspacesFragment : Fragment(), WorkspaceAdapter.OnWorkspaceClickLi
     ): View {
         _binding = FragmentSharedWorkspacesBinding.inflate(inflater, container, false)
         val root: View = binding.root
-        (activity as MainActivity?)!!.setupToolbarMain()
+        (activity as MainActivity?)!!.setupToolbarMain("Nomdo")
 
         return root
     }
@@ -74,7 +74,7 @@ class SharedWorkspacesFragment : Fragment(), WorkspaceAdapter.OnWorkspaceClickLi
     override fun onWorkspaceClick(data: Workspace) {
         Snackbar.make(requireView(), "Kamu mengklik #${data.id}", Snackbar.LENGTH_SHORT).show()
         val action =
-            SharedWorkspacesFragmentDirections.actionNavSharedWorkspacesToNavBoards(data.id.toString())
+            SharedWorkspacesFragmentDirections.actionNavSharedWorkspacesToNavBoards(data)
         Navigation.findNavController(requireView()).navigate(action)
     }
 

@@ -48,7 +48,7 @@ class BoardsFragment : Fragment(), BoardAdapter.OnBoardClickListener,
     ): View {
         _binding = FragmentBoardsBinding.inflate(inflater, container, false)
         val root: View = binding.root
-        (activity as MainActivity?)!!.setupToolbarWorkspace()
+        (activity as MainActivity?)!!.setupToolbarWorkspace(args.workspace.workspaceName!!)
 
         return root
     }
@@ -89,7 +89,7 @@ class BoardsFragment : Fragment(), BoardAdapter.OnBoardClickListener,
         rvBoard.layoutManager = LinearLayoutManager(context)
 //        boardAdapter.setData(boards)
         authViewModel.getAuthToken().observe(viewLifecycleOwner, {
-            boardViewModel.setBoard(it!!, args.idWorkspace)
+            boardViewModel.setBoard(it!!, args.workspace.id.toString())
         })
 
         boardViewModel.getBoard().observe(viewLifecycleOwner, {
@@ -116,7 +116,7 @@ class BoardsFragment : Fragment(), BoardAdapter.OnBoardClickListener,
         ).show()
 
         val action =
-            BoardsFragmentDirections.actionNavBoardsToNavTasks(data.id.toString())
+            BoardsFragmentDirections.actionNavBoardsToNavTasks(data, args.workspace.workspaceName!!)
         Navigation.findNavController(requireView()).navigate(action)
     }
 
@@ -131,7 +131,7 @@ class BoardsFragment : Fragment(), BoardAdapter.OnBoardClickListener,
 
     override fun onRefresh() {
         authViewModel.getAuthToken().observe(viewLifecycleOwner, {
-            boardViewModel.setBoard(it!!, args.idWorkspace)
+            boardViewModel.setBoard(it!!, args.workspace.id.toString())
         })
 
         boardViewModel.getSetBoardState().observe(viewLifecycleOwner, {

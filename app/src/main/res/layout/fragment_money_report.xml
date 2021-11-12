@@ -5,83 +5,62 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.balance.MoneyReportFragment">
+    tools:context=".ui.balance.MoneyReportFragment"
+    android:padding="15dp">
 
-    <TableLayout
-        android:id="@id/table_balance"
-        android:layout_width="360dp"
-        android:layout_height="match_parent"
-        android:layout_margin="8dp"
-        android:stretchColumns="1,2,3,4"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
 
-        <TableRow>
-
-            <TextView
-                android:layout_column="1"
-                android:fontFamily="@font/roboto_bold"
-                android:gravity="center"
-                android:padding="10dp"
-                android:text="ID"
-                android:textSize="16dp" />
-
-            <TextView
-                android:layout_column="1"
-                android:fontFamily="@font/roboto_bold"
-                android:gravity="center"
-                android:padding="10dp"
-                android:text="Keterangan"
-                android:textSize="16dp" />
-
-            <TextView
-                android:layout_column="1"
-                android:fontFamily="@font/roboto_bold"
-                android:gravity="center"
-                android:padding="10dp"
-                android:text="Outcome"
-                android:textSize="16dp" />
-
-            <TextView
-                android:layout_column="1"
-                android:fontFamily="@font/roboto_bold"
-                android:gravity="center"
-                android:padding="10dp"
-                android:text="Income"
-                android:textSize="16dp" />
-
-        </TableRow>
-
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/rv_balance"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent" />
-
-    </TableLayout>
-
-    <ImageView
-        android:id="@+id/img_download"
-        android:layout_width="wrap_content"
+    <TextView
+        android:background="@drawable/bg_outline"
+        android:id="@+id/textView"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="12dp"
-        android:layout_marginTop="56dp"
-        android:layout_marginEnd="12dp"
-        android:src="@drawable/ic_download"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/table_balance"
+        android:fontFamily="@font/roboto_bold"
+        android:gravity="center"
+        android:padding="10dp"
+        android:text="Description"
+        android:textSize="16dp"
+        app:layout_constraintEnd_toStartOf="@+id/textView3"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <ImageView
-        android:id="@+id/img_edit"
-        android:layout_width="wrap_content"
+    <TextView
+        android:background="@drawable/bg_outline"
+        android:id="@+id/textView3"
+        android:layout_width="80dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="12dp"
-        android:layout_marginTop="42dp"
-        android:layout_marginEnd="12dp"
-        android:src="@drawable/ic_edit"
+        android:fontFamily="@font/roboto_bold"
+        android:gravity="center"
+        android:padding="10dp"
+        android:text="Type"
+        android:textSize="16dp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/table_balance"
-        app:layout_constraintTop_toTopOf="@id/img_download" />
+        app:layout_constraintHorizontal_bias="0.65"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:background="@drawable/bg_outline"
+        android:id="@+id/textView2"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/roboto_bold"
+        android:gravity="center"
+        android:padding="10dp"
+        android:text="Nominal"
+        android:textSize="16dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/textView3"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rv_balance"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView3" />
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -62,8 +62,13 @@ class MoneyReportFragment : Fragment(), BoardAdapter.OnBoardClickListener {
     private fun getList(): List<BalanceModel>? {
         val balance_Model_list: MutableList<BalanceModel> = ArrayList()
         balance_Model_list.add(BalanceModel("1", "Foto Copy", "0", "2000"))
-        balance_Model_list.add(BalanceModel("2", "Paid Promote", "500000", "0"))
+        balance_Model_list.add(BalanceModel("2", "Paid Promote", "0", "0"))
         balance_Model_list.add(BalanceModel("3", "Konsumsi", "0", "20000"))
+        balance_Model_list.add(BalanceModel("4", "Jiahahahahy hayuuu mabar dulu bro eits tunggu dulu bro kita ", "1", "30000"))
+        balance_Model_list.add(BalanceModel("5", "aoeu ", "1", "300000"))
+        balance_Model_list.add(BalanceModel("6", "jiahahay ", "1", "30000"))
+
+
         return balance_Model_list
     }
 
