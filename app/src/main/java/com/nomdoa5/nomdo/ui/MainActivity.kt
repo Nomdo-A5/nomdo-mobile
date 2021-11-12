@@ -110,7 +110,7 @@ class MainActivity : AppCompatActivity(), View.OnClickListener, PopupMenu.OnMenu
         addBoardDialog = Dialog(this)
         addTaskDialog = Dialog(this)
 
-        setupToolbarMain()
+        setupToolbarMain("Nomdo")
         setupDrawer()
 
         binding.appBarMain.fab.setOnClickListener(this)
@@ -345,17 +345,20 @@ class MainActivity : AppCompatActivity(), View.OnClickListener, PopupMenu.OnMenu
         }
     }
 
-    fun setupToolbarMain() {
+    fun setupToolbarMain(title: String) {
         binding.appBarMain.appBarLayout.root.visibility = View.VISIBLE
         binding.appBarMain.appBarLayoutWorkspace.root.visibility = View.GONE
         binding.appBarMain.appBarLayoutBoard.root.visibility = View.GONE
+
+        binding.appBarMain.appBarLayout.toolbarMainTitle.text = title
     }
 
-    fun setupToolbarWorkspace() {
+    fun setupToolbarWorkspace(title: String) {
         binding.appBarMain.appBarLayout.root.visibility = View.GONE
         binding.appBarMain.appBarLayoutWorkspace.root.visibility = View.VISIBLE
         binding.appBarMain.appBarLayoutBoard.root.visibility = View.GONE
 
+        binding.appBarMain.appBarLayoutWorkspace.toolbarTitle.text = title
         binding.appBarMain.appBarLayoutWorkspace.dropdown.setOnClickListener { v ->
             val popup = PopupMenu(this, v)
             popup.setOnMenuItemClickListener(this)
@@ -364,11 +367,13 @@ class MainActivity : AppCompatActivity(), View.OnClickListener, PopupMenu.OnMenu
         }
     }
 
-    fun setupToolbarBoard() {
+    fun setupToolbarBoard(title: String, subtitle: String) {
         binding.appBarMain.appBarLayout.root.visibility = View.GONE
         binding.appBarMain.appBarLayoutWorkspace.root.visibility = View.GONE
         binding.appBarMain.appBarLayoutBoard.root.visibility = View.VISIBLE
 
+        binding.appBarMain.appBarLayoutBoard.toolbarTitle.text = title
+        binding.appBarMain.appBarLayoutBoard.toolbarSubtitle.text = "in $subtitle"
         binding.appBarMain.appBarLayoutBoard.dropdown.setOnClickListener { v ->
             val popup = PopupMenu(this, v)
             popup.setOnMenuItemClickListener(this)

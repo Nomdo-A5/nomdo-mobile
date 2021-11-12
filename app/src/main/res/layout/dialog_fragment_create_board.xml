@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="wrap_content"
-    android:layout_height="400dp"
+    android:layout_height="wrap_content"
     android:layout_gravity="center"
     android:background="@drawable/bg_rounded">
 
@@ -60,27 +60,6 @@
             android:nextFocusDown="@+id/edit_email_sign_up" />
     </com.google.android.material.textfield.TextInputLayout>
 
-    <TextView
-        android:id="@+id/tv_add_member_board"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="24dp"
-        android:text="Add Member"
-        android:textSize="14sp"
-        app:layout_constraintStart_toEndOf="@+id/img_add_member_board"
-        app:layout_constraintTop_toBottomOf="@+id/layout_name_add_board" />
-
-    <ImageView
-        android:id="@+id/img_add_member_board"
-        android:layout_width="24dp"
-        android:layout_height="28dp"
-        android:layout_marginStart="12dp"
-        app:layout_constraintBottom_toBottomOf="@+id/tv_add_member_board"
-        app:layout_constraintStart_toStartOf="@+id/layout_name_add_board"
-        app:layout_constraintTop_toTopOf="@+id/tv_add_member_board"
-        app:srcCompat="@drawable/ic_add_user" />
-
     <com.apachat.loadingbutton.core.customViews.CircularProgressButton
         android:id="@+id/btn_add_board"
         android:layout_width="wrap_content"
@@ -95,7 +74,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="@+id/layout_name_add_board"
         app:layout_constraintStart_toStartOf="@+id/layout_name_add_board"
-        app:layout_constraintTop_toBottomOf="@+id/img_add_member_board"
+        app:layout_constraintTop_toBottomOf="@+id/layout_name_add_board"
         app:spinning_bar_padding="8dp" />
 
     <com.google.android.material.textfield.TextInputLayout

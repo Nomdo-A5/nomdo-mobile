@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="wrap_content"
-    android:layout_height="500dp"
+    android:layout_height="450dp"
     android:layout_gravity="center"
     android:background="@drawable/bg_rounded">
 
@@ -64,36 +65,11 @@
         </com.google.android.material.textfield.TextInputLayout>
 
         <TextView
-            android:id="@+id/tv_add_member_task"
+            android:id="@+id/tv_date_task"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
             android:layout_marginTop="24dp"
-            android:text="Add Member"
-            android:clickable="true"
-            android:focusable="true"
-            android:background="?attr/selectableItemBackground"
-            android:drawablePadding="5dp"
-            android:gravity="center"
-            app:layout_constraintStart_toEndOf="@+id/img_add_member_task"
-            app:layout_constraintTop_toBottomOf="@+id/layout_spended_add_task"
-            app:drawableEndCompat="@drawable/ic_add_outline" />
-
-        <ImageView
-            android:id="@+id/img_add_member_task"
-            android:layout_width="24dp"
-            android:layout_height="28dp"
-            android:layout_marginStart="12dp"
-            app:layout_constraintBottom_toBottomOf="@+id/tv_add_member_task"
-            app:layout_constraintStart_toStartOf="@+id/layout_spended_add_task"
-            app:layout_constraintTop_toTopOf="@+id/tv_add_member_task"
-            app:srcCompat="@drawable/ic_add_user" />
-
-        <TextView
-            android:id="@+id/tv_date_task"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="32dp"
             android:background="?attr/selectableItemBackground"
             android:clickable="true"
             android:drawablePadding="5dp"
@@ -101,15 +77,15 @@
             android:gravity="center"
             android:text="Due Date"
             app:drawableEndCompat="@drawable/ic_add_outline"
-            app:layout_constraintStart_toStartOf="@+id/tv_add_member_task"
-            app:layout_constraintTop_toBottomOf="@+id/tv_add_member_task" />
+            app:layout_constraintStart_toEndOf="@+id/img_date_task"
+            app:layout_constraintTop_toBottomOf="@+id/layout_desc_add_task" />
 
         <ImageView
             android:id="@+id/img_date_task"
             android:layout_width="24dp"
             android:layout_height="28dp"
             app:layout_constraintBottom_toBottomOf="@+id/tv_date_task"
-            app:layout_constraintStart_toStartOf="@+id/img_add_member_task"
+            app:layout_constraintStart_toStartOf="@+id/layout_desc_add_task"
             app:layout_constraintTop_toTopOf="@+id/tv_date_task"
             app:srcCompat="@drawable/ic_calendar" />
 
@@ -117,16 +93,16 @@
             android:id="@+id/tv_attachment_task"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="32dp"
-            android:text="Attachment"
-            android:clickable="true"
-            android:focusable="true"
+            android:layout_marginTop="24dp"
             android:background="?attr/selectableItemBackground"
+            android:clickable="true"
             android:drawablePadding="5dp"
+            android:focusable="true"
             android:gravity="center"
+            android:text="Attachment"
+            app:drawableEndCompat="@drawable/ic_add_outline"
             app:layout_constraintStart_toStartOf="@+id/tv_date_task"
-            app:layout_constraintTop_toBottomOf="@+id/tv_date_task"
-            app:drawableEndCompat="@drawable/ic_add_outline" />
+            app:layout_constraintTop_toBottomOf="@+id/tv_date_task" />
 
         <ImageView
             android:id="@+id/img_attachment_task"
@@ -149,8 +125,8 @@
             app:finalCornerAngle="30dp"
             app:initialCornerAngle="30dp"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="@+id/layout_spended_add_task"
-            app:layout_constraintStart_toStartOf="@+id/layout_spended_add_task"
+            app:layout_constraintEnd_toEndOf="@+id/layout_desc_add_task"
+            app:layout_constraintStart_toStartOf="@+id/img_attachment_task"
             app:layout_constraintTop_toBottomOf="@+id/tv_attachment_task"
             app:spinning_bar_padding="8dp" />
 
@@ -222,30 +198,6 @@
                 android:inputType="textMultiLine"
                 android:lines="3"
                 android:maxLines="3"
-                android:nextFocusDown="@+id/edit_email_sign_up" />
-        </com.google.android.material.textfield.TextInputLayout>
-
-        <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/layout_spended_add_task"
-            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
-            app:boxStrokeColor="@color/black"
-            app:hintTextColor="@color/black"
-            app:layout_constraintEnd_toEndOf="@+id/layout_desc_add_task"
-            app:layout_constraintHorizontal_bias="0.0"
-            app:layout_constraintStart_toStartOf="@+id/layout_desc_add_task"
-            app:layout_constraintTop_toBottomOf="@+id/layout_desc_add_task"
-            app:startIconDrawable="@drawable/ic_money">
-
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/edit_spended_add_task"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="Spended Money"
-                android:imeOptions="actionNext"
-                android:inputType="text"
                 android:nextFocusDown="@+id/edit_email_sign_up" />
         </com.google.android.material.textfield.TextInputLayout>
 
