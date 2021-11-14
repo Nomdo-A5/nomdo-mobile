@@ -97,6 +97,26 @@ class WorkspacesViewModel : ViewModel() {
         })
     }
 
+    fun joinWorkspace(token: String, urlJoin: String) {
+        val service = RetrofitClient.buildService(ApiService::class.java)
+        val requestCall = service.joinWorkspace(token = "Bearer $token", urlJoin)
+
+        requestCall.enqueue(object : Callback<WorkspaceResponse> {
+
+            override fun onResponse(
+                call: Call<WorkspaceResponse>,
+                response: Response<WorkspaceResponse>
+            ) {
+                listWorkspace.postValue(response.body()!!.workspace)
+                workspaceState.postValue(true)
+            }
+
+            override fun onFailure(call: Call<WorkspaceResponse>, t: Throwable) {
+                workspaceState.postValue(false)
+            }
+        })
+    }
+
     fun getWorkspaceState(): LiveData<Boolean> {
         return workspaceState
     }

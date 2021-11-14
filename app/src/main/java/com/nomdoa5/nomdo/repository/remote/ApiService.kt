@@ -70,6 +70,12 @@ interface ApiService {
         @Query("id") id: String,
     ): Call<WorkspaceResponse>
 
+    @GET("workspace")
+    fun joinWorkspace(
+        @Header("Authorization") token: String,
+        @Query("url_join") urlJoin: String,
+    ): Call<WorkspaceResponse>
+
 
     //     BOARD
     @GET("boards")
