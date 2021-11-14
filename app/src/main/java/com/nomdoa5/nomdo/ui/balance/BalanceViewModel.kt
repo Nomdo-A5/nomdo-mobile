@@ -7,6 +7,7 @@ import com.nomdoa5.nomdo.repository.model.Balance
 import com.nomdoa5.nomdo.repository.model.request.balance.BalanceRequest
 import com.nomdoa5.nomdo.repository.model.request.balance.UpdateBalanceRequest
 import com.nomdoa5.nomdo.repository.model.response.BalanceResponse
+import com.nomdoa5.nomdo.repository.model.response.ReportResponse
 import com.nomdoa5.nomdo.repository.remote.ApiService
 import com.nomdoa5.nomdo.repository.remote.RetrofitClient
 import retrofit2.Call
@@ -20,21 +21,24 @@ class BalanceViewModel : ViewModel() {
     private val updateBalanceState = MutableLiveData<Boolean>()
     private val deleteBalanceState = MutableLiveData<Boolean>()
 
-    fun setBalance(token: String, idWorkspace: String) {
+    fun setAllBalance(token: String, idWorkspace: String) {
         val service = RetrofitClient.buildService(ApiService::class.java)
-        val requestCall = service.getBalance(token = "Bearer $token", idWorkspace)
+        val requestCall = service.getReport(token = "Bearer $token", idWorkspace)
 
-        requestCall.enqueue(object : Callback<BalanceResponse> {
-            override fun onResponse(call: Call<BalanceResponse>, response: Response<BalanceResponse>) {
-                if(response.code().equals(200)){
+        requestCall.enqueue(object : Callback<ReportResponse> {
+            override fun onResponse(
+                call: Call<ReportResponse>,
+                response: Response<ReportResponse>
+            ) {
+                if (response.code().equals(200)) {
                     listBalance.postValue(response.body()!!.balance)
                     setBalanceState.postValue(true)
-                }else if(response.code().equals(404)){
+                } else if (response.code().equals(404)) {
                     setBalanceState.postValue(false)
                 }
             }
 
-            override fun onFailure(call: Call<BalanceResponse>, t: Throwable) {
+            override fun onFailure(call: Call<ReportResponse>, t: Throwable) {
                 setBalanceState.postValue(false)
             }
         })
@@ -45,7 +49,10 @@ class BalanceViewModel : ViewModel() {
         val requestCall = service.updateBalance(token = "Bearer $token", balance)
 
         requestCall.enqueue(object : Callback<BalanceResponse> {
-            override fun onResponse(call: Call<BalanceResponse>, response: Response<BalanceResponse>) {
+            override fun onResponse(
+                call: Call<BalanceResponse>,
+                response: Response<BalanceResponse>
+            ) {
                 updateBalanceState.value = true
             }
 
@@ -60,7 +67,10 @@ class BalanceViewModel : ViewModel() {
         val requestCall = service.deleteBalance(token = "Bearer $token", id)
 
         requestCall.enqueue(object : Callback<BalanceResponse> {
-            override fun onResponse(call: Call<BalanceResponse>, response: Response<BalanceResponse>) {
+            override fun onResponse(
+                call: Call<BalanceResponse>,
+                response: Response<BalanceResponse>
+            ) {
                 deleteBalanceState.postValue(true)
             }
 
@@ -76,9 +86,13 @@ class BalanceViewModel : ViewModel() {
         val requestCall = service.addBalance(token = "Bearer $token", newBalance)
 
         requestCall.enqueue(object : Callback<BalanceResponse> {
-            override fun onResponse(call: Call<BalanceResponse>, response: Response<BalanceResponse>) {
+            override fun onResponse(
+                call: Call<BalanceResponse>,
+                response: Response<BalanceResponse>
+            ) {
                 addBalanceState.postValue(true)
             }
+
             override fun onFailure(call: Call<BalanceResponse>, t: Throwable) {
                 addBalanceState.postValue(false)
             }
@@ -98,11 +112,11 @@ class BalanceViewModel : ViewModel() {
         return addBalanceState
     }
 
-    fun getUpdateBalanceState(): LiveData<Boolean>{
+    fun getUpdateBalanceState(): LiveData<Boolean> {
         return updateBalanceState
     }
 
-    fun getDeleteBalanceState(): LiveData<Boolean>{
+    fun getDeleteBalanceState(): LiveData<Boolean> {
         return deleteBalanceState
     }
 }

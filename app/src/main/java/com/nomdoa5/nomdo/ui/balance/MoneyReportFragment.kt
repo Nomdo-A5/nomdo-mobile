@@ -11,6 +11,7 @@ import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.preferencesDataStore
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.snackbar.Snackbar
@@ -20,7 +21,7 @@ import com.nomdoa5.nomdo.helpers.ViewModelFactory
 import com.nomdoa5.nomdo.helpers.adapter.BalanceAdapter
 import com.nomdoa5.nomdo.helpers.adapter.BoardAdapter
 import com.nomdoa5.nomdo.repository.local.UserPreferences
-import com.nomdoa5.nomdo.repository.model.BalanceModel
+import com.nomdoa5.nomdo.repository.model.Balance
 import com.nomdoa5.nomdo.repository.model.Board
 import com.nomdoa5.nomdo.ui.auth.AuthViewModel
 import com.nomdoa5.nomdo.ui.board.BoardViewModel
@@ -30,12 +31,14 @@ import java.util.*
 private val Context.dataStore: DataStore<Preferences> by preferencesDataStore(name = "auth")
 
 class MoneyReportFragment : Fragment(), BoardAdapter.OnBoardClickListener {
+    private lateinit var balanceViewModel: BalanceViewModel
     private lateinit var boardsViewModel: BoardViewModel
     private lateinit var authViewModel: AuthViewModel
     private var _binding: FragmentMoneyReportBinding? = null
     private val binding get() = _binding!!
-    private lateinit var balanceAdapter : BalanceAdapter
+    private lateinit var balanceAdapter: BalanceAdapter
     private lateinit var rvBalance: RecyclerView
+    private val args: MoneyReportFragmentArgs by navArgs()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -59,24 +62,39 @@ class MoneyReportFragment : Fragment(), BoardAdapter.OnBoardClickListener {
         _binding = null
     }
 
-    private fun getList(): List<BalanceModel>? {
-        val balance_Model_list: MutableList<BalanceModel> = ArrayList()
-        balance_Model_list.add(BalanceModel("1", "Foto Copy", "0", "2000"))
-        balance_Model_list.add(BalanceModel("2", "Paid Promote", "0", "0"))
-        balance_Model_list.add(BalanceModel("3", "Konsumsi", "0", "20000"))
-        balance_Model_list.add(BalanceModel("4", "Jiahahahahy hayuuu mabar dulu bro eits tunggu dulu bro kita ", "1", "30000"))
-        balance_Model_list.add(BalanceModel("5", "aoeu ", "1", "300000"))
-        balance_Model_list.add(BalanceModel("6", "jiahahay ", "1", "30000"))
+    private fun getList(): ArrayList<Balance> {
+        val listBalance = ArrayList<Balance>()
+        listBalance.add(Balance(1, 2000, "Foto Copy", 1))
+        listBalance.add(Balance(2, 0, "Paid Promote", 0))
+        listBalance.add(Balance(3, 20000, "Konsumsi", 1))
+        listBalance.add(
+            Balance(
+                4,
+                30000,
+                "Jiahahahahy hayuuu mabar dulu bro eits tunggu dulu bro kita ",
+                1
+            )
+        )
+        listBalance.add(Balance(5, 300000, "aoeu", 0))
+        listBalance.add(Balance(6, 24000, "jiahahay", 1))
 
 
-        return balance_Model_list
+        return listBalance
     }
 
     fun setupRecyclerView() {
-        balanceAdapter = BalanceAdapter(requireContext(), getList())
+        balanceAdapter = BalanceAdapter(requireContext())
         rvBalance = requireView().findViewById(R.id.rv_balance)
         rvBalance.setHasFixedSize(true)
         rvBalance.layoutManager = LinearLayoutManager(context)
+
+        authViewModel.getAuthToken().observe(viewLifecycleOwner, {
+            balanceViewModel.setAllBalance(it!!, args.workspace.id.toString())
+        })
+
+        balanceViewModel.getBalance().observe(viewLifecycleOwner, {
+            balanceAdapter.setData(it)
+        })
         rvBalance.adapter = balanceAdapter
     }
 
@@ -86,6 +104,7 @@ class MoneyReportFragment : Fragment(), BoardAdapter.OnBoardClickListener {
             ViewModelProvider(this, ViewModelFactory(pref)).get(AuthViewModel::class.java)
         boardsViewModel =
             ViewModelProvider(this).get(BoardViewModel::class.java)
+        balanceViewModel = ViewModelProvider(this).get(BalanceViewModel::class.java)
     }
 
     override fun onBoardClick(data: Board) {
