@@ -133,7 +133,7 @@ interface ApiService {
     @GET("report")
     fun getReport(
         @Header("Authorization") token: String,
-        @Query("id") id: String,
+        @Query("workspace_id") idWorkspace: String,
     ): Call<ReportResponse>
 
     @POST("report")

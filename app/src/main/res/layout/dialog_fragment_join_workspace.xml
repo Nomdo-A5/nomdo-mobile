@@ -11,7 +11,7 @@
         android:layout_width="270dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="32dp"
-        android:layout_marginTop="48dp"
+        android:layout_marginTop="8dp"
         android:layout_marginEnd="32dp"
         android:fontFamily="@font/roboto_medium"
         android:text="Join Workspace"
@@ -19,7 +19,7 @@
         android:textSize="24sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toBottomOf="@+id/img_close_join_workspace" />
 
     <ImageView
         android:id="@+id/img_close_join_workspace"
@@ -62,15 +62,17 @@
     </com.google.android.material.textfield.TextInputLayout>
 
     <com.apachat.loadingbutton.core.customViews.CircularProgressButton
-        android:id="@+id/btn_update_workspace"
+        android:id="@+id/btn_join_workspace"
         android:layout_width="120dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="24dp"
+        android:layout_marginBottom="32dp"
         android:background="@drawable/btn_primary"
         android:text="Done"
         android:textAllCaps="false"
         app:finalCornerAngle="30dp"
         app:initialCornerAngle="30dp"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="@+id/layout_link_join_workspace"
         app:layout_constraintStart_toStartOf="@+id/layout_link_join_workspace"
         app:layout_constraintTop_toBottomOf="@+id/layout_link_join_workspace"

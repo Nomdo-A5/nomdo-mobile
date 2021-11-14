@@ -19,6 +19,7 @@ import androidx.databinding.DataBindingUtil
 import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.preferencesDataStore
+import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.Navigation
 import androidx.navigation.findNavController
@@ -31,6 +32,7 @@ import com.nomdoa5.nomdo.databinding.ActivityMainBinding
 import com.nomdoa5.nomdo.databinding.NavHeaderMainBinding
 import com.nomdoa5.nomdo.helpers.ViewModelFactory
 import com.nomdoa5.nomdo.repository.local.UserPreferences
+import com.nomdoa5.nomdo.repository.model.Workspace
 import com.nomdoa5.nomdo.repository.model.request.board.BoardRequest
 import com.nomdoa5.nomdo.repository.model.request.task.TaskRequest
 import com.nomdoa5.nomdo.repository.model.request.workspace.WorkspaceRequest
@@ -38,6 +40,7 @@ import com.nomdoa5.nomdo.ui.auth.AuthViewModel
 import com.nomdoa5.nomdo.ui.balance.CreateBalanceDialogFragment
 import com.nomdoa5.nomdo.ui.board.BoardsFragmentDirections
 import com.nomdoa5.nomdo.ui.board.BoardViewModel
+import com.nomdoa5.nomdo.ui.board.BoardsFragment
 import com.nomdoa5.nomdo.ui.board.CreateBoardDialogFragment
 import com.nomdoa5.nomdo.ui.task.CreateTaskDialogFragment
 import com.nomdoa5.nomdo.ui.task.TaskViewModel
@@ -81,19 +84,7 @@ class MainActivity : AppCompatActivity(), View.OnClickListener, PopupMenu.OnMenu
     private lateinit var appBarConfiguration: AppBarConfiguration
     private lateinit var binding: ActivityMainBinding
     private lateinit var headerBinding: NavHeaderMainBinding
-    private lateinit var addWorkspaceDialog: Dialog
-    private lateinit var addBoardDialog: Dialog
-    private lateinit var addTaskDialog: Dialog
-    private lateinit var closeWorkspace: ImageView
-    private lateinit var closeBoard: ImageView
-    private lateinit var closeTask: ImageView
-    private lateinit var btnAddWorkspace: CircularProgressButton
-    private lateinit var btnAddBoard: CircularProgressButton
-    private lateinit var btnAddTask: CircularProgressButton
-    private lateinit var board: BoardRequest
-    private var spinnerBoardPosition: Int? = null
-    private var spinnerWorkspacePosition: Int? = null
-
+    private lateinit var workspaceArgument: Workspace
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -105,10 +96,6 @@ class MainActivity : AppCompatActivity(), View.OnClickListener, PopupMenu.OnMenu
         headerBinding.lifecycleOwner = this
 
         setContentView(binding.root)
-
-        addWorkspaceDialog = Dialog(this)
-        addBoardDialog = Dialog(this)
-        addTaskDialog = Dialog(this)
 
         setupToolbarMain("Nomdo")
         setupDrawer()
@@ -159,98 +146,6 @@ class MainActivity : AppCompatActivity(), View.OnClickListener, PopupMenu.OnMenu
             binding.appBarMain.fabAddBalance -> {
                 val addBalanceFragment = CreateBalanceDialogFragment()
                 addBalanceFragment.show(supportFragmentManager, "Add Balance Dialog")
-            }
-            closeWorkspace -> {
-                addWorkspaceDialog.dismiss()
-            }
-            closeBoard -> {
-                addBoardDialog.dismiss()
-            }
-            closeTask -> {
-                addTaskDialog.dismiss()
-            }
-            btnAddWorkspace -> {
-                closeKeyboard()
-                btnAddWorkspace.startAnimation()
-                val workspaceName =
-                    addWorkspaceDialog.findViewById<TextInputEditText>(R.id.edit_name_add_workspace).text.toString()
-                val workspace = WorkspaceRequest(workspaceName)
-                authViewModel.getAuthToken().observe(this, {
-                    workspacesViewModel.addWorkspace(it!!, workspace)
-                })
-
-                workspacesViewModel.getAddWorkspaceState().observe(this, {
-                    if (it) {
-                        Toast.makeText(this, "Workspace Added", Toast.LENGTH_SHORT).show()
-                        btnAddWorkspace.doneLoadingAnimation(
-                            resources.getColor(R.color.teal_200),
-                            ContextCompat.getDrawable(this, R.drawable.ic_check)!!
-                                .toBitmap()
-                        )
-                        addWorkspaceDialog.dismiss()
-                    } else {
-                        btnAddWorkspace.revertAnimation()
-                        Toast.makeText(this, "Add Workspace Failed!!", Toast.LENGTH_SHORT).show()
-                    }
-                })
-            }
-            btnAddBoard -> {
-                closeKeyboard()
-                btnAddBoard.startAnimation()
-                val boardName =
-                    addBoardDialog.findViewById<TextInputEditText>(R.id.edit_name_add_board).text.toString()
-
-                board = BoardRequest(boardName, spinnerWorkspacePosition!!)
-                authViewModel.getAuthToken().observe(this, {
-                    boardsViewModel.addBoard(it!!, board)
-                })
-
-                boardsViewModel.getAddBoardState().observe(this, {
-                    if (it) {
-                        Toast.makeText(this, "Board Added", Toast.LENGTH_SHORT).show()
-                        btnAddBoard.doneLoadingAnimation(
-                            resources.getColor(R.color.teal_200),
-                            ContextCompat.getDrawable(this, R.drawable.ic_check)!!
-                                .toBitmap()
-                        )
-                        Handler(Looper.getMainLooper()).postDelayed({
-                            addBoardDialog.dismiss()
-                        }, 1000)
-                    } else {
-                        btnAddBoard.revertAnimation()
-                        Toast.makeText(this, "Add Board Failed!!", Toast.LENGTH_SHORT).show()
-                    }
-                })
-            }
-            btnAddTask -> {
-                closeKeyboard()
-                btnAddTask.startAnimation()
-
-                val taskName =
-                    addTaskDialog.findViewById<TextInputEditText>(R.id.edit_name_add_task).text.toString()
-                val taskDescription =
-                    addTaskDialog.findViewById<TextInputEditText>(R.id.edit_desc_add_task).text.toString()
-                val task = TaskRequest(taskName, taskDescription, spinnerBoardPosition)
-                authViewModel.getAuthToken().observe(this, {
-                    taskViewModel.addTask(it!!, task)
-                })
-
-                taskViewModel.getAddTaskState().observe(this, {
-                    if (it!!) {
-                        Toast.makeText(this, "Task Added", Toast.LENGTH_SHORT).show()
-                        btnAddTask.doneLoadingAnimation(
-                            resources.getColor(R.color.teal_200),
-                            ContextCompat.getDrawable(this, R.drawable.ic_check)!!
-                                .toBitmap()
-                        )
-                        Handler(Looper.getMainLooper()).postDelayed({
-                            addTaskDialog.dismiss()
-                        }, 1000)
-                    } else {
-                        btnAddTask.revertAnimation()
-                        Toast.makeText(this, "Add Task Failed!!", Toast.LENGTH_SHORT).show()
-                    }
-                })
             }
         }
     }
@@ -353,7 +248,8 @@ class MainActivity : AppCompatActivity(), View.OnClickListener, PopupMenu.OnMenu
         binding.appBarMain.appBarLayout.toolbarMainTitle.text = title
     }
 
-    fun setupToolbarWorkspace(title: String) {
+    fun setupToolbarWorkspace(title: String, workspace: Workspace) {
+        workspaceArgument = workspace
         binding.appBarMain.appBarLayout.root.visibility = View.GONE
         binding.appBarMain.appBarLayoutWorkspace.root.visibility = View.VISIBLE
         binding.appBarMain.appBarLayoutBoard.root.visibility = View.GONE
@@ -384,14 +280,23 @@ class MainActivity : AppCompatActivity(), View.OnClickListener, PopupMenu.OnMenu
 
     override fun onMenuItemClick(item: MenuItem?): Boolean {
         when (item!!.itemId) {
-            R.id.board_menu_workspace -> {
-                Toast.makeText(this, "Ngeklik board", Toast.LENGTH_SHORT).show()
-                val action =
-                    BoardsFragmentDirections.actionNavBoardsToMoneyReportFragment()
-                Navigation.findNavController(findViewById(R.id.nav_host_fragment_content_main))
-                    .navigate(action)
-            }
             R.id.money_report_menu_workspace -> {
+                Toast.makeText(this, "Ngeklik board", Toast.LENGTH_SHORT).show()
+                val navHostFragment: Fragment? =
+                    supportFragmentManager.findFragmentById(R.id.nav_host_fragment_content_main)
+
+                val fragment = navHostFragment?.childFragmentManager?.fragments?.get(0)
+
+                if (fragment is BoardsFragment) {
+                    val action =
+                        BoardsFragmentDirections.actionNavBoardsToMoneyReportFragment(workspaceArgument)
+                    Navigation.findNavController(findViewById(R.id.nav_host_fragment_content_main))
+                        .navigate(action)
+                }
+
+
+            }
+            R.id.board_menu_workspace -> {
                 Toast.makeText(this, "Ngeklik money report", Toast.LENGTH_SHORT).show()
             }
             R.id.member_menu_workspace -> {

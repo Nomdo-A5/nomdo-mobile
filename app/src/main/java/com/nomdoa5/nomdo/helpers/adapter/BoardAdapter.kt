@@ -8,14 +8,23 @@ import androidx.recyclerview.widget.RecyclerView
 import com.nomdoa5.nomdo.R
 import com.nomdoa5.nomdo.databinding.ItemBoardBinding
 import com.nomdoa5.nomdo.repository.model.Board
+import com.nomdoa5.nomdo.repository.model.TaskProgress
 import com.nomdoa5.nomdo.repository.model.Workspace
 
-class BoardAdapter(private val listener: OnBoardClickListener) : RecyclerView.Adapter<BoardAdapter.BoardViewHolder>() {
+class BoardAdapter(private val listener: OnBoardClickListener) :
+    RecyclerView.Adapter<BoardAdapter.BoardViewHolder>() {
     private val mData = ArrayList<Board>()
+    private val taskProgressData = ArrayList<TaskProgress>()
 
     fun setData(items: ArrayList<Board>) {
         mData.clear()
         mData.addAll(items)
+        notifyDataSetChanged()
+    }
+
+    fun setTaskProgressData(items: ArrayList<TaskProgress>) {
+        taskProgressData.clear()
+        taskProgressData.addAll(items)
         notifyDataSetChanged()
     }
 
@@ -41,7 +50,17 @@ class BoardAdapter(private val listener: OnBoardClickListener) : RecyclerView.Ad
         private val binding = ItemBoardBinding.bind(itemView)
         fun bind(boardItem: Board) {
             binding.tvTitleBoard.text = boardItem.boardName
+//            binding.tvNumBoard.text = taskProgressItem.taskCount.toString()
+//            val progress: Int
+//            if (taskProgressItem.taskCount == 0) {
+//                progress = 0
+//            } else {
+//                progress = taskProgressItem.taskDoneCount / taskProgressItem.taskCount
+//            }
+
             binding.tvNumBoard.text = boardItem.id.toString()
+            val progress = boardItem.id.toString()
+            binding.progress.progress = progress.toInt() * 10
 
             itemView.setOnClickListener { listener.onBoardClick(boardItem) }
             itemView.setOnLongClickListener {
