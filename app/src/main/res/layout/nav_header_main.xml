@@ -3,8 +3,8 @@
 
     <data>
         <variable
-            name="mainViewModel"
-            type="com.nomdoa5.nomdo.ui.MainViewModel" />
+            name="user"
+            type="com.nomdoa5.nomdo.repository.model.User" />
     </data>
 
     <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
@@ -34,7 +34,7 @@
             android:layout_height="wrap_content"
             android:fontFamily="@font/roboto_medium"
             android:paddingTop="@dimen/nav_header_vertical_spacing"
-            android:text="@{mainViewModel.userName}"
+            android:text="@{user.name}"
             android:textAppearance="@style/TextAppearance.AppCompat.Body1"
             tools:text="Anonymous" />
 
@@ -43,7 +43,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:fontFamily="@font/roboto_regular"
-            android:text="@{mainViewModel.userEmail}"
+            android:text="@{user.email}"
             tools:text="@string/nav_header_subtitle" />
     </LinearLayout>
 </layout>

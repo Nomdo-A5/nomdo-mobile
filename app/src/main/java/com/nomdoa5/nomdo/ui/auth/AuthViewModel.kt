@@ -19,7 +19,7 @@ class AuthViewModel(private val pref: UserPreferences) : ViewModel() {
     private val isRegisterSuccess = MutableLiveData<Boolean>()
     private val loginState = MutableLiveData<Boolean>()
     private val logoutState = MutableLiveData<Boolean>()
-    private val user = MutableLiveData<ArrayList<User>>()
+    private val user = MutableLiveData<User>()
     private val userState = MutableLiveData<Boolean>()
 
     fun login(account: LoginRequest) {
@@ -109,7 +109,7 @@ class AuthViewModel(private val pref: UserPreferences) : ViewModel() {
         })
     }
 
-    fun getUser(): LiveData<ArrayList<User>> {
+    fun getUser(): LiveData<User> {
         return user
     }
 

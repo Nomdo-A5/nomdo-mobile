@@ -13,7 +13,7 @@ import retrofit2.Response
 import java.net.UnknownServiceException
 
 class MainViewModel : ViewModel() {
-    private val user = MutableLiveData<ArrayList<User>>()
+    private val user = MutableLiveData<User>()
     private val _userName = MutableLiveData<String>()
     private val _userEmail = MutableLiveData<String>()
     val userName: LiveData<String> get() = _userName
@@ -27,8 +27,8 @@ class MainViewModel : ViewModel() {
         requestCall.enqueue(object : Callback<UserResponse> {
             override fun onResponse(call: Call<UserResponse>, response: Response<UserResponse>) {
                 user.postValue(response.body()!!.user)
-                _userName.postValue(response.body()!!.user.get(0).name ?: "Anonymous")
-                _userEmail.postValue(response.body()!!.user.get(0).email ?: "anonymous@anonim.com")
+                _userName.postValue(response.body()!!.user.name ?: "Anonymous")
+                _userEmail.postValue(response.body()!!.user.email ?: "anonymous@anonim.com")
                 userState.postValue(true)
             }
             override fun onFailure(call: Call<UserResponse>, t: Throwable) {
@@ -39,7 +39,7 @@ class MainViewModel : ViewModel() {
         })
     }
 
-    fun getUser(): LiveData<ArrayList<User>> {
+    fun getUser(): LiveData<User> {
         return user
     }
 

@@ -2,6 +2,7 @@
 
 <com.google.android.material.appbar.AppBarLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:theme="@style/Theme.Nomdo.AppBarOverlay"
@@ -47,14 +48,14 @@
                 android:id="@+id/toolbar_main_title"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
                 android:fontFamily="@font/roboto_medium"
                 android:text="@string/app_name"
                 android:textAppearance="@style/TextAppearance.AppCompat"
-                android:textSize="20sp"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                android:textSize="16sp"
+                app:layout_constraintBottom_toBottomOf="@+id/toolbar_main_navigation"
+                app:layout_constraintStart_toEndOf="@+id/toolbar_main_navigation"
+                app:layout_constraintTop_toTopOf="@+id/toolbar_main_navigation" />
 
             <ImageView
                 android:id="@+id/toolbar_main_notifications"

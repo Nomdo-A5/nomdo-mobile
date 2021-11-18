@@ -97,19 +97,18 @@ class BoardsFragment : Fragment(), BoardAdapter.OnBoardClickListener,
 //        boardAdapter.setData(boards)
         authViewModel.getAuthToken().observe(viewLifecycleOwner, {
             boardViewModel.setBoard(it!!, args.workspace.id.toString())
-            taskViewModel.setTaskProgress(it, args.workspace.id.toString())
         })
 
-        boardViewModel.getBoard().observe(viewLifecycleOwner, { listBoard ->
-            boardAdapter.setData(listBoard)
+        boardViewModel.getBoard().observe(viewLifecycleOwner, {
+            boardAdapter.setData(it)
             binding.swipeMyBoards.isRefreshing = false
         })
 
-        taskViewModel.getListTaskProgress().observe(viewLifecycleOwner, {
-            Log.d("Board Adapter 1", it.toString())
-            boardAdapter.setTaskProgressData(it)
-            Log.d("Board Adapter 2", it.toString())
-        })
+//        taskViewModel.getListTaskProgress().observe(viewLifecycleOwner, {
+//            Log.d("Board Adapter 1", it.toString())
+//            boardAdapter.setTaskProgressData(it)
+//            Log.d("Board Adapter 2", it.toString())
+//        })
 
         rvBoard.adapter = boardAdapter
 

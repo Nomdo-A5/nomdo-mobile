@@ -80,7 +80,7 @@ class MyWorkspacesFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener,
         binding.swipeMyWorkspaces.isRefreshing = true
         rvWorkspace = requireView().findViewById(R.id.rv_my_workspaces)
         rvWorkspace.setHasFixedSize(true)
-        rvWorkspace.addItemDecoration(WorkspaceAdapter.MarginItemDecoration(15))
+        rvWorkspace.addItemDecoration(WorkspaceAdapter.MarginItemDecoration(16))
         rvWorkspace.layoutManager = LinearLayoutManager(context)
 
         authViewModel.getAuthToken().observe(viewLifecycleOwner, {

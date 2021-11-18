@@ -66,7 +66,7 @@ class HomeFragment : Fragment() {
     fun setupRecyclerView() {
         rvHome = requireView().findViewById(R.id.rv_homes)
         rvHome.setHasFixedSize(true)
-        rvHome.addItemDecoration(HomeAdapter.MarginItemDecoration(15))
+        rvHome.addItemDecoration(HomeAdapter.MarginItemDecoration(16))
         rvHome.layoutManager = LinearLayoutManager(context)
         homeAdapter.setData(homes)
         rvHome.adapter = homeAdapter
@@ -85,7 +85,6 @@ class HomeFragment : Fragment() {
         requireView().setOnKeyListener(object : View.OnKeyListener {
             override fun onKey(v: View?, keyCode: Int, event: KeyEvent?): Boolean {
                 return if (keyCode == KeyEvent.KEYCODE_BACK) {
-
                     requireActivity().finishAffinity()
                     true
                 } else false
