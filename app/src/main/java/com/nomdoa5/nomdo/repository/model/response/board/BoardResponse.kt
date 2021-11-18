@@ -7,5 +7,5 @@ import kotlinx.parcelize.Parcelize
 
 @Parcelize
 data class BoardResponse(
-    val board: ArrayList<Board>,
+    val boards: ArrayList<Board>,
 ) : Parcelable

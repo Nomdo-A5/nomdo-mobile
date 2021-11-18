@@ -28,7 +28,7 @@ class BoardViewModel : ViewModel() {
         requestCall.enqueue(object : Callback<BoardResponse> {
             override fun onResponse(call: Call<BoardResponse>, response: Response<BoardResponse>) {
                 if(response.code().equals(200)){
-                    listBoard.postValue(response.body()!!.board)
+                    listBoard.postValue(response.body()!!.boards)
                     setBoardState.postValue(true)
                 }else if(response.code().equals(404)){
                     setBoardState.postValue(false)

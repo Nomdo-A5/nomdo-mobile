@@ -7,5 +7,5 @@ import kotlinx.parcelize.Parcelize
 
 @Parcelize
 data class UserResponse(
-    val user: ArrayList<User>,
+    val user: User,
 ) : Parcelable

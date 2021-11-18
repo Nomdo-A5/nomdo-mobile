@@ -63,7 +63,7 @@ class TaskViewModel : ViewModel() {
         val listIdBoard = ArrayList<String>()
         requestCall.enqueue(object : Callback<BoardResponse> {
             override fun onResponse(call: Call<BoardResponse>, response: Response<BoardResponse>) {
-                val board = response.body()!!.board
+                val board = response.body()!!.boards
                 for (i in board) {
                     listIdBoard.add(i.id.toString())
                 }

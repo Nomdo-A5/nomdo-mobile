@@ -44,38 +44,33 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
-            <LinearLayout
-                android:id="@+id/linearLayout"
+            <TextView
+                android:id="@+id/toolbar_title"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:gravity="center"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent">
+                android:layout_marginStart="16dp"
+                android:ellipsize="end"
+                android:fontFamily="@font/roboto_medium"
+                android:maxLength="20"
+                android:text="@string/app_name"
+                android:textAppearance="@style/TextAppearance.AppCompat"
+                android:textSize="16sp"
+                app:layout_constraintBottom_toBottomOf="@+id/navigation"
+                app:layout_constraintStart_toEndOf="@+id/navigation"
+                app:layout_constraintTop_toTopOf="@+id/navigation" />
 
-                <TextView
-                    android:id="@+id/toolbar_title"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:ellipsize="end"
-                    android:fontFamily="@font/roboto_medium"
-                    android:maxLength="20"
-                    android:text="@string/app_name"
-                    android:textAppearance="@style/TextAppearance.AppCompat"
-                    android:textSize="20sp" />
-
-                <TextView
-                    android:id="@+id/toolbar_subtitle"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="8dp"
-                    android:fontFamily="@font/roboto_medium"
-                    android:text="nama workspace"
-                    android:textAppearance="@style/TextAppearance.AppCompat"
-                    android:textSize="11sp" />
-            </LinearLayout>
+            <TextView
+                android:id="@+id/toolbar_subtitle"
+                android:textColor="@color/white_50t"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:fontFamily="@font/roboto_regular"
+                android:text="nama workspace"
+                android:textAppearance="@style/TextAppearance.AppCompat"
+                android:textSize="14sp"
+                app:layout_constraintBottom_toBottomOf="@+id/toolbar_title"
+                app:layout_constraintStart_toEndOf="@+id/toolbar_title" />
 
 
             <ImageView
@@ -83,12 +78,13 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
+                android:layout_marginTop="2dp"
                 android:background="?attr/selectableItemBackgroundBorderless"
                 android:contentDescription="@string/notifications"
                 android:src="@drawable/ic_dropdown"
-                app:layout_constraintBottom_toBottomOf="@+id/linearLayout"
-                app:layout_constraintStart_toEndOf="@+id/linearLayout"
-                app:layout_constraintTop_toTopOf="@+id/linearLayout" />
+                app:layout_constraintBottom_toBottomOf="@+id/toolbar_subtitle"
+                app:layout_constraintStart_toEndOf="@+id/toolbar_subtitle"
+                app:layout_constraintTop_toTopOf="@+id/toolbar_subtitle" />
 
             <ImageView
                 android:id="@+id/notifications"

@@ -18,6 +18,7 @@ import androidx.fragment.app.DialogFragment
 import androidx.lifecycle.ViewModelProvider
 import com.nomdoa5.nomdo.R
 import com.nomdoa5.nomdo.databinding.DialogFragmentCreateWorkspaceBinding
+import com.nomdoa5.nomdo.databinding.DialogFragmentJoinWorkspaceBinding
 import com.nomdoa5.nomdo.helpers.ViewModelFactory
 import com.nomdoa5.nomdo.repository.local.UserPreferences
 import com.nomdoa5.nomdo.repository.model.request.ReportRequest
@@ -29,7 +30,7 @@ import com.nomdoa5.nomdo.ui.balance.MoneyReportViewModel
 private val Context.dataStore: DataStore<Preferences> by preferencesDataStore(name = "auth")
 
 class JoinWorkspaceDialogBoard : DialogFragment(), View.OnClickListener {
-    private var _binding: DialogFragmentCreateWorkspaceBinding? = null
+    private var _binding: DialogFragmentJoinWorkspaceBinding? = null
     private val binding get() = _binding!!
     private lateinit var moneyReportViewModel: MoneyReportViewModel
     private lateinit var workspacesViewModel: WorkspacesViewModel
@@ -40,7 +41,7 @@ class JoinWorkspaceDialogBoard : DialogFragment(), View.OnClickListener {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        _binding = DialogFragmentCreateWorkspaceBinding.inflate(inflater, container, false)
+        _binding = DialogFragmentJoinWorkspaceBinding.inflate(inflater, container, false)
         val root: View = binding.root
         dialog!!.window!!.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
         return root
@@ -50,8 +51,8 @@ class JoinWorkspaceDialogBoard : DialogFragment(), View.OnClickListener {
         super.onViewCreated(view, savedInstanceState)
 
         setupViewModel()
-        binding.imgCloseAddWorkspace.setOnClickListener(this)
-        binding.btnAddWorkspace.setOnClickListener(this)
+        binding.imgCloseJoinWorkspace.setOnClickListener(this)
+        binding.btnJoinWorkspace.setOnClickListener(this)
     }
 
     override fun onDestroy() {
@@ -61,13 +62,12 @@ class JoinWorkspaceDialogBoard : DialogFragment(), View.OnClickListener {
 
     override fun onClick(v: View?) {
         when (v) {
-            binding.btnAddWorkspace -> {
-                binding.btnAddWorkspace.startAnimation()
-                val workspaceName =
-                    binding.editNameAddWorkspace.text.toString()
-                val workspace = WorkspaceRequest(workspaceName)
+            binding.btnJoinWorkspace -> {
+                binding.btnJoinWorkspace.startAnimation()
+                val urlJoin =
+                    binding.editLinkJoinWorkspace.text.toString()
                 authViewModel.getAuthToken().observe(this, { token ->
-                    workspacesViewModel.addWorkspace(token!!, workspace)
+                    workspacesViewModel.joinWorkspace(token!!, urlJoin)
                 })
 
                 authViewModel.getAuthToken().observe(this, { token ->
@@ -85,14 +85,14 @@ class JoinWorkspaceDialogBoard : DialogFragment(), View.OnClickListener {
                     if (it) {
                         Toast.makeText(requireContext(), "Workspace Added", Toast.LENGTH_SHORT)
                             .show()
-                        binding.btnAddWorkspace.doneLoadingAnimation(
+                        binding.btnJoinWorkspace.doneLoadingAnimation(
                             resources.getColor(R.color.teal_200),
                             ContextCompat.getDrawable(requireContext(), R.drawable.ic_check)!!
                                 .toBitmap()
                         )
                         dismiss()
                     } else {
-                        binding.btnAddWorkspace.revertAnimation()
+                        binding.btnJoinWorkspace.revertAnimation()
                         Toast.makeText(
                             requireContext(),
                             "Add Workspace Failed!!",
@@ -101,7 +101,7 @@ class JoinWorkspaceDialogBoard : DialogFragment(), View.OnClickListener {
                     }
                 })
             }
-            binding.imgCloseAddWorkspace -> dismiss()
+            binding.imgCloseJoinWorkspace -> dismiss()
         }
     }
 

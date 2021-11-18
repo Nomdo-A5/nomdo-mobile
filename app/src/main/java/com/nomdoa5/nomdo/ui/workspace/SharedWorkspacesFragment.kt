@@ -65,7 +65,11 @@ class SharedWorkspacesFragment : Fragment(), WorkspaceAdapter.OnWorkspaceClickLi
     fun setupRecyclerView() {
         rvWorkspace = requireView().findViewById(R.id.rv_shared_workspaces)
         rvWorkspace.setHasFixedSize(true)
-        rvWorkspace.addItemDecoration(WorkspaceAdapter.MarginItemDecoration(15))
+        rvWorkspace.addItemDecoration(
+            WorkspaceAdapter.MarginItemDecoration(
+                16
+            )
+        )
         rvWorkspace.layoutManager = LinearLayoutManager(context)
         workspaceAdapter.setData(workspaces)
         rvWorkspace.adapter = workspaceAdapter

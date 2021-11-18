@@ -47,14 +47,14 @@
                 android:id="@+id/toolbar_title"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
                 android:fontFamily="@font/roboto_medium"
                 android:text="@string/app_name"
                 android:textAppearance="@style/TextAppearance.AppCompat"
-                android:textSize="20sp"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                android:textSize="16sp"
+                app:layout_constraintBottom_toBottomOf="@+id/navigation"
+                app:layout_constraintStart_toEndOf="@+id/navigation"
+                app:layout_constraintTop_toTopOf="@+id/navigation" />
 
             <ImageView
                 android:id="@+id/dropdown"

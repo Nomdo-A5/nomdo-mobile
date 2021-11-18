@@ -1,5 +1,7 @@
 package com.nomdoa5.nomdo.helpers.adapter
 
+import android.content.res.Resources
+import android.content.res.Resources.getSystem
 import android.graphics.Rect
 import android.view.LayoutInflater
 import android.view.View
@@ -52,17 +54,18 @@ class WorkspaceAdapter(private val listener: OnWorkspaceClickListener) :
     }
 
     class MarginItemDecoration(private val spaceHeight: Int) : RecyclerView.ItemDecoration() {
+        val spaceHeightDp = (spaceHeight * getSystem().displayMetrics.density).toInt()
         override fun getItemOffsets(
             outRect: Rect, view: View,
             parent: RecyclerView, state: RecyclerView.State
         ) {
             with(outRect) {
                 if (parent.getChildAdapterPosition(view) == 0) {
-                    top = spaceHeight * 2
+                    top = spaceHeightDp
                 }
-                left = spaceHeight * 2
-                right = spaceHeight * 2
-                bottom = spaceHeight
+                left = spaceHeightDp
+                right = spaceHeightDp
+                bottom = spaceHeightDp
             }
         }
     }
