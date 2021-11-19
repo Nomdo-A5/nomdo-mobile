@@ -213,12 +213,17 @@ class MainActivity : AppCompatActivity(), View.OnClickListener, PopupMenu.OnMenu
 
     fun setupDrawer() {
         val header = binding.navView.getHeaderView(0)
-        val profile = header.findViewById<ImageView>(R.id.nav_header_avatar)
+        val avatar = header.findViewById<ImageView>(R.id.nav_header_avatar)
         val name = header.findViewById<TextView>(R.id.nav_header_username)
         val email = header.findViewById<TextView>(R.id.nav_header_email)
 
         authViewModel.getAuthToken().observe(this, {
             mainViewModel.setUser(it!!)
+        })
+
+        mainViewModel.getUser().observe(this, {
+            name.text = it.name ?: "Anonymous"
+            email.text = it.email ?: "anonymous@email.com"
         })
 
         val navController = findNavController(R.id.nav_host_fragment_content_main)
@@ -308,6 +313,18 @@ class MainActivity : AppCompatActivity(), View.OnClickListener, PopupMenu.OnMenu
             }
             R.id.member_menu_workspace -> {
                 Toast.makeText(this, "Ngeklik member", Toast.LENGTH_SHORT).show()
+                val navHostFragment: Fragment? =
+                    supportFragmentManager.findFragmentById(R.id.nav_host_fragment_content_main)
+
+                val fragment = navHostFragment?.childFragmentManager?.fragments?.get(0)
+
+                if (fragment is BoardsFragment) {
+                    val action =
+                        BoardsFragmentDirections.actionNavBoardsToProfileWorkspaceFragment()
+                    Navigation.findNavController(findViewById(R.id.nav_host_fragment_content_main))
+                        .navigate(action)
+                }
+
             }
         }
         return true

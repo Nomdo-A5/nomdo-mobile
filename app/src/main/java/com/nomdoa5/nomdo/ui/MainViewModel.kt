@@ -14,10 +14,6 @@ import java.net.UnknownServiceException
 
 class MainViewModel : ViewModel() {
     private val user = MutableLiveData<User>()
-    private val _userName = MutableLiveData<String>()
-    private val _userEmail = MutableLiveData<String>()
-    val userName: LiveData<String> get() = _userName
-    val userEmail: LiveData<String> get() = _userEmail
     private val userState = MutableLiveData<Boolean>()
 
     fun setUser(token: String) {
@@ -27,13 +23,9 @@ class MainViewModel : ViewModel() {
         requestCall.enqueue(object : Callback<UserResponse> {
             override fun onResponse(call: Call<UserResponse>, response: Response<UserResponse>) {
                 user.postValue(response.body()!!.user)
-                _userName.postValue(response.body()!!.user.name ?: "Anonymous")
-                _userEmail.postValue(response.body()!!.user.email ?: "anonymous@anonim.com")
                 userState.postValue(true)
             }
             override fun onFailure(call: Call<UserResponse>, t: Throwable) {
-                _userName.postValue("Anonymous")
-                _userEmail.postValue("anonymous@anonim.com")
                 userState.postValue(false)
             }
         })

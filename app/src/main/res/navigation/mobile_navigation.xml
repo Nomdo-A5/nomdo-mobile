@@ -47,6 +47,9 @@
         <argument
             android:name="workspace"
             app:argType="com.nomdoa5.nomdo.repository.model.Workspace" />
+        <action
+            android:id="@+id/action_nav_boards_to_profileWorkspaceFragment"
+            app:destination="@id/profileWorkspaceFragment" />
     </fragment>
     <fragment
         android:id="@+id/nav_tasks"
@@ -62,6 +65,9 @@
         <argument
             android:name="workspaceName"
             app:argType="string" />
+        <action
+            android:id="@+id/action_nav_tasks_to_profileWorkspaceFragment"
+            app:destination="@id/profileWorkspaceFragment" />
     </fragment>
 
     <fragment
@@ -99,4 +105,9 @@
             android:name="workspace"
             app:argType="com.nomdoa5.nomdo.repository.model.Workspace" />
     </fragment>
+    <fragment
+        android:id="@+id/profileWorkspaceFragment"
+        android:name="com.nomdoa5.nomdo.ui.workspace.ProfileWorkspaceFragment"
+        android:label="fragment_profile_workspace"
+        tools:layout="@layout/fragment_profile_workspace" />
 </navigation>
