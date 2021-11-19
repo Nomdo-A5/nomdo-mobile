@@ -22,8 +22,10 @@ class MainViewModel : ViewModel() {
 
         requestCall.enqueue(object : Callback<UserResponse> {
             override fun onResponse(call: Call<UserResponse>, response: Response<UserResponse>) {
-                user.postValue(response.body()!!.user)
-                userState.postValue(true)
+                if(!response.code().equals(500)){
+                    user.postValue(response.body()!!.user)
+                    userState.postValue(true)
+                }
             }
             override fun onFailure(call: Call<UserResponse>, t: Throwable) {
                 userState.postValue(false)

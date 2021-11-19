@@ -290,8 +290,35 @@ class MainActivity : AppCompatActivity(), View.OnClickListener, PopupMenu.OnMenu
 
     override fun onMenuItemClick(item: MenuItem?): Boolean {
         when (item!!.itemId) {
+            R.id.dashboard_menu_workspace -> {
+                val navHostFragment: Fragment? =
+                    supportFragmentManager.findFragmentById(R.id.nav_host_fragment_content_main)
+
+                val fragment = navHostFragment?.childFragmentManager?.fragments?.get(0)
+
+                if (fragment is BoardsFragment) {
+                    val action =
+                        BoardsFragmentDirections.actionNavBoardsToDashboardWorkspaceFragment(workspaceArgument)
+                    Navigation.findNavController(findViewById(R.id.nav_host_fragment_content_main))
+                        .navigate(action)
+                }
+            }
+
+            R.id.profile_menu_workspace -> {
+                val navHostFragment: Fragment? =
+                    supportFragmentManager.findFragmentById(R.id.nav_host_fragment_content_main)
+
+                val fragment = navHostFragment?.childFragmentManager?.fragments?.get(0)
+
+                if (fragment is BoardsFragment) {
+                    val action =
+                        BoardsFragmentDirections.actionNavBoardsToProfileWorkspaceFragment(workspaceArgument)
+                    Navigation.findNavController(findViewById(R.id.nav_host_fragment_content_main))
+                        .navigate(action)
+                }
+            }
+
             R.id.money_report_menu_workspace -> {
-                Toast.makeText(this, "Ngeklik board", Toast.LENGTH_SHORT).show()
                 val navHostFragment: Fragment? =
                     supportFragmentManager.findFragmentById(R.id.nav_host_fragment_content_main)
 
@@ -305,27 +332,12 @@ class MainActivity : AppCompatActivity(), View.OnClickListener, PopupMenu.OnMenu
                     Navigation.findNavController(findViewById(R.id.nav_host_fragment_content_main))
                         .navigate(action)
                 }
-
-
             }
+
             R.id.board_menu_workspace -> {
-                Toast.makeText(this, "Ngeklik money report", Toast.LENGTH_SHORT).show()
-            }
-            R.id.member_menu_workspace -> {
-                Toast.makeText(this, "Ngeklik member", Toast.LENGTH_SHORT).show()
-                val navHostFragment: Fragment? =
-                    supportFragmentManager.findFragmentById(R.id.nav_host_fragment_content_main)
-
-                val fragment = navHostFragment?.childFragmentManager?.fragments?.get(0)
-
-                if (fragment is BoardsFragment) {
-                    val action =
-                        BoardsFragmentDirections.actionNavBoardsToProfileWorkspaceFragment()
-                    Navigation.findNavController(findViewById(R.id.nav_host_fragment_content_main))
-                        .navigate(action)
-                }
 
             }
+
         }
         return true
     }

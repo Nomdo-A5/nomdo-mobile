@@ -58,6 +58,29 @@
             android:nextFocusDown="@+id/edit_email_sign_up" />
     </com.google.android.material.textfield.TextInputLayout>
 
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/layout_desc_add_workspace"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        app:boxStrokeColor="@color/black"
+        app:hintTextColor="@color/black"
+        app:layout_constraintEnd_toEndOf="@+id/layout_name_add_workspace"
+        app:layout_constraintStart_toStartOf="@+id/layout_name_add_workspace"
+        app:layout_constraintTop_toBottomOf="@+id/layout_name_add_workspace"
+        app:startIconDrawable="@drawable/ic_description">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/edit_desc_add_workspace"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Description"
+            android:imeOptions="actionNext"
+            android:inputType="text"
+            android:nextFocusDown="@+id/edit_email_sign_up" />
+    </com.google.android.material.textfield.TextInputLayout>
+
     <com.apachat.loadingbutton.core.customViews.CircularProgressButton
         android:id="@+id/btn_add_workspace"
         android:layout_width="wrap_content"
@@ -70,8 +93,8 @@
         app:finalCornerAngle="30dp"
         app:initialCornerAngle="30dp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="@+id/layout_name_add_workspace"
-        app:layout_constraintStart_toStartOf="@+id/layout_name_add_workspace"
-        app:layout_constraintTop_toBottomOf="@+id/layout_name_add_workspace"
+        app:layout_constraintEnd_toEndOf="@+id/layout_desc_add_workspace"
+        app:layout_constraintStart_toStartOf="@+id/layout_desc_add_workspace"
+        app:layout_constraintTop_toBottomOf="@+id/layout_desc_add_workspace"
         app:spinning_bar_padding="8dp" />
 </androidx.constraintlayout.widget.ConstraintLayout>

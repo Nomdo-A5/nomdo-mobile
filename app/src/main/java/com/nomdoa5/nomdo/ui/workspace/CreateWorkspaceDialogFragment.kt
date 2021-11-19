@@ -65,7 +65,8 @@ class CreateWorkspaceDialogFragment : DialogFragment(), View.OnClickListener {
                 binding.btnAddWorkspace.startAnimation()
                 val workspaceName =
                     binding.editNameAddWorkspace.text.toString()
-                val workspace = WorkspaceRequest(workspaceName)
+                val workspaceDescription = binding.editDescAddWorkspace.text.toString()
+                val workspace = WorkspaceRequest(workspaceName, workspaceDescription)
                 authViewModel.getAuthToken().observe(this, { token ->
                     workspacesViewModel.addWorkspace(token!!, workspace)
                 })

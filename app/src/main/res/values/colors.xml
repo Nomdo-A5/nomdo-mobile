@@ -9,8 +9,10 @@
     <color name="white">#FFFFFFFF</color>
     <color name="white_50t">#80FFFFFF</color>
     <color name="primary">#4ABDAC</color>
+    <color name="primary_30t">#4D4ABDAC</color>
     <color name="primary_ripple">#2F7A6F</color>
     <color name="accent">#F8B732</color>
+    <color name="accent_30t">#4DF7B733</color>
     <color name="accent_profile">#F7B733</color>
     <color name="accent_ripple">#9F7724</color>
     <color name="bg_gray">#F4F4F9</color>

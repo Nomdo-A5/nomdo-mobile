@@ -66,6 +66,7 @@ class UpdateWorkspaceDialogFragment : DialogFragment(), View.OnClickListener {
             binding.btnUpdateWorkspace -> {
                 binding.btnUpdateWorkspace.startAnimation()
                 val newWorkspaceTitle = binding.editNameUpdateWorkspace.text.toString()
+                val newWorkspaceDescription = binding.editDescUpdateWorkspace.text.toString()
                 val newWorkspace = UpdateWorkspaceRequest(workspace.id, newWorkspaceTitle)
 
                 authViewModel.getAuthToken().observe(this, {

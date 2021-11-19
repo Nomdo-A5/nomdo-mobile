@@ -8,4 +8,6 @@ import kotlinx.parcelize.Parcelize
 data class WorkspaceRequest(
     @SerializedName("workspace_name")
     val workspaceName: String? = null,
+    @SerializedName("workspace_description")
+    val workspaceDescription: String? = null,
 ) : Parcelable
