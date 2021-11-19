@@ -20,4 +20,5 @@
     <color name="gray_ripple">#939393</color>
     <color name="ic">#FF000000</color>
     <color name="shadow">#CABBBBBB</color>
+    <color name="form">#66C4C4C4</color>
 </resources>

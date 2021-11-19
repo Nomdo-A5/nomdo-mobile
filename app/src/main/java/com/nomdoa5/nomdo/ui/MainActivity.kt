@@ -31,15 +31,15 @@ import com.nomdoa5.nomdo.repository.local.UserPreferences
 import com.nomdoa5.nomdo.repository.model.Workspace
 import com.nomdoa5.nomdo.ui.auth.AuthViewModel
 import com.nomdoa5.nomdo.ui.balance.CreateBalanceDialogFragment
+import com.nomdoa5.nomdo.ui.balance.MoneyReportFragment
+import com.nomdoa5.nomdo.ui.balance.MoneyReportFragmentDirections
 import com.nomdoa5.nomdo.ui.board.BoardViewModel
 import com.nomdoa5.nomdo.ui.board.BoardsFragment
 import com.nomdoa5.nomdo.ui.board.BoardsFragmentDirections
 import com.nomdoa5.nomdo.ui.board.CreateBoardDialogFragment
 import com.nomdoa5.nomdo.ui.task.CreateTaskDialogFragment
 import com.nomdoa5.nomdo.ui.task.TaskViewModel
-import com.nomdoa5.nomdo.ui.workspace.CreateWorkspaceDialogFragment
-import com.nomdoa5.nomdo.ui.workspace.JoinWorkspaceDialogBoard
-import com.nomdoa5.nomdo.ui.workspace.WorkspacesViewModel
+import com.nomdoa5.nomdo.ui.workspace.*
 
 
 private val Context.dataStore: DataStore<Preferences> by preferencesDataStore(name = "settings")
@@ -289,53 +289,125 @@ class MainActivity : AppCompatActivity(), View.OnClickListener, PopupMenu.OnMenu
     }
 
     override fun onMenuItemClick(item: MenuItem?): Boolean {
+        val navHostFragment: Fragment? =
+            supportFragmentManager.findFragmentById(R.id.nav_host_fragment_content_main)
+
+        val fragment = navHostFragment?.childFragmentManager?.fragments?.get(0)
+
         when (item!!.itemId) {
             R.id.dashboard_menu_workspace -> {
-                val navHostFragment: Fragment? =
-                    supportFragmentManager.findFragmentById(R.id.nav_host_fragment_content_main)
-
-                val fragment = navHostFragment?.childFragmentManager?.fragments?.get(0)
-
-                if (fragment is BoardsFragment) {
-                    val action =
-                        BoardsFragmentDirections.actionNavBoardsToDashboardWorkspaceFragment(workspaceArgument)
-                    Navigation.findNavController(findViewById(R.id.nav_host_fragment_content_main))
-                        .navigate(action)
+                when (fragment) {
+                    is BoardsFragment -> {
+                        val action =
+                            BoardsFragmentDirections.actionNavBoardsToDashboardWorkspaceFragment(
+                                workspaceArgument
+                            )
+                        Navigation.findNavController(findViewById(R.id.nav_host_fragment_content_main))
+                            .navigate(action)
+                    }
+                    is ProfileWorkspaceFragment -> {
+                        val action =
+                            ProfileWorkspaceFragmentDirections.actionProfileWorkspaceFragmentToDashboardWorkspaceFragment(
+                                workspaceArgument
+                            )
+                        Navigation.findNavController(findViewById(R.id.nav_host_fragment_content_main))
+                            .navigate(action)
+                    }
+                    is MoneyReportFragment -> {
+                        val action =
+                            MoneyReportFragmentDirections.actionMoneyReportFragmentToDashboardWorkspaceFragment(
+                                workspaceArgument
+                            )
+                        Navigation.findNavController(findViewById(R.id.nav_host_fragment_content_main))
+                            .navigate(action)
+                    }
                 }
             }
 
             R.id.profile_menu_workspace -> {
-                val navHostFragment: Fragment? =
-                    supportFragmentManager.findFragmentById(R.id.nav_host_fragment_content_main)
-
-                val fragment = navHostFragment?.childFragmentManager?.fragments?.get(0)
-
-                if (fragment is BoardsFragment) {
-                    val action =
-                        BoardsFragmentDirections.actionNavBoardsToProfileWorkspaceFragment(workspaceArgument)
-                    Navigation.findNavController(findViewById(R.id.nav_host_fragment_content_main))
-                        .navigate(action)
+                when (fragment) {
+                    is BoardsFragment -> {
+                        val action =
+                            BoardsFragmentDirections.actionNavBoardsToProfileWorkspaceFragment(
+                                workspaceArgument
+                            )
+                        Navigation.findNavController(findViewById(R.id.nav_host_fragment_content_main))
+                            .navigate(action)
+                    }
+                    is DashboardWorkspaceFragment -> {
+                        val action =
+                            DashboardWorkspaceFragmentDirections.actionDashboardWorkspaceFragmentToProfileWorkspaceFragment(
+                                workspaceArgument
+                            )
+                        Navigation.findNavController(findViewById(R.id.nav_host_fragment_content_main))
+                            .navigate(action)
+                    }
+                    is MoneyReportFragment -> {
+                        val action =
+                            MoneyReportFragmentDirections.actionMoneyReportFragmentToProfileWorkspaceFragment(
+                                workspaceArgument
+                            )
+                        Navigation.findNavController(findViewById(R.id.nav_host_fragment_content_main))
+                            .navigate(action)
+                    }
                 }
             }
 
             R.id.money_report_menu_workspace -> {
-                val navHostFragment: Fragment? =
-                    supportFragmentManager.findFragmentById(R.id.nav_host_fragment_content_main)
-
-                val fragment = navHostFragment?.childFragmentManager?.fragments?.get(0)
-
-                if (fragment is BoardsFragment) {
-                    val action =
-                        BoardsFragmentDirections.actionNavBoardsToMoneyReportFragment(
-                            workspaceArgument
-                        )
-                    Navigation.findNavController(findViewById(R.id.nav_host_fragment_content_main))
-                        .navigate(action)
+                when (fragment) {
+                    is BoardsFragment -> {
+                        val action =
+                            BoardsFragmentDirections.actionNavBoardsToMoneyReportFragment(
+                                workspaceArgument
+                            )
+                        Navigation.findNavController(findViewById(R.id.nav_host_fragment_content_main))
+                            .navigate(action)
+                    }
+                    is DashboardWorkspaceFragment -> {
+                        val action =
+                            DashboardWorkspaceFragmentDirections.actionDashboardWorkspaceFragmentToMoneyReportFragment(
+                                workspaceArgument
+                            )
+                        Navigation.findNavController(findViewById(R.id.nav_host_fragment_content_main))
+                            .navigate(action)
+                    }
+                    is ProfileWorkspaceFragment -> {
+                        val action =
+                            ProfileWorkspaceFragmentDirections.actionProfileWorkspaceFragmentToMoneyReportFragment(
+                                workspaceArgument
+                            )
+                        Navigation.findNavController(findViewById(R.id.nav_host_fragment_content_main))
+                            .navigate(action)
+                    }
                 }
             }
-
             R.id.board_menu_workspace -> {
-
+                when (fragment) {
+                    is MoneyReportFragment -> {
+                        val action =
+                            MoneyReportFragmentDirections.actionMoneyReportFragmentToNavBoards(
+                                workspaceArgument
+                            )
+                        Navigation.findNavController(findViewById(R.id.nav_host_fragment_content_main))
+                            .navigate(action)
+                    }
+                    is DashboardWorkspaceFragment -> {
+                        val action =
+                            DashboardWorkspaceFragmentDirections.actionDashboardWorkspaceFragmentToNavBoards(
+                                workspaceArgument
+                            )
+                        Navigation.findNavController(findViewById(R.id.nav_host_fragment_content_main))
+                            .navigate(action)
+                    }
+                    is ProfileWorkspaceFragment -> {
+                        val action =
+                            ProfileWorkspaceFragmentDirections.actionProfileWorkspaceFragmentToNavBoards(
+                                workspaceArgument
+                            )
+                        Navigation.findNavController(findViewById(R.id.nav_host_fragment_content_main))
+                            .navigate(action)
+                    }
+                }
             }
 
         }

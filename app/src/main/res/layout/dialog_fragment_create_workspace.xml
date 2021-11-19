@@ -26,8 +26,8 @@
         android:id="@+id/img_close_add_workspace"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="24dp"
-        android:layout_marginEnd="24dp"
+        android:layout_marginTop="18dp"
+        android:layout_marginEnd="16dp"
         android:background="?attr/selectableItemBackgroundBorderless"
         android:clickable="true"
         android:focusable="true"
@@ -37,10 +37,10 @@
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/layout_name_add_workspace"
-        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="24dp"
+        android:layout_marginTop="56dp"
         app:boxStrokeColor="@color/black"
         app:hintTextColor="@color/black"
         app:layout_constraintEnd_toEndOf="@+id/tv_title_add_workspace"
@@ -60,7 +60,7 @@
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/layout_desc_add_workspace"
-        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
@@ -68,16 +68,18 @@
         app:hintTextColor="@color/black"
         app:layout_constraintEnd_toEndOf="@+id/layout_name_add_workspace"
         app:layout_constraintStart_toStartOf="@+id/layout_name_add_workspace"
-        app:layout_constraintTop_toBottomOf="@+id/layout_name_add_workspace"
-        app:startIconDrawable="@drawable/ic_description">
+        app:layout_constraintTop_toBottomOf="@+id/layout_name_add_workspace">
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/edit_desc_add_workspace"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:gravity="start"
             android:hint="Description"
             android:imeOptions="actionNext"
-            android:inputType="text"
+            android:inputType="textMultiLine"
+            android:lines="3"
+            android:maxLines="3"
             android:nextFocusDown="@+id/edit_email_sign_up" />
     </com.google.android.material.textfield.TextInputLayout>
 
@@ -85,8 +87,8 @@
         android:id="@+id/btn_add_workspace"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="24dp"
-        android:layout_marginBottom="32dp"
+        android:layout_marginTop="56dp"
+        android:layout_marginBottom="24dp"
         android:background="@drawable/btn_primary"
         android:text="Add"
         android:textAllCaps="false"
