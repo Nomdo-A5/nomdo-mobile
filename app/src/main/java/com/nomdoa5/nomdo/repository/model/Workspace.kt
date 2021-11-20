@@ -9,4 +9,6 @@ data class Workspace(
     val id: Int,
     @SerializedName("workspace_name")
     val workspaceName: String? = null,
+    @SerializedName("workspace_description")
+    val workspaceDescription: String? = null,
 ) : Parcelable

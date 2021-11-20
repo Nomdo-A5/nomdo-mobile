@@ -7,6 +7,7 @@ import com.nomdoa5.nomdo.repository.model.Workspace
 import com.nomdoa5.nomdo.repository.model.request.workspace.UpdateWorkspaceRequest
 import com.nomdoa5.nomdo.repository.model.request.workspace.WorkspaceRequest
 import com.nomdoa5.nomdo.repository.model.response.workspace.CreateWorkspaceResponse
+import com.nomdoa5.nomdo.repository.model.response.workspace.DetailWorkspaceResponse
 import com.nomdoa5.nomdo.repository.model.response.workspace.WorkspaceResponse
 import com.nomdoa5.nomdo.repository.remote.ApiService
 import com.nomdoa5.nomdo.repository.remote.RetrofitClient
@@ -16,6 +17,7 @@ import retrofit2.Response
 
 class WorkspacesViewModel : ViewModel() {
     private val listWorkspace = MutableLiveData<ArrayList<Workspace>>()
+    private val detailWorkspace = MutableLiveData<Workspace>()
     private val createdWorkspace = MutableLiveData<Workspace>()
     private val workspaceState = MutableLiveData<Boolean>()
     private val addWorkspaceState = MutableLiveData<Boolean>()
@@ -32,11 +34,33 @@ class WorkspacesViewModel : ViewModel() {
                 call: Call<WorkspaceResponse>,
                 response: Response<WorkspaceResponse>
             ) {
-                listWorkspace.postValue(response.body()!!.workspace)
-                workspaceState.postValue(true)
+                if(!response.code().equals(500)) {
+                    listWorkspace.postValue(response.body()!!.workspace)
+                    workspaceState.postValue(true)
+                }
             }
 
             override fun onFailure(call: Call<WorkspaceResponse>, t: Throwable) {
+                workspaceState.postValue(false)
+            }
+        })
+    }
+
+    fun setDetailWorkspace(token: String, id: String) {
+        val service = RetrofitClient.buildService(ApiService::class.java)
+        val requestCall = service.getDetailWorkspace(token = "Bearer $token", id)
+
+        requestCall.enqueue(object : Callback<DetailWorkspaceResponse> {
+            override fun onResponse(
+                call: Call<DetailWorkspaceResponse>,
+                response: Response<DetailWorkspaceResponse>
+            ) {
+                if(!response.code().equals(500)) {
+                    detailWorkspace.postValue(response.body()!!.workspace)
+                    workspaceState.postValue(true)
+                }
+            }
+            override fun onFailure(call: Call<DetailWorkspaceResponse>, t: Throwable) {
                 workspaceState.postValue(false)
             }
         })
@@ -135,6 +159,10 @@ class WorkspacesViewModel : ViewModel() {
 
     fun getWorkspace(): LiveData<ArrayList<Workspace>> {
         return listWorkspace
+    }
+
+    fun getWorkspaceDetail(): LiveData<Workspace> {
+        return detailWorkspace
     }
 
     fun getCreatedWorkspace(): LiveData<Workspace> {

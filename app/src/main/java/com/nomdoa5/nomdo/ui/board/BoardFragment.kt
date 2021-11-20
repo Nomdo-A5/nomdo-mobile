@@ -52,12 +52,16 @@ class BoardsFragment : Fragment(), BoardAdapter.OnBoardClickListener,
     ): View {
         _binding = FragmentBoardsBinding.inflate(inflater, container, false)
         val root: View = binding.root
+
+        return root
+    }
+
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
         (activity as MainActivity?)!!.setupToolbarWorkspace(
             args.workspace.workspaceName!!,
             args.workspace
         )
-
-        return root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {

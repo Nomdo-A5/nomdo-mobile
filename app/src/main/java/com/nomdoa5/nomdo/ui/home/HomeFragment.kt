@@ -1,5 +1,6 @@
 package com.nomdoa5.nomdo.ui.home
 
+import android.content.Context
 import android.os.Bundle
 import android.view.KeyEvent
 import androidx.fragment.app.Fragment
@@ -79,7 +80,7 @@ class HomeFragment : Fragment() {
         })
     }
 
-    fun setupOnBackPressed(){
+    fun setupOnBackPressed() {
         requireView().setFocusableInTouchMode(true)
         requireView().requestFocus()
         requireView().setOnKeyListener(object : View.OnKeyListener {

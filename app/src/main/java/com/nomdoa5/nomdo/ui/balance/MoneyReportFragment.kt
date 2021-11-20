@@ -16,7 +16,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.snackbar.Snackbar
 import com.nomdoa5.nomdo.R
-import com.nomdoa5.nomdo.databinding.FragmentMoneyReportBinding
+import com.nomdoa5.nomdo.databinding.FragmentMoneyReportBackupBinding
 import com.nomdoa5.nomdo.helpers.ViewModelFactory
 import com.nomdoa5.nomdo.helpers.adapter.BalanceAdapter
 import com.nomdoa5.nomdo.helpers.adapter.BoardAdapter
@@ -34,7 +34,7 @@ class MoneyReportFragment : Fragment(), BoardAdapter.OnBoardClickListener {
     private lateinit var balanceViewModel: BalanceViewModel
     private lateinit var boardsViewModel: BoardViewModel
     private lateinit var authViewModel: AuthViewModel
-    private var _binding: FragmentMoneyReportBinding? = null
+    private var _binding: FragmentMoneyReportBackupBinding? = null
     private val binding get() = _binding!!
     private lateinit var balanceAdapter: BalanceAdapter
     private lateinit var rvBalance: RecyclerView
@@ -45,7 +45,7 @@ class MoneyReportFragment : Fragment(), BoardAdapter.OnBoardClickListener {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        _binding = FragmentMoneyReportBinding.inflate(inflater, container, false)
+        _binding = FragmentMoneyReportBackupBinding.inflate(inflater, container, false)
         val root: View = binding.root
 
         return root

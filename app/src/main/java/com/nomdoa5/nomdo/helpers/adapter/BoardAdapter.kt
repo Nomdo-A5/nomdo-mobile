@@ -51,13 +51,6 @@ class BoardAdapter(private val listener: OnBoardClickListener) :
         private val binding = ItemBoardBinding.bind(itemView)
         fun bind(boardItem: Board) {
             binding.tvTitleBoard.text = boardItem.boardName
-//            binding.tvNumBoard.text = taskProgressItem.taskCount.toString()
-//            val progress: Int
-//            if (taskProgressItem.taskCount == 0) {
-//                progress = 0
-//            } else {
-//                progress = taskProgressItem.taskDoneCount / taskProgressItem.taskCount
-//            }
 
             binding.tvNumBoard.text = boardItem.id.toString()
             val progress = boardItem.id.toString()

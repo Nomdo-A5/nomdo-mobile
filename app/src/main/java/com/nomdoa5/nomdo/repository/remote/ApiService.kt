@@ -18,6 +18,7 @@ import com.nomdoa5.nomdo.repository.model.response.board.CreateBoardResponse
 import com.nomdoa5.nomdo.repository.model.response.task.CreateTaskResponse
 import com.nomdoa5.nomdo.repository.model.response.task.TaskResponse
 import com.nomdoa5.nomdo.repository.model.response.workspace.CreateWorkspaceResponse
+import com.nomdoa5.nomdo.repository.model.response.workspace.DetailWorkspaceResponse
 import com.nomdoa5.nomdo.repository.model.response.workspace.WorkspaceResponse
 import retrofit2.Call
 import retrofit2.http.*
@@ -52,6 +53,12 @@ interface ApiService {
         @Header("Authorization") token: String
     ): Call<WorkspaceResponse>
 
+    @GET("workspace")
+    fun getDetailWorkspace(
+        @Header("Authorization") token: String,
+        @Query("id") id: String,
+    ): Call<DetailWorkspaceResponse>
+
     @POST("workspace")
     fun addWorkspace(
         @Header("Authorization") token: String,
@@ -75,6 +82,8 @@ interface ApiService {
         @Header("Authorization") token: String,
         @Query("url_join") urlJoin: String,
     ): Call<WorkspaceResponse>
+
+    //    MEMBER
 
 
     //     BOARD

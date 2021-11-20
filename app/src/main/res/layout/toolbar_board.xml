@@ -61,16 +61,18 @@
 
             <TextView
                 android:id="@+id/toolbar_subtitle"
-                android:textColor="@color/white_50t"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
                 android:fontFamily="@font/roboto_regular"
                 android:text="nama workspace"
                 android:textAppearance="@style/TextAppearance.AppCompat"
+                android:textColor="@color/white_50t"
                 android:textSize="14sp"
                 app:layout_constraintBottom_toBottomOf="@+id/toolbar_title"
-                app:layout_constraintStart_toEndOf="@+id/toolbar_title" />
+                app:layout_constraintStart_toEndOf="@+id/toolbar_title"
+                app:layout_constraintTop_toTopOf="@+id/toolbar_title"
+                app:layout_constraintVertical_bias="0.75" />
 
 
             <ImageView

@@ -29,9 +29,6 @@
         <action
             android:id="@+id/action_nav_shared_workspaces_to_nav_boards"
             app:destination="@id/nav_boards" />
-        <action
-            android:id="@+id/action_nav_shared_workspaces_to_moneyReportFragment"
-            app:destination="@id/moneyReportFragment" />
     </fragment>
     <fragment
         android:id="@+id/nav_boards"
@@ -47,6 +44,12 @@
         <argument
             android:name="workspace"
             app:argType="com.nomdoa5.nomdo.repository.model.Workspace" />
+        <action
+            android:id="@+id/action_nav_boards_to_profileWorkspaceFragment"
+            app:destination="@id/profileWorkspaceFragment" />
+        <action
+            android:id="@+id/action_nav_boards_to_dashboardWorkspaceFragment"
+            app:destination="@id/dashboardWorkspaceFragment" />
     </fragment>
     <fragment
         android:id="@+id/nav_tasks"
@@ -62,6 +65,12 @@
         <argument
             android:name="workspaceName"
             app:argType="string" />
+        <action
+            android:id="@+id/action_nav_tasks_to_profileWorkspaceFragment"
+            app:destination="@id/profileWorkspaceFragment" />
+        <action
+            android:id="@+id/action_nav_tasks_to_dashboardWorkspaceFragment"
+            app:destination="@id/dashboardWorkspaceFragment" />
     </fragment>
 
     <fragment
@@ -98,5 +107,48 @@
         <argument
             android:name="workspace"
             app:argType="com.nomdoa5.nomdo.repository.model.Workspace" />
+        <action
+            android:id="@+id/action_moneyReportFragment_to_nav_boards"
+            app:destination="@id/nav_boards" />
+        <action
+            android:id="@+id/action_moneyReportFragment_to_profileWorkspaceFragment"
+            app:destination="@id/profileWorkspaceFragment" />
+        <action
+            android:id="@+id/action_moneyReportFragment_to_dashboardWorkspaceFragment"
+            app:destination="@id/dashboardWorkspaceFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/profileWorkspaceFragment"
+        android:name="com.nomdoa5.nomdo.ui.workspace.ProfileWorkspaceFragment"
+        android:label="fragment_profile_workspace"
+        tools:layout="@layout/fragment_profile_workspace" >
+        <argument android:name="workspace"
+            app:argType="com.nomdoa5.nomdo.repository.model.Workspace" />
+        <action
+            android:id="@+id/action_profileWorkspaceFragment_to_moneyReportFragment"
+            app:destination="@id/moneyReportFragment" />
+        <action
+            android:id="@+id/action_profileWorkspaceFragment_to_dashboardWorkspaceFragment"
+            app:destination="@id/dashboardWorkspaceFragment" />
+        <action
+            android:id="@+id/action_profileWorkspaceFragment_to_nav_boards"
+            app:destination="@id/nav_boards" />
+    </fragment>
+    <fragment
+        android:id="@+id/dashboardWorkspaceFragment"
+        android:name="com.nomdoa5.nomdo.ui.workspace.DashboardWorkspaceFragment"
+        android:label="DashboardWorkspaceFragment" >
+        <argument
+            android:name="workspace"
+            app:argType="com.nomdoa5.nomdo.repository.model.Workspace" />
+        <action
+            android:id="@+id/action_dashboardWorkspaceFragment_to_profileWorkspaceFragment"
+            app:destination="@id/profileWorkspaceFragment" />
+        <action
+            android:id="@+id/action_dashboardWorkspaceFragment_to_moneyReportFragment"
+            app:destination="@id/moneyReportFragment" />
+        <action
+            android:id="@+id/action_dashboardWorkspaceFragment_to_nav_boards"
+            app:destination="@id/nav_boards" />
     </fragment>
 </navigation>

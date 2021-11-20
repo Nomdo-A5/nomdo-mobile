@@ -25,21 +25,22 @@ import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupWithNavController
 import com.nomdoa5.nomdo.R
 import com.nomdoa5.nomdo.databinding.ActivityMainBinding
+import com.nomdoa5.nomdo.databinding.FragmentBoardsBinding
 import com.nomdoa5.nomdo.databinding.NavHeaderMainBinding
 import com.nomdoa5.nomdo.helpers.ViewModelFactory
 import com.nomdoa5.nomdo.repository.local.UserPreferences
 import com.nomdoa5.nomdo.repository.model.Workspace
 import com.nomdoa5.nomdo.ui.auth.AuthViewModel
 import com.nomdoa5.nomdo.ui.balance.CreateBalanceDialogFragment
+import com.nomdoa5.nomdo.ui.balance.MoneyReportFragment
+import com.nomdoa5.nomdo.ui.balance.MoneyReportFragmentDirections
 import com.nomdoa5.nomdo.ui.board.BoardViewModel
 import com.nomdoa5.nomdo.ui.board.BoardsFragment
 import com.nomdoa5.nomdo.ui.board.BoardsFragmentDirections
 import com.nomdoa5.nomdo.ui.board.CreateBoardDialogFragment
 import com.nomdoa5.nomdo.ui.task.CreateTaskDialogFragment
 import com.nomdoa5.nomdo.ui.task.TaskViewModel
-import com.nomdoa5.nomdo.ui.workspace.CreateWorkspaceDialogFragment
-import com.nomdoa5.nomdo.ui.workspace.JoinWorkspaceDialogBoard
-import com.nomdoa5.nomdo.ui.workspace.WorkspacesViewModel
+import com.nomdoa5.nomdo.ui.workspace.*
 
 
 private val Context.dataStore: DataStore<Preferences> by preferencesDataStore(name = "settings")
@@ -76,14 +77,15 @@ class MainActivity : AppCompatActivity(), View.OnClickListener, PopupMenu.OnMenu
     private lateinit var taskViewModel: TaskViewModel
     private var clicked = false
     private lateinit var appBarConfiguration: AppBarConfiguration
-    private lateinit var binding: ActivityMainBinding
+    private var _binding: ActivityMainBinding? = null
+    private val binding get() = _binding!!
     private lateinit var headerBinding: NavHeaderMainBinding
     private lateinit var workspaceArgument: Workspace
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        binding = ActivityMainBinding.inflate(layoutInflater)
+        _binding = ActivityMainBinding.inflate(layoutInflater)
         headerBinding = DataBindingUtil.setContentView(this, R.layout.nav_header_main)
         setupViewModel()
 
@@ -103,6 +105,11 @@ class MainActivity : AppCompatActivity(), View.OnClickListener, PopupMenu.OnMenu
         binding.appBarMain.appBarLayoutWorkspace.navigation.setOnClickListener(this)
         binding.appBarMain.appBarLayoutBoard.navigation.setOnClickListener(this)
         binding.appBarMain.appBarLayout.toolbarMainNotifications.setOnClickListener(this)
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        _binding = null
     }
 
     override fun onClick(v: View?) {
@@ -213,12 +220,17 @@ class MainActivity : AppCompatActivity(), View.OnClickListener, PopupMenu.OnMenu
 
     fun setupDrawer() {
         val header = binding.navView.getHeaderView(0)
-        val profile = header.findViewById<ImageView>(R.id.nav_header_avatar)
+        val avatar = header.findViewById<ImageView>(R.id.nav_header_avatar)
         val name = header.findViewById<TextView>(R.id.nav_header_username)
         val email = header.findViewById<TextView>(R.id.nav_header_email)
 
         authViewModel.getAuthToken().observe(this, {
             mainViewModel.setUser(it!!)
+        })
+
+        mainViewModel.getUser().observe(this, {
+            name.text = it.name ?: "Anonymous"
+            email.text = it.email ?: "anonymous@email.com"
         })
 
         val navController = findNavController(R.id.nav_host_fragment_content_main)
@@ -284,31 +296,127 @@ class MainActivity : AppCompatActivity(), View.OnClickListener, PopupMenu.OnMenu
     }
 
     override fun onMenuItemClick(item: MenuItem?): Boolean {
+        val navHostFragment: Fragment? =
+            supportFragmentManager.findFragmentById(R.id.nav_host_fragment_content_main)
+
+        val fragment = navHostFragment?.childFragmentManager?.fragments?.get(0)
+
         when (item!!.itemId) {
-            R.id.money_report_menu_workspace -> {
-                Toast.makeText(this, "Ngeklik board", Toast.LENGTH_SHORT).show()
-                val navHostFragment: Fragment? =
-                    supportFragmentManager.findFragmentById(R.id.nav_host_fragment_content_main)
-
-                val fragment = navHostFragment?.childFragmentManager?.fragments?.get(0)
-
-                if (fragment is BoardsFragment) {
-                    val action =
-                        BoardsFragmentDirections.actionNavBoardsToMoneyReportFragment(
-                            workspaceArgument
-                        )
-                    Navigation.findNavController(findViewById(R.id.nav_host_fragment_content_main))
-                        .navigate(action)
+            R.id.dashboard_menu_workspace -> {
+                when (fragment) {
+                    is BoardsFragment -> {
+                        val action =
+                            BoardsFragmentDirections.actionNavBoardsToDashboardWorkspaceFragment(
+                                workspaceArgument
+                            )
+                        Navigation.findNavController(findViewById(R.id.nav_host_fragment_content_main))
+                            .navigate(action)
+                    }
+                    is ProfileWorkspaceFragment -> {
+                        val action =
+                            ProfileWorkspaceFragmentDirections.actionProfileWorkspaceFragmentToDashboardWorkspaceFragment(
+                                workspaceArgument
+                            )
+                        Navigation.findNavController(findViewById(R.id.nav_host_fragment_content_main))
+                            .navigate(action)
+                    }
+                    is MoneyReportFragment -> {
+                        val action =
+                            MoneyReportFragmentDirections.actionMoneyReportFragmentToDashboardWorkspaceFragment(
+                                workspaceArgument
+                            )
+                        Navigation.findNavController(findViewById(R.id.nav_host_fragment_content_main))
+                            .navigate(action)
+                    }
                 }
+            }
 
+            R.id.profile_menu_workspace -> {
+                when (fragment) {
+                    is BoardsFragment -> {
+                        val action =
+                            BoardsFragmentDirections.actionNavBoardsToProfileWorkspaceFragment(
+                                workspaceArgument
+                            )
+                        Navigation.findNavController(findViewById(R.id.nav_host_fragment_content_main))
+                            .navigate(action)
+                    }
+                    is DashboardWorkspaceFragment -> {
+                        val action =
+                            DashboardWorkspaceFragmentDirections.actionDashboardWorkspaceFragmentToProfileWorkspaceFragment(
+                                workspaceArgument
+                            )
+                        Navigation.findNavController(findViewById(R.id.nav_host_fragment_content_main))
+                            .navigate(action)
+                    }
+                    is MoneyReportFragment -> {
+                        val action =
+                            MoneyReportFragmentDirections.actionMoneyReportFragmentToProfileWorkspaceFragment(
+                                workspaceArgument
+                            )
+                        Navigation.findNavController(findViewById(R.id.nav_host_fragment_content_main))
+                            .navigate(action)
+                    }
+                }
+            }
 
+            R.id.money_report_menu_workspace -> {
+                when (fragment) {
+                    is BoardsFragment -> {
+                        val action =
+                            BoardsFragmentDirections.actionNavBoardsToMoneyReportFragment(
+                                workspaceArgument
+                            )
+                        Navigation.findNavController(findViewById(R.id.nav_host_fragment_content_main))
+                            .navigate(action)
+                    }
+                    is DashboardWorkspaceFragment -> {
+                        val action =
+                            DashboardWorkspaceFragmentDirections.actionDashboardWorkspaceFragmentToMoneyReportFragment(
+                                workspaceArgument
+                            )
+                        Navigation.findNavController(findViewById(R.id.nav_host_fragment_content_main))
+                            .navigate(action)
+                    }
+                    is ProfileWorkspaceFragment -> {
+                        val action =
+                            ProfileWorkspaceFragmentDirections.actionProfileWorkspaceFragmentToMoneyReportFragment(
+                                workspaceArgument
+                            )
+                        Navigation.findNavController(findViewById(R.id.nav_host_fragment_content_main))
+                            .navigate(action)
+                    }
+                }
             }
             R.id.board_menu_workspace -> {
-                Toast.makeText(this, "Ngeklik money report", Toast.LENGTH_SHORT).show()
+                when (fragment) {
+                    is MoneyReportFragment -> {
+                        val action =
+                            MoneyReportFragmentDirections.actionMoneyReportFragmentToNavBoards(
+                                workspaceArgument
+                            )
+                        Navigation.findNavController(findViewById(R.id.nav_host_fragment_content_main))
+                            .navigate(action)
+                    }
+                    is DashboardWorkspaceFragment -> {
+                        val action =
+                            DashboardWorkspaceFragmentDirections.actionDashboardWorkspaceFragmentToNavBoards(
+                                workspaceArgument
+                            )
+                        Navigation.findNavController(findViewById(R.id.nav_host_fragment_content_main))
+                            .navigate(action)
+                    }
+                    is ProfileWorkspaceFragment -> {
+                        val action =
+                            ProfileWorkspaceFragmentDirections.actionProfileWorkspaceFragmentToNavBoards(
+                                workspaceArgument
+                            )
+                        Navigation.findNavController(findViewById(R.id.nav_host_fragment_content_main))
+                            .navigate(action)
+                    }
+                }
             }
-            R.id.member_menu_workspace -> {
-                Toast.makeText(this, "Ngeklik member", Toast.LENGTH_SHORT).show()
-            }
+
         }
         return true
     }

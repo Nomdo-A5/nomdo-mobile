@@ -36,7 +36,7 @@
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/layout_link_join_workspace"
-        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="24dp"
@@ -51,7 +51,7 @@
             android:id="@+id/edit_link_join_workspace"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Url Join"
+            android:hint="Code Join"
             android:imeOptions="actionNext"
             android:inputType="text"
             android:nextFocusDown="@+id/edit_email_sign_up"/>

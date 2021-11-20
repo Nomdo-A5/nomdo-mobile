@@ -50,7 +50,7 @@
             android:layout_marginTop="8dp"
             android:max="100"
             android:progress="70"
-            android:progressDrawable="@drawable/bg_progress_custom"
+            android:progressDrawable="@drawable/bg_progress_100"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"

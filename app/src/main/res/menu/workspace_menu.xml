@@ -2,9 +2,13 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <item
-        android:id="@+id/member_menu_workspace"
-        android:title="Member"
+        android:id="@+id/dashboard_menu_workspace"
+        android:title="Dashboard"
         app:showAsAction="never" />
+    <item
+        android:id="@+id/profile_menu_workspace"
+        android:title="Profile"
+        app:showAsAction="never"/>
     <item
         android:id="@+id/board_menu_workspace"
         android:title="Board"

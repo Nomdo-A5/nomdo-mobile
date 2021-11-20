@@ -6,7 +6,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
-import androidx.core.content.ContextCompat
 import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.preferencesDataStore
@@ -18,7 +17,9 @@ import androidx.recyclerview.widget.RecyclerView
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.google.android.material.snackbar.Snackbar
 import com.nomdoa5.nomdo.R
+import com.nomdoa5.nomdo.databinding.FragmentDashboardWorkspaceBinding
 import com.nomdoa5.nomdo.databinding.FragmentMyWorkspacesBinding
+import com.nomdoa5.nomdo.databinding.FragmentProfileWorkspaceBinding
 import com.nomdoa5.nomdo.helpers.ViewModelFactory
 import com.nomdoa5.nomdo.helpers.adapter.WorkspaceAdapter
 import com.nomdoa5.nomdo.repository.local.UserPreferences
@@ -27,13 +28,11 @@ import com.nomdoa5.nomdo.ui.auth.AuthViewModel
 
 private val Context.dataStore: DataStore<Preferences> by preferencesDataStore(name = "auth")
 
-class MyWorkspacesFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener,
-    WorkspaceAdapter.OnWorkspaceClickListener {
+class DashboardWorkspaceFragment : Fragment() {
     private lateinit var authViewModel: AuthViewModel
     private lateinit var workspacesViewModel: WorkspacesViewModel
-    private var _binding: FragmentMyWorkspacesBinding? = null
+    private var _binding: FragmentDashboardWorkspaceBinding? = null
     private val binding get() = _binding!!
-    private val workspaceAdapter = WorkspaceAdapter(this)
     private var workspaces = arrayListOf<Workspace>()
     private lateinit var workspaceName: Array<String>
     private lateinit var workspaceCreator: Array<String>
@@ -44,7 +43,7 @@ class MyWorkspacesFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener,
         savedInstanceState: Bundle?
     ): View {
 
-        _binding = FragmentMyWorkspacesBinding.inflate(inflater, container, false)
+        _binding = FragmentDashboardWorkspaceBinding.inflate(inflater, container, false)
         val root: View = binding.root
 
 
@@ -53,7 +52,6 @@ class MyWorkspacesFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener,
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        binding.swipeMyWorkspaces.setOnRefreshListener(this)
         setupViewModel()
         setupRecyclerView()
     }
@@ -78,21 +76,14 @@ class MyWorkspacesFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener,
     }
 
     fun setupRecyclerView() {
-        binding.swipeMyWorkspaces.isRefreshing = true
-        rvWorkspace = requireView().findViewById(R.id.rv_my_workspaces)
-        rvWorkspace.setHasFixedSize(true)
-        rvWorkspace.addItemDecoration(WorkspaceAdapter.MarginItemDecoration(16))
-        rvWorkspace.layoutManager = LinearLayoutManager(context)
-
-        authViewModel.getAuthToken().observe(viewLifecycleOwner, {
-            workspacesViewModel.setWorkspace(it!!)
-        })
-
-        workspacesViewModel.getWorkspace().observe(viewLifecycleOwner, {
-            workspaceAdapter.setData(it)
-            binding.swipeMyWorkspaces.isRefreshing = false
-        })
-        rvWorkspace.adapter = workspaceAdapter
+//        rvWorkspace = requireView().findViewById(R.id.rv_my_workspaces)
+//        rvWorkspace.setHasFixedSize(true)
+//        rvWorkspace.addItemDecoration(WorkspaceAdapter.MarginItemDecoration(16))
+//        rvWorkspace.layoutManager = LinearLayoutManager(context)
+//
+//        authViewModel.getAuthToken().observe(viewLifecycleOwner, {
+//            workspacesViewModel.setWorkspace(it!!)
+//        })
     }
 
     fun setupViewModel() {
@@ -101,46 +92,5 @@ class MyWorkspacesFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener,
             ViewModelProvider(this, ViewModelFactory(pref)).get(AuthViewModel::class.java)
         workspacesViewModel =
             ViewModelProvider(this).get(WorkspacesViewModel::class.java)
-    }
-
-    private fun showLoading(state: Boolean) {
-        if (state) {
-            binding.progressBarMyWorkspaces.visibility = View.VISIBLE
-        } else {
-            binding.progressBarMyWorkspaces.visibility = View.GONE
-        }
-    }
-
-    override fun onRefresh() {
-        authViewModel.getAuthToken().observe(viewLifecycleOwner, {
-            workspacesViewModel.setWorkspace(it!!)
-        })
-
-        workspacesViewModel.getWorkspaceState().observe(viewLifecycleOwner, {
-            if (it) {
-                binding.swipeMyWorkspaces.isRefreshing = false
-            }
-        })
-    }
-
-    override fun onWorkspaceClick(data: Workspace) {
-        Snackbar.make(
-            requireView(),
-            "Kamu mengklik #${data.id}",
-            Snackbar.LENGTH_SHORT
-        ).show()
-
-        val action =
-            MyWorkspacesFragmentDirections.actionNavMyWorkspacesToNavBoards(data)
-        Navigation.findNavController(requireView()).navigate(action)
-    }
-
-    override fun onWorkspaceLongClick(data: Workspace) {
-        Toast.makeText(requireContext(), "Longpress ${data.id}", Toast.LENGTH_SHORT).show()
-        val addDialogFragment = UpdateWorkspaceDialogFragment()
-        val bundle = Bundle()
-        bundle.putParcelable("EXTRA_WORKSPACE", data)
-        addDialogFragment.arguments = bundle
-        addDialogFragment.show(requireActivity().supportFragmentManager, "Update Dialog")
     }
 }
