@@ -25,6 +25,7 @@ import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupWithNavController
 import com.nomdoa5.nomdo.R
 import com.nomdoa5.nomdo.databinding.ActivityMainBinding
+import com.nomdoa5.nomdo.databinding.FragmentBoardsBinding
 import com.nomdoa5.nomdo.databinding.NavHeaderMainBinding
 import com.nomdoa5.nomdo.helpers.ViewModelFactory
 import com.nomdoa5.nomdo.repository.local.UserPreferences
@@ -76,14 +77,15 @@ class MainActivity : AppCompatActivity(), View.OnClickListener, PopupMenu.OnMenu
     private lateinit var taskViewModel: TaskViewModel
     private var clicked = false
     private lateinit var appBarConfiguration: AppBarConfiguration
-    private lateinit var binding: ActivityMainBinding
+    private var _binding: ActivityMainBinding? = null
+    private val binding get() = _binding!!
     private lateinit var headerBinding: NavHeaderMainBinding
     private lateinit var workspaceArgument: Workspace
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        binding = ActivityMainBinding.inflate(layoutInflater)
+        _binding = ActivityMainBinding.inflate(layoutInflater)
         headerBinding = DataBindingUtil.setContentView(this, R.layout.nav_header_main)
         setupViewModel()
 
@@ -103,6 +105,11 @@ class MainActivity : AppCompatActivity(), View.OnClickListener, PopupMenu.OnMenu
         binding.appBarMain.appBarLayoutWorkspace.navigation.setOnClickListener(this)
         binding.appBarMain.appBarLayoutBoard.navigation.setOnClickListener(this)
         binding.appBarMain.appBarLayout.toolbarMainNotifications.setOnClickListener(this)
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        _binding = null
     }
 
     override fun onClick(v: View?) {
