@@ -27,7 +27,7 @@
         app:layout_constraintBottom_toBottomOf="@+id/layout_balance"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@+id/layout_balance"
-        app:srcCompat="@drawable/ic_mail" />
+        app:srcCompat="@drawable/ic_email_login" />
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/layout_balance"
@@ -89,7 +89,7 @@
         app:layout_constraintBottom_toBottomOf="@+id/layout_edit_password"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@+id/layout_edit_password"
-        app:srcCompat="@drawable/ic_lock" />
+        app:srcCompat="@drawable/ic_lock_login" />
 
     <com.apachat.loadingbutton.core.customViews.CircularProgressButton
         android:id="@+id/btn_sign_in"

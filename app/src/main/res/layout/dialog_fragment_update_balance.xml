@@ -37,7 +37,7 @@
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/layout_title_update_balance"
         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-        app:startIconDrawable="@drawable/ic_email"
+        app:startIconDrawable="@drawable/ic_email_50t"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="32dp"
@@ -70,7 +70,7 @@
         app:layout_constraintEnd_toEndOf="@+id/layout_title_update_balance"
         app:layout_constraintStart_toStartOf="@+id/layout_title_update_balance"
         app:layout_constraintTop_toBottomOf="@+id/layout_title_update_balance"
-        app:startIconDrawable="@drawable/ic_money">
+        app:startIconDrawable="@drawable/ic_money_50t">
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/edit_income_update_balance"
@@ -93,7 +93,7 @@
         app:layout_constraintEnd_toEndOf="@+id/layout_income_update_balance"
         app:layout_constraintStart_toStartOf="@+id/layout_income_update_balance"
         app:layout_constraintTop_toBottomOf="@+id/layout_income_update_balance"
-        app:startIconDrawable="@drawable/ic_money">
+        app:startIconDrawable="@drawable/ic_money_50t">
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/edit_outcome_update_balance"
@@ -116,7 +116,7 @@
         app:layout_constraintEnd_toEndOf="@+id/layout_outcome_update_balance"
         app:layout_constraintStart_toStartOf="@+id/layout_outcome_update_balance"
         app:layout_constraintTop_toBottomOf="@+id/layout_outcome_update_balance"
-        app:startIconDrawable="@drawable/ic_description">
+        app:startIconDrawable="@drawable/ic_description_50t">
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/edit_description_update_balance"

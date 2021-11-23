@@ -19,9 +19,11 @@ import com.nomdoa5.nomdo.repository.model.response.task.CreateTaskResponse
 import com.nomdoa5.nomdo.repository.model.response.task.TaskResponse
 import com.nomdoa5.nomdo.repository.model.response.workspace.CreateWorkspaceResponse
 import com.nomdoa5.nomdo.repository.model.response.workspace.DetailWorkspaceResponse
+import com.nomdoa5.nomdo.repository.model.response.workspace.MemberWorkspaceResponse
 import com.nomdoa5.nomdo.repository.model.response.workspace.WorkspaceResponse
 import retrofit2.Call
 import retrofit2.http.*
+import java.lang.reflect.Member
 
 interface ApiService {
 
@@ -77,13 +79,18 @@ interface ApiService {
         @Query("id") id: String,
     ): Call<WorkspaceResponse>
 
-    @GET("workspace")
+    @GET("workspace/join")
     fun joinWorkspace(
         @Header("Authorization") token: String,
         @Query("url_join") urlJoin: String,
-    ): Call<WorkspaceResponse>
+        @Query("member_id") memberId: String,
+    ): Call<CreateWorkspaceResponse>
 
-    //    MEMBER
+    @GET("workspace/member")
+    fun getMemberWorkspace(
+        @Header("Authorization") token: String,
+        @Query("workspace_id") workspaceId: String,
+    ): Call<MemberWorkspaceResponse>
 
 
     //     BOARD

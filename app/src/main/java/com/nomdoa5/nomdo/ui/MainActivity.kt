@@ -225,7 +225,9 @@ class MainActivity : AppCompatActivity(), View.OnClickListener, PopupMenu.OnMenu
         val email = header.findViewById<TextView>(R.id.nav_header_email)
 
         authViewModel.getAuthToken().observe(this, {
-            mainViewModel.setUser(it!!)
+            if(!it.isNullOrBlank()){
+                mainViewModel.setUser(it)
+            }
         })
 
         mainViewModel.getUser().observe(this, {

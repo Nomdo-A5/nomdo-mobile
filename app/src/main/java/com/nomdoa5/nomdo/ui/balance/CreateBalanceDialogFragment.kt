@@ -79,6 +79,7 @@ class CreateBalanceDialogFragment : DialogFragment(), View.OnClickListener {
                 } else {
                     0
                 }
+                val status = "Coba"
 
                 val balance = BalanceRequest(workspaceId, nominal, description, isIncome)
                 authViewModel.getAuthToken().observe(this, {

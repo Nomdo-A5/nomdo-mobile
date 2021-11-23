@@ -3,11 +3,13 @@ package com.nomdoa5.nomdo.ui.workspace
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.nomdoa5.nomdo.repository.model.User
 import com.nomdoa5.nomdo.repository.model.Workspace
 import com.nomdoa5.nomdo.repository.model.request.workspace.UpdateWorkspaceRequest
 import com.nomdoa5.nomdo.repository.model.request.workspace.WorkspaceRequest
 import com.nomdoa5.nomdo.repository.model.response.workspace.CreateWorkspaceResponse
 import com.nomdoa5.nomdo.repository.model.response.workspace.DetailWorkspaceResponse
+import com.nomdoa5.nomdo.repository.model.response.workspace.MemberWorkspaceResponse
 import com.nomdoa5.nomdo.repository.model.response.workspace.WorkspaceResponse
 import com.nomdoa5.nomdo.repository.remote.ApiService
 import com.nomdoa5.nomdo.repository.remote.RetrofitClient
@@ -18,6 +20,7 @@ import retrofit2.Response
 class WorkspacesViewModel : ViewModel() {
     private val listWorkspace = MutableLiveData<ArrayList<Workspace>>()
     private val detailWorkspace = MutableLiveData<Workspace>()
+    private val memberWorkspace = MutableLiveData<ArrayList<User>>()
     private val createdWorkspace = MutableLiveData<Workspace>()
     private val workspaceState = MutableLiveData<Boolean>()
     private val addWorkspaceState = MutableLiveData<Boolean>()
@@ -61,6 +64,26 @@ class WorkspacesViewModel : ViewModel() {
                 }
             }
             override fun onFailure(call: Call<DetailWorkspaceResponse>, t: Throwable) {
+                workspaceState.postValue(false)
+            }
+        })
+    }
+
+    fun setMemberWorkspace(token: String, id: String) {
+        val service = RetrofitClient.buildService(ApiService::class.java)
+        val requestCall = service.getMemberWorkspace(token = "Bearer $token", id)
+
+        requestCall.enqueue(object : Callback<MemberWorkspaceResponse> {
+            override fun onResponse(
+                call: Call<MemberWorkspaceResponse>,
+                response: Response<MemberWorkspaceResponse>
+            ) {
+                if(!response.code().equals(500)) {
+                    memberWorkspace.postValue(response.body()!!.member)
+                    workspaceState.postValue(true)
+                }
+            }
+            override fun onFailure(call: Call<MemberWorkspaceResponse>, t: Throwable) {
                 workspaceState.postValue(false)
             }
         })
@@ -121,21 +144,21 @@ class WorkspacesViewModel : ViewModel() {
         })
     }
 
-    fun joinWorkspace(token: String, urlJoin: String) {
+    fun joinWorkspace(token: String, urlJoin: String, memberId: String) {
         val service = RetrofitClient.buildService(ApiService::class.java)
-        val requestCall = service.joinWorkspace(token = "Bearer $token", urlJoin)
+        val requestCall = service.joinWorkspace(token = "Bearer $token", urlJoin, memberId)
 
-        requestCall.enqueue(object : Callback<WorkspaceResponse> {
+        requestCall.enqueue(object : Callback<CreateWorkspaceResponse> {
 
             override fun onResponse(
-                call: Call<WorkspaceResponse>,
-                response: Response<WorkspaceResponse>
+                call: Call<CreateWorkspaceResponse>,
+                response: Response<CreateWorkspaceResponse>
             ) {
-                listWorkspace.postValue(response.body()!!.workspace)
+                detailWorkspace.postValue(response.body()!!.workspace)
                 workspaceState.postValue(true)
             }
 
-            override fun onFailure(call: Call<WorkspaceResponse>, t: Throwable) {
+            override fun onFailure(call: Call<CreateWorkspaceResponse>, t: Throwable) {
                 workspaceState.postValue(false)
             }
         })
@@ -167,5 +190,9 @@ class WorkspacesViewModel : ViewModel() {
 
     fun getCreatedWorkspace(): LiveData<Workspace> {
         return createdWorkspace
+    }
+
+    fun getMemberWorkspace(): LiveData<ArrayList<User>> {
+        return memberWorkspace
     }
 }

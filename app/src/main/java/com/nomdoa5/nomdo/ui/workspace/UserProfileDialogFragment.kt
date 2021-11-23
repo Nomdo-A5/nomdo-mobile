@@ -18,7 +18,7 @@ import androidx.fragment.app.DialogFragment
 import androidx.lifecycle.ViewModelProvider
 import com.nomdoa5.nomdo.R
 import com.nomdoa5.nomdo.databinding.DialogFragmentCreateWorkspaceBinding
-import com.nomdoa5.nomdo.databinding.DialogFragmentJoinWorkspaceBinding
+import com.nomdoa5.nomdo.databinding.DialogUserProfileWorkspaceBinding
 import com.nomdoa5.nomdo.helpers.ViewModelFactory
 import com.nomdoa5.nomdo.repository.local.UserPreferences
 import com.nomdoa5.nomdo.repository.model.request.ReportRequest
@@ -29,8 +29,8 @@ import com.nomdoa5.nomdo.ui.balance.MoneyReportViewModel
 
 private val Context.dataStore: DataStore<Preferences> by preferencesDataStore(name = "auth")
 
-class JoinWorkspaceDialogBoard : DialogFragment(), View.OnClickListener {
-    private var _binding: DialogFragmentJoinWorkspaceBinding? = null
+class UserProfileDialogFragment : DialogFragment(), View.OnClickListener {
+    private var _binding: DialogUserProfileWorkspaceBinding? = null
     private val binding get() = _binding!!
     private lateinit var moneyReportViewModel: MoneyReportViewModel
     private lateinit var workspacesViewModel: WorkspacesViewModel
@@ -41,7 +41,7 @@ class JoinWorkspaceDialogBoard : DialogFragment(), View.OnClickListener {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        _binding = DialogFragmentJoinWorkspaceBinding.inflate(inflater, container, false)
+        _binding = DialogUserProfileWorkspaceBinding.inflate(inflater, container, false)
         val root: View = binding.root
         dialog!!.window!!.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
         return root
@@ -51,8 +51,7 @@ class JoinWorkspaceDialogBoard : DialogFragment(), View.OnClickListener {
         super.onViewCreated(view, savedInstanceState)
 
         setupViewModel()
-        binding.imgCloseJoinWorkspace.setOnClickListener(this)
-        binding.btnJoinWorkspace.setOnClickListener(this)
+        binding.imgCloseDialogProfileWorkspace.setOnClickListener(this)
     }
 
     override fun onDestroy() {
@@ -62,41 +61,7 @@ class JoinWorkspaceDialogBoard : DialogFragment(), View.OnClickListener {
 
     override fun onClick(v: View?) {
         when (v) {
-            binding.btnJoinWorkspace -> {
-                val urlJoin = binding.editLinkJoinWorkspace.text.toString()
-                if(urlJoin.isBlank()){
-                    binding.editLinkJoinWorkspace.setError("You need to enter a join code!")
-                }else {
-                    binding.btnJoinWorkspace.startAnimation()
-                    authViewModel.getAuthToken().observe(this, { token ->
-                        authViewModel.setUser(token!!)
-                        authViewModel.getUser().observe(this, { user ->
-                            workspacesViewModel.joinWorkspace(token, urlJoin, user.id.toString())
-                        })
-                    })
-
-                    workspacesViewModel.getWorkspaceState().observe(this, {
-                        if (it) {
-                            Toast.makeText(requireContext(), "Join Workspace Successful", Toast.LENGTH_SHORT)
-                                .show()
-                            binding.btnJoinWorkspace.doneLoadingAnimation(
-                                resources.getColor(R.color.teal_200),
-                                ContextCompat.getDrawable(requireContext(), R.drawable.ic_check)!!
-                                    .toBitmap()
-                            )
-                            dismiss()
-                        } else {
-                            binding.btnJoinWorkspace.revertAnimation()
-                            Toast.makeText(
-                                requireContext(),
-                                "Join Workspace Failed!!",
-                                Toast.LENGTH_SHORT
-                            ).show()
-                        }
-                    })
-                }
-            }
-            binding.imgCloseJoinWorkspace -> dismiss()
+            binding.imgCloseDialogProfileWorkspace -> dismiss()
         }
     }
 

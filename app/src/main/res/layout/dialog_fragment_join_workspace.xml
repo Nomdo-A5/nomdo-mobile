@@ -41,11 +41,12 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="24dp"
         app:boxStrokeColor="@color/black"
+        app:errorEnabled="true"
         app:hintTextColor="@color/black"
         app:layout_constraintEnd_toEndOf="@+id/tv_title_join_workspace"
         app:layout_constraintStart_toStartOf="@+id/tv_title_join_workspace"
         app:layout_constraintTop_toBottomOf="@+id/tv_title_join_workspace"
-        app:startIconDrawable="@drawable/ic_email">
+        app:startIconDrawable="@drawable/ic_email_50t">
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/edit_link_join_workspace"

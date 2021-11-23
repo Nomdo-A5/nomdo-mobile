@@ -52,7 +52,7 @@
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="@+id/layout_spinner_board_add_task"
             app:layout_constraintTop_toBottomOf="@+id/layout_spinner_board_add_task"
-            app:startIconDrawable="@drawable/ic_email">
+            app:startIconDrawable="@drawable/ic_task_50t">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/edit_name_add_task"
@@ -87,7 +87,7 @@
             app:layout_constraintBottom_toBottomOf="@+id/tv_date_task"
             app:layout_constraintStart_toStartOf="@+id/layout_desc_add_task"
             app:layout_constraintTop_toTopOf="@+id/tv_date_task"
-            app:srcCompat="@drawable/ic_calendar" />
+            app:srcCompat="@drawable/ic_calendar_50t" />
 
         <TextView
             android:id="@+id/tv_attachment_task"
