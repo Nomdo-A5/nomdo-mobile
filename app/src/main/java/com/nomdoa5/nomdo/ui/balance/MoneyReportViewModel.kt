@@ -3,11 +3,7 @@ package com.nomdoa5.nomdo.ui.balance
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.nomdoa5.nomdo.repository.model.Balance
 import com.nomdoa5.nomdo.repository.model.request.ReportRequest
-import com.nomdoa5.nomdo.repository.model.request.balance.BalanceRequest
-import com.nomdoa5.nomdo.repository.model.request.balance.UpdateBalanceRequest
-import com.nomdoa5.nomdo.repository.model.response.BalanceResponse
 import com.nomdoa5.nomdo.repository.model.response.ReportResponse
 import com.nomdoa5.nomdo.repository.remote.ApiService
 import com.nomdoa5.nomdo.repository.remote.RetrofitClient

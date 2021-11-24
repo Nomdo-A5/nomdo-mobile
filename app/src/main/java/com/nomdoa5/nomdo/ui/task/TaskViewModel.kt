@@ -20,10 +20,6 @@ import retrofit2.Response
 
 class TaskViewModel : ViewModel() {
     private val listTask = MutableLiveData<ArrayList<Task>>()
-    private val listTaskProgress = MutableLiveData<ArrayList<TaskProgress>>()
-    private val taskProgress = MutableLiveData<TaskProgress>()
-    private val taskCount = MutableLiveData<Int>()
-    private val taskDoneCount = MutableLiveData<Int>()
     private val detailTask = MutableLiveData<Task>()
     private val setTaskState = MutableLiveData<Boolean?>()
     private val addTaskState = MutableLiveData<Boolean>()
@@ -39,15 +35,6 @@ class TaskViewModel : ViewModel() {
             override fun onResponse(call: Call<TaskResponse>, response: Response<TaskResponse>) {
                 val task = response.body()!!.task
                 listTask.postValue(task)
-                taskCount.postValue(task.count())
-                var doneCount: Int = 0
-                for (i in task) {
-                    if (i.isDone == 1) {
-                        doneCount++
-                    }
-                }
-                taskProgress.postValue(TaskProgress(task.count(), doneCount))
-                taskDoneCount.postValue(doneCount)
                 setTaskState.postValue(true)
             }
 
@@ -55,54 +42,6 @@ class TaskViewModel : ViewModel() {
                 setTaskState.postValue(false)
             }
         })
-    }
-
-    fun setTaskProgress(token: String, idWorkspace: String) {
-        val service = RetrofitClient.buildService(ApiService::class.java)
-        val requestCall = service.getBoard(token = "Bearer $token", idWorkspace)
-        val listIdBoard = ArrayList<String>()
-        requestCall.enqueue(object : Callback<BoardResponse> {
-            override fun onResponse(call: Call<BoardResponse>, response: Response<BoardResponse>) {
-                val board = response.body()!!.boards
-                for (i in board) {
-                    listIdBoard.add(i.id.toString())
-                }
-            }
-            override fun onFailure(call: Call<BoardResponse>, t: Throwable) {
-                setTaskState.postValue(false)
-            }
-        })
-
-        val listResponse = ArrayList<TaskProgress>()
-        for (i in listIdBoard) {
-            Log.d("TASK INI LOOPING GES", i)
-            val service = RetrofitClient.buildService(ApiService::class.java)
-            val requestCall = service.getTask(token = "Bearer $token", i)
-
-            requestCall.enqueue(object : Callback<TaskResponse> {
-                override fun onResponse(
-                    call: Call<TaskResponse>,
-                    response: Response<TaskResponse>
-                ) {
-                    val task = response.body()!!.task
-                    listTask.postValue(task)
-                    taskCount.postValue(task.count())
-                    var doneCount: Int = 0
-                    for (i in task) {
-                        if (i.isDone == 1) {
-                            doneCount++
-                        }
-                    }
-                    listResponse.add(TaskProgress(task.count(), doneCount))
-                    setTaskState.postValue(true)
-                }
-
-                override fun onFailure(call: Call<TaskResponse>, t: Throwable) {
-                    setTaskState.postValue(false)
-                }
-            })
-        }
-        listTaskProgress.postValue(listResponse)
     }
 
     fun addTask(token: String, newTask: TaskRequest) {
@@ -181,21 +120,6 @@ class TaskViewModel : ViewModel() {
         return listTask
     }
 
-    fun getTaskCount(): LiveData<Int> {
-        return taskCount
-    }
-
-    fun getTaskDoneCount(): LiveData<Int> {
-        return taskDoneCount
-    }
-
-    fun getTaskProgress(): LiveData<TaskProgress> {
-        return taskProgress
-    }
-
-    fun getListTaskProgress(): LiveData<ArrayList<TaskProgress>> {
-        return listTaskProgress
-    }
 
     fun getAddTaskState(): LiveData<Boolean> {
         return addTaskState

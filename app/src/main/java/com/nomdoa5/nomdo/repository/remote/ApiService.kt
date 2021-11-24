@@ -13,17 +13,15 @@ import com.nomdoa5.nomdo.repository.model.request.task.UpdateTaskRequest
 import com.nomdoa5.nomdo.repository.model.request.workspace.UpdateWorkspaceRequest
 import com.nomdoa5.nomdo.repository.model.request.workspace.WorkspaceRequest
 import com.nomdoa5.nomdo.repository.model.response.*
+import com.nomdoa5.nomdo.repository.model.response.balance.BalanceResponse
 import com.nomdoa5.nomdo.repository.model.response.board.BoardResponse
 import com.nomdoa5.nomdo.repository.model.response.board.CreateBoardResponse
+import com.nomdoa5.nomdo.repository.model.response.board.TaskInformationBoardResponse
 import com.nomdoa5.nomdo.repository.model.response.task.CreateTaskResponse
 import com.nomdoa5.nomdo.repository.model.response.task.TaskResponse
-import com.nomdoa5.nomdo.repository.model.response.workspace.CreateWorkspaceResponse
-import com.nomdoa5.nomdo.repository.model.response.workspace.DetailWorkspaceResponse
-import com.nomdoa5.nomdo.repository.model.response.workspace.MemberWorkspaceResponse
-import com.nomdoa5.nomdo.repository.model.response.workspace.WorkspaceResponse
+import com.nomdoa5.nomdo.repository.model.response.workspace.*
 import retrofit2.Call
 import retrofit2.http.*
-import java.lang.reflect.Member
 
 interface ApiService {
 
@@ -92,6 +90,12 @@ interface ApiService {
         @Query("workspace_id") workspaceId: String,
     ): Call<MemberWorkspaceResponse>
 
+    @GET("workspace/task-information")
+    fun getTaskInformationWorkspace(
+        @Header("Authorization") token: String,
+        @Query("workspace_id") workspaceId: String,
+    ): Call<TaskInformationWorkspaceResponse>
+
 
     //     BOARD
     @GET("boards")
@@ -118,6 +122,11 @@ interface ApiService {
         @Query("id") id: String,
     ): Call<BoardResponse>
 
+    @GET("boards/task-information")
+    fun getTaskInformationBoard(
+        @Header("Authorization") token: String,
+        @Query("board_id") boardId: String,
+    ): Call<TaskInformationBoardResponse>
 
     //    TASK
     @GET("task")

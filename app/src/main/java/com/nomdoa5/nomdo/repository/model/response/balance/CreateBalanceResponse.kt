@@ -1,11 +1,11 @@
-package com.nomdoa5.nomdo.repository.model.request.balance
+package com.nomdoa5.nomdo.repository.model.response.balance
 
 import android.os.Parcelable
 import com.google.gson.annotations.SerializedName
 import kotlinx.parcelize.Parcelize
 
 @Parcelize
-data class BalanceRequest(
+data class CreateBalanceResponse(
     @SerializedName("workspace_id")
     val workspaceId: Int?,
     val nominal: String? = null,

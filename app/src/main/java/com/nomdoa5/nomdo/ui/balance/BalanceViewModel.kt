@@ -6,7 +6,7 @@ import androidx.lifecycle.ViewModel
 import com.nomdoa5.nomdo.repository.model.Balance
 import com.nomdoa5.nomdo.repository.model.request.balance.BalanceRequest
 import com.nomdoa5.nomdo.repository.model.request.balance.UpdateBalanceRequest
-import com.nomdoa5.nomdo.repository.model.response.BalanceResponse
+import com.nomdoa5.nomdo.repository.model.response.balance.BalanceResponse
 import com.nomdoa5.nomdo.repository.model.response.ReportResponse
 import com.nomdoa5.nomdo.repository.remote.ApiService
 import com.nomdoa5.nomdo.repository.remote.RetrofitClient

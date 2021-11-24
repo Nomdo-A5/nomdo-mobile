@@ -108,14 +108,21 @@ class BoardsFragment : Fragment(), BoardAdapter.OnBoardClickListener,
             binding.swipeMyBoards.isRefreshing = false
         })
 
+//        boardViewModel.getTaskInformationBoard().observe(viewLifecycleOwner, {
+//            Log.d("it111111111111", it.toString())
+//            boardAdapter.setTaskProgressData(it)
+//            boardAdapter.notifyDataSetChanged()
+//            Log.d("it222222222222222", it.toString())
+//        })
+
 //        taskViewModel.getListTaskProgress().observe(viewLifecycleOwner, {
 //            Log.d("Board Adapter 1", it.toString())
 //            boardAdapter.setTaskProgressData(it)
 //            Log.d("Board Adapter 2", it.toString())
 //        })
 
-        rvBoard.adapter = boardAdapter
 
+        rvBoard.adapter = boardAdapter
     }
 
     fun setupViewModel() {
