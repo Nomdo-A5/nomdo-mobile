@@ -16,6 +16,8 @@ import retrofit2.Response
 
 class BalanceViewModel : ViewModel() {
     private val listBalance = MutableLiveData<ArrayList<Balance>>()
+    private val listIncomeBalance = MutableLiveData<ArrayList<Balance>>()
+    private val listOutcomeBalance = MutableLiveData<ArrayList<Balance>>()
     private val setBalanceState = MutableLiveData<Boolean>()
     private val addBalanceState = MutableLiveData<Boolean>()
     private val updateBalanceState = MutableLiveData<Boolean>()
@@ -32,6 +34,53 @@ class BalanceViewModel : ViewModel() {
             ) {
                 if (response.code().equals(200)) {
                     listBalance.postValue(response.body()!!.balance)
+                    setBalanceState.postValue(true)
+                } else if (response.code().equals(404)) {
+                    setBalanceState.postValue(false)
+                }
+            }
+
+            override fun onFailure(call: Call<ReportResponse>, t: Throwable) {
+                setBalanceState.postValue(false)
+            }
+        })
+    }
+
+    fun setIncomeBalance(token: String, idWorkspace: String) {
+        val service = RetrofitClient.buildService(ApiService::class.java)
+        val requestCall = service.getIncomeReport(token = "Bearer $token", idWorkspace)
+
+        requestCall.enqueue(object : Callback<ReportResponse> {
+            override fun onResponse(
+                call: Call<ReportResponse>,
+                response: Response<ReportResponse>
+            ) {
+                if (response.code().equals(200)) {
+                    listIncomeBalance.postValue(response.body()!!.balance)
+                    setBalanceState.postValue(true)
+                } else if (response.code().equals(404)) {
+                    setBalanceState.postValue(false)
+                }
+            }
+
+            override fun onFailure(call: Call<ReportResponse>, t: Throwable) {
+                setBalanceState.postValue(false)
+            }
+        })
+    }
+
+    fun setOutcomeBalance(token: String, idWorkspace: String) {
+        val service = RetrofitClient.buildService(ApiService::class.java)
+        val requestCall =
+            service.getOutcomeReport(token = "Bearer $token", idWorkspace, true, "Done")
+
+        requestCall.enqueue(object : Callback<ReportResponse> {
+            override fun onResponse(
+                call: Call<ReportResponse>,
+                response: Response<ReportResponse>
+            ) {
+                if (response.code().equals(200)) {
+                    listOutcomeBalance.postValue(response.body()!!.balance)
                     setBalanceState.postValue(true)
                 } else if (response.code().equals(404)) {
                     setBalanceState.postValue(false)
@@ -106,6 +155,14 @@ class BalanceViewModel : ViewModel() {
 
     fun getBalance(): LiveData<ArrayList<Balance>> {
         return listBalance
+    }
+
+    fun getIncomeBalance(): LiveData<ArrayList<Balance>> {
+        return listIncomeBalance
+    }
+
+    fun getOutcomeBalance(): LiveData<ArrayList<Balance>> {
+        return listOutcomeBalance
     }
 
     fun getAddBalanceState(): LiveData<Boolean> {

@@ -5,14 +5,11 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.nomdoa5.nomdo.R
 import com.nomdoa5.nomdo.repository.model.Balance
-import com.nomdoa5.nomdo.repository.model.BalanceModel
-import com.nomdoa5.nomdo.repository.model.Board
-import com.nomdoa5.nomdo.repository.model.TaskProgress
 import java.text.DecimalFormat
-import java.text.NumberFormat
 
 class BalanceAdapter(var context: Context) :
     RecyclerView.Adapter<BalanceAdapter.ViewHolder>() {
@@ -33,18 +30,25 @@ class BalanceAdapter(var context: Context) :
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         if (mData.size > 0) {
             val model = mData[position]
-            holder.tv_description.text = model.balanceDescription
+            if (model.isIncome == 1) {
+                holder.tvNominal.setTextColor(ContextCompat.getColor(context, R.color.primary))
+            } else {
+                holder.tvNominal.setTextColor(
+                    ContextCompat.getColor(
+                        context,
+                        R.color.accent_profile
+                    )
+                )
+            }
+
+
+            holder.tvDescription.text = model.balanceDescription
 
             val formatter = DecimalFormat("#,###")
             val formattedNumber = formatter.format(model.nominal!!.toDouble())
+            val formatted = "Rp. $formattedNumber"
 
-            holder.tv_nominal.text = formattedNumber
-
-            if (model.isIncome!!.equals(1)) {
-                holder.tv_type.text = "Income"
-            } else {
-                holder.tv_type.text = "Outcome"
-            }
+            holder.tvNominal.text = formatted
         } else {
             return
         }
@@ -55,14 +59,8 @@ class BalanceAdapter(var context: Context) :
     }
 
     inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        var tv_description: TextView
-        var tv_type: TextView
-        var tv_nominal: TextView
-
-        init {
-            tv_description = itemView.findViewById(R.id.tv_description_balance)
-            tv_type = itemView.findViewById(R.id.tv_type_balance)
-            tv_nominal = itemView.findViewById(R.id.tv_nominal_balance)
-        }
+        var tvDescription: TextView = itemView.findViewById(R.id.tv_description_balance)
+        var tvDate: TextView = itemView.findViewById(R.id.tv_date_balance)
+        var tvNominal: TextView = itemView.findViewById(R.id.tv_nominal_balance)
     }
 }

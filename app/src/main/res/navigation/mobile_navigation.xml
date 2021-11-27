@@ -116,6 +116,9 @@
         <action
             android:id="@+id/action_moneyReportFragment_to_dashboardWorkspaceFragment"
             app:destination="@id/dashboardWorkspaceFragment" />
+        <action
+            android:id="@+id/action_moneyReportFragment_to_detailMoneyReportFragment"
+            app:destination="@id/detailMoneyReportFragment" />
     </fragment>
     <fragment
         android:id="@+id/profileWorkspaceFragment"
@@ -150,5 +153,16 @@
         <action
             android:id="@+id/action_dashboardWorkspaceFragment_to_nav_boards"
             app:destination="@id/nav_boards" />
+    </fragment>
+    <fragment
+        android:id="@+id/detailMoneyReportFragment"
+        android:name="com.nomdoa5.nomdo.ui.balance.DetailMoneyReportFragment"
+        android:label="DetailMoneyReportFragment" >
+        <argument
+            android:name="isIncome"
+            app:argType="boolean" />
+        <argument
+            android:name="workspace"
+            app:argType="com.nomdoa5.nomdo.repository.model.Workspace" />
     </fragment>
 </navigation>

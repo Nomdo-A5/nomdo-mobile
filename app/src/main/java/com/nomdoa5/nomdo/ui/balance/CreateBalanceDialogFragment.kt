@@ -1,6 +1,7 @@
 package com.nomdoa5.nomdo.ui.balance
 
 import NoFilterAdapter
+import android.app.DatePickerDialog
 import android.content.Context
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
@@ -28,11 +29,16 @@ import com.nomdoa5.nomdo.repository.model.request.balance.BalanceRequest
 import com.nomdoa5.nomdo.ui.auth.AuthViewModel
 import com.nomdoa5.nomdo.repository.model.request.board.BoardRequest
 import com.nomdoa5.nomdo.ui.workspace.WorkspacesViewModel
+import android.view.MotionEvent
+import com.nomdoa5.nomdo.helpers.MonthList
+import java.util.*
+import javax.xml.datatype.DatatypeConstants.MONTHS
+import kotlin.collections.ArrayList
 
 
 private val Context.dataStore: DataStore<Preferences> by preferencesDataStore(name = "auth")
 
-class CreateBalanceDialogFragment : DialogFragment(), View.OnClickListener {
+class CreateBalanceDialogFragment : DialogFragment(), View.OnClickListener, View.OnTouchListener {
     private var _binding: DialogFragmentCreateBalanceBinding? = null
     private val binding get() = _binding!!
     private lateinit var balanceViewModel: BalanceViewModel
@@ -59,6 +65,7 @@ class CreateBalanceDialogFragment : DialogFragment(), View.OnClickListener {
         setupSpinner()
         binding.imgCloseAddBalance.setOnClickListener(this)
         binding.btnAddBalance.setOnClickListener(this)
+        binding.editDateAddBalance.setOnTouchListener(this)
     }
 
     override fun onDestroy() {
@@ -79,9 +86,9 @@ class CreateBalanceDialogFragment : DialogFragment(), View.OnClickListener {
                 } else {
                     0
                 }
-                val status = "Coba"
+                val status = binding.spinnerStatusAddBalance.text.toString()
 
-                val balance = BalanceRequest(workspaceId, nominal, description, isIncome)
+                val balance = BalanceRequest(workspaceId, nominal, description, isIncome, status)
                 authViewModel.getAuthToken().observe(this, {
                     balanceViewModel.addBalance(it!!, balance)
                 })
@@ -120,7 +127,6 @@ class CreateBalanceDialogFragment : DialogFragment(), View.OnClickListener {
     }
 
     fun setupSpinner() {
-        binding.spinnerWorkspaceAddBalance
         authViewModel.getAuthToken().observe(this, {
             workspacesViewModel.setWorkspace(it!!)
         })
@@ -140,12 +146,9 @@ class CreateBalanceDialogFragment : DialogFragment(), View.OnClickListener {
             binding.spinnerWorkspaceAddBalance.setAdapter(workspaceAdapter)
         })
 
-        binding.spinnerWorkspaceAddBalance.setOnItemClickListener(object :
-            AdapterView.OnItemClickListener {
-            override fun onItemClick(p0: AdapterView<*>?, p1: View?, position: Int, p3: Long) {
-                spinnerWorkspacePosition = workspaceAdapterId[position].toInt()
-            }
-        })
+        binding.spinnerWorkspaceAddBalance.setOnItemClickListener { _, _, position, _ ->
+            spinnerWorkspacePosition = workspaceAdapterId[position].toInt()
+        }
 
         val typeBalance = arrayOf("Income", "Outcome")
         val balanceAdapter =
@@ -155,5 +158,35 @@ class CreateBalanceDialogFragment : DialogFragment(), View.OnClickListener {
                 typeBalance
             )
         binding.spinnerTypeAddBalance.setAdapter(balanceAdapter)
+
+        val statusBalance = arrayOf("Planned", "Cancelled", "Done")
+        val statusAdapter =
+            NoFilterAdapter(
+                requireContext(),
+                R.layout.item_dropdown,
+                statusBalance
+            )
+        binding.spinnerStatusAddBalance.setAdapter(statusAdapter)
+    }
+
+    override fun onTouch(v: View?, motionEvent: MotionEvent?): Boolean {
+        if (motionEvent!!.action == MotionEvent.ACTION_UP) {
+            val c = Calendar.getInstance()
+            val year = c.get(Calendar.YEAR)
+            val month = c.get(Calendar.MONTH)
+            val day = c.get(Calendar.DAY_OF_MONTH)
+
+            val dpd = DatePickerDialog(requireActivity(), { _, y, m, d ->
+                    val date = "$d " + MonthList.get(m) + " " + y
+                    binding.editDateAddBalance.setText(date)
+                },
+                year,
+                month,
+                day
+            )
+
+            dpd.show()
+        }
+        return false
     }
 }

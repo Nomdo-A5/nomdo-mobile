@@ -8,15 +8,15 @@
 
     <TextView
         android:id="@+id/tv_title_add_balance"
-        android:layout_width="270dp"
+        android:layout_width="330dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="32dp"
+        android:layout_marginStart="24dp"
         android:layout_marginTop="8dp"
-        android:layout_marginEnd="32dp"
+        android:layout_marginEnd="24dp"
         android:fontFamily="@font/roboto_medium"
         android:text="New Balance"
         android:textAlignment="center"
-        android:textSize="24sp"
+        android:textSize="26sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/img_close_add_balance" />
@@ -41,6 +41,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="24dp"
         android:hint="Workspace"
+        app:startIconDrawable="@drawable/ic_workspace"
         app:layout_constraintEnd_toEndOf="@+id/tv_title_add_balance"
         app:layout_constraintStart_toStartOf="@+id/tv_title_add_balance"
         app:layout_constraintTop_toBottomOf="@+id/tv_title_add_balance">
@@ -80,16 +81,41 @@
     </com.google.android.material.textfield.TextInputLayout>
 
     <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/layout_spinner_type_add_balance"
-        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense.ExposedDropdownMenu"
+        android:id="@+id/layout_date_add_balance"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
+        app:boxStrokeColor="@color/black"
+        app:hintTextColor="@color/black"
+        app:layout_constraintEnd_toEndOf="@+id/layout_nominal_add_balance"
+        app:layout_constraintStart_toStartOf="@+id/layout_nominal_add_balance"
+        app:layout_constraintTop_toBottomOf="@+id/layout_nominal_add_balance"
+        app:startIconDrawable="@drawable/ic_calendar_50t">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/edit_date_add_balance"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Due Date"
+            android:imeOptions="actionNext"
+            android:inputType="none"
+            android:cursorVisible="false"
+            android:nextFocusDown="@+id/edit_email_sign_up" />
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/layout_spinner_type_add_balance"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense.ExposedDropdownMenu"
+        android:layout_width="0dp"
+        android:layout_height="55dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="8dp"
         android:hint="Type"
-        app:layout_constraintEnd_toEndOf="@+id/layout_spinner_workspace_add_balance"
+        app:layout_constraintEnd_toStartOf="@+id/view"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="@+id/layout_spinner_workspace_add_balance"
-        app:layout_constraintTop_toBottomOf="@+id/layout_spinner_workspace_add_balance"
-        app:startIconDrawable="@drawable/ic_arrow_50t">
+        app:layout_constraintTop_toBottomOf="@+id/layout_spinner_workspace_add_balance">
 
         <AutoCompleteTextView
             android:id="@+id/spinner_type_add_balance"
@@ -102,17 +128,25 @@
             android:nextFocusDown="@+id/edit_email_sign_up" />
     </com.google.android.material.textfield.TextInputLayout>
 
+    <View
+        android:id="@+id/view"
+        android:layout_width="1dp"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toBottomOf="@+id/layout_spinner_type_add_balance"
+        app:layout_constraintEnd_toEndOf="@+id/layout_spinner_workspace_add_balance"
+        app:layout_constraintStart_toStartOf="@+id/layout_spinner_workspace_add_balance"
+        app:layout_constraintTop_toTopOf="@+id/layout_spinner_type_add_balance" />
+
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/layout_spinner_status_add_balance"
         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense.ExposedDropdownMenu"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
+        android:layout_marginStart="8dp"
         android:hint="Status"
-        app:layout_constraintEnd_toEndOf="@+id/layout_spinner_type_add_balance"
-        app:layout_constraintStart_toStartOf="@+id/layout_spinner_type_add_balance"
-        app:layout_constraintTop_toBottomOf="@+id/layout_spinner_type_add_balance"
-        app:startIconDrawable="@drawable/ic_arrow_50t">
+        app:layout_constraintEnd_toEndOf="@+id/layout_spinner_workspace_add_balance"
+        app:layout_constraintStart_toEndOf="@+id/view"
+        app:layout_constraintTop_toTopOf="@+id/layout_spinner_type_add_balance">
 
         <AutoCompleteTextView
             android:id="@+id/spinner_status_add_balance"
@@ -134,8 +168,8 @@
         app:boxStrokeColor="@color/black"
         app:hintTextColor="@color/black"
         app:layout_constraintEnd_toEndOf="@+id/layout_spinner_status_add_balance"
-        app:layout_constraintStart_toStartOf="@+id/layout_spinner_status_add_balance"
-        app:layout_constraintTop_toBottomOf="@+id/layout_spinner_status_add_balance"
+        app:layout_constraintStart_toStartOf="@+id/layout_spinner_type_add_balance"
+        app:layout_constraintTop_toBottomOf="@+id/view"
         app:startIconDrawable="@drawable/ic_description_50t">
 
         <com.google.android.material.textfield.TextInputEditText
@@ -157,13 +191,13 @@
         android:background="@drawable/btn_primary"
         android:text="Add"
         android:textAllCaps="false"
-        android:textColor="#000000"
+        android:textColor="@color/white"
         app:finalCornerAngle="30dp"
         app:initialCornerAngle="30dp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="@+id/layout_nominal_add_balance"
-        app:layout_constraintStart_toStartOf="@+id/layout_nominal_add_balance"
-        app:layout_constraintTop_toBottomOf="@+id/layout_nominal_add_balance"
+        app:layout_constraintEnd_toEndOf="@+id/layout_date_add_balance"
+        app:layout_constraintStart_toStartOf="@+id/layout_date_add_balance"
+        app:layout_constraintTop_toBottomOf="@+id/layout_date_add_balance"
         app:spinning_bar_padding="8dp" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -167,6 +167,20 @@ interface ApiService {
         @Query("workspace_id") idWorkspace: String,
     ): Call<ReportResponse>
 
+    @GET("report/income")
+    fun getIncomeReport(
+        @Header("Authorization") token: String,
+        @Query("workspace_id") idWorkspace: String,
+    ): Call<ReportResponse>
+
+    @GET("report/outcome")
+    fun getOutcomeReport(
+        @Header("Authorization") token: String,
+        @Query("workspace_id") idWorkspace: String,
+        @Query("is_income") isIncome: Boolean,
+        @Query("status") status: String,
+    ): Call<ReportResponse>
+
     @POST("report")
     fun addReport(
         @Header("Authorization") token: String,
