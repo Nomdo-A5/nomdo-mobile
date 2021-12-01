@@ -11,33 +11,34 @@ import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.preferencesDataStore
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.Navigation
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.google.android.material.snackbar.Snackbar
 import com.nomdoa5.nomdo.R
-import com.nomdoa5.nomdo.databinding.FragmentMoneyReportBackupBinding
+import com.nomdoa5.nomdo.databinding.FragmentMoneyReportBinding
 import com.nomdoa5.nomdo.helpers.ViewModelFactory
 import com.nomdoa5.nomdo.helpers.adapter.BalanceAdapter
-import com.nomdoa5.nomdo.helpers.adapter.BoardAdapter
+import com.nomdoa5.nomdo.helpers.toCurrencyFormat
 import com.nomdoa5.nomdo.repository.local.UserPreferences
-import com.nomdoa5.nomdo.repository.model.Balance
-import com.nomdoa5.nomdo.repository.model.Board
 import com.nomdoa5.nomdo.ui.auth.AuthViewModel
 import com.nomdoa5.nomdo.ui.board.BoardViewModel
-import com.nomdoa5.nomdo.ui.board.UpdateBoardDialogFragment
-import java.util.*
 
 private val Context.dataStore: DataStore<Preferences> by preferencesDataStore(name = "auth")
 
-class MoneyReportFragment : Fragment(), BoardAdapter.OnBoardClickListener {
+class MoneyReportFragment : Fragment(), View.OnClickListener {
     private lateinit var balanceViewModel: BalanceViewModel
     private lateinit var boardsViewModel: BoardViewModel
     private lateinit var authViewModel: AuthViewModel
-    private var _binding: FragmentMoneyReportBackupBinding? = null
+    private var _binding: FragmentMoneyReportBinding? = null
     private val binding get() = _binding!!
-    private lateinit var balanceAdapter: BalanceAdapter
-    private lateinit var rvBalance: RecyclerView
+    private lateinit var balanceIncomeAdapter: BalanceAdapter
+    private lateinit var balanceOutcomeAdapter: BalanceAdapter
+    private lateinit var rvIncomeBalance: RecyclerView
+    private lateinit var rvOutcomeBalance: RecyclerView
+    private var isAllSet: Boolean = false
+    private var isPlannedSet: Boolean = false
+    private var isDoneSet: Boolean = false
     private val args: MoneyReportFragmentArgs by navArgs()
 
     override fun onCreateView(
@@ -45,16 +46,21 @@ class MoneyReportFragment : Fragment(), BoardAdapter.OnBoardClickListener {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        _binding = FragmentMoneyReportBackupBinding.inflate(inflater, container, false)
-        val root: View = binding.root
+        _binding = FragmentMoneyReportBinding.inflate(inflater, container, false)
 
-        return root
+        return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setupViewModel()
         setupRecyclerView()
+        setupOverview()
+        binding.tvIncomeDetailMoneyReport.setOnClickListener(this)
+        binding.tvOutcomeDetailMoneyReport.setOnClickListener(this)
+        binding.btnAllMoneyReport.setOnClickListener(this)
+        binding.btnDoneMoneyReport.setOnClickListener(this)
+        binding.btnPlannedMoneyReport.setOnClickListener(this)
     }
 
     override fun onDestroyView() {
@@ -62,40 +68,140 @@ class MoneyReportFragment : Fragment(), BoardAdapter.OnBoardClickListener {
         _binding = null
     }
 
-    private fun getList(): ArrayList<Balance> {
-        val listBalance = ArrayList<Balance>()
-        listBalance.add(Balance(1, 2000, "Foto Copy", 1))
-        listBalance.add(Balance(2, 0, "Paid Promote", 0))
-        listBalance.add(Balance(3, 20000, "Konsumsi", 1))
-        listBalance.add(
-            Balance(
-                4,
-                30000,
-                "Jiahahahahy hayuuu mabar dulu bro eits tunggu dulu bro kita ",
-                1
-            )
-        )
-        listBalance.add(Balance(5, 300000, "aoeu", 0))
-        listBalance.add(Balance(6, 24000, "jiahahay", 1))
+    fun setupRecyclerView() {
+        balanceIncomeAdapter = BalanceAdapter(requireContext())
+        balanceOutcomeAdapter = BalanceAdapter(requireContext())
 
+        rvIncomeBalance = requireView().findViewById(R.id.rv_income_balance)
+        rvOutcomeBalance = requireView().findViewById(R.id.rv_outcome_balance)
 
-        return listBalance
+        rvIncomeBalance.setHasFixedSize(true)
+        rvOutcomeBalance.setHasFixedSize(true)
+
+        rvIncomeBalance.layoutManager = LinearLayoutManager(context)
+        rvOutcomeBalance.layoutManager = LinearLayoutManager(context)
+
+        setupDataAdapter()
     }
 
-    fun setupRecyclerView() {
-        balanceAdapter = BalanceAdapter(requireContext())
-        rvBalance = requireView().findViewById(R.id.rv_balance)
-        rvBalance.setHasFixedSize(true)
-        rvBalance.layoutManager = LinearLayoutManager(context)
+    private fun setupDataAdapter() {
+        when {
+            binding.btnAllMoneyReport.isChecked -> {
+                if (!isAllSet) {
+                    authViewModel.getAuthToken().observe(viewLifecycleOwner, {
+                        balanceViewModel.setBalance(it!!, args.workspace.id.toString(), 1)
+                        balanceViewModel.setBalance(it, args.workspace.id.toString(), 0)
+                        balanceViewModel.setOverviewBalance(it, args.workspace.id.toString())
+                    })
+                }
+                balanceViewModel.getIncomeBalance().observe(viewLifecycleOwner, {
+                    balanceIncomeAdapter.setData(it)
+                })
 
-        authViewModel.getAuthToken().observe(viewLifecycleOwner, {
-            balanceViewModel.setAllBalance(it!!, args.workspace.id.toString())
-        })
+                balanceViewModel.getOutcomeBalance().observe(viewLifecycleOwner, {
+                    balanceOutcomeAdapter.setData(it)
+                })
+            }
+            binding.btnDoneMoneyReport.isChecked -> {
+                if (!isDoneSet) {
+                    authViewModel.getAuthToken().observe(viewLifecycleOwner, {
+                        balanceViewModel.setBalance(it!!, args.workspace.id.toString(), 1, "Done")
+                        balanceViewModel.setBalance(it, args.workspace.id.toString(), 0, "Done")
+                        balanceViewModel.setOverviewBalance(it, args.workspace.id.toString())
+                    })
+                }
+                balanceViewModel.getIncomeDoneBalance().observe(viewLifecycleOwner, {
+                    balanceIncomeAdapter.setData(it)
+                })
 
-        balanceViewModel.getBalance().observe(viewLifecycleOwner, {
-            balanceAdapter.setData(it)
-        })
-        rvBalance.adapter = balanceAdapter
+                balanceViewModel.getOutcomeDoneBalance().observe(viewLifecycleOwner, {
+                    balanceOutcomeAdapter.setData(it)
+                })
+            }
+            binding.btnPlannedMoneyReport.isChecked -> {
+                if (!isPlannedSet) {
+                    authViewModel.getAuthToken().observe(viewLifecycleOwner, {
+                        balanceViewModel.setBalance(
+                            it!!,
+                            args.workspace.id.toString(),
+                            1,
+                            "Planned"
+                        )
+                        balanceViewModel.setBalance(it, args.workspace.id.toString(), 0, "Planned")
+                        balanceViewModel.setOverviewBalance(it, args.workspace.id.toString())
+                    })
+                }
+
+                balanceViewModel.getIncomePlannedBalance().observe(viewLifecycleOwner, {
+                    balanceIncomeAdapter.setData(it)
+                })
+
+                balanceViewModel.getOutcomePlannedBalance().observe(viewLifecycleOwner, {
+                    balanceOutcomeAdapter.setData(it)
+                })
+            }
+        }
+
+        rvIncomeBalance.adapter = balanceIncomeAdapter
+        rvOutcomeBalance.adapter = balanceOutcomeAdapter
+    }
+
+    private fun setupOverview() {
+        when {
+            binding.btnAllMoneyReport.isChecked -> {
+                if (!isAllSet) {
+                    authViewModel.getAuthToken().observe(viewLifecycleOwner, {
+                        balanceViewModel.setOverviewBalance(it!!, args.workspace.id.toString())
+                    })
+                }
+                balanceViewModel.getOverviewBalance().observe(viewLifecycleOwner, {
+                    binding.tvNominalIncomeOverviewMoneyReport.text =
+                        it.incomeBalance.toCurrencyFormat()
+                    binding.tvNominalOutcomeOverviewMoneyReport.text =
+                        it.outcomeBalance.toCurrencyFormat()
+                    binding.tvNominalBalanceOverviewMoneyReport.text =
+                        it.totalBalance.toCurrencyFormat()
+                })
+            }
+            binding.btnDoneMoneyReport.isChecked -> {
+                if (!isDoneSet) {
+                    authViewModel.getAuthToken().observe(viewLifecycleOwner, {
+                        balanceViewModel.setOverviewBalance(
+                            it!!,
+                            args.workspace.id.toString(),
+                            "Done"
+                        )
+                    })
+                }
+                balanceViewModel.getOverviewDoneBalance().observe(viewLifecycleOwner, {
+                    binding.tvNominalIncomeOverviewMoneyReport.text =
+                        it.incomeBalance.toCurrencyFormat()
+                    binding.tvNominalOutcomeOverviewMoneyReport.text =
+                        it.outcomeBalance.toCurrencyFormat()
+                    binding.tvNominalBalanceOverviewMoneyReport.text =
+                        it.totalBalance.toCurrencyFormat()
+                })
+            }
+            binding.btnPlannedMoneyReport.isChecked -> {
+                if (!isPlannedSet) {
+                    authViewModel.getAuthToken().observe(viewLifecycleOwner, {
+                        balanceViewModel.setOverviewBalance(
+                            it!!,
+                            args.workspace.id.toString(),
+                            "Planned"
+                        )
+                    })
+                }
+                balanceViewModel.getOverviewPlannedBalance().observe(viewLifecycleOwner, {
+                    binding.tvNominalIncomeOverviewMoneyReport.text =
+                        it.incomeBalance.toCurrencyFormat()
+                    binding.tvNominalOutcomeOverviewMoneyReport.text =
+                        it.outcomeBalance.toCurrencyFormat()
+                    binding.tvNominalBalanceOverviewMoneyReport.text =
+                        it.totalBalance.toCurrencyFormat()
+                })
+            }
+        }
     }
 
     fun setupViewModel() {
@@ -107,20 +213,47 @@ class MoneyReportFragment : Fragment(), BoardAdapter.OnBoardClickListener {
         balanceViewModel = ViewModelProvider(this).get(BalanceViewModel::class.java)
     }
 
-    override fun onBoardClick(data: Board) {
-        Snackbar.make(
-            requireView(),
-            "Kamu mengklik #${data.id}",
-            Snackbar.LENGTH_SHORT
-        ).show()
+    override fun onClick(v: View?) {
+        when (v) {
+            binding.tvIncomeDetailMoneyReport -> {
+                when{
+                    binding.btnAllMoneyReport.isChecked -> toDetailMoneyReport(1)
+                    binding.btnPlannedMoneyReport.isChecked -> toDetailMoneyReport(1, "Planned")
+                    binding.btnDoneMoneyReport.isChecked -> toDetailMoneyReport(1, "Done")
+                }
+            }
+            binding.tvOutcomeDetailMoneyReport -> {
+                when{
+                    binding.btnAllMoneyReport.isChecked -> toDetailMoneyReport(0)
+                    binding.btnPlannedMoneyReport.isChecked -> toDetailMoneyReport(0, "Planned")
+                    binding.btnDoneMoneyReport.isChecked -> toDetailMoneyReport(0, "Done")
+                }
+            }
+            binding.btnAllMoneyReport -> {
+                setupDataAdapter()
+                setupOverview()
+                isAllSet = true
+            }
+            binding.btnDoneMoneyReport -> {
+                setupDataAdapter()
+                setupOverview()
+                isDoneSet = true
+            }
+            binding.btnPlannedMoneyReport -> {
+                setupDataAdapter()
+                setupOverview()
+                isPlannedSet = true
+            }
+        }
     }
 
-    override fun onBoardLongClick(data: Board) {
-        Toast.makeText(requireContext(), "Longpress ${data.id}", Toast.LENGTH_SHORT).show()
-        val addBoardFragment = UpdateBoardDialogFragment()
-        val bundle = Bundle()
-        bundle.putParcelable("EXTRA_BOARD", data)
-        addBoardFragment.arguments = bundle
-        addBoardFragment.show(requireActivity().supportFragmentManager, "Update Dialog")
+    private fun toDetailMoneyReport(isIncome: Int, status: String? = null) {
+        val action =
+            MoneyReportFragmentDirections.actionMoneyReportFragmentToDetailMoneyReportFragment(
+                isIncome,
+                args.workspace,
+                status
+            )
+        Navigation.findNavController(requireView()).navigate(action)
     }
 }

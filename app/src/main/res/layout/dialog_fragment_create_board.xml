@@ -35,7 +35,6 @@
         app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@drawable/ic_close" />
 
-
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/layout_name_add_board"
         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
@@ -48,7 +47,7 @@
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="@+id/layout_spinner_workspace_add_board"
         app:layout_constraintTop_toBottomOf="@+id/layout_spinner_workspace_add_board"
-        app:startIconDrawable="@drawable/ic_email">
+        app:startIconDrawable="@drawable/ic_board_50t">
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/edit_name_add_board"

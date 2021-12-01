@@ -14,6 +14,7 @@
         android:paddingEnd="10dp"
         android:paddingRight="10dp"
         android:paddingBottom="15dp"
+        android:background="?attr/selectableItemBackground"
         tools:targetApi="m">
 
         <TextView

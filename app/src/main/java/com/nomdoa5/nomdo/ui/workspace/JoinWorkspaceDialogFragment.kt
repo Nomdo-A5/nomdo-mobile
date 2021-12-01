@@ -63,43 +63,38 @@ class JoinWorkspaceDialogBoard : DialogFragment(), View.OnClickListener {
     override fun onClick(v: View?) {
         when (v) {
             binding.btnJoinWorkspace -> {
-                binding.btnJoinWorkspace.startAnimation()
-                val urlJoin =
-                    binding.editLinkJoinWorkspace.text.toString()
-                authViewModel.getAuthToken().observe(this, { token ->
-                    workspacesViewModel.joinWorkspace(token!!, urlJoin)
-                })
-
-                authViewModel.getAuthToken().observe(this, { token ->
-                    workspacesViewModel.getCreatedWorkspace().observe(this, {
-                        val name = it.workspaceName + " Report"
-                        val workspaceId = it.id
-                        val moneyReport = ReportRequest(name, workspaceId)
-                        Log.d("Workspace id", workspaceId.toString())
-                        Log.d("Money report", moneyReport.toString())
-                        moneyReportViewModel.addMoneyReport(token!!, moneyReport)
+                val urlJoin = binding.editLinkJoinWorkspace.text.toString()
+                if(urlJoin.isBlank()){
+                    binding.editLinkJoinWorkspace.setError("You need to enter a join code!")
+                }else {
+                    binding.btnJoinWorkspace.startAnimation()
+                    authViewModel.getAuthToken().observe(this, { token ->
+                        authViewModel.setUser(token!!)
+                        authViewModel.getUser().observe(this, { user ->
+                            workspacesViewModel.joinWorkspace(token, urlJoin, user.id.toString())
+                        })
                     })
-                })
 
-                workspacesViewModel.getAddWorkspaceState().observe(this, {
-                    if (it) {
-                        Toast.makeText(requireContext(), "Workspace Added", Toast.LENGTH_SHORT)
-                            .show()
-                        binding.btnJoinWorkspace.doneLoadingAnimation(
-                            resources.getColor(R.color.teal_200),
-                            ContextCompat.getDrawable(requireContext(), R.drawable.ic_check)!!
-                                .toBitmap()
-                        )
-                        dismiss()
-                    } else {
-                        binding.btnJoinWorkspace.revertAnimation()
-                        Toast.makeText(
-                            requireContext(),
-                            "Add Workspace Failed!!",
-                            Toast.LENGTH_SHORT
-                        ).show()
-                    }
-                })
+                    workspacesViewModel.getWorkspaceState().observe(this, {
+                        if (it) {
+                            Toast.makeText(requireContext(), "Join Workspace Successful", Toast.LENGTH_SHORT)
+                                .show()
+                            binding.btnJoinWorkspace.doneLoadingAnimation(
+                                resources.getColor(R.color.teal_200),
+                                ContextCompat.getDrawable(requireContext(), R.drawable.ic_check)!!
+                                    .toBitmap()
+                            )
+                            dismiss()
+                        } else {
+                            binding.btnJoinWorkspace.revertAnimation()
+                            Toast.makeText(
+                                requireContext(),
+                                "Join Workspace Failed!!",
+                                Toast.LENGTH_SHORT
+                            ).show()
+                        }
+                    })
+                }
             }
             binding.imgCloseJoinWorkspace -> dismiss()
         }

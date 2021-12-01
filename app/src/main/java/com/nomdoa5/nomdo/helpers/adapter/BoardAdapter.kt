@@ -11,11 +11,12 @@ import com.nomdoa5.nomdo.databinding.ItemBoardBinding
 import com.nomdoa5.nomdo.repository.model.Board
 import com.nomdoa5.nomdo.repository.model.TaskProgress
 import com.nomdoa5.nomdo.repository.model.Workspace
+import com.nomdoa5.nomdo.repository.model.response.board.TaskInformationBoardResponse
 
 class BoardAdapter(private val listener: OnBoardClickListener) :
     RecyclerView.Adapter<BoardAdapter.BoardViewHolder>() {
     private val mData = ArrayList<Board>()
-    private val taskProgressData = ArrayList<TaskProgress>()
+    private val taskProgressData = ArrayList<TaskInformationBoardResponse>()
 
     fun setData(items: ArrayList<Board>) {
         mData.clear()
@@ -23,10 +24,9 @@ class BoardAdapter(private val listener: OnBoardClickListener) :
         notifyDataSetChanged()
     }
 
-    fun setTaskProgressData(items: ArrayList<TaskProgress>) {
+    fun setTaskProgressData(items: ArrayList<TaskInformationBoardResponse>) {
         taskProgressData.clear()
         taskProgressData.addAll(items)
-        notifyDataSetChanged()
     }
 
     interface OnBoardClickListener {
@@ -51,10 +51,17 @@ class BoardAdapter(private val listener: OnBoardClickListener) :
         private val binding = ItemBoardBinding.bind(itemView)
         fun bind(boardItem: Board) {
             binding.tvTitleBoard.text = boardItem.boardName
+//
+//            binding.tvCountBoard.text = infoItem.taskCount.toString()
+//            binding.tvDoneBoard.text = infoItem.doneTask.toString()
+//
+//            val progress: Double = if (infoItem.doneTask == 0) {
+//                0.0
+//            } else {
+//                (infoItem.taskCount!! / infoItem.doneTask!!).toDouble()
+//            }
 
-            binding.tvNumBoard.text = boardItem.id.toString()
-            val progress = boardItem.id.toString()
-            binding.progress.progress = progress.toInt() * 10
+//            binding.progressBarBoard.progress = progress.toInt() * 100
 
             itemView.setOnClickListener { listener.onBoardClick(boardItem) }
             itemView.setOnLongClickListener {

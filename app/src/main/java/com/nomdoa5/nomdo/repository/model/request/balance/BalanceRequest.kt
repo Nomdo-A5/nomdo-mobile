@@ -13,4 +13,6 @@ data class BalanceRequest(
     val balanceDescription: String? = null,
     @SerializedName("is_income")
     val isIncome: Int? = null,
+    val status: String? = null,
+    val date: String? = null,
 ) : Parcelable

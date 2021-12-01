@@ -67,39 +67,37 @@ class UpdateWorkspaceDialogFragment : DialogFragment(), View.OnClickListener {
                 binding.btnUpdateWorkspace.startAnimation()
                 val newWorkspaceTitle = binding.editNameUpdateWorkspace.text.toString()
                 val newWorkspaceDescription = binding.editDescUpdateWorkspace.text.toString()
-                val newWorkspace = UpdateWorkspaceRequest(workspace.id, newWorkspaceTitle)
+                val newWorkspace = UpdateWorkspaceRequest(workspace.id, newWorkspaceTitle, newWorkspaceDescription)
 
                 authViewModel.getAuthToken().observe(this, {
                     workspacesViewModel.updateWorkspace(it!!, newWorkspace)
                 })
 
                 workspacesViewModel.getUpdateWorkspaceState()
-                    .observe(this, object : Observer<Boolean?> {
-                        override fun onChanged(isLoading: Boolean?) {
-                            if (isLoading!!) {
-                                Toast.makeText(
+                    .observe(this, { isLoading ->
+                        if (isLoading!!) {
+                            Toast.makeText(
+                                requireContext(),
+                                "Update Workspace Success!",
+                                Toast.LENGTH_SHORT
+                            ).show()
+                            binding.btnUpdateWorkspace.doneLoadingAnimation(
+                                resources.getColor(R.color.teal_200),
+                                ContextCompat.getDrawable(
                                     requireContext(),
-                                    "Update Workspace Success!",
-                                    Toast.LENGTH_SHORT
-                                ).show()
-                                binding.btnUpdateWorkspace.doneLoadingAnimation(
-                                    resources.getColor(R.color.teal_200),
-                                    ContextCompat.getDrawable(
-                                        requireContext(),
-                                        R.drawable.ic_check
-                                    )!!
-                                        .toBitmap()
-                                )
-                                dismiss()
-                            } else {
-                                Toast.makeText(
-                                    requireContext(),
-                                    "Update Workspace Failed!",
-                                    Toast.LENGTH_SHORT
-                                )
-                                    .show()
-                                binding.btnUpdateWorkspace.revertAnimation()
-                            }
+                                    R.drawable.ic_check
+                                )!!
+                                    .toBitmap()
+                            )
+                            dismiss()
+                        } else {
+                            Toast.makeText(
+                                requireContext(),
+                                "Update Workspace Failed!",
+                                Toast.LENGTH_SHORT
+                            )
+                                .show()
+                            binding.btnUpdateWorkspace.revertAnimation()
                         }
                     })
 

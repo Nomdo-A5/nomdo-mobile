@@ -38,9 +38,6 @@ class TaskFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener,
     private var _binding: FragmentTaskBinding? = null
     private val binding get() = _binding!!
     private val taskAdapter = TaskAdapter(this)
-    private var tasks = arrayListOf<Task>()
-    private lateinit var taskName: Array<String>
-    private lateinit var createdAt: Array<String>
     private lateinit var rvTask: RecyclerView
     private val args: TaskFragmentArgs by navArgs()
 
@@ -59,7 +56,6 @@ class TaskFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener,
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding.swipeMyTask.setOnRefreshListener(this)
-        setData()
         setupViewModel()
         setupRecyclerView()
     }
@@ -69,27 +65,12 @@ class TaskFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener,
         _binding = null
     }
 
-    fun setData(){
-        taskName = resources.getStringArray(R.array.name)
-        createdAt = resources.getStringArray(R.array.creator)
-
-        for(i in taskName.indices){
-            val task = Task(
-                i,
-                taskName[i],
-                "Owned by " + createdAt[i],
-            )
-            tasks.add(task)
-        }
-    }
-
     fun setupRecyclerView(){
         binding.swipeMyTask.isRefreshing = true
         rvTask = requireView().findViewById(R.id.rv_tasks)
         rvTask.setHasFixedSize(true)
         rvTask.addItemDecoration(TaskAdapter.MarginItemDecoration(15))
         rvTask.layoutManager = LinearLayoutManager(context)
-//        taskAdapter.setData(tasks)
         authViewModel.getAuthToken().observe(viewLifecycleOwner, {
             taskViewModel.setTask(it!!, args.board.id.toString())
         })

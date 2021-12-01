@@ -13,13 +13,15 @@ import com.nomdoa5.nomdo.repository.model.request.task.UpdateTaskRequest
 import com.nomdoa5.nomdo.repository.model.request.workspace.UpdateWorkspaceRequest
 import com.nomdoa5.nomdo.repository.model.request.workspace.WorkspaceRequest
 import com.nomdoa5.nomdo.repository.model.response.*
+import com.nomdoa5.nomdo.repository.model.response.balance.BalanceResponse
+import com.nomdoa5.nomdo.repository.model.response.balance.ReportOverviewResponse
+import com.nomdoa5.nomdo.repository.model.response.balance.ReportResponse
 import com.nomdoa5.nomdo.repository.model.response.board.BoardResponse
 import com.nomdoa5.nomdo.repository.model.response.board.CreateBoardResponse
+import com.nomdoa5.nomdo.repository.model.response.board.TaskInformationBoardResponse
 import com.nomdoa5.nomdo.repository.model.response.task.CreateTaskResponse
 import com.nomdoa5.nomdo.repository.model.response.task.TaskResponse
-import com.nomdoa5.nomdo.repository.model.response.workspace.CreateWorkspaceResponse
-import com.nomdoa5.nomdo.repository.model.response.workspace.DetailWorkspaceResponse
-import com.nomdoa5.nomdo.repository.model.response.workspace.WorkspaceResponse
+import com.nomdoa5.nomdo.repository.model.response.workspace.*
 import retrofit2.Call
 import retrofit2.http.*
 
@@ -77,13 +79,24 @@ interface ApiService {
         @Query("id") id: String,
     ): Call<WorkspaceResponse>
 
-    @GET("workspace")
+    @GET("workspace/join")
     fun joinWorkspace(
         @Header("Authorization") token: String,
         @Query("url_join") urlJoin: String,
-    ): Call<WorkspaceResponse>
+        @Query("member_id") memberId: String,
+    ): Call<CreateWorkspaceResponse>
 
-    //    MEMBER
+    @GET("workspace/member")
+    fun getMemberWorkspace(
+        @Header("Authorization") token: String,
+        @Query("workspace_id") workspaceId: String,
+    ): Call<MemberWorkspaceResponse>
+
+    @GET("workspace/task-information")
+    fun getTaskInformationWorkspace(
+        @Header("Authorization") token: String,
+        @Query("workspace_id") workspaceId: String,
+    ): Call<TaskInformationWorkspaceResponse>
 
 
     //     BOARD
@@ -111,6 +124,11 @@ interface ApiService {
         @Query("id") id: String,
     ): Call<BoardResponse>
 
+    @GET("boards/task-information")
+    fun getTaskInformationBoard(
+        @Header("Authorization") token: String,
+        @Query("board_id") boardId: String,
+    ): Call<TaskInformationBoardResponse>
 
     //    TASK
     @GET("task")
@@ -149,7 +167,16 @@ interface ApiService {
     fun getReport(
         @Header("Authorization") token: String,
         @Query("workspace_id") idWorkspace: String,
+        @Query("is_income") isIncome: Int? = null,
+        @Query("status") status: String? = null,
     ): Call<ReportResponse>
+
+    @GET("report/overview")
+    fun getOverviewReport(
+        @Header("Authorization") token: String,
+        @Query("workspace_id") idWorkspace: String,
+        @Query("status") status: String? = null,
+    ): Call<ReportOverviewResponse>
 
     @POST("report")
     fun addReport(

@@ -33,7 +33,7 @@
             android:drawablePadding="5dp"
             android:fontFamily="@font/roboto_medium"
             android:text="Calendar"
-            app:drawableStartCompat="@drawable/ic_calendar"
+            app:drawableStartCompat="@drawable/ic_calendar_50t"
             app:layout_constraintEnd_toEndOf="@+id/layout_desc_update_task"
             app:layout_constraintHorizontal_bias="1.0"
             app:layout_constraintStart_toStartOf="@+id/layout_desc_update_task"
@@ -79,7 +79,7 @@
             app:layout_constraintEnd_toEndOf="@+id/rv_member"
             app:layout_constraintStart_toStartOf="@+id/rv_member"
             app:layout_constraintTop_toBottomOf="@+id/rv_member"
-            app:startIconDrawable="@drawable/ic_email">
+            app:startIconDrawable="@drawable/ic_email_50t">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/edit_name_update_task"

@@ -30,8 +30,6 @@ class SplashScreenActivity : AppCompatActivity() {
     private lateinit var authViewModel: AuthViewModel
     private var _binding: ActivitySplashScreenBinding? = null
     private val binding get() = _binding!!
-    private lateinit var topAnim: Animation
-    private lateinit var bottomAnim: Animation
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -40,11 +38,6 @@ class SplashScreenActivity : AppCompatActivity() {
 
         showLoading(false)
         setupViewModel()
-        topAnim = AnimationUtils.loadAnimation(this, R.anim.top_animation)
-        bottomAnim = AnimationUtils.loadAnimation(this, R.anim.bottom_animation)
-        binding.imgLogoSplash.animation = topAnim
-        binding.tvTitleSplash.animation = bottomAnim
-        binding.tvDescriptionSplash.animation = bottomAnim
 
         Handler(Looper.getMainLooper()).postDelayed({
             showLoading(true)
@@ -66,7 +59,7 @@ class SplashScreenActivity : AppCompatActivity() {
             ViewModelProvider(this, ViewModelFactory(pref)).get(AuthViewModel::class.java)
     }
 
-    fun showLoading(state: Boolean){
+    private fun showLoading(state: Boolean){
         if(state){
             binding.progressBarSplash.visibility = View.VISIBLE
         }else{
