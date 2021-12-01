@@ -23,10 +23,11 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:selectionRequired="true"
+            app:checkedButton="@+id/btn_all_money_report"
             app:singleSelection="true">
 
             <com.google.android.material.button.MaterialButton
-                android:id="@+id/button_all_money_report"
+                android:id="@+id/btn_all_money_report"
                 style="?attr/materialButtonOutlinedStyle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -34,34 +35,29 @@
                 android:fontFamily="@font/roboto_regular"
                 android:text="All"
                 android:textAllCaps="false"
-                android:textColor="@color/black"
                 app:backgroundTint="@color/white"
                 app:cornerRadius="10dp" />
 
             <com.google.android.material.button.MaterialButton
-                android:id="@+id/button_planned_money_report"
+                android:id="@+id/btn_planned_money_report"
                 style="?attr/materialButtonOutlinedStyle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-
                 android:layout_weight="1"
                 android:fontFamily="@font/roboto_regular"
                 android:text="Planned"
                 android:textAllCaps="false"
-                android:textColor="@color/black"
                 app:backgroundTint="@color/white" />
 
             <com.google.android.material.button.MaterialButton
-                android:id="@+id/button_done_money_report"
+                android:id="@+id/btn_done_money_report"
                 style="?attr/materialButtonOutlinedStyle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-
                 android:fontFamily="@font/roboto_regular"
                 android:text="Done"
                 android:textAllCaps="false"
-                android:textColor="@color/black"
                 app:backgroundTint="@color/white"
                 app:cornerRadius="10dp" />
 
@@ -108,35 +104,34 @@
                     app:layout_constraintTop_toBottomOf="@+id/tv_overview_money_report" />
 
                 <TextView
-                    android:id="@+id/tv_nominal_income_money_report"
+                    android:id="@+id/tv_nominal_income_overview_money_report"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginEnd="16dp"
                     android:fontFamily="@font/roboto_bold"
-                    android:text="Rp. 300.000"
+                    android:text="Rp. -"
                     android:textColor="@color/primary"
                     android:textSize="16sp"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toTopOf="@+id/tv_income_overview_money_report" />
 
                 <TextView
-                    android:id="@+id/tv_nominal_balance_money_report"
+                    android:id="@+id/tv_nominal_balance_overview_money_report"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/roboto_bold"
-                    android:text="Rp. 60.000"
-                    android:textColor="@color/primary"
+                    android:text="Rp. -"
                     android:textSize="16sp"
                     app:layout_constraintEnd_toEndOf="@+id/divider_overview_money_report"
                     app:layout_constraintTop_toTopOf="@+id/tv_balance_money_report" />
 
                 <TextView
-                    android:id="@+id/tv_nominal_outcome_money_report"
+                    android:id="@+id/tv_nominal_outcome_overview_money_report"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginEnd="16dp"
                     android:fontFamily="@font/roboto_bold"
-                    android:text="Rp. 220.000"
+                    android:text="Rp. -"
                     android:textColor="@color/accent_profile"
                     android:textSize="16sp"
                     app:layout_constraintEnd_toEndOf="parent"
@@ -174,7 +169,7 @@
                     android:layout_height="1dp"
                     android:layout_marginTop="16dp"
                     android:background="@color/gray"
-                    app:layout_constraintEnd_toEndOf="@+id/tv_nominal_outcome_money_report"
+                    app:layout_constraintEnd_toEndOf="@+id/tv_nominal_outcome_overview_money_report"
                     app:layout_constraintStart_toStartOf="@+id/tv_outcome_overview_money_report"
                     app:layout_constraintTop_toBottomOf="@+id/tv_outcome_overview_money_report" />
             </androidx.constraintlayout.widget.ConstraintLayout>
@@ -212,13 +207,13 @@
                         android:gravity="center_vertical"
                         android:padding="16dp"
                         android:text="Income"
+                        android:textColor="@color/primary"
                         android:textSize="16sp"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintHorizontal_bias="0.0"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent" />
                 </androidx.cardview.widget.CardView>
-
 
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/rv_income_balance"
@@ -228,6 +223,7 @@
                     app:layout_constraintBottom_toTopOf="@+id/cv_income_detail_money_report"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
+                    android:nestedScrollingEnabled="false"
                     app:layout_constraintTop_toBottomOf="@+id/cv_title_income_money_report" />
 
                 <androidx.cardview.widget.CardView
@@ -295,6 +291,7 @@
                         android:fontFamily="@font/roboto_regular"
                         android:gravity="center_vertical"
                         android:padding="16dp"
+                        android:textColor="@color/accent_profile"
                         android:text="Outcome"
                         android:textSize="16sp"
                         app:layout_constraintEnd_toEndOf="parent"
@@ -308,6 +305,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="8dp"
+                    android:nestedScrollingEnabled="false"
                     app:layout_constraintBottom_toTopOf="@+id/cv_outcome_detail_money_report"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"

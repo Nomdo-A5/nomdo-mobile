@@ -14,6 +14,8 @@ import com.nomdoa5.nomdo.repository.model.request.workspace.UpdateWorkspaceReque
 import com.nomdoa5.nomdo.repository.model.request.workspace.WorkspaceRequest
 import com.nomdoa5.nomdo.repository.model.response.*
 import com.nomdoa5.nomdo.repository.model.response.balance.BalanceResponse
+import com.nomdoa5.nomdo.repository.model.response.balance.ReportOverviewResponse
+import com.nomdoa5.nomdo.repository.model.response.balance.ReportResponse
 import com.nomdoa5.nomdo.repository.model.response.board.BoardResponse
 import com.nomdoa5.nomdo.repository.model.response.board.CreateBoardResponse
 import com.nomdoa5.nomdo.repository.model.response.board.TaskInformationBoardResponse
@@ -165,21 +167,16 @@ interface ApiService {
     fun getReport(
         @Header("Authorization") token: String,
         @Query("workspace_id") idWorkspace: String,
+        @Query("is_income") isIncome: Int? = null,
+        @Query("status") status: String? = null,
     ): Call<ReportResponse>
 
-    @GET("report/income")
-    fun getIncomeReport(
+    @GET("report/overview")
+    fun getOverviewReport(
         @Header("Authorization") token: String,
         @Query("workspace_id") idWorkspace: String,
-    ): Call<ReportResponse>
-
-    @GET("report/outcome")
-    fun getOutcomeReport(
-        @Header("Authorization") token: String,
-        @Query("workspace_id") idWorkspace: String,
-        @Query("is_income") isIncome: Boolean,
-        @Query("status") status: String,
-    ): Call<ReportResponse>
+        @Query("status") status: String? = null,
+    ): Call<ReportOverviewResponse>
 
     @POST("report")
     fun addReport(

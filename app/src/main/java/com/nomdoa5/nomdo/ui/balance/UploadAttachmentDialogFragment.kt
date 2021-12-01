@@ -36,7 +36,7 @@ import kotlin.collections.ArrayList
 
 private val Context.dataStore: DataStore<Preferences> by preferencesDataStore(name = "auth")
 
-class CreateBalanceDialogFragment : DialogFragment(), View.OnClickListener, View.OnTouchListener {
+class UploadAttachmentDialogFragment : DialogFragment(), View.OnClickListener, View.OnTouchListener {
     private var _binding: DialogFragmentCreateBalanceBinding? = null
     private val binding get() = _binding!!
     private lateinit var balanceViewModel: BalanceViewModel

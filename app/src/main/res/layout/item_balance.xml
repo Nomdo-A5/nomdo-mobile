@@ -5,6 +5,7 @@
     android:paddingVertical="18dp"
     android:paddingHorizontal="16dp"
     android:layout_height="wrap_content"
+    android:background="?attr/selectableItemBackground"
     android:layout_width="match_parent">
 
     <TextView

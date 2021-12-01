@@ -8,18 +8,22 @@ import android.widget.TextView
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.nomdoa5.nomdo.R
+import com.nomdoa5.nomdo.helpers.toCurrencyFormat
 import com.nomdoa5.nomdo.repository.model.Balance
-import java.text.DecimalFormat
 
 class BalanceAdapter(var context: Context) :
     RecyclerView.Adapter<BalanceAdapter.ViewHolder>() {
-
     private val mData = ArrayList<Balance>()
+    private var limit: Int? = null
 
     fun setData(items: ArrayList<Balance>) {
         mData.clear()
         mData.addAll(items)
         notifyDataSetChanged()
+    }
+
+    fun setLimit(count: Int){
+        limit = count
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
@@ -41,21 +45,19 @@ class BalanceAdapter(var context: Context) :
                 )
             }
 
-
             holder.tvDescription.text = model.balanceDescription
-
-            val formatter = DecimalFormat("#,###")
-            val formattedNumber = formatter.format(model.nominal!!.toDouble())
-            val formatted = "Rp. $formattedNumber"
-
-            holder.tvNominal.text = formatted
+            holder.tvNominal.text = model.nominal!!.toDouble().toCurrencyFormat()
         } else {
             return
         }
     }
 
     override fun getItemCount(): Int {
-        return mData.size
+        return if(limit != null){
+            limit!!
+        } else {
+            mData.size
+        }
     }
 
     inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {

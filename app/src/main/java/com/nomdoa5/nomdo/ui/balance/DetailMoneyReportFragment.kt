@@ -69,37 +69,50 @@ class DetailMoneyReportFragment : Fragment() {
         rvBalance.setHasFixedSize(true)
         rvBalance.layoutManager = LinearLayoutManager(context)
 
-        if (args.isIncome) {
+        authViewModel.getAuthToken().observe(viewLifecycleOwner, {
+            balanceViewModel.setBalance(
+                it!!,
+                args.workspace.id.toString(),
+                args.isIncome,
+                args.status
+            )
+        })
+
+        if (args.isIncome == 1) {
             binding.tvTypeDetailMoneyReport.text = "Income"
-            binding.tvTypeDetailMoneyReport.setCompoundDrawablesRelative(
+            binding.tvTypeDetailMoneyReport.setTextColor(
+                ContextCompat.getColor(
+                    requireContext(),
+                    R.color.primary
+                )
+            )
+            binding.tvTypeDetailMoneyReport.setCompoundDrawablesWithIntrinsicBounds(
                 ContextCompat.getDrawable(requireContext(), R.drawable.ic_income),
                 null,
                 null,
                 null
             )
-            authViewModel.getAuthToken().observe(viewLifecycleOwner, {
-                balanceViewModel.setIncomeBalance(it!!, args.workspace.id.toString())
-            })
             balanceViewModel.getIncomeBalance().observe(viewLifecycleOwner, {
                 balanceAdapter.setData(it)
             })
         } else {
             binding.tvTypeDetailMoneyReport.text = "Outcome"
-            binding.tvTypeDetailMoneyReport.setCompoundDrawablesRelative(
+            binding.tvTypeDetailMoneyReport.setTextColor(
+                ContextCompat.getColor(
+                    requireContext(),
+                    R.color.accent_profile
+                )
+            )
+            binding.tvTypeDetailMoneyReport.setCompoundDrawablesWithIntrinsicBounds(
                 ContextCompat.getDrawable(requireContext(), R.drawable.ic_outcome),
                 null,
                 null,
                 null
             )
-            authViewModel.getAuthToken().observe(viewLifecycleOwner, {
-                balanceViewModel.setOutcomeBalance(it!!, args.workspace.id.toString())
-            })
             balanceViewModel.getOutcomeBalance().observe(viewLifecycleOwner, {
                 balanceAdapter.setData(it)
             })
         }
-
-
 
         rvBalance.adapter = balanceAdapter
     }

@@ -160,9 +160,13 @@
         android:label="DetailMoneyReportFragment" >
         <argument
             android:name="isIncome"
-            app:argType="boolean" />
+            app:argType="integer" />
         <argument
             android:name="workspace"
             app:argType="com.nomdoa5.nomdo.repository.model.Workspace" />
+        <argument
+            android:name="status"
+            app:argType="string"
+            app:nullable="true" />
     </fragment>
 </navigation>

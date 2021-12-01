@@ -112,6 +112,7 @@
         android:layout_marginTop="16dp"
         android:layout_marginEnd="8dp"
         android:hint="Type"
+        app:startIconDrawable="@drawable/ic_arrow_50t"
         app:layout_constraintEnd_toStartOf="@+id/view"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="@+id/layout_spinner_workspace_add_balance"
@@ -144,6 +145,8 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
         android:hint="Status"
+        app:startIconDrawable="@drawable/ic_info_50t"
+
         app:layout_constraintEnd_toEndOf="@+id/layout_spinner_workspace_add_balance"
         app:layout_constraintStart_toEndOf="@+id/view"
         app:layout_constraintTop_toTopOf="@+id/layout_spinner_type_add_balance">

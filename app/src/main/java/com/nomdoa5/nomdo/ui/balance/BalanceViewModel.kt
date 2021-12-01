@@ -7,7 +7,8 @@ import com.nomdoa5.nomdo.repository.model.Balance
 import com.nomdoa5.nomdo.repository.model.request.balance.BalanceRequest
 import com.nomdoa5.nomdo.repository.model.request.balance.UpdateBalanceRequest
 import com.nomdoa5.nomdo.repository.model.response.balance.BalanceResponse
-import com.nomdoa5.nomdo.repository.model.response.ReportResponse
+import com.nomdoa5.nomdo.repository.model.response.balance.ReportOverviewResponse
+import com.nomdoa5.nomdo.repository.model.response.balance.ReportResponse
 import com.nomdoa5.nomdo.repository.remote.ApiService
 import com.nomdoa5.nomdo.repository.remote.RetrofitClient
 import retrofit2.Call
@@ -18,24 +19,59 @@ class BalanceViewModel : ViewModel() {
     private val listBalance = MutableLiveData<ArrayList<Balance>>()
     private val listIncomeBalance = MutableLiveData<ArrayList<Balance>>()
     private val listOutcomeBalance = MutableLiveData<ArrayList<Balance>>()
+    private val listIncomePlannedBalance = MutableLiveData<ArrayList<Balance>>()
+    private val listOutcomePlannedBalance = MutableLiveData<ArrayList<Balance>>()
+    private val listIncomeDoneBalance = MutableLiveData<ArrayList<Balance>>()
+    private val listOutcomeDoneBalance = MutableLiveData<ArrayList<Balance>>()
+    private val overviewBalance = MutableLiveData<ReportOverviewResponse>()
+    private val overviewPlannedBalance = MutableLiveData<ReportOverviewResponse>()
+    private val overviewDoneBalance = MutableLiveData<ReportOverviewResponse>()
     private val setBalanceState = MutableLiveData<Boolean>()
     private val addBalanceState = MutableLiveData<Boolean>()
     private val updateBalanceState = MutableLiveData<Boolean>()
     private val deleteBalanceState = MutableLiveData<Boolean>()
 
-    fun setAllBalance(token: String, idWorkspace: String) {
+    fun setBalance(
+        token: String,
+        idWorkspace: String,
+        isIncome: Int? = null,
+        status: String? = null
+    ) {
         val service = RetrofitClient.buildService(ApiService::class.java)
-        val requestCall = service.getReport(token = "Bearer $token", idWorkspace)
+        val requestCall = service.getReport(token = "Bearer $token", idWorkspace, isIncome, status)
 
         requestCall.enqueue(object : Callback<ReportResponse> {
             override fun onResponse(
                 call: Call<ReportResponse>,
                 response: Response<ReportResponse>
             ) {
-                if (response.code().equals(200)) {
-                    listBalance.postValue(response.body()!!.balance)
+                val responses = response.body()!!.balance
+                if (response.code() == 200) {
+                    when {
+                        isIncome == 1 && status == "Planned" -> {
+                            listIncomePlannedBalance.postValue(responses)
+                        }
+                        isIncome == 0 && status == "Planned" -> {
+                            listOutcomePlannedBalance.postValue(responses)
+                        }
+                        isIncome == 1 && status == "Done" -> {
+                            listIncomeDoneBalance.postValue(responses)
+                        }
+                        isIncome == 0 && status == "Done" -> {
+                            listOutcomeDoneBalance.postValue(responses)
+                        }
+                        isIncome == 1 -> {
+                            listIncomeBalance.postValue(responses)
+                        }
+                        isIncome == 0 -> {
+                            listOutcomeBalance.postValue(responses)
+                        }
+                        else -> {
+                            listBalance.postValue(response.body()!!.balance)
+                        }
+                    }
                     setBalanceState.postValue(true)
-                } else if (response.code().equals(404)) {
+                } else if (response.code() == 404) {
                     setBalanceState.postValue(false)
                 }
             }
@@ -46,48 +82,40 @@ class BalanceViewModel : ViewModel() {
         })
     }
 
-    fun setIncomeBalance(token: String, idWorkspace: String) {
+    fun setOverviewBalance(
+        token: String,
+        idWorkspace: String,
+        status: String? = null
+    ) {
         val service = RetrofitClient.buildService(ApiService::class.java)
-        val requestCall = service.getIncomeReport(token = "Bearer $token", idWorkspace)
+        val requestCall = service.getOverviewReport(token = "Bearer $token", idWorkspace, status)
 
-        requestCall.enqueue(object : Callback<ReportResponse> {
+        requestCall.enqueue(object : Callback<ReportOverviewResponse> {
             override fun onResponse(
-                call: Call<ReportResponse>,
-                response: Response<ReportResponse>
+                call: Call<ReportOverviewResponse>,
+                response: Response<ReportOverviewResponse>
             ) {
-                if (response.code().equals(200)) {
-                    listIncomeBalance.postValue(response.body()!!.balance)
+                val responses = response.body()!!
+
+                if (response.code() == 200) {
+                    when (status) {
+                        "Planned" -> {
+                            overviewPlannedBalance.postValue(responses)
+                        }
+                        "Done" -> {
+                            overviewDoneBalance.postValue(responses)
+                        }
+                        else -> {
+                            overviewBalance.postValue(responses)
+                        }
+                    }
                     setBalanceState.postValue(true)
-                } else if (response.code().equals(404)) {
+                } else if (response.code() == 404) {
                     setBalanceState.postValue(false)
                 }
             }
 
-            override fun onFailure(call: Call<ReportResponse>, t: Throwable) {
-                setBalanceState.postValue(false)
-            }
-        })
-    }
-
-    fun setOutcomeBalance(token: String, idWorkspace: String) {
-        val service = RetrofitClient.buildService(ApiService::class.java)
-        val requestCall =
-            service.getOutcomeReport(token = "Bearer $token", idWorkspace, true, "Done")
-
-        requestCall.enqueue(object : Callback<ReportResponse> {
-            override fun onResponse(
-                call: Call<ReportResponse>,
-                response: Response<ReportResponse>
-            ) {
-                if (response.code().equals(200)) {
-                    listOutcomeBalance.postValue(response.body()!!.balance)
-                    setBalanceState.postValue(true)
-                } else if (response.code().equals(404)) {
-                    setBalanceState.postValue(false)
-                }
-            }
-
-            override fun onFailure(call: Call<ReportResponse>, t: Throwable) {
+            override fun onFailure(call: Call<ReportOverviewResponse>, t: Throwable) {
                 setBalanceState.postValue(false)
             }
         })
@@ -157,12 +185,40 @@ class BalanceViewModel : ViewModel() {
         return listBalance
     }
 
-    fun getIncomeBalance(): LiveData<ArrayList<Balance>> {
+    fun getIncomeBalance(): LiveData<ArrayList<Balance>>{
         return listIncomeBalance
     }
 
-    fun getOutcomeBalance(): LiveData<ArrayList<Balance>> {
+    fun getOutcomeBalance(): LiveData<ArrayList<Balance>>{
         return listOutcomeBalance
+    }
+
+    fun getIncomePlannedBalance(): LiveData<ArrayList<Balance>> {
+        return listIncomePlannedBalance
+    }
+
+    fun getOutcomePlannedBalance(): LiveData<ArrayList<Balance>> {
+        return listOutcomePlannedBalance
+    }
+
+    fun getIncomeDoneBalance(): LiveData<ArrayList<Balance>> {
+        return listIncomeDoneBalance
+    }
+
+    fun getOutcomeDoneBalance(): LiveData<ArrayList<Balance>> {
+        return listOutcomeDoneBalance
+    }
+
+    fun getOverviewBalance(): LiveData<ReportOverviewResponse>{
+        return overviewBalance
+    }
+
+    fun getOverviewPlannedBalance(): LiveData<ReportOverviewResponse>{
+        return overviewPlannedBalance
+    }
+
+    fun getOverviewDoneBalance(): LiveData<ReportOverviewResponse>{
+        return overviewDoneBalance
     }
 
     fun getAddBalanceState(): LiveData<Boolean> {

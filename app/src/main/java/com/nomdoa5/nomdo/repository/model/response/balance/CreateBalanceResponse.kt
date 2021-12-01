@@ -14,4 +14,5 @@ data class CreateBalanceResponse(
     @SerializedName("is_income")
     val isIncome: Int? = null,
     val status: String? = null,
-) : Parcelable
+    val date: String? = null,
+    ) : Parcelable
