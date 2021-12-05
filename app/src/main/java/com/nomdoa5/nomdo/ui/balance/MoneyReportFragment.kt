@@ -21,12 +21,15 @@ import com.nomdoa5.nomdo.helpers.ViewModelFactory
 import com.nomdoa5.nomdo.helpers.adapter.BalanceAdapter
 import com.nomdoa5.nomdo.helpers.toCurrencyFormat
 import com.nomdoa5.nomdo.repository.local.UserPreferences
+import com.nomdoa5.nomdo.repository.model.Balance
 import com.nomdoa5.nomdo.ui.auth.AuthViewModel
 import com.nomdoa5.nomdo.ui.board.BoardViewModel
+import com.nomdoa5.nomdo.ui.board.UpdateBoardDialogFragment
 
 private val Context.dataStore: DataStore<Preferences> by preferencesDataStore(name = "auth")
 
-class MoneyReportFragment : Fragment(), View.OnClickListener {
+class MoneyReportFragment : Fragment(), View.OnClickListener,
+    BalanceAdapter.OnBalanceClickListener {
     private lateinit var balanceViewModel: BalanceViewModel
     private lateinit var boardsViewModel: BoardViewModel
     private lateinit var authViewModel: AuthViewModel
@@ -69,8 +72,8 @@ class MoneyReportFragment : Fragment(), View.OnClickListener {
     }
 
     fun setupRecyclerView() {
-        balanceIncomeAdapter = BalanceAdapter(requireContext())
-        balanceOutcomeAdapter = BalanceAdapter(requireContext())
+        balanceIncomeAdapter = BalanceAdapter(requireContext(), this)
+        balanceOutcomeAdapter = BalanceAdapter(requireContext(), this)
 
         rvIncomeBalance = requireView().findViewById(R.id.rv_income_balance)
         rvOutcomeBalance = requireView().findViewById(R.id.rv_outcome_balance)
@@ -255,5 +258,13 @@ class MoneyReportFragment : Fragment(), View.OnClickListener {
                 status
             )
         Navigation.findNavController(requireView()).navigate(action)
+    }
+
+    override fun onBalanceClick(data: Balance) {
+        val updateBalanceDialogFragment = UpdateBalanceDialogFragment()
+        val bundle = Bundle()
+        bundle.putParcelable("EXTRA_BALANCE", data)
+        updateBalanceDialogFragment.arguments = bundle
+        updateBalanceDialogFragment.show(requireActivity().supportFragmentManager, "Update Balance")
     }
 }

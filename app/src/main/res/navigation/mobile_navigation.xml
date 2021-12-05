@@ -136,6 +136,9 @@
         <action
             android:id="@+id/action_profileWorkspaceFragment_to_nav_boards"
             app:destination="@id/nav_boards" />
+        <action
+            android:id="@+id/action_profileWorkspaceFragment_to_shareWorkspaceDialogFragment"
+            app:destination="@id/shareWorkspaceDialogFragment" />
     </fragment>
     <fragment
         android:id="@+id/dashboardWorkspaceFragment"
@@ -168,5 +171,13 @@
             android:name="status"
             app:argType="string"
             app:nullable="true" />
+    </fragment>
+    <fragment
+        android:id="@+id/shareWorkspaceDialogFragment"
+        android:name="com.nomdoa5.nomdo.ui.workspace.ShareWorkspaceDialogFragment"
+        android:label="ShareWorkspaceDialogFragment" >
+        <argument
+            android:name="codeJoin"
+            app:argType="string" />
     </fragment>
 </navigation>

@@ -111,6 +111,7 @@ class DetailTaskFragment : Fragment(), View.OnClickListener {
 
         binding.editNameUpdateTask.setText(args.task.taskName)
         binding.editDescUpdateTask.setText(args.task.taskDescription)
+        binding.tvCalendar.setText(args.task.dueDate)
     }
 
     override fun onClick(v: View?) {
@@ -119,7 +120,8 @@ class DetailTaskFragment : Fragment(), View.OnClickListener {
                 binding.btnUpdateTask.startAnimation()
                 val taskName = binding.editNameUpdateTask.text.toString()
                 val taskDescription = binding.editDescUpdateTask.text.toString()
-                val task = UpdateTaskRequest(args.task.id, taskName, taskDescription)
+                val taskDueDate = binding.tvCalendar.text.toString()
+                val task = UpdateTaskRequest(args.task.id, taskName, taskDescription, taskDueDate, args.task.isDone, args.task.isFinishedBy)
 
                 authViewModel.getAuthToken().observe(viewLifecycleOwner, {
                     taskViewModel.updateTask(it!!, task)

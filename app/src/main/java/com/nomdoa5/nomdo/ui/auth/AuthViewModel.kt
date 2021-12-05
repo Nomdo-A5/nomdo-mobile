@@ -75,12 +75,10 @@ class AuthViewModel(private val pref: UserPreferences) : ViewModel() {
                 call: Call<LogoutResponse>,
                 response: Response<LogoutResponse>
             ) {
-                deleteAuthToken()
                 logoutState.postValue(true)
             }
 
             override fun onFailure(call: Call<LogoutResponse>, t: Throwable) {
-                deleteAuthToken()
                 logoutState.postValue(false)
             }
         })

@@ -23,27 +23,27 @@
         android:id="@+id/tv_title_splash"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:layout_marginBottom="48dp"
         android:fontFamily="@font/roboto_medium"
         android:text="NOMDO"
         android:textAlignment="center"
         android:textSize="48sp"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tv_description_splash"
         tools:ignore="MissingConstraints" />
 
     <TextView
         android:id="@+id/tv_description_splash"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="192dp"
         android:fontFamily="@font/roboto_medium"
         android:text="Make Your Own Plan"
         android:textAlignment="center"
         android:textSize="14sp"
+        app:layout_constraintBottom_toTopOf="@+id/tv_title_splash"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/img_logo_splash"
         tools:ignore="MissingConstraints" />
 
     <ProgressBar
@@ -51,7 +51,7 @@
         style="?android:attr/progressBarStyle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:visibility="gone"
+        android:visibility="visible"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/img_logo_splash" />

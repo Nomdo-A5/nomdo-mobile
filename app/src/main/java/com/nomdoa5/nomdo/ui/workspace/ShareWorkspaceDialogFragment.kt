@@ -16,12 +16,13 @@ import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.preferencesDataStore
 import androidx.fragment.app.DialogFragment
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.fragment.navArgs
 import com.nomdoa5.nomdo.R
 import com.nomdoa5.nomdo.databinding.DialogFragmentCreateWorkspaceBinding
-import com.nomdoa5.nomdo.databinding.DialogUserProfileWorkspaceBinding
+import com.nomdoa5.nomdo.databinding.DialogFragmentJoinWorkspaceBinding
+import com.nomdoa5.nomdo.databinding.DialogFragmentShareWorkspaceBinding
 import com.nomdoa5.nomdo.helpers.ViewModelFactory
 import com.nomdoa5.nomdo.repository.local.UserPreferences
-import com.nomdoa5.nomdo.repository.model.User
 import com.nomdoa5.nomdo.repository.model.Workspace
 import com.nomdoa5.nomdo.repository.model.request.ReportRequest
 import com.nomdoa5.nomdo.ui.auth.AuthViewModel
@@ -31,20 +32,17 @@ import com.nomdoa5.nomdo.ui.balance.MoneyReportViewModel
 
 private val Context.dataStore: DataStore<Preferences> by preferencesDataStore(name = "auth")
 
-class UserProfileDialogFragment : DialogFragment(), View.OnClickListener {
-    private var _binding: DialogUserProfileWorkspaceBinding? = null
+class ShareWorkspaceDialogFragment : DialogFragment(), View.OnClickListener {
+    private var _binding: DialogFragmentShareWorkspaceBinding? = null
     private val binding get() = _binding!!
-    private lateinit var moneyReportViewModel: MoneyReportViewModel
-    private lateinit var workspacesViewModel: WorkspacesViewModel
-    private lateinit var authViewModel: AuthViewModel
-    private lateinit var user: User
+    private lateinit var workspace: Workspace
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        _binding = DialogUserProfileWorkspaceBinding.inflate(inflater, container, false)
+        _binding = DialogFragmentShareWorkspaceBinding.inflate(inflater, container, false)
         val root: View = binding.root
         dialog!!.window!!.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
         return root
@@ -53,11 +51,10 @@ class UserProfileDialogFragment : DialogFragment(), View.OnClickListener {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        setupViewModel()
-        user = requireArguments().getParcelable("EXTRA_USER")!!
-        binding.imgCloseDialogProfileWorkspace.setOnClickListener(this)
-        binding.tvNameDialogProfileWorkspace.text = user.name
-        binding.tvEmailDialogProfileWorkspace.text = user.email
+        workspace = requireArguments().getParcelable("EXTRA_WORKSPACE")!!
+
+        binding.imgCloseShareWorkspace.setOnClickListener(this)
+        binding.editLinkShareWorkspace.setText(workspace.urlJoin)
     }
 
     override fun onDestroy() {
@@ -67,15 +64,7 @@ class UserProfileDialogFragment : DialogFragment(), View.OnClickListener {
 
     override fun onClick(v: View?) {
         when (v) {
-            binding.imgCloseDialogProfileWorkspace -> dismiss()
+            binding.imgCloseShareWorkspace -> dismiss()
         }
-    }
-
-    fun setupViewModel() {
-        val pref = UserPreferences.getInstance(requireContext().dataStore)
-        authViewModel =
-            ViewModelProvider(this, ViewModelFactory(pref)).get(AuthViewModel::class.java)
-        workspacesViewModel = ViewModelProvider(this).get(WorkspacesViewModel::class.java)
-        moneyReportViewModel = ViewModelProvider(this).get(MoneyReportViewModel::class.java)
     }
 }

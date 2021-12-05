@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_gravity="center"
+    android:background="@drawable/bg_rounded">
+
+    <TextView
+        android:id="@+id/tv_title_add_workspace"
+        android:layout_width="270dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="32dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="32dp"
+        android:fontFamily="@font/roboto_medium"
+        android:text="Upload Attachment"
+        android:textAlignment="center"
+        android:textSize="24sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/img_close_add_workspace" />
+
+    <ImageView
+        android:id="@+id/img_close_add_workspace"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="32dp"
+        android:layout_marginEnd="32dp"
+        android:background="?attr/selectableItemBackgroundBorderless"
+        android:clickable="true"
+        android:focusable="true"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/ic_close" />
+
+    <com.apachat.loadingbutton.core.customViews.CircularProgressButton
+        android:id="@+id/btn_upload"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:layout_marginBottom="24dp"
+        android:background="@drawable/btn_primary"
+        android:text="Upload"
+        android:textAllCaps="false"
+        app:finalCornerAngle="30dp"
+        app:initialCornerAngle="30dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/progressBar"
+        app:spinning_bar_padding="8dp" />
+
+    <ImageView
+        android:id="@+id/img_upload"
+        android:layout_width="270dp"
+        android:layout_height="270dp"
+        android:layout_marginTop="16dp"
+        android:src="@drawable/select_image"
+        app:layout_constraintEnd_toEndOf="@+id/tv_title_add_workspace"
+        app:layout_constraintStart_toStartOf="@+id/tv_title_add_workspace"
+        app:layout_constraintTop_toBottomOf="@+id/tv_title_add_workspace" />
+
+    <ProgressBar
+        android:id="@+id/progressBar"
+        style="?android:attr/progressBarStyleHorizontal"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="24dp"
+        app:layout_constraintEnd_toEndOf="@+id/tv_title_add_workspace"
+        app:layout_constraintStart_toStartOf="@+id/tv_title_add_workspace"
+        app:layout_constraintTop_toBottomOf="@+id/img_upload" />
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -41,7 +41,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="24dp"
         android:hint="Workspace"
-        app:startIconDrawable="@drawable/ic_workspace"
+        app:startIconDrawable="@drawable/ic_workspace_50t"
         app:layout_constraintEnd_toEndOf="@+id/tv_title_add_balance"
         app:layout_constraintStart_toStartOf="@+id/tv_title_add_balance"
         app:layout_constraintTop_toBottomOf="@+id/tv_title_add_balance">
@@ -110,49 +110,14 @@
         android:layout_width="0dp"
         android:layout_height="55dp"
         android:layout_marginTop="16dp"
-        android:layout_marginEnd="8dp"
         android:hint="Type"
         app:startIconDrawable="@drawable/ic_arrow_50t"
-        app:layout_constraintEnd_toStartOf="@+id/view"
-        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintEnd_toEndOf="@+id/layout_spinner_workspace_add_balance"
         app:layout_constraintStart_toStartOf="@+id/layout_spinner_workspace_add_balance"
         app:layout_constraintTop_toBottomOf="@+id/layout_spinner_workspace_add_balance">
 
         <AutoCompleteTextView
             android:id="@+id/spinner_type_add_balance"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:clickable="true"
-            android:focusable="true"
-            android:focusableInTouchMode="false"
-            android:inputType="none"
-            android:nextFocusDown="@+id/edit_email_sign_up" />
-    </com.google.android.material.textfield.TextInputLayout>
-
-    <View
-        android:id="@+id/view"
-        android:layout_width="1dp"
-        android:layout_height="0dp"
-        app:layout_constraintBottom_toBottomOf="@+id/layout_spinner_type_add_balance"
-        app:layout_constraintEnd_toEndOf="@+id/layout_spinner_workspace_add_balance"
-        app:layout_constraintStart_toStartOf="@+id/layout_spinner_workspace_add_balance"
-        app:layout_constraintTop_toTopOf="@+id/layout_spinner_type_add_balance" />
-
-    <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/layout_spinner_status_add_balance"
-        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense.ExposedDropdownMenu"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:hint="Status"
-        app:startIconDrawable="@drawable/ic_info_50t"
-
-        app:layout_constraintEnd_toEndOf="@+id/layout_spinner_workspace_add_balance"
-        app:layout_constraintStart_toEndOf="@+id/view"
-        app:layout_constraintTop_toTopOf="@+id/layout_spinner_type_add_balance">
-
-        <AutoCompleteTextView
-            android:id="@+id/spinner_status_add_balance"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:clickable="true"
@@ -170,9 +135,9 @@
         android:layout_marginTop="16dp"
         app:boxStrokeColor="@color/black"
         app:hintTextColor="@color/black"
-        app:layout_constraintEnd_toEndOf="@+id/layout_spinner_status_add_balance"
+        app:layout_constraintEnd_toEndOf="@+id/layout_spinner_type_add_balance"
         app:layout_constraintStart_toStartOf="@+id/layout_spinner_type_add_balance"
-        app:layout_constraintTop_toBottomOf="@+id/view"
+        app:layout_constraintTop_toBottomOf="@+id/layout_spinner_type_add_balance"
         app:startIconDrawable="@drawable/ic_description_50t">
 
         <com.google.android.material.textfield.TextInputEditText
@@ -182,6 +147,55 @@
             android:hint="Description"
             android:imeOptions="actionNext"
             android:inputType="text"
+            android:nextFocusDown="@+id/edit_email_sign_up" />
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/layout_attachment_update_balance"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        app:boxStrokeColor="@color/black"
+        app:hintTextColor="@color/black"
+        app:layout_constraintEnd_toEndOf="@+id/layout_date_add_balance"
+        app:layout_constraintStart_toStartOf="@+id/layout_date_add_balance"
+        app:layout_constraintTop_toBottomOf="@+id/layout_date_add_balance"
+        app:startIconDrawable="@drawable/ic_attach_50t">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/edit_attachment_add_balance"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Attachment"
+            android:imeOptions="actionNext"
+            android:inputType="none"
+            android:cursorVisible="false"
+            android:nextFocusDown="@+id/edit_email_sign_up" />
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/layout_spinner_status_add_balance"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense.ExposedDropdownMenu"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        app:boxStrokeColor="@color/black"
+        app:hintTextColor="@color/black"
+        app:layout_constraintEnd_toEndOf="@+id/layout_attachment_update_balance"
+        app:layout_constraintStart_toStartOf="@+id/layout_attachment_update_balance"
+        app:layout_constraintTop_toBottomOf="@+id/layout_attachment_update_balance"
+        app:startIconDrawable="@drawable/ic_info_50t">
+
+        <AutoCompleteTextView
+            android:id="@+id/spinner_status_add_balance"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:clickable="true"
+            android:focusable="true"
+            android:focusableInTouchMode="false"
+            android:inputType="none"
+            android:text="Status"
             android:nextFocusDown="@+id/edit_email_sign_up" />
     </com.google.android.material.textfield.TextInputLayout>
 
@@ -198,9 +212,9 @@
         app:finalCornerAngle="30dp"
         app:initialCornerAngle="30dp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="@+id/layout_date_add_balance"
-        app:layout_constraintStart_toStartOf="@+id/layout_date_add_balance"
-        app:layout_constraintTop_toBottomOf="@+id/layout_date_add_balance"
+        app:layout_constraintEnd_toEndOf="@+id/layout_spinner_status_add_balance"
+        app:layout_constraintStart_toStartOf="@+id/layout_spinner_status_add_balance"
+        app:layout_constraintTop_toBottomOf="@+id/layout_spinner_status_add_balance"
         app:spinning_bar_padding="8dp" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

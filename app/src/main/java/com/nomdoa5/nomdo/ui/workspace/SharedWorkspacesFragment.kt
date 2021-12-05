@@ -32,7 +32,6 @@ class SharedWorkspacesFragment : Fragment(), WorkspaceAdapter.OnWorkspaceClickLi
     ): View {
         _binding = FragmentSharedWorkspacesBinding.inflate(inflater, container, false)
         val root: View = binding.root
-        (activity as MainActivity?)!!.setupToolbarMain("Nomdo")
 
         return root
     }
@@ -41,7 +40,11 @@ class SharedWorkspacesFragment : Fragment(), WorkspaceAdapter.OnWorkspaceClickLi
         super.onViewCreated(view, savedInstanceState)
         setData()
         setupRecyclerView()
+    }
 
+    override fun onResume() {
+        super.onResume()
+        (activity as MainActivity?)!!.setupToolbarMain("Shared Workspaces")
     }
 
     override fun onDestroyView() {

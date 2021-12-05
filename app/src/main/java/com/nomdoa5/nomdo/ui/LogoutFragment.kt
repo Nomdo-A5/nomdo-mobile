@@ -14,17 +14,20 @@ import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.preferencesDataStore
 import androidx.fragment.app.DialogFragment
 import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.viewModelScope
 import com.nomdoa5.nomdo.databinding.DialogFragmentLogoutBinding
 import com.nomdoa5.nomdo.helpers.ViewModelFactory
 import com.nomdoa5.nomdo.repository.local.UserPreferences
 import com.nomdoa5.nomdo.ui.auth.AuthViewModel
 import com.nomdoa5.nomdo.ui.auth.LoginActivity
+import kotlinx.coroutines.launch
 
 private val Context.dataStore: DataStore<Preferences> by preferencesDataStore(name = "settings")
 
 class LogoutFragment : DialogFragment(), View.OnClickListener {
     private lateinit var authViewModel: AuthViewModel
-    private var _binding : DialogFragmentLogoutBinding? = null
+    private var _binding: DialogFragmentLogoutBinding? = null
     private val binding get() = _binding!!
 
 
@@ -53,14 +56,11 @@ class LogoutFragment : DialogFragment(), View.OnClickListener {
     }
 
     override fun onClick(v: View?) {
-        when(v){
+        when (v) {
             binding.btnLogout -> {
-                authViewModel.getAuthToken().observe(this, {
-                    authViewModel.logout(it!!)
-                    startActivity(Intent(requireContext(), LoginActivity::class.java))
-                })
-
-                Toast.makeText(requireContext(), "Logout ges", Toast.LENGTH_SHORT).show()
+                authViewModel.deleteAuthToken()
+                startActivity(Intent(requireContext(), LoginActivity::class.java))
+                Toast.makeText(requireContext(), "Logout Successful", Toast.LENGTH_SHORT).show()
             }
             binding.btnCancel -> {
                 dismiss()
@@ -68,9 +68,10 @@ class LogoutFragment : DialogFragment(), View.OnClickListener {
         }
     }
 
-    fun setupViewModel(){
+    fun setupViewModel() {
         val pref = UserPreferences.getInstance(requireContext().dataStore)
-        authViewModel = ViewModelProvider(this, ViewModelFactory(pref)).get(AuthViewModel::class.java)
+        authViewModel =
+            ViewModelProvider(this, ViewModelFactory(pref)).get(AuthViewModel::class.java)
     }
 
 }

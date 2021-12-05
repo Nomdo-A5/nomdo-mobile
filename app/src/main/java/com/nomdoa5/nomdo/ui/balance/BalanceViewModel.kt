@@ -6,11 +6,15 @@ import androidx.lifecycle.ViewModel
 import com.nomdoa5.nomdo.repository.model.Balance
 import com.nomdoa5.nomdo.repository.model.request.balance.BalanceRequest
 import com.nomdoa5.nomdo.repository.model.request.balance.UpdateBalanceRequest
+import com.nomdoa5.nomdo.repository.model.response.AddAttachmentResponse
 import com.nomdoa5.nomdo.repository.model.response.balance.BalanceResponse
+import com.nomdoa5.nomdo.repository.model.response.balance.CreateBalanceResponse
 import com.nomdoa5.nomdo.repository.model.response.balance.ReportOverviewResponse
 import com.nomdoa5.nomdo.repository.model.response.balance.ReportResponse
 import com.nomdoa5.nomdo.repository.remote.ApiService
 import com.nomdoa5.nomdo.repository.remote.RetrofitClient
+import okhttp3.MultipartBody
+import okhttp3.RequestBody
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -28,6 +32,7 @@ class BalanceViewModel : ViewModel() {
     private val overviewDoneBalance = MutableLiveData<ReportOverviewResponse>()
     private val setBalanceState = MutableLiveData<Boolean>()
     private val addBalanceState = MutableLiveData<Boolean>()
+    private val addBalanceResponse = MutableLiveData<Balance>()
     private val updateBalanceState = MutableLiveData<Boolean>()
     private val deleteBalanceState = MutableLiveData<Boolean>()
 
@@ -162,15 +167,38 @@ class BalanceViewModel : ViewModel() {
         val service = RetrofitClient.buildService(ApiService::class.java)
         val requestCall = service.addBalance(token = "Bearer $token", newBalance)
 
-        requestCall.enqueue(object : Callback<BalanceResponse> {
+        requestCall.enqueue(object : Callback<CreateBalanceResponse> {
             override fun onResponse(
-                call: Call<BalanceResponse>,
-                response: Response<BalanceResponse>
+                call: Call<CreateBalanceResponse>,
+                response: Response<CreateBalanceResponse>
+            ) {
+                addBalanceState.postValue(true)
+                addBalanceResponse.postValue(response.body()!!.balance)
+            }
+
+            override fun onFailure(call: Call<CreateBalanceResponse>, t: Throwable) {
+                addBalanceState.postValue(false)
+            }
+        })
+    }
+
+    fun addAttachment(
+        token: String,
+        attachment: MultipartBody.Part,
+        balanceId: RequestBody,
+    ) {
+        val service = RetrofitClient.buildService(ApiService::class.java)
+        val requestCall = service.addAttachment(token = "Bearer $token", attachment, balanceId)
+
+        requestCall.enqueue(object : Callback<AddAttachmentResponse> {
+            override fun onResponse(
+                call: Call<AddAttachmentResponse>,
+                response: Response<AddAttachmentResponse>
             ) {
                 addBalanceState.postValue(true)
             }
 
-            override fun onFailure(call: Call<BalanceResponse>, t: Throwable) {
+            override fun onFailure(call: Call<AddAttachmentResponse>, t: Throwable) {
                 addBalanceState.postValue(false)
             }
         })
@@ -223,6 +251,10 @@ class BalanceViewModel : ViewModel() {
 
     fun getAddBalanceState(): LiveData<Boolean> {
         return addBalanceState
+    }
+
+    fun getAddBalanceResponse(): LiveData<Balance> {
+        return addBalanceResponse
     }
 
     fun getUpdateBalanceState(): LiveData<Boolean> {

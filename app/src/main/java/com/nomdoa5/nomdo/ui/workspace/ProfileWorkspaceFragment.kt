@@ -18,17 +18,16 @@ import com.nomdoa5.nomdo.R
 import com.nomdoa5.nomdo.databinding.FragmentProfileWorkspaceBinding
 import com.nomdoa5.nomdo.helpers.ViewModelFactory
 import com.nomdoa5.nomdo.helpers.adapter.ListViewMemberAdapter
-import com.nomdoa5.nomdo.helpers.adapter.MemberAdapter
 import com.nomdoa5.nomdo.helpers.adapter.WorkspaceAdapter
 import com.nomdoa5.nomdo.repository.local.UserPreferences
 import com.nomdoa5.nomdo.repository.model.User
 import com.nomdoa5.nomdo.repository.model.Workspace
-import com.nomdoa5.nomdo.repository.model.response.workspace.DetailWorkspaceResponse
 import com.nomdoa5.nomdo.ui.auth.AuthViewModel
 
 private val Context.dataStore: DataStore<Preferences> by preferencesDataStore(name = "auth")
 
-class ProfileWorkspaceFragment : Fragment(), ListViewMemberAdapter.OnMemberClickListener {
+class ProfileWorkspaceFragment : Fragment(), ListViewMemberAdapter.OnMemberClickListener,
+    View.OnClickListener {
     private lateinit var authViewModel: AuthViewModel
     private lateinit var workspacesViewModel: WorkspacesViewModel
     private var _binding: FragmentProfileWorkspaceBinding? = null
@@ -46,12 +45,9 @@ class ProfileWorkspaceFragment : Fragment(), ListViewMemberAdapter.OnMemberClick
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-
         _binding = FragmentProfileWorkspaceBinding.inflate(inflater, container, false)
-        val root: View = binding.root
 
-
-        return root
+        return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -59,6 +55,7 @@ class ProfileWorkspaceFragment : Fragment(), ListViewMemberAdapter.OnMemberClick
         setupViewModel()
         setupDescription()
         setupRecyclerView()
+        binding.layoutInviteMember.setOnClickListener(this)
     }
 
     override fun onDestroyView() {
@@ -105,6 +102,27 @@ class ProfileWorkspaceFragment : Fragment(), ListViewMemberAdapter.OnMemberClick
 
     override fun onMemberClick(data: User) {
         val userProfileDialogFragment = UserProfileDialogFragment()
-        userProfileDialogFragment.show(requireActivity().supportFragmentManager, "Detail Member Dialog")
+        val bundle = Bundle()
+        bundle.putParcelable("EXTRA_USER", data)
+        userProfileDialogFragment.arguments = bundle
+        userProfileDialogFragment.show(
+            requireActivity().supportFragmentManager,
+            "Detail Member Dialog"
+        )
+    }
+
+    override fun onClick(v: View?) {
+        when (v) {
+            binding.layoutInviteMember -> {
+                val shareWorkspaceFragment = ShareWorkspaceDialogFragment()
+                val bundle = Bundle()
+                bundle.putParcelable("EXTRA_WORKSPACE", args.workspace)
+                shareWorkspaceFragment.arguments = bundle
+                shareWorkspaceFragment.show(
+                    requireActivity().supportFragmentManager,
+                    "Share Workspace Dialog"
+                )
+            }
+        }
     }
 }

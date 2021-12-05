@@ -11,6 +11,7 @@
     <color name="white_50t">#80FFFFFF</color>
     <color name="primary">#4ABDAC</color>
     <color name="primary_10t">#1A4ABDAC</color>
+    <color name="primary_20t">#334ABDAC</color>
     <color name="primary_30t">#4D4ABDAC</color>
     <color name="primary_ripple">#2F7A6F</color>
     <color name="accent">#F8B732</color>

@@ -47,11 +47,17 @@ class UpdateBalanceDialogFragment : DialogFragment(), View.OnClickListener {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        balance = requireArguments().getParcelable("EXTRA_WORKSPACE")!!
+        balance = requireArguments().getParcelable("EXTRA_BALANCE")!!
 //        binding.editTitleUpdateBalance.setText(balance.balanceName)
         binding.btnUpdateBalance.setOnClickListener(this)
-        binding.btnDeleteBalance.setOnClickListener(this)
+//        binding.btnDeleteBalance.setOnClickListener(this)
         binding.imgCloseUpdateBalance.setOnClickListener(this)
+        binding.editNominalUpdateBalance.setText(balance.nominal.toString())
+        binding.editDescriptionAddBalance.setText(balance.balanceDescription)
+        binding.editDateUpdateBalance.setText(balance.date)
+        binding.spinnerStatusUpdateBalance.setText(balance.status)
+        val type = if(balance.isIncome!! > 1) "Income" else "Outcome"
+        binding.spinnerTypeUpdateBalance.setText(type)
         setupViewModel()
     }
 
@@ -72,70 +78,68 @@ class UpdateBalanceDialogFragment : DialogFragment(), View.OnClickListener {
 //                })
 
                 balanceViewModel.getUpdateBalanceState()
-                    .observe(this, object : Observer<Boolean?> {
-                        override fun onChanged(isLoading: Boolean?) {
-                            if (isLoading!!) {
-                                Toast.makeText(
+                    .observe(this, { isLoading ->
+                        if (isLoading!!) {
+                            Toast.makeText(
+                                requireContext(),
+                                "Update Balance Success!",
+                                Toast.LENGTH_SHORT
+                            ).show()
+                            binding.btnUpdateBalance.doneLoadingAnimation(
+                                resources.getColor(R.color.teal_200),
+                                ContextCompat.getDrawable(
                                     requireContext(),
-                                    "Update Balance Success!",
-                                    Toast.LENGTH_SHORT
-                                ).show()
-                                binding.btnUpdateBalance.doneLoadingAnimation(
-                                    resources.getColor(R.color.teal_200),
-                                    ContextCompat.getDrawable(
-                                        requireContext(),
-                                        R.drawable.ic_check
-                                    )!!
-                                        .toBitmap()
-                                )
-                                dismiss()
-                            } else {
-                                Toast.makeText(
-                                    requireContext(),
-                                    "Update Balance Failed!",
-                                    Toast.LENGTH_SHORT
-                                )
-                                    .show()
-                                binding.btnUpdateBalance.revertAnimation()
-                            }
+                                    R.drawable.ic_check
+                                )!!
+                                    .toBitmap()
+                            )
+                            dismiss()
+                        } else {
+                            Toast.makeText(
+                                requireContext(),
+                                "Update Balance Failed!",
+                                Toast.LENGTH_SHORT
+                            )
+                                .show()
+                            binding.btnUpdateBalance.revertAnimation()
                         }
                     })
 
             }
-            binding.btnDeleteBalance -> {
-                binding.btnDeleteBalance.startAnimation()
-//                authViewModel.getAuthToken().observe(this, {
-//                    balancesViewModel.deleteBalance(it!!, balance.id.toString())
+//            binding.btnDeleteBalance -> {
+//                binding.btnDeleteBalance.startAnimation()
+////                authViewModel.getAuthToken().observe(this, {
+////                    balancesViewModel.deleteBalance(it!!, balance.id.toString())
+////                })
+//
+//                balanceViewModel.getDeleteBalanceState().observe(this, {
+//                    if(it){
+//                        Toast.makeText(
+//                            requireContext(),
+//                            "Delete Balance Success",
+//                            Toast.LENGTH_SHORT
+//                        ).show()
+//                        binding.btnUpdateBalance.doneLoadingAnimation(
+//                            resources.getColor(R.color.teal_200),
+//                            ContextCompat.getDrawable(
+//                                requireContext(),
+//                                R.drawable.ic_check
+//                            )!!
+//                                .toBitmap()
+//                        )
+//                        dismiss()
+//                    }else{
+//                        Toast.makeText(
+//                            requireContext(),
+//                            "Delete Balance Failed!",
+//                            Toast.LENGTH_SHORT
+//                        ).show()
+//                        binding.btnUpdateBalance.revertAnimation()
+//                        dismiss()
+//                    }
 //                })
-
-                balanceViewModel.getDeleteBalanceState().observe(this, {
-                    if(it){
-                        Toast.makeText(
-                            requireContext(),
-                            "Delete Balance Success",
-                            Toast.LENGTH_SHORT
-                        ).show()
-                        binding.btnUpdateBalance.doneLoadingAnimation(
-                            resources.getColor(R.color.teal_200),
-                            ContextCompat.getDrawable(
-                                requireContext(),
-                                R.drawable.ic_check
-                            )!!
-                                .toBitmap()
-                        )
-                        dismiss()
-                    }else{
-                        Toast.makeText(
-                            requireContext(),
-                            "Delete Balance Failed!",
-                            Toast.LENGTH_SHORT
-                        ).show()
-                        binding.btnUpdateBalance.revertAnimation()
-                        dismiss()
-                    }
-                })
-                dismiss()
-            }
+//                dismiss()
+//            }
             binding.imgCloseUpdateBalance -> {
                 dismiss()
             }

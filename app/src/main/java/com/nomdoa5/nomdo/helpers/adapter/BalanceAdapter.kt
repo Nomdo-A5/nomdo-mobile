@@ -10,8 +10,9 @@ import androidx.recyclerview.widget.RecyclerView
 import com.nomdoa5.nomdo.R
 import com.nomdoa5.nomdo.helpers.toCurrencyFormat
 import com.nomdoa5.nomdo.repository.model.Balance
+import com.nomdoa5.nomdo.repository.model.Board
 
-class BalanceAdapter(var context: Context) :
+class BalanceAdapter(var context: Context,  private val listener: OnBalanceClickListener) :
     RecyclerView.Adapter<BalanceAdapter.ViewHolder>() {
     private val mData = ArrayList<Balance>()
     private var limit: Int? = null
@@ -24,6 +25,10 @@ class BalanceAdapter(var context: Context) :
 
     fun setLimit(count: Int){
         limit = count
+    }
+
+    interface OnBalanceClickListener {
+        fun onBalanceClick(data: Balance)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
@@ -47,6 +52,7 @@ class BalanceAdapter(var context: Context) :
 
             holder.tvDescription.text = model.balanceDescription
             holder.tvNominal.text = model.nominal!!.toDouble().toCurrencyFormat()
+            holder.itemView.setOnClickListener{listener.onBalanceClick(mData[position])}
         } else {
             return
         }

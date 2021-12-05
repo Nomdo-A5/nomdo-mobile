@@ -14,14 +14,18 @@
 
         <TextView
             android:id="@+id/tv_title_board"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
             android:layout_marginTop="16dp"
+            android:layout_marginEnd="16dp"
+            android:ellipsize="end"
             android:fontFamily="@font/roboto_regular"
+            android:maxLines="1"
             android:text="Divisi"
             android:textAllCaps="false"
-            android:textSize="22sp"
+            android:textSize="16sp"
+            app:layout_constraintEnd_toStartOf="@+id/linearLayout"
             app:layout_constraintStart_toEndOf="@+id/img_status_progress"
             app:layout_constraintTop_toTopOf="parent" />
 
@@ -44,7 +48,7 @@
                 android:text="4"
                 android:textAllCaps="true"
                 android:textColor="@color/primary"
-                android:textSize="22sp" />
+                android:textSize="16sp" />
 
             <TextView
                 android:id="@+id/tv_sym_board"
@@ -55,7 +59,7 @@
                 android:text="/"
                 android:textAllCaps="true"
                 android:textColor="@color/primary"
-                android:textSize="22sp" />
+                android:textSize="16sp" />
 
             <TextView
                 android:id="@+id/tv_count_board"
@@ -66,14 +70,14 @@
                 android:text="8"
                 android:textAllCaps="true"
                 android:textColor="@color/primary"
-                android:textSize="22sp" />
+                android:textSize="16sp" />
         </LinearLayout>
 
         <ProgressBar
             android:id="@+id/progress_bar_board"
             style="@style/Widget.AppCompat.ProgressBar.Horizontal"
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
+            android:layout_height="16dp"
             android:layout_marginTop="16dp"
             android:layout_marginBottom="16dp"
             android:max="100"
@@ -86,8 +90,8 @@
 
         <ImageView
             android:id="@+id/img_status_progress"
-            android:layout_width="16dp"
-            android:layout_height="16dp"
+            android:layout_width="13dp"
+            android:layout_height="13dp"
             android:layout_marginStart="16dp"
             app:layout_constraintBottom_toBottomOf="@+id/tv_title_board"
             app:layout_constraintStart_toStartOf="parent"

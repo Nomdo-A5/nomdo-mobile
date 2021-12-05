@@ -1,12 +1,13 @@
 package com.nomdoa5.nomdo.ui.balance
 
 import NoFilterAdapter
-import android.Manifest
+import android.app.Activity
 import android.app.DatePickerDialog
 import android.content.Context
-import android.content.pm.PackageManager
+import android.content.Intent
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
+import android.net.Uri
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
@@ -15,7 +16,6 @@ import android.view.MotionEvent
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
-import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.core.graphics.drawable.toBitmap
 import androidx.datastore.core.DataStore
@@ -32,11 +32,24 @@ import com.nomdoa5.nomdo.ui.auth.AuthViewModel
 import com.nomdoa5.nomdo.ui.workspace.WorkspacesViewModel
 import java.util.*
 import kotlin.collections.ArrayList
+import android.provider.OpenableColumns
+import com.nomdoa5.nomdo.helpers.getFileName
+import com.nomdoa5.nomdo.helpers.snackbar
+import com.nomdoa5.nomdo.repository.model.request.AttachmentRequestBody
+import okhttp3.MediaType
+import okhttp3.MediaType.Companion.toMediaTypeOrNull
+import okhttp3.MultipartBody
+import okhttp3.RequestBody
+import okhttp3.RequestBody.Companion.toRequestBody
+import java.io.File
+import java.io.FileInputStream
+import java.io.FileOutputStream
 
 
 private val Context.dataStore: DataStore<Preferences> by preferencesDataStore(name = "auth")
 
-class CreateBalanceDialogFragment : DialogFragment(), View.OnClickListener, View.OnTouchListener {
+class CreateBalanceDialogFragment : DialogFragment(), View.OnClickListener, View.OnTouchListener,
+    AttachmentRequestBody.UploadCallback {
     private var _binding: DialogFragmentCreateBalanceBinding? = null
     private val binding get() = _binding!!
     private lateinit var balanceViewModel: BalanceViewModel
@@ -45,8 +58,7 @@ class CreateBalanceDialogFragment : DialogFragment(), View.OnClickListener, View
     private lateinit var date: String
     private var spinnerWorkspacePosition: Int? = null
     private val workspaceAdapterId = ArrayList<String>()
-    private val PERMISSION_REQUEST_CODE = 1
-    private val REQUEST_GALLERY = 200
+    private var selectedImageUri: Uri? = null
     private val downloadId: Long = 0
 
     override fun onCreateView(
@@ -68,6 +80,7 @@ class CreateBalanceDialogFragment : DialogFragment(), View.OnClickListener, View
         binding.imgCloseAddBalance.setOnClickListener(this)
         binding.btnAddBalance.setOnClickListener(this)
         binding.editDateAddBalance.setOnTouchListener(this)
+        binding.editAttachmentAddBalance.setOnTouchListener(this)
     }
 
     override fun onDestroy() {
@@ -96,22 +109,42 @@ class CreateBalanceDialogFragment : DialogFragment(), View.OnClickListener, View
                     balanceViewModel.addBalance(it!!, balance)
                 })
 
-                balanceViewModel.getAddBalanceState().observe(this, {
-                    if (it) {
-                        Toast.makeText(requireContext(), "Balance Added", Toast.LENGTH_SHORT).show()
-                        binding.btnAddBalance.doneLoadingAnimation(
-                            resources.getColor(R.color.teal_200),
-                            ContextCompat.getDrawable(requireContext(), R.drawable.ic_check)!!
-                                .toBitmap()
-                        )
-                        Handler(Looper.getMainLooper()).postDelayed({
-                            dismiss()
-                        }, 1000)
-                    } else {
-                        binding.btnAddBalance.revertAnimation()
-                        Toast.makeText(requireContext(), "Add Balance Failed!!", Toast.LENGTH_SHORT)
-                            .show()
+//                balanceViewModel.getAddBalanceState().observe(this, {
+//                    if (it) {
+//                        Toast.makeText(requireContext(), "Balance Added", Toast.LENGTH_SHORT).show()
+//                        binding.btnAddBalance.doneLoadingAnimation(
+//                            resources.getColor(R.color.teal_200),
+//                            ContextCompat.getDrawable(requireContext(), R.drawable.ic_check)!!
+//                                .toBitmap()
+//                        )
+//                        Handler(Looper.getMainLooper()).postDelayed({
+//                            dismiss()
+//                        }, 1000)
+//                    } else {
+//                        binding.btnAddBalance.revertAnimation()
+//                        Toast.makeText(requireContext(), "Add Balance Failed!!", Toast.LENGTH_SHORT)
+//                            .show()
+//                    }
+//                })
+
+                balanceViewModel.getAddBalanceResponse().observe(this, {
+                    if (it != null) {
+                        uploadImage(it.id.toString())
                     }
+//                        Toast.makeText(requireContext(), it.toString(), Toast.LENGTH_SHORT).show()
+//                        binding.btnAddBalance.doneLoadingAnimation(
+//                            resources.getColor(R.color.teal_200),
+//                            ContextCompat.getDrawable(requireContext(), R.drawable.ic_check)!!
+//                                .toBitmap()
+//                        )
+//                        Handler(Looper.getMainLooper()).postDelayed({
+//                            dismiss()
+//                        }, 1000)
+//                    } else {
+//                        binding.btnAddBalance.revertAnimation()
+//                        Toast.makeText(requireContext(), "Add Balance Failed!!", Toast.LENGTH_SHORT)
+//                            .show()
+//                    }
                 })
 
             }
@@ -174,67 +207,98 @@ class CreateBalanceDialogFragment : DialogFragment(), View.OnClickListener, View
 
     override fun onTouch(v: View?, motionEvent: MotionEvent?): Boolean {
         if (motionEvent!!.action == MotionEvent.ACTION_UP) {
-            val c = Calendar.getInstance()
-            val year = c.get(Calendar.YEAR)
-            val month = c.get(Calendar.MONTH)
-            val day = c.get(Calendar.DAY_OF_MONTH)
+            when (v) {
+                binding.editDateAddBalance -> {
+                    val c = Calendar.getInstance()
+                    val year = c.get(Calendar.YEAR)
+                    val month = c.get(Calendar.MONTH)
+                    val day = c.get(Calendar.DAY_OF_MONTH)
 
-            val dpd = DatePickerDialog(
-                requireActivity(), { _, y, m, d ->
-                    date = "$y-$m-$d"
-                    binding.editDateAddBalance.setText(date)
-                },
-                year,
-                month,
-                day
-            )
+                    val dpd = DatePickerDialog(
+                        requireActivity(), { _, y, m, d ->
+                            date = "$y-$m-$d"
+                            binding.editDateAddBalance.setText(date)
+                        },
+                        year,
+                        month,
+                        day
+                    )
 
-            dpd.show()
+                    dpd.show()
+                }
+                binding.editAttachmentAddBalance -> {
+                    openImageChooser()
+                }
+            }
         }
         return false
     }
 
-    private fun requestPermission() {
-        if (ActivityCompat.shouldShowRequestPermissionRationale(
-                requireActivity(),
-                Manifest.permission.WRITE_EXTERNAL_STORAGE
-            )
-        ) {
-            Toast.makeText(
-                requireContext(),
-                "Please Give Permission to Upload File",
-                Toast.LENGTH_SHORT
-            ).show()
-        } else {
-            ActivityCompat.requestPermissions(
-                requireActivity(),
-                arrayOf(Manifest.permission.WRITE_EXTERNAL_STORAGE),
-                PERMISSION_REQUEST_CODE
-            )
+    private fun openImageChooser() {
+        Intent(Intent.ACTION_PICK).also {
+            it.type = "image/*"
+            val mimeTypes = arrayOf("image/jpeg", "image/png")
+            it.putExtra(Intent.EXTRA_MIME_TYPES, mimeTypes)
+            startActivityForResult(it, UploadAttachmentDialogFragment.REQUEST_CODE_PICK_IMAGE)
         }
     }
 
-    private fun checkPermission(): Boolean {
-        val result = ContextCompat.checkSelfPermission(
-            requireContext(),
-            Manifest.permission.WRITE_EXTERNAL_STORAGE
+    private fun uploadImage(balanceId: String) {
+        if (selectedImageUri == null) {
+            requireView().rootView.snackbar("Select an Image First")
+            return
+        }
+
+        val parcelFileDescriptor =
+            requireActivity().contentResolver.openFileDescriptor(selectedImageUri!!, "r", null)
+                ?: return
+
+        val inputStream = FileInputStream(parcelFileDescriptor.fileDescriptor)
+        val file = File(
+            requireActivity().cacheDir,
+            requireActivity().contentResolver.getFileName(selectedImageUri!!)
         )
-        return result == PackageManager.PERMISSION_GRANTED
+        val outputStream = FileOutputStream(file)
+        inputStream.copyTo(outputStream)
+
+        val body = AttachmentRequestBody(file, "image", this)
+
+        authViewModel.getAuthToken().observe(viewLifecycleOwner, {
+            balanceViewModel.addAttachment(
+                it!!,
+                MultipartBody.Part.createFormData(
+                    "file_path",
+                    file.name,
+                    body
+                ),
+                balanceId.toRequestBody("multipart/form-data".toMediaTypeOrNull())
+            )
+        })
+
+
     }
 
-    override fun onRequestPermissionsResult(
-        requestCode: Int,
-        permissions: Array<String?>,
-        grantResults: IntArray
-    ) {
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
-        when (requestCode) {
-            PERMISSION_REQUEST_CODE -> if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                Toast.makeText(requireContext(), "Permission Successful", Toast.LENGTH_SHORT)
-                    .show()
-            } else {
-                Toast.makeText(requireContext(), "Permission Failed", Toast.LENGTH_SHORT).show()
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if (resultCode == Activity.RESULT_OK) {
+            when (requestCode) {
+                UploadAttachmentDialogFragment.REQUEST_CODE_PICK_IMAGE -> {
+                    val uri = data?.data
+                    val cursor =
+                        requireActivity().contentResolver.query(uri!!, null, null, null, null)
+                    val nameIndex: Int = cursor!!.getColumnIndex(OpenableColumns.DISPLAY_NAME)
+                    val sizeIndex: Int = cursor.getColumnIndex(OpenableColumns.SIZE)
+                    cursor.moveToFirst()
+                    selectedImageUri = data.data
+                    val name: String = cursor.getString(nameIndex)
+                    val size = java.lang.Long.toString(cursor.getLong(sizeIndex))
+                    binding.editAttachmentAddBalance.setText(name)
+                }
             }
         }
+    }
+
+    override fun onProgressUpdate(percentage: Int) {
+
     }
 }
