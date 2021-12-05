@@ -36,21 +36,18 @@ class SplashScreenActivity : AppCompatActivity() {
         _binding = ActivitySplashScreenBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        showLoading(false)
         setupViewModel()
 
-        Handler(Looper.getMainLooper()).postDelayed({
-            showLoading(true)
-            authViewModel.getAuthToken().observe(this, {
-                if(it.isNullOrBlank()){
-                    startActivity(Intent(this, LoginActivity::class.java))
-                    finish()
-                }else{
-                    startActivity(Intent(this, MainActivity::class.java))
-                    finish()
-                }
-            })
-        }, 1500)
+        showLoading(true)
+        authViewModel.getAuthToken().observe(this, {
+            if(it.isNullOrBlank()){
+                startActivity(Intent(this, LoginActivity::class.java))
+                finish()
+            }else{
+                startActivity(Intent(this, MainActivity::class.java))
+                finish()
+            }
+        })
     }
 
     fun setupViewModel() {

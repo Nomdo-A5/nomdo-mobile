@@ -9,7 +9,6 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@drawable/bg_rounded"
         tools:targetApi="m">
 
         <TextView
@@ -20,7 +19,7 @@
             android:layout_marginTop="16dp"
             android:layout_marginEnd="16dp"
             android:ellipsize="end"
-            android:fontFamily="@font/roboto_regular"
+            android:fontFamily="@font/roboto_medium"
             android:maxLines="1"
             android:text="Divisi"
             android:textAllCaps="false"

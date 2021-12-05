@@ -5,8 +5,6 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
-import androidx.core.content.ContextCompat
 import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.preferencesDataStore
@@ -16,7 +14,6 @@ import androidx.navigation.Navigation
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
-import com.google.android.material.snackbar.Snackbar
 import com.nomdoa5.nomdo.R
 import com.nomdoa5.nomdo.databinding.FragmentMyWorkspacesBinding
 import com.nomdoa5.nomdo.helpers.ViewModelFactory
@@ -39,17 +36,15 @@ class MyWorkspacesFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener,
     private lateinit var workspaceName: Array<String>
     private lateinit var workspaceCreator: Array<String>
     private lateinit var rvWorkspace: RecyclerView
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-
         _binding = FragmentMyWorkspacesBinding.inflate(inflater, container, false)
-        val root: View = binding.root
 
-
-        return root
+        return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -83,7 +78,7 @@ class MyWorkspacesFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener,
         }
     }
 
-    fun setupRecyclerView() {
+    private fun setupRecyclerView() {
         binding.swipeMyWorkspaces.isRefreshing = true
         rvWorkspace = requireView().findViewById(R.id.rv_my_workspaces)
         rvWorkspace.setHasFixedSize(true)
@@ -95,6 +90,11 @@ class MyWorkspacesFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener,
         })
 
         workspacesViewModel.getWorkspace().observe(viewLifecycleOwner, {
+            if(it.isEmpty()){
+                showEmpty(true)
+            }else{
+                showEmpty(false)
+            }
             workspaceAdapter.setData(it)
             binding.swipeMyWorkspaces.isRefreshing = false
         })
@@ -109,11 +109,13 @@ class MyWorkspacesFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener,
             ViewModelProvider(this).get(WorkspacesViewModel::class.java)
     }
 
-    private fun showLoading(state: Boolean) {
+    private fun showEmpty(state: Boolean) {
         if (state) {
-            binding.progressBarMyWorkspaces.visibility = View.VISIBLE
+            binding.imgEmptyWorkspace.visibility = View.VISIBLE
+            binding.tvEmptyWorkspace.visibility = View.VISIBLE
         } else {
-            binding.progressBarMyWorkspaces.visibility = View.GONE
+            binding.imgEmptyWorkspace.visibility = View.GONE
+            binding.tvEmptyWorkspace.visibility = View.GONE
         }
     }
 
@@ -130,12 +132,6 @@ class MyWorkspacesFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener,
     }
 
     override fun onWorkspaceClick(data: Workspace) {
-        Snackbar.make(
-            requireView(),
-            "Kamu mengklik #${data.id}",
-            Snackbar.LENGTH_SHORT
-        ).show()
-
         val action =
             MyWorkspacesFragmentDirections.actionNavMyWorkspacesToNavBoards(data)
         Navigation.findNavController(requireView()).navigate(action)

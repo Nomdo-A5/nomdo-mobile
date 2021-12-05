@@ -16,6 +16,7 @@ import retrofit2.Response
 
 class WorkspacesViewModel : ViewModel() {
     private val listWorkspace = MutableLiveData<ArrayList<Workspace>>()
+    private val countWorkspace = MutableLiveData<Int>()
     private val detailWorkspace = MutableLiveData<Workspace>()
     private val memberWorkspace = MutableLiveData<ArrayList<User>>()
     private val createdWorkspace = MutableLiveData<Workspace>()
@@ -37,6 +38,7 @@ class WorkspacesViewModel : ViewModel() {
             ) {
                 if (!response.code().equals(500)) {
                     listWorkspace.postValue(response.body()!!.workspace)
+                    countWorkspace.postValue(response.body()!!.workspace.size)
                     workspaceState.postValue(true)
                 }
             }
@@ -194,6 +196,8 @@ class WorkspacesViewModel : ViewModel() {
     fun getDeleteWorkspaceState(): LiveData<Boolean> = deleteWorkspaceState
 
     fun getWorkspace(): LiveData<ArrayList<Workspace>> = listWorkspace
+
+    fun getWorkspaceCount(): LiveData<Int> = countWorkspace
 
     fun getWorkspaceDetail(): LiveData<Workspace> = detailWorkspace
 

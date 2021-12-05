@@ -15,15 +15,18 @@ import androidx.recyclerview.widget.RecyclerView
 import com.nomdoa5.nomdo.R
 import com.nomdoa5.nomdo.databinding.FragmentDashboardWorkspaceBinding
 import com.nomdoa5.nomdo.helpers.ViewModelFactory
+import com.nomdoa5.nomdo.helpers.toCurrencyFormat
 import com.nomdoa5.nomdo.repository.local.UserPreferences
 import com.nomdoa5.nomdo.repository.model.Workspace
 import com.nomdoa5.nomdo.ui.auth.AuthViewModel
+import com.nomdoa5.nomdo.ui.balance.BalanceViewModel
 
 private val Context.dataStore: DataStore<Preferences> by preferencesDataStore(name = "auth")
 
 class DashboardWorkspaceFragment : Fragment() {
     private lateinit var authViewModel: AuthViewModel
     private lateinit var workspacesViewModel: WorkspacesViewModel
+    private lateinit var balanceViewModel: BalanceViewModel
     private var _binding: FragmentDashboardWorkspaceBinding? = null
     private val binding get() = _binding!!
     private var workspaces = arrayListOf<Workspace>()
@@ -45,6 +48,7 @@ class DashboardWorkspaceFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setupViewModel()
+        setupDashboard()
         setupRecyclerView()
     }
 
@@ -70,14 +74,20 @@ class DashboardWorkspaceFragment : Fragment() {
     fun setupDashboard() {
         authViewModel.getAuthToken().observe(viewLifecycleOwner, {
             workspacesViewModel.setTaskInfo(it!!, args.workspace.id.toString())
-
+            balanceViewModel.setOverviewBalance(it, args.workspace.id.toString())
         })
 
         workspacesViewModel.getTaskInfo().observe(viewLifecycleOwner, {
             binding.tvCompletedTask.text = it.taskDone.toString()
             binding.tvPendingTask.text = (it.taskCount!! - it.taskDone!!).toString()
         })
+
+        balanceViewModel.getOverviewBalance().observe(viewLifecycleOwner, {
+            binding.tvOutcomeBalanceOverview.text = it.outcomeBalance.toCurrencyFormat()
+            binding.tvIncomeBalanceOverview.text = it.incomeBalance.toCurrencyFormat()
+        })
     }
+
     fun setupRecyclerView() {
 //        rvWorkspace = requireView().findViewById(R.id.rv_my_workspaces)
 //        rvWorkspace.setHasFixedSize(true)
@@ -95,5 +105,6 @@ class DashboardWorkspaceFragment : Fragment() {
             ViewModelProvider(this, ViewModelFactory(pref)).get(AuthViewModel::class.java)
         workspacesViewModel =
             ViewModelProvider(this).get(WorkspacesViewModel::class.java)
+        balanceViewModel = ViewModelProvider(this).get(BalanceViewModel::class.java)
     }
 }
