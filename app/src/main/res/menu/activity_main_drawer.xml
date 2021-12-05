@@ -10,11 +10,11 @@
             android:title="@string/menu_home" />
         <item
             android:id="@+id/nav_my_workspaces"
-            android:icon="@drawable/ic_menu_gallery"
+            android:icon="@drawable/ic_workspace"
             android:title="@string/my_workspaces" />
         <item
             android:id="@+id/nav_shared_workspaces"
-            android:icon="@drawable/ic_menu_gallery"
+            android:icon="@drawable/ic_workspace"
             android:title="@string/shared_workspaces" />
         <item
             android:id="@+id/nav_settings"
