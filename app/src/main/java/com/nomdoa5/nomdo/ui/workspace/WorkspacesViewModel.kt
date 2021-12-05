@@ -7,10 +7,7 @@ import com.nomdoa5.nomdo.repository.model.User
 import com.nomdoa5.nomdo.repository.model.Workspace
 import com.nomdoa5.nomdo.repository.model.request.workspace.UpdateWorkspaceRequest
 import com.nomdoa5.nomdo.repository.model.request.workspace.WorkspaceRequest
-import com.nomdoa5.nomdo.repository.model.response.workspace.CreateWorkspaceResponse
-import com.nomdoa5.nomdo.repository.model.response.workspace.DetailWorkspaceResponse
-import com.nomdoa5.nomdo.repository.model.response.workspace.MemberWorkspaceResponse
-import com.nomdoa5.nomdo.repository.model.response.workspace.WorkspaceResponse
+import com.nomdoa5.nomdo.repository.model.response.workspace.*
 import com.nomdoa5.nomdo.repository.remote.ApiService
 import com.nomdoa5.nomdo.repository.remote.RetrofitClient
 import retrofit2.Call
@@ -22,6 +19,7 @@ class WorkspacesViewModel : ViewModel() {
     private val detailWorkspace = MutableLiveData<Workspace>()
     private val memberWorkspace = MutableLiveData<ArrayList<User>>()
     private val createdWorkspace = MutableLiveData<Workspace>()
+    private val taskInformationWorkspace = MutableLiveData<TaskInformationWorkspaceResponse>()
     private val workspaceState = MutableLiveData<Boolean>()
     private val addWorkspaceState = MutableLiveData<Boolean>()
     private val updateWorkspaceState = MutableLiveData<Boolean>()
@@ -37,7 +35,7 @@ class WorkspacesViewModel : ViewModel() {
                 call: Call<WorkspaceResponse>,
                 response: Response<WorkspaceResponse>
             ) {
-                if(!response.code().equals(500)) {
+                if (!response.code().equals(500)) {
                     listWorkspace.postValue(response.body()!!.workspace)
                     workspaceState.postValue(true)
                 }
@@ -58,11 +56,12 @@ class WorkspacesViewModel : ViewModel() {
                 call: Call<DetailWorkspaceResponse>,
                 response: Response<DetailWorkspaceResponse>
             ) {
-                if(!response.code().equals(500)) {
+                if (!response.code().equals(500)) {
                     detailWorkspace.postValue(response.body()!!.workspace)
                     workspaceState.postValue(true)
                 }
             }
+
             override fun onFailure(call: Call<DetailWorkspaceResponse>, t: Throwable) {
                 workspaceState.postValue(false)
             }
@@ -78,12 +77,34 @@ class WorkspacesViewModel : ViewModel() {
                 call: Call<MemberWorkspaceResponse>,
                 response: Response<MemberWorkspaceResponse>
             ) {
-                if(!response.code().equals(500)) {
+                if (!response.code().equals(500)) {
                     memberWorkspace.postValue(response.body()!!.member)
                     workspaceState.postValue(true)
                 }
             }
+
             override fun onFailure(call: Call<MemberWorkspaceResponse>, t: Throwable) {
+                workspaceState.postValue(false)
+            }
+        })
+    }
+
+    fun setTaskInfo(token: String, workspaceId: String) {
+        val service = RetrofitClient.buildService(ApiService::class.java)
+        val requestCall = service.getWorkspaceTaskInfo(token = "Bearer $token", workspaceId)
+
+        requestCall.enqueue(object : Callback<TaskInformationWorkspaceResponse> {
+            override fun onResponse(
+                call: Call<TaskInformationWorkspaceResponse>,
+                response: Response<TaskInformationWorkspaceResponse>
+            ) {
+                if (response.code() != 500) {
+                    taskInformationWorkspace.postValue(response.body()!!)
+                    workspaceState.postValue(true)
+                }
+            }
+
+            override fun onFailure(call: Call<TaskInformationWorkspaceResponse>, t: Throwable) {
                 workspaceState.postValue(false)
             }
         })
@@ -164,35 +185,22 @@ class WorkspacesViewModel : ViewModel() {
         })
     }
 
-    fun getWorkspaceState(): LiveData<Boolean> {
-        return workspaceState
-    }
+    fun getWorkspaceState(): LiveData<Boolean> = workspaceState
 
-    fun getAddWorkspaceState(): LiveData<Boolean> {
-        return addWorkspaceState
-    }
+    fun getAddWorkspaceState(): LiveData<Boolean> = addWorkspaceState
 
-    fun getUpdateWorkspaceState(): LiveData<Boolean> {
-        return updateWorkspaceState
-    }
+    fun getUpdateWorkspaceState(): LiveData<Boolean> = updateWorkspaceState
 
-    fun getDeleteWorkspaceState(): LiveData<Boolean> {
-        return deleteWorkspaceState
-    }
+    fun getDeleteWorkspaceState(): LiveData<Boolean> = deleteWorkspaceState
 
-    fun getWorkspace(): LiveData<ArrayList<Workspace>> {
-        return listWorkspace
-    }
+    fun getWorkspace(): LiveData<ArrayList<Workspace>> = listWorkspace
 
-    fun getWorkspaceDetail(): LiveData<Workspace> {
-        return detailWorkspace
-    }
+    fun getWorkspaceDetail(): LiveData<Workspace> = detailWorkspace
 
-    fun getCreatedWorkspace(): LiveData<Workspace> {
-        return createdWorkspace
-    }
+    fun getTaskInfo(): LiveData<TaskInformationWorkspaceResponse> =
+        taskInformationWorkspace
 
-    fun getMemberWorkspace(): LiveData<ArrayList<User>> {
-        return memberWorkspace
-    }
+    fun getCreatedWorkspace(): LiveData<Workspace> = createdWorkspace
+
+    fun getMemberWorkspace(): LiveData<ArrayList<User>> = memberWorkspace
 }

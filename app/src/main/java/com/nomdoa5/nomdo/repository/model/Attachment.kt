@@ -6,8 +6,9 @@ import kotlinx.parcelize.Parcelize
 
 @Parcelize
 data class Attachment(
-    @SerializedName("id_attachment")
-    val idAttachment: Int,
+    val id: Int,
     @SerializedName("file_path")
-    val filePath: String? = null,
+    val filePath: String,
+    @SerializedName("balance_id")
+    val balanceId: Int,
 ) : Parcelable

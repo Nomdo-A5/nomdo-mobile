@@ -5,23 +5,16 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.preferencesDataStore
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
-import androidx.navigation.Navigation
-import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.RecyclerView
-import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
-import com.google.android.material.snackbar.Snackbar
 import com.nomdoa5.nomdo.R
 import com.nomdoa5.nomdo.databinding.FragmentDashboardWorkspaceBinding
-import com.nomdoa5.nomdo.databinding.FragmentMyWorkspacesBinding
-import com.nomdoa5.nomdo.databinding.FragmentProfileWorkspaceBinding
 import com.nomdoa5.nomdo.helpers.ViewModelFactory
-import com.nomdoa5.nomdo.helpers.adapter.WorkspaceAdapter
 import com.nomdoa5.nomdo.repository.local.UserPreferences
 import com.nomdoa5.nomdo.repository.model.Workspace
 import com.nomdoa5.nomdo.ui.auth.AuthViewModel
@@ -37,17 +30,16 @@ class DashboardWorkspaceFragment : Fragment() {
     private lateinit var workspaceName: Array<String>
     private lateinit var workspaceCreator: Array<String>
     private lateinit var rvWorkspace: RecyclerView
+    private val args: DashboardWorkspaceFragmentArgs by navArgs()
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-
         _binding = FragmentDashboardWorkspaceBinding.inflate(inflater, container, false)
-        val root: View = binding.root
 
-
-        return root
+        return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -75,6 +67,17 @@ class DashboardWorkspaceFragment : Fragment() {
         }
     }
 
+    fun setupDashboard() {
+        authViewModel.getAuthToken().observe(viewLifecycleOwner, {
+            workspacesViewModel.setTaskInfo(it!!, args.workspace.id.toString())
+
+        })
+
+        workspacesViewModel.getTaskInfo().observe(viewLifecycleOwner, {
+            binding.tvCompletedTask.text = it.taskDone.toString()
+            binding.tvPendingTask.text = (it.taskCount!! - it.taskDone!!).toString()
+        })
+    }
     fun setupRecyclerView() {
 //        rvWorkspace = requireView().findViewById(R.id.rv_my_workspaces)
 //        rvWorkspace.setHasFixedSize(true)

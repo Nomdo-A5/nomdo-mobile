@@ -56,20 +56,20 @@ class BoardsFragment : Fragment(), BoardAdapter.OnBoardClickListener,
         return root
     }
 
-    override fun onAttach(context: Context) {
-        super.onAttach(context)
-        (activity as MainActivity?)!!.setupToolbarWorkspace(
-            args.workspace.workspaceName!!,
-            args.workspace
-        )
-    }
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding.swipeMyBoards.setOnRefreshListener(this)
         setupViewModel()
         setData()
         setupRecyclerView()
+    }
+
+    override fun onResume() {
+        super.onResume()
+        (activity as MainActivity?)!!.setupToolbarWorkspace(
+            args.workspace.workspaceName!!,
+            args.workspace
+        )
     }
 
     override fun onDestroyView() {
@@ -141,7 +141,6 @@ class BoardsFragment : Fragment(), BoardAdapter.OnBoardClickListener,
     }
 
     override fun onBoardLongClick(data: Board) {
-        Toast.makeText(requireContext(), "Longpress ${data.id}", Toast.LENGTH_SHORT).show()
         val addBoardFragment = UpdateBoardDialogFragment()
         val bundle = Bundle()
         bundle.putParcelable("EXTRA_BOARD", data)

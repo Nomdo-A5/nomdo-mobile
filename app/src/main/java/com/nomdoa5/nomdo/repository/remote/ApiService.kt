@@ -14,6 +14,7 @@ import com.nomdoa5.nomdo.repository.model.request.workspace.UpdateWorkspaceReque
 import com.nomdoa5.nomdo.repository.model.request.workspace.WorkspaceRequest
 import com.nomdoa5.nomdo.repository.model.response.*
 import com.nomdoa5.nomdo.repository.model.response.balance.BalanceResponse
+import com.nomdoa5.nomdo.repository.model.response.balance.CreateBalanceResponse
 import com.nomdoa5.nomdo.repository.model.response.balance.ReportOverviewResponse
 import com.nomdoa5.nomdo.repository.model.response.balance.ReportResponse
 import com.nomdoa5.nomdo.repository.model.response.board.BoardResponse
@@ -22,6 +23,8 @@ import com.nomdoa5.nomdo.repository.model.response.board.TaskInformationBoardRes
 import com.nomdoa5.nomdo.repository.model.response.task.CreateTaskResponse
 import com.nomdoa5.nomdo.repository.model.response.task.TaskResponse
 import com.nomdoa5.nomdo.repository.model.response.workspace.*
+import okhttp3.MultipartBody
+import okhttp3.RequestBody
 import retrofit2.Call
 import retrofit2.http.*
 
@@ -61,6 +64,12 @@ interface ApiService {
         @Query("id") id: String,
     ): Call<DetailWorkspaceResponse>
 
+    @GET("workspace/task-information")
+    fun getWorkspaceTaskInfo(
+        @Header("Authorization") token: String,
+        @Query("workspace_id") workspaceId: String,
+    ): Call<TaskInformationWorkspaceResponse>
+
     @POST("workspace")
     fun addWorkspace(
         @Header("Authorization") token: String,
@@ -79,7 +88,7 @@ interface ApiService {
         @Query("id") id: String,
     ): Call<WorkspaceResponse>
 
-    @GET("workspace/join")
+    @GET("join")
     fun joinWorkspace(
         @Header("Authorization") token: String,
         @Query("url_join") urlJoin: String,
@@ -196,7 +205,7 @@ interface ApiService {
     fun addBalance(
         @Header("Authorization") token: String,
         @Body task: BalanceRequest
-    ): Call<BalanceResponse>
+    ): Call<CreateBalanceResponse>
 
     @PATCH("balance")
     fun updateBalance(
@@ -209,4 +218,13 @@ interface ApiService {
         @Header("Authorization") token: String,
         @Query("id") id: String,
     ): Call<BalanceResponse>
+
+    //    ATTACHMENT
+    @Multipart
+    @POST("attachment")
+    fun addAttachment(
+        @Header("Authorization") token: String,
+        @Part file_path: MultipartBody.Part,
+        @Part("balance_id") balanceId: RequestBody
+    ): Call<AddAttachmentResponse>
 }

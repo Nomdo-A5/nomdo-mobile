@@ -48,7 +48,6 @@ class TaskFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener,
     ): View {
         _binding = FragmentTaskBinding.inflate(inflater, container, false)
         val root: View = binding.root
-        (activity as MainActivity?)!!.setupToolbarBoard(args.board.boardName!!, args.workspaceName)
 
         return root
     }
@@ -65,7 +64,12 @@ class TaskFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener,
         _binding = null
     }
 
-    fun setupRecyclerView(){
+    override fun onResume() {
+        super.onResume()
+        (activity as MainActivity?)!!.setupToolbarBoard(args.board.boardName!!, args.workspaceName)
+    }
+
+    fun setupRecyclerView() {
         binding.swipeMyTask.isRefreshing = true
         rvTask = requireView().findViewById(R.id.rv_tasks)
         rvTask.setHasFixedSize(true)
@@ -109,13 +113,20 @@ class TaskFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener,
 
     override fun onCbTaskClick(data: Task) {
         var check: Int? = data.isDone
-        if(check!! > 0){
-            check = 0
-        }else{
-            check = 1
+        check = if (check!! > 0) {
+            0
+        } else {
+            1
         }
 
-        val task = UpdateTaskRequest(data.id, data.taskName, data.taskDescription, data.dueDate, check, data.isFinishedBy)
+        val task = UpdateTaskRequest(
+            data.id,
+            data.taskName,
+            data.taskDescription,
+            data.dueDate,
+            check,
+            data.isFinishedBy
+        )
 
         authViewModel.getAuthToken().observe(viewLifecycleOwner, {
             taskViewModel.updateTask(it!!, task)

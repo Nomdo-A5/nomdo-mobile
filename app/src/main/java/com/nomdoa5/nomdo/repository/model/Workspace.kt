@@ -11,4 +11,6 @@ data class Workspace(
     val workspaceName: String? = null,
     @SerializedName("workspace_description")
     val workspaceDescription: String? = null,
+    @SerializedName("url_join")
+    val urlJoin: String? = null,
 ) : Parcelable

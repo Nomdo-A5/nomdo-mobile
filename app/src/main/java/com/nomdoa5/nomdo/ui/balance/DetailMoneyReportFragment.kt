@@ -32,7 +32,7 @@ import java.util.*
 
 private val Context.dataStore: DataStore<Preferences> by preferencesDataStore(name = "auth")
 
-class DetailMoneyReportFragment : Fragment() {
+class DetailMoneyReportFragment : Fragment(),  BalanceAdapter.OnBalanceClickListener {
     private lateinit var balanceViewModel: BalanceViewModel
     private lateinit var boardsViewModel: BoardViewModel
     private lateinit var authViewModel: AuthViewModel
@@ -64,7 +64,7 @@ class DetailMoneyReportFragment : Fragment() {
     }
 
     fun setupRecyclerView() {
-        balanceAdapter = BalanceAdapter(requireContext())
+        balanceAdapter = BalanceAdapter(requireContext(), this)
         rvBalance = requireView().findViewById(R.id.rv_type_detail_balance)
         rvBalance.setHasFixedSize(true)
         rvBalance.layoutManager = LinearLayoutManager(context)
@@ -124,5 +124,13 @@ class DetailMoneyReportFragment : Fragment() {
         boardsViewModel =
             ViewModelProvider(this).get(BoardViewModel::class.java)
         balanceViewModel = ViewModelProvider(this).get(BalanceViewModel::class.java)
+    }
+
+    override fun onBalanceClick(data: Balance) {
+        val updateBalanceDialogFragment = UpdateBalanceDialogFragment()
+        val bundle = Bundle()
+        bundle.putParcelable("EXTRA_BALANCE", data)
+        updateBalanceDialogFragment.arguments = bundle
+        updateBalanceDialogFragment.show(requireActivity().supportFragmentManager, "Update Balance")
     }
 }

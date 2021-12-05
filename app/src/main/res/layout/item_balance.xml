@@ -21,15 +21,19 @@
         app:layout_constraintVertical_bias="0.7" />
 
     <TextView
+        android:ellipsize="end"
+        android:maxLines="1"
         android:id="@+id/tv_description_balance"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginEnd="8dp"
+        android:fontFamily="@font/roboto_regular"
         android:text="Dana Manajemen"
         android:textColor="@color/black_50t"
-        android:fontFamily="@font/roboto_regular"
-        android:layout_marginStart="8dp"
         android:textSize="16sp"
         app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/tv_nominal_balance"
         app:layout_constraintStart_toEndOf="@+id/tv_date_balance"
         app:layout_constraintTop_toTopOf="parent" />
 
