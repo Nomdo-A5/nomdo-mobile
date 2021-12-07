@@ -3,6 +3,7 @@ package com.nomdoa5.nomdo.ui.workspace
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.nomdoa5.nomdo.helpers.LoadingState
 import com.nomdoa5.nomdo.repository.model.User
 import com.nomdoa5.nomdo.repository.model.Workspace
 import com.nomdoa5.nomdo.repository.model.request.workspace.UpdateWorkspaceRequest
@@ -10,6 +11,8 @@ import com.nomdoa5.nomdo.repository.model.request.workspace.WorkspaceRequest
 import com.nomdoa5.nomdo.repository.model.response.workspace.*
 import com.nomdoa5.nomdo.repository.remote.ApiService
 import com.nomdoa5.nomdo.repository.remote.RetrofitClient
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -21,12 +24,11 @@ class WorkspacesViewModel : ViewModel() {
     private val memberWorkspace = MutableLiveData<ArrayList<User>>()
     private val createdWorkspace = MutableLiveData<Workspace>()
     private val taskInformationWorkspace = MutableLiveData<TaskInformationWorkspaceResponse>()
-    private val workspaceState = MutableLiveData<Boolean>()
-    private val addWorkspaceState = MutableLiveData<Boolean>()
-    private val updateWorkspaceState = MutableLiveData<Boolean>()
-    private val deleteWorkspaceState = MutableLiveData<Boolean>()
+    private val _workspaceState = MutableStateFlow<LoadingState>(LoadingState.Empty)
+    val workspaceState: StateFlow<LoadingState> = _workspaceState
 
     fun setWorkspace(token: String) {
+        _workspaceState.value = LoadingState.Loading
         val service = RetrofitClient.buildService(ApiService::class.java)
         val requestCall = service.getWorkspace(token = "Bearer $token")
 
@@ -36,20 +38,23 @@ class WorkspacesViewModel : ViewModel() {
                 call: Call<WorkspaceResponse>,
                 response: Response<WorkspaceResponse>
             ) {
-                if (!response.code().equals(500)) {
+                if (response.code() < 300) {
                     listWorkspace.postValue(response.body()!!.workspace)
                     countWorkspace.postValue(response.body()!!.workspace.size)
-                    workspaceState.postValue(true)
+                    _workspaceState.value = LoadingState.Success
+                }else{
+                    _workspaceState.value = LoadingState.Error("Error ${response.code()}")
                 }
             }
 
             override fun onFailure(call: Call<WorkspaceResponse>, t: Throwable) {
-                workspaceState.postValue(false)
+                _workspaceState.value = LoadingState.Error("onFailure Server")
             }
         })
     }
 
     fun setDetailWorkspace(token: String, id: String) {
+        _workspaceState.value = LoadingState.Success
         val service = RetrofitClient.buildService(ApiService::class.java)
         val requestCall = service.getDetailWorkspace(token = "Bearer $token", id)
 
@@ -58,19 +63,22 @@ class WorkspacesViewModel : ViewModel() {
                 call: Call<DetailWorkspaceResponse>,
                 response: Response<DetailWorkspaceResponse>
             ) {
-                if (!response.code().equals(500)) {
+                if (response.code() < 300) {
                     detailWorkspace.postValue(response.body()!!.workspace)
-                    workspaceState.postValue(true)
+                    _workspaceState.value = LoadingState.Success
+                }else{
+                    _workspaceState.value = LoadingState.Error("Error ${response.code()}")
                 }
             }
 
             override fun onFailure(call: Call<DetailWorkspaceResponse>, t: Throwable) {
-                workspaceState.postValue(false)
+                _workspaceState.value = LoadingState.Error("onFailure Server")
             }
         })
     }
 
     fun setMemberWorkspace(token: String, id: String) {
+        _workspaceState.value = LoadingState.Loading
         val service = RetrofitClient.buildService(ApiService::class.java)
         val requestCall = service.getMemberWorkspace(token = "Bearer $token", id)
 
@@ -79,19 +87,22 @@ class WorkspacesViewModel : ViewModel() {
                 call: Call<MemberWorkspaceResponse>,
                 response: Response<MemberWorkspaceResponse>
             ) {
-                if (!response.code().equals(500)) {
+                if (response.code() < 300) {
                     memberWorkspace.postValue(response.body()!!.member)
-                    workspaceState.postValue(true)
+                    _workspaceState.value = LoadingState.Success
+                }else{
+                    _workspaceState.value = LoadingState.Error("Error ${response.code()}")
                 }
             }
 
             override fun onFailure(call: Call<MemberWorkspaceResponse>, t: Throwable) {
-                workspaceState.postValue(false)
+                _workspaceState.value = LoadingState.Error("onFailure Server")
             }
         })
     }
 
     fun setTaskInfo(token: String, workspaceId: String) {
+        _workspaceState.value = LoadingState.Loading
         val service = RetrofitClient.buildService(ApiService::class.java)
         val requestCall = service.getWorkspaceTaskInfo(token = "Bearer $token", workspaceId)
 
@@ -100,19 +111,22 @@ class WorkspacesViewModel : ViewModel() {
                 call: Call<TaskInformationWorkspaceResponse>,
                 response: Response<TaskInformationWorkspaceResponse>
             ) {
-                if (response.code() != 500) {
+                if (response.code() < 300) {
                     taskInformationWorkspace.postValue(response.body()!!)
-                    workspaceState.postValue(true)
+                    _workspaceState.value = LoadingState.Success
+                }else{
+                    _workspaceState.value = LoadingState.Error("Error ${response.code()}")
                 }
             }
 
             override fun onFailure(call: Call<TaskInformationWorkspaceResponse>, t: Throwable) {
-                workspaceState.postValue(false)
+                _workspaceState.value = LoadingState.Error("onFailure Server")
             }
         })
     }
 
     fun addWorkspace(token: String, newWorkspace: WorkspaceRequest) {
+        _workspaceState.value = LoadingState.Loading
         val service = RetrofitClient.buildService(ApiService::class.java)
         val requestCall = service.addWorkspace(token = "Bearer $token", newWorkspace)
 
@@ -121,17 +135,22 @@ class WorkspacesViewModel : ViewModel() {
                 call: Call<CreateWorkspaceResponse>,
                 response: Response<CreateWorkspaceResponse>
             ) {
-                createdWorkspace.postValue(response.body()!!.workspace)
-                addWorkspaceState.postValue(true)
+                if (response.code() < 300) {
+                    createdWorkspace.postValue(response.body()!!.workspace)
+                    _workspaceState.value = LoadingState.Success
+                } else {
+                    _workspaceState.value = LoadingState.Error("Error ${response.code()}")
+                }
             }
 
             override fun onFailure(call: Call<CreateWorkspaceResponse>, t: Throwable) {
-                addWorkspaceState.postValue(false)
+                _workspaceState.value = LoadingState.Error("onFailure Server")
             }
         })
     }
 
     fun updateWorkspace(token: String, workspace: UpdateWorkspaceRequest) {
+        _workspaceState.value = LoadingState.Loading
         val service = RetrofitClient.buildService(ApiService::class.java)
         val requestCall = service.updateWorkspace(token = "Bearer $token", workspace)
 
@@ -140,16 +159,21 @@ class WorkspacesViewModel : ViewModel() {
                 call: Call<CreateWorkspaceResponse>,
                 response: Response<CreateWorkspaceResponse>
             ) {
-                updateWorkspaceState.value = true
+                if (response.code() < 300) {
+                    _workspaceState.value = LoadingState.Success
+                } else {
+                    _workspaceState.value = LoadingState.Error("Error ${response.code()}")
+                }
             }
 
             override fun onFailure(call: Call<CreateWorkspaceResponse>, t: Throwable) {
-                updateWorkspaceState.value = false
+                _workspaceState.value = LoadingState.Error("onFailure Server")
             }
         })
     }
 
     fun deleteWorkspace(token: String, id: String) {
+        _workspaceState.value = LoadingState.Loading
         val service = RetrofitClient.buildService(ApiService::class.java)
         val requestCall = service.deleteWorkspace(token = "Bearer $token", id)
 
@@ -158,16 +182,21 @@ class WorkspacesViewModel : ViewModel() {
                 call: Call<WorkspaceResponse>,
                 response: Response<WorkspaceResponse>
             ) {
-                deleteWorkspaceState.value = true
+                if (response.code() < 300) {
+                    _workspaceState.value = LoadingState.Success
+                } else {
+                    _workspaceState.value = LoadingState.Error("Error ${response.code()}")
+                }
             }
 
             override fun onFailure(call: Call<WorkspaceResponse>, t: Throwable) {
-                deleteWorkspaceState.value = false
+                _workspaceState.value = LoadingState.Error("onFailure Server")
             }
         })
     }
 
     fun joinWorkspace(token: String, urlJoin: String, memberId: String) {
+        _workspaceState.value = LoadingState.Loading
         val service = RetrofitClient.buildService(ApiService::class.java)
         val requestCall = service.joinWorkspace(token = "Bearer $token", urlJoin, memberId)
 
@@ -177,34 +206,26 @@ class WorkspacesViewModel : ViewModel() {
                 call: Call<CreateWorkspaceResponse>,
                 response: Response<CreateWorkspaceResponse>
             ) {
-                detailWorkspace.postValue(response.body()!!.workspace)
-                workspaceState.postValue(true)
+                if (response.code() < 300) {
+                    detailWorkspace.postValue(response.body()!!.workspace)
+                    _workspaceState.value = LoadingState.Success
+                } else {
+                    _workspaceState.value = LoadingState.Error("Error ${response.code()}")
+                }
             }
 
             override fun onFailure(call: Call<CreateWorkspaceResponse>, t: Throwable) {
-                workspaceState.postValue(false)
+                _workspaceState.value = LoadingState.Error("onFailure Server")
             }
         })
     }
-
-    fun getWorkspaceState(): LiveData<Boolean> = workspaceState
-
-    fun getAddWorkspaceState(): LiveData<Boolean> = addWorkspaceState
-
-    fun getUpdateWorkspaceState(): LiveData<Boolean> = updateWorkspaceState
-
-    fun getDeleteWorkspaceState(): LiveData<Boolean> = deleteWorkspaceState
 
     fun getWorkspace(): LiveData<ArrayList<Workspace>> = listWorkspace
 
     fun getWorkspaceCount(): LiveData<Int> = countWorkspace
 
-    fun getWorkspaceDetail(): LiveData<Workspace> = detailWorkspace
-
     fun getTaskInfo(): LiveData<TaskInformationWorkspaceResponse> =
         taskInformationWorkspace
-
-    fun getCreatedWorkspace(): LiveData<Workspace> = createdWorkspace
 
     fun getMemberWorkspace(): LiveData<ArrayList<User>> = memberWorkspace
 }

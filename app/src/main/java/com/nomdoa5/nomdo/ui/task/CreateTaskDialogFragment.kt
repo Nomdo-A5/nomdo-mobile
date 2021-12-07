@@ -19,15 +19,20 @@ import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.preferencesDataStore
 import androidx.fragment.app.DialogFragment
 import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.lifecycleScope
+import com.google.android.material.snackbar.Snackbar
 import com.nomdoa5.nomdo.R
 import com.nomdoa5.nomdo.databinding.DialogFragmentCreateTaskBinding
+import com.nomdoa5.nomdo.helpers.LoadingState
 import com.nomdoa5.nomdo.helpers.ViewModelFactory
 import com.nomdoa5.nomdo.repository.local.UserPreferences
 import com.nomdoa5.nomdo.ui.auth.AuthViewModel
 import com.nomdoa5.nomdo.repository.model.Board
 import com.nomdoa5.nomdo.repository.model.request.task.TaskRequest
+import com.nomdoa5.nomdo.ui.MainActivity
 import com.nomdoa5.nomdo.ui.board.BoardViewModel
 import com.nomdoa5.nomdo.ui.workspace.WorkspacesViewModel
+import kotlinx.coroutines.flow.collect
 
 
 private val Context.dataStore: DataStore<Preferences> by preferencesDataStore(name = "auth")
@@ -75,8 +80,6 @@ class CreateTaskDialogFragment : DialogFragment(), View.OnClickListener {
     override fun onClick(v: View?) {
         when (v) {
             binding.btnAddTask -> {
-                binding.btnAddTask.startAnimation()
-
                 val taskName = binding.editNameAddTask.text.toString()
                 val taskDescription = binding.editDescAddTask.text.toString()
                 val task = TaskRequest(taskName, taskDescription, spinnerBoardPosition)
@@ -84,23 +87,24 @@ class CreateTaskDialogFragment : DialogFragment(), View.OnClickListener {
                     taskViewModel.addTask(it!!, task)
                 })
 
-                taskViewModel.getAddTaskState().observe(this, {
-                    if (it) {
-                        Toast.makeText(requireContext(), "Task Added", Toast.LENGTH_SHORT).show()
-                        binding.btnAddTask.doneLoadingAnimation(
-                            resources.getColor(R.color.teal_200),
-                            ContextCompat.getDrawable(requireContext(), R.drawable.ic_check)!!
-                                .toBitmap()
-                        )
-                        Handler(Looper.getMainLooper()).postDelayed({
-                            dismiss()
-                        }, 1000)
-                    } else {
-                        binding.btnAddTask.revertAnimation()
-                        Toast.makeText(requireContext(), "Add Task Failed!!", Toast.LENGTH_SHORT).show()
+                viewLifecycleOwner.lifecycleScope.launchWhenCreated {
+                    taskViewModel.taskState.collect {
+                        when (it) {
+                            is LoadingState.Loading -> {
+                                binding.btnAddTask.startAnimation()
+                            }
+                            is LoadingState.Success -> {
+                                (activity as MainActivity?)!!.showSnackbar("Task Created")
+                                dismiss()
+                            }
+                            is LoadingState.Error -> {
+                                binding.btnAddTask.revertAnimation()
+                                showSnackbar(it.message)
+                            }
+                            else -> Unit
+                        }
                     }
-                })
-
+                }
             }
             binding.imgCloseAddTask -> {
                 dismiss()
@@ -117,7 +121,11 @@ class CreateTaskDialogFragment : DialogFragment(), View.OnClickListener {
         workspacesViewModel = ViewModelProvider(this).get(WorkspacesViewModel::class.java)
     }
 
-    fun setupSpinner() {
+    private fun showSnackbar(message: String) {
+        Snackbar.make(requireView(), message, Snackbar.LENGTH_SHORT).show()
+    }
+
+    private fun setupSpinner() {
         authViewModel.getAuthToken().observe(this, {
             workspacesViewModel.setWorkspace(it!!)
         })
@@ -137,35 +145,29 @@ class CreateTaskDialogFragment : DialogFragment(), View.OnClickListener {
             binding.spinnerWorkspaceAddTask.setAdapter(workspaceAdapter)
         })
 
-        binding.spinnerWorkspaceAddTask.setOnItemClickListener(object :
-            AdapterView.OnItemClickListener {
-            override fun onItemClick(p0: AdapterView<*>?, p1: View?, position: Int, p3: Long) {
-                spinnerWorkspacePosition = workspaceAdapterId[position].toInt()
-                authViewModel.getAuthToken().observe(this@CreateTaskDialogFragment, {
-                    boardsViewModel.setBoard(it!!, spinnerWorkspacePosition.toString())
-                })
-                boardsViewModel.getBoard().observe(this@CreateTaskDialogFragment, {
-                    val boardName = ArrayList<String>()
-                    for (i in it) {
-                        boardName.add(i.boardName!!)
-                        boardAdapterId.add(i.id.toString())
-                    }
-                    val boardAdapter =
-                        NoFilterAdapter(
-                            requireContext(),
-                            R.layout.item_dropdown,
-                            boardName.toArray(Array<String?>(boardName.size) { null })
-                        )
-                    binding.spinnerBoardAddTask.setAdapter(boardAdapter)
-                })
-            }
-        })
+        binding.spinnerWorkspaceAddTask.setOnItemClickListener { _, _, position, _ ->
+            spinnerWorkspacePosition = workspaceAdapterId[position].toInt()
+            authViewModel.getAuthToken().observe(this@CreateTaskDialogFragment, {
+                boardsViewModel.setBoard(it!!, spinnerWorkspacePosition.toString())
+            })
+            boardsViewModel.getBoard().observe(this@CreateTaskDialogFragment, {
+                val boardName = ArrayList<String>()
+                for (i in it) {
+                    boardName.add(i.boardName!!)
+                    boardAdapterId.add(i.id.toString())
+                }
+                val boardAdapter =
+                    NoFilterAdapter(
+                        requireContext(),
+                        R.layout.item_dropdown,
+                        boardName.toArray(Array<String?>(boardName.size) { null })
+                    )
+                binding.spinnerBoardAddTask.setAdapter(boardAdapter)
+            })
+        }
 
-        binding.spinnerBoardAddTask.setOnItemClickListener(object :
-            AdapterView.OnItemClickListener {
-            override fun onItemClick(p0: AdapterView<*>?, p1: View?, position: Int, p3: Long) {
-                spinnerBoardPosition = boardAdapterId[position].toInt()
-            }
-        })
+        binding.spinnerBoardAddTask.setOnItemClickListener { _, _, position, _ ->
+            spinnerBoardPosition = boardAdapterId[position].toInt()
+        }
     }
 }

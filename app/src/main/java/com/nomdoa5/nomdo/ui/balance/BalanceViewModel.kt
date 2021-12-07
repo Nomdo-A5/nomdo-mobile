@@ -3,6 +3,7 @@ package com.nomdoa5.nomdo.ui.balance
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.nomdoa5.nomdo.helpers.LoadingState
 import com.nomdoa5.nomdo.repository.model.Balance
 import com.nomdoa5.nomdo.repository.model.request.balance.BalanceRequest
 import com.nomdoa5.nomdo.repository.model.request.balance.UpdateBalanceRequest
@@ -13,6 +14,8 @@ import com.nomdoa5.nomdo.repository.model.response.balance.ReportOverviewRespons
 import com.nomdoa5.nomdo.repository.model.response.balance.ReportResponse
 import com.nomdoa5.nomdo.repository.remote.ApiService
 import com.nomdoa5.nomdo.repository.remote.RetrofitClient
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
 import retrofit2.Call
@@ -30,11 +33,9 @@ class BalanceViewModel : ViewModel() {
     private val overviewBalance = MutableLiveData<ReportOverviewResponse>()
     private val overviewPlannedBalance = MutableLiveData<ReportOverviewResponse>()
     private val overviewDoneBalance = MutableLiveData<ReportOverviewResponse>()
-    private val setBalanceState = MutableLiveData<Boolean>()
-    private val addBalanceState = MutableLiveData<Boolean>()
     private val addBalanceResponse = MutableLiveData<Balance>()
-    private val updateBalanceState = MutableLiveData<Boolean>()
-    private val deleteBalanceState = MutableLiveData<Boolean>()
+    private val _balanceState = MutableStateFlow<LoadingState>(LoadingState.Empty)
+    val balanceState: StateFlow<LoadingState> = _balanceState
 
     fun setBalance(
         token: String,
@@ -42,6 +43,7 @@ class BalanceViewModel : ViewModel() {
         isIncome: Int? = null,
         status: String? = null
     ) {
+        _balanceState.value = LoadingState.Loading
         val service = RetrofitClient.buildService(ApiService::class.java)
         val requestCall = service.getReport(token = "Bearer $token", idWorkspace, isIncome, status)
 
@@ -51,7 +53,7 @@ class BalanceViewModel : ViewModel() {
                 response: Response<ReportResponse>
             ) {
                 val responses = response.body()!!.balance
-                if (response.code() == 200) {
+                if (response.code() < 300) {
                     when {
                         isIncome == 1 && status == "Planned" -> {
                             listIncomePlannedBalance.postValue(responses)
@@ -75,14 +77,14 @@ class BalanceViewModel : ViewModel() {
                             listBalance.postValue(response.body()!!.balance)
                         }
                     }
-                    setBalanceState.postValue(true)
-                } else if (response.code() == 404) {
-                    setBalanceState.postValue(false)
+                    _balanceState.value = LoadingState.Success
+                } else {
+                    _balanceState.value = LoadingState.Error("Error ${response.code()}")
                 }
             }
 
             override fun onFailure(call: Call<ReportResponse>, t: Throwable) {
-                setBalanceState.postValue(false)
+                _balanceState.value = LoadingState.Error("onFailure Server")
             }
         })
     }
@@ -92,6 +94,7 @@ class BalanceViewModel : ViewModel() {
         idWorkspace: String,
         status: String? = null
     ) {
+        _balanceState.value = LoadingState.Loading
         val service = RetrofitClient.buildService(ApiService::class.java)
         val requestCall = service.getOverviewReport(token = "Bearer $token", idWorkspace, status)
 
@@ -102,7 +105,7 @@ class BalanceViewModel : ViewModel() {
             ) {
                 val responses = response.body()!!
 
-                if (response.code() == 200) {
+                if (response.code() < 300) {
                     when (status) {
                         "Planned" -> {
                             overviewPlannedBalance.postValue(responses)
@@ -114,19 +117,20 @@ class BalanceViewModel : ViewModel() {
                             overviewBalance.postValue(responses)
                         }
                     }
-                    setBalanceState.postValue(true)
-                } else if (response.code() == 404) {
-                    setBalanceState.postValue(false)
+                    _balanceState.value = LoadingState.Success
+                } else {
+                    _balanceState.value = LoadingState.Error("Error ${response.code()}")
                 }
             }
 
             override fun onFailure(call: Call<ReportOverviewResponse>, t: Throwable) {
-                setBalanceState.postValue(false)
+                _balanceState.value = LoadingState.Error("onFailure Server")
             }
         })
     }
 
     fun updateBalance(token: String, balance: UpdateBalanceRequest) {
+        _balanceState.value = LoadingState.Loading
         val service = RetrofitClient.buildService(ApiService::class.java)
         val requestCall = service.updateBalance(token = "Bearer $token", balance)
 
@@ -135,16 +139,21 @@ class BalanceViewModel : ViewModel() {
                 call: Call<BalanceResponse>,
                 response: Response<BalanceResponse>
             ) {
-                updateBalanceState.value = true
+                if (response.code() < 300) {
+                    _balanceState.value = LoadingState.Success
+                } else {
+                    _balanceState.value = LoadingState.Error("Error ${response.code()}")
+                }
             }
 
             override fun onFailure(call: Call<BalanceResponse>, t: Throwable) {
-                updateBalanceState.value = false
+                _balanceState.value = LoadingState.Error("onFailure Server")
             }
         })
     }
 
     fun deleteBalance(token: String, id: String) {
+        _balanceState.value = LoadingState.Loading
         val service = RetrofitClient.buildService(ApiService::class.java)
         val requestCall = service.deleteBalance(token = "Bearer $token", id)
 
@@ -153,17 +162,22 @@ class BalanceViewModel : ViewModel() {
                 call: Call<BalanceResponse>,
                 response: Response<BalanceResponse>
             ) {
-                deleteBalanceState.postValue(true)
+                if (response.code() < 300) {
+                    _balanceState.value = LoadingState.Success
+                } else {
+                    _balanceState.value = LoadingState.Error("Error ${response.code()}")
+                }
             }
 
             override fun onFailure(call: Call<BalanceResponse>, t: Throwable) {
-                deleteBalanceState.postValue(false)
+                _balanceState.value = LoadingState.Error("onFailure Server")
             }
         })
     }
 
 
     fun addBalance(token: String, newBalance: BalanceRequest) {
+        _balanceState.value = LoadingState.Loading
         val service = RetrofitClient.buildService(ApiService::class.java)
         val requestCall = service.addBalance(token = "Bearer $token", newBalance)
 
@@ -172,12 +186,16 @@ class BalanceViewModel : ViewModel() {
                 call: Call<CreateBalanceResponse>,
                 response: Response<CreateBalanceResponse>
             ) {
-                addBalanceState.postValue(true)
-                addBalanceResponse.postValue(response.body()!!.balance)
+                if (response.code() < 300) {
+                    addBalanceResponse.postValue(response.body()!!.balance)
+                    _balanceState.value = LoadingState.Success
+                } else {
+                    _balanceState.value = LoadingState.Error("Error ${response.code()}")
+                }
             }
 
             override fun onFailure(call: Call<CreateBalanceResponse>, t: Throwable) {
-                addBalanceState.postValue(false)
+                _balanceState.value = LoadingState.Error("onFailure Server")
             }
         })
     }
@@ -187,6 +205,7 @@ class BalanceViewModel : ViewModel() {
         attachment: MultipartBody.Part,
         balanceId: RequestBody,
     ) {
+        _balanceState.value = LoadingState.Loading
         val service = RetrofitClient.buildService(ApiService::class.java)
         val requestCall = service.addAttachment(token = "Bearer $token", attachment, balanceId)
 
@@ -195,17 +214,17 @@ class BalanceViewModel : ViewModel() {
                 call: Call<AddAttachmentResponse>,
                 response: Response<AddAttachmentResponse>
             ) {
-                addBalanceState.postValue(true)
+                if (response.code() < 300) {
+                    _balanceState.value = LoadingState.Success
+                } else {
+                    _balanceState.value = LoadingState.Error("Error ${response.code()}")
+                }
             }
 
             override fun onFailure(call: Call<AddAttachmentResponse>, t: Throwable) {
-                addBalanceState.postValue(false)
+                _balanceState.value = LoadingState.Error("onFailure Server")
             }
         })
-    }
-
-    fun getSetBalanceState(): LiveData<Boolean> {
-        return setBalanceState
     }
 
 
@@ -213,11 +232,11 @@ class BalanceViewModel : ViewModel() {
         return listBalance
     }
 
-    fun getIncomeBalance(): LiveData<ArrayList<Balance>>{
+    fun getIncomeBalance(): LiveData<ArrayList<Balance>> {
         return listIncomeBalance
     }
 
-    fun getOutcomeBalance(): LiveData<ArrayList<Balance>>{
+    fun getOutcomeBalance(): LiveData<ArrayList<Balance>> {
         return listOutcomeBalance
     }
 
@@ -237,31 +256,19 @@ class BalanceViewModel : ViewModel() {
         return listOutcomeDoneBalance
     }
 
-    fun getOverviewBalance(): LiveData<ReportOverviewResponse>{
+    fun getOverviewBalance(): LiveData<ReportOverviewResponse> {
         return overviewBalance
     }
 
-    fun getOverviewPlannedBalance(): LiveData<ReportOverviewResponse>{
+    fun getOverviewPlannedBalance(): LiveData<ReportOverviewResponse> {
         return overviewPlannedBalance
     }
 
-    fun getOverviewDoneBalance(): LiveData<ReportOverviewResponse>{
+    fun getOverviewDoneBalance(): LiveData<ReportOverviewResponse> {
         return overviewDoneBalance
-    }
-
-    fun getAddBalanceState(): LiveData<Boolean> {
-        return addBalanceState
     }
 
     fun getAddBalanceResponse(): LiveData<Balance> {
         return addBalanceResponse
-    }
-
-    fun getUpdateBalanceState(): LiveData<Boolean> {
-        return updateBalanceState
-    }
-
-    fun getDeleteBalanceState(): LiveData<Boolean> {
-        return deleteBalanceState
     }
 }

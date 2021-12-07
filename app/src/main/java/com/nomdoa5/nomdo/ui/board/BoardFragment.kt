@@ -2,32 +2,32 @@ package com.nomdoa5.nomdo.ui.board
 
 import android.content.Context
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.preferencesDataStore
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.Navigation
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+import com.google.android.material.snackbar.Snackbar
 import com.nomdoa5.nomdo.R
 import com.nomdoa5.nomdo.databinding.FragmentBoardsBinding
+import com.nomdoa5.nomdo.helpers.LoadingState
 import com.nomdoa5.nomdo.helpers.ViewModelFactory
 import com.nomdoa5.nomdo.helpers.adapter.BoardAdapter
 import com.nomdoa5.nomdo.repository.local.UserPreferences
 import com.nomdoa5.nomdo.repository.model.Board
-import com.nomdoa5.nomdo.repository.model.TaskProgress
 import com.nomdoa5.nomdo.ui.MainActivity
 import com.nomdoa5.nomdo.ui.auth.AuthViewModel
 import com.nomdoa5.nomdo.ui.task.TaskViewModel
-import okhttp3.internal.wait
+import kotlinx.coroutines.flow.collect
 
 private val Context.dataStore: DataStore<Preferences> by preferencesDataStore(name = "auth")
 
@@ -39,9 +39,6 @@ class BoardsFragment : Fragment(), BoardAdapter.OnBoardClickListener,
     private var _binding: FragmentBoardsBinding? = null
     private val binding get() = _binding!!
     private val boardAdapter = BoardAdapter(this)
-    private var boards = arrayListOf<Board>()
-    private lateinit var boardName: Array<String>
-    private lateinit var createdAt: Array<String>
     private lateinit var rvBoard: RecyclerView
     private val args: BoardsFragmentArgs by navArgs()
 
@@ -51,16 +48,14 @@ class BoardsFragment : Fragment(), BoardAdapter.OnBoardClickListener,
         savedInstanceState: Bundle?
     ): View {
         _binding = FragmentBoardsBinding.inflate(inflater, container, false)
-        val root: View = binding.root
 
-        return root
+        return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding.swipeMyBoards.setOnRefreshListener(this)
         setupViewModel()
-        setData()
         setupRecyclerView()
     }
 
@@ -77,28 +72,12 @@ class BoardsFragment : Fragment(), BoardAdapter.OnBoardClickListener,
         _binding = null
     }
 
-    fun setData() {
-        boardName = resources.getStringArray(R.array.name)
-        createdAt = resources.getStringArray(R.array.creator)
-
-
-        for (i in boardName.indices) {
-            val board = Board(
-                i,
-                boardName[i],
-                "Owned by " + createdAt[i],
-            )
-            boards.add(board)
-        }
-    }
-
     fun setupRecyclerView() {
         binding.swipeMyBoards.isRefreshing = true
         rvBoard = requireView().findViewById(R.id.rv_boards)
         rvBoard.setHasFixedSize(true)
         rvBoard.addItemDecoration(BoardAdapter.MarginItemDecoration(15))
         rvBoard.layoutManager = LinearLayoutManager(context)
-//        boardAdapter.setData(boards)
         authViewModel.getAuthToken().observe(viewLifecycleOwner, {
             boardViewModel.setBoard(it!!, args.workspace.id.toString())
         })
@@ -106,20 +85,12 @@ class BoardsFragment : Fragment(), BoardAdapter.OnBoardClickListener,
         boardViewModel.getBoard().observe(viewLifecycleOwner, {
             boardAdapter.setData(it)
             binding.swipeMyBoards.isRefreshing = false
+            if (it.isEmpty()) {
+                showEmpty(true)
+            } else {
+                showEmpty(false)
+            }
         })
-
-//        boardViewModel.getTaskInformationBoard().observe(viewLifecycleOwner, {
-//            Log.d("it111111111111", it.toString())
-//            boardAdapter.setTaskProgressData(it)
-//            boardAdapter.notifyDataSetChanged()
-//            Log.d("it222222222222222", it.toString())
-//        })
-
-//        taskViewModel.getListTaskProgress().observe(viewLifecycleOwner, {
-//            Log.d("Board Adapter 1", it.toString())
-//            boardAdapter.setTaskProgressData(it)
-//            Log.d("Board Adapter 2", it.toString())
-//        })
 
 
         rvBoard.adapter = boardAdapter
@@ -132,6 +103,16 @@ class BoardsFragment : Fragment(), BoardAdapter.OnBoardClickListener,
         boardViewModel =
             ViewModelProvider(this).get(BoardViewModel::class.java)
         taskViewModel = ViewModelProvider(this).get(TaskViewModel::class.java)
+    }
+
+    private fun showEmpty(state: Boolean) {
+        if (state) {
+            binding.imgEmptyBoard.visibility = View.VISIBLE
+            binding.tvEmptyBoard.visibility = View.VISIBLE
+        } else {
+            binding.imgEmptyBoard.visibility = View.GONE
+            binding.tvEmptyBoard.visibility = View.GONE
+        }
     }
 
     override fun onBoardClick(data: Board) {
@@ -153,10 +134,26 @@ class BoardsFragment : Fragment(), BoardAdapter.OnBoardClickListener,
             boardViewModel.setBoard(it!!, args.workspace.id.toString())
         })
 
-        boardViewModel.getSetBoardState().observe(viewLifecycleOwner, {
-            if (it) {
-                binding.swipeMyBoards.isRefreshing = false
+        viewLifecycleOwner.lifecycleScope.launchWhenCreated {
+            boardViewModel.boardState.collect {
+                when(it){
+                    is LoadingState.Loading -> {
+                        binding.swipeMyBoards.isRefreshing = true
+                    }
+                    is LoadingState.Success -> {
+                        binding.swipeMyBoards.isRefreshing = false
+                    }
+                    is LoadingState.Error -> {
+                        binding.swipeMyBoards.isRefreshing = false
+                        showSnackbar(it.message)
+                    }
+                    else -> Unit
+                }
             }
-        })
+        }
+    }
+
+    private fun showSnackbar(message: String) {
+        Snackbar.make(requireView(), message, Snackbar.LENGTH_SHORT).show()
     }
 }

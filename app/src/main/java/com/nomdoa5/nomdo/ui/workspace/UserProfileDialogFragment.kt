@@ -4,29 +4,19 @@ import android.content.Context
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
-import androidx.core.content.ContextCompat
-import androidx.core.graphics.drawable.toBitmap
 import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.preferencesDataStore
 import androidx.fragment.app.DialogFragment
 import androidx.lifecycle.ViewModelProvider
-import com.nomdoa5.nomdo.R
-import com.nomdoa5.nomdo.databinding.DialogFragmentCreateWorkspaceBinding
 import com.nomdoa5.nomdo.databinding.DialogUserProfileWorkspaceBinding
 import com.nomdoa5.nomdo.helpers.ViewModelFactory
 import com.nomdoa5.nomdo.repository.local.UserPreferences
 import com.nomdoa5.nomdo.repository.model.User
-import com.nomdoa5.nomdo.repository.model.Workspace
-import com.nomdoa5.nomdo.repository.model.request.ReportRequest
 import com.nomdoa5.nomdo.ui.auth.AuthViewModel
-import com.nomdoa5.nomdo.repository.model.request.workspace.WorkspaceRequest
-import com.nomdoa5.nomdo.ui.balance.MoneyReportViewModel
 
 
 private val Context.dataStore: DataStore<Preferences> by preferencesDataStore(name = "auth")
@@ -34,7 +24,6 @@ private val Context.dataStore: DataStore<Preferences> by preferencesDataStore(na
 class UserProfileDialogFragment : DialogFragment(), View.OnClickListener {
     private var _binding: DialogUserProfileWorkspaceBinding? = null
     private val binding get() = _binding!!
-    private lateinit var moneyReportViewModel: MoneyReportViewModel
     private lateinit var workspacesViewModel: WorkspacesViewModel
     private lateinit var authViewModel: AuthViewModel
     private lateinit var user: User
@@ -76,6 +65,5 @@ class UserProfileDialogFragment : DialogFragment(), View.OnClickListener {
         authViewModel =
             ViewModelProvider(this, ViewModelFactory(pref)).get(AuthViewModel::class.java)
         workspacesViewModel = ViewModelProvider(this).get(WorkspacesViewModel::class.java)
-        moneyReportViewModel = ViewModelProvider(this).get(MoneyReportViewModel::class.java)
     }
 }

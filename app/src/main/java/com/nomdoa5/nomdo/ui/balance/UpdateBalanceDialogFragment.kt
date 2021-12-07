@@ -16,12 +16,17 @@ import androidx.datastore.preferences.preferencesDataStore
 import androidx.fragment.app.DialogFragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.lifecycleScope
+import com.google.android.material.snackbar.Snackbar
 import com.nomdoa5.nomdo.R
 import com.nomdoa5.nomdo.databinding.DialogFragmentUpdateBalanceBinding
+import com.nomdoa5.nomdo.helpers.LoadingState
 import com.nomdoa5.nomdo.helpers.ViewModelFactory
 import com.nomdoa5.nomdo.repository.local.UserPreferences
 import com.nomdoa5.nomdo.repository.model.Balance
+import com.nomdoa5.nomdo.ui.MainActivity
 import com.nomdoa5.nomdo.ui.auth.AuthViewModel
+import kotlinx.coroutines.flow.collect
 
 
 private val Context.dataStore: DataStore<Preferences> by preferencesDataStore(name = "auth")
@@ -77,33 +82,24 @@ class UpdateBalanceDialogFragment : DialogFragment(), View.OnClickListener {
 //                    balancesViewModel.updateBalance(it!!, newBalance)
 //                })
 
-                balanceViewModel.getUpdateBalanceState()
-                    .observe(this, { isLoading ->
-                        if (isLoading!!) {
-                            Toast.makeText(
-                                requireContext(),
-                                "Update Balance Success!",
-                                Toast.LENGTH_SHORT
-                            ).show()
-                            binding.btnUpdateBalance.doneLoadingAnimation(
-                                resources.getColor(R.color.teal_200),
-                                ContextCompat.getDrawable(
-                                    requireContext(),
-                                    R.drawable.ic_check
-                                )!!
-                                    .toBitmap()
-                            )
-                            dismiss()
-                        } else {
-                            Toast.makeText(
-                                requireContext(),
-                                "Update Balance Failed!",
-                                Toast.LENGTH_SHORT
-                            )
-                                .show()
-                            binding.btnUpdateBalance.revertAnimation()
+                viewLifecycleOwner.lifecycleScope.launchWhenCreated {
+                    balanceViewModel.balanceState.collect {
+                        when(it){
+                            is LoadingState.Loading -> {
+                                binding.btnUpdateBalance.startAnimation()
+                            }
+                            is LoadingState.Success -> {
+                                (activity as MainActivity?)!!.showSnackbar("Balance Updated")
+                                dismiss()
+                            }
+                            is LoadingState.Error -> {
+                                binding.btnUpdateBalance.revertAnimation()
+                                showSnackbar(it.message)
+                            }
+                            else -> Unit
                         }
-                    })
+                    }
+                }
 
             }
 //            binding.btnDeleteBalance -> {
@@ -144,6 +140,10 @@ class UpdateBalanceDialogFragment : DialogFragment(), View.OnClickListener {
                 dismiss()
             }
         }
+    }
+
+    fun showSnackbar(message: String) {
+        Snackbar.make(requireView(), message, Snackbar.LENGTH_SHORT).show()
     }
 
     fun setupViewModel() {
