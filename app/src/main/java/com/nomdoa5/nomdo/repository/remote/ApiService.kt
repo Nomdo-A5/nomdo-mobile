@@ -13,6 +13,9 @@ import com.nomdoa5.nomdo.repository.model.request.task.UpdateTaskRequest
 import com.nomdoa5.nomdo.repository.model.request.workspace.UpdateWorkspaceRequest
 import com.nomdoa5.nomdo.repository.model.request.workspace.WorkspaceRequest
 import com.nomdoa5.nomdo.repository.model.response.*
+import com.nomdoa5.nomdo.repository.model.response.auth.LoginResponse
+import com.nomdoa5.nomdo.repository.model.response.auth.LogoutResponse
+import com.nomdoa5.nomdo.repository.model.response.auth.RegisterResponse
 import com.nomdoa5.nomdo.repository.model.response.balance.BalanceResponse
 import com.nomdoa5.nomdo.repository.model.response.balance.CreateBalanceResponse
 import com.nomdoa5.nomdo.repository.model.response.balance.ReportOverviewResponse
@@ -49,7 +52,7 @@ interface ApiService {
     @POST("register")
     fun register(
         @Body register: RegisterRequest
-    ): Call<RegisterRequest>
+    ): Call<RegisterResponse>
 
 
     //     WORKSPACE

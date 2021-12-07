@@ -3,24 +3,22 @@ package com.nomdoa5.nomdo.ui.auth
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
-import android.os.Handler
-import android.os.Looper
 import android.view.View
 import android.view.inputmethod.InputMethodManager
-import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.content.ContextCompat
-import androidx.core.graphics.drawable.toBitmap
 import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.preferencesDataStore
 import androidx.lifecycle.ViewModelProvider
-import com.nomdoa5.nomdo.R
+import androidx.lifecycle.lifecycleScope
+import com.google.android.material.snackbar.Snackbar
 import com.nomdoa5.nomdo.databinding.ActivityLoginBinding
+import com.nomdoa5.nomdo.helpers.LoadingState
 import com.nomdoa5.nomdo.helpers.ViewModelFactory
 import com.nomdoa5.nomdo.repository.local.UserPreferences
 import com.nomdoa5.nomdo.repository.model.request.auth.LoginRequest
 import com.nomdoa5.nomdo.ui.MainActivity
+import kotlinx.coroutines.flow.collect
 
 private val Context.dataStore: DataStore<Preferences> by preferencesDataStore(name = "auth")
 
@@ -54,30 +52,36 @@ class LoginActivity : AppCompatActivity(), View.OnClickListener {
                 startActivity(Intent(this, ForgetPassActivity::class.java))
             }
             binding.btnSignIn -> {
-                closeKeyboard()
-                binding.btnSignIn.startAnimation()
                 val email = binding.editUsername.text.toString()
                 val password = binding.editPassword.text.toString()
                 val login = LoginRequest(email, password)
                 authViewModel.login(login)
 
-                authViewModel.getLoginState().observe(this, {
-                    if (it) {
-                        Toast.makeText(this, "Login Success", Toast.LENGTH_SHORT).show()
-                        binding.btnSignIn.doneLoadingAnimation(
-                            resources.getColor(R.color.teal_200),
-                            ContextCompat.getDrawable(this, R.drawable.ic_check)!!
-                                .toBitmap()
-                        )
-                        Handler(Looper.getMainLooper()).postDelayed({
-                            startActivity(Intent(this, MainActivity::class.java))
-                        }, 1000)
-                    } else {
-                        binding.btnSignIn.revertAnimation()
-                        Toast.makeText(this, "Login Failed!!", Toast.LENGTH_SHORT).show()
+                lifecycleScope.launchWhenStarted {
+                    authViewModel.loginState.collect {
+                        when (it) {
+                            is LoadingState.Loading -> {
+                                closeKeyboard()
+                                binding.btnSignIn.startAnimation()
+                            }
+                            is LoadingState.Success -> {
+                                binding.btnSignIn.revertAnimation()
+                                startActivity(
+                                    Intent(
+                                        this@LoginActivity,
+                                        MainActivity::class.java
+                                    )
+                                )
+                            }
+                            is LoadingState.Error -> {
+                                binding.btnSignIn.revertAnimation()
+                                Snackbar.make(binding.root, it.message, Snackbar.LENGTH_SHORT)
+                                    .show()
+                            }
+                            else -> Unit
+                        }
                     }
-
-                })
+                }
             }
         }
     }

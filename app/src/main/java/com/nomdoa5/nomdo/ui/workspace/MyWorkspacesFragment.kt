@@ -10,18 +10,21 @@ import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.preferencesDataStore
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.Navigation
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.nomdoa5.nomdo.R
 import com.nomdoa5.nomdo.databinding.FragmentMyWorkspacesBinding
+import com.nomdoa5.nomdo.helpers.LoadingState
 import com.nomdoa5.nomdo.helpers.ViewModelFactory
 import com.nomdoa5.nomdo.helpers.adapter.WorkspaceAdapter
 import com.nomdoa5.nomdo.repository.local.UserPreferences
 import com.nomdoa5.nomdo.repository.model.Workspace
 import com.nomdoa5.nomdo.ui.MainActivity
 import com.nomdoa5.nomdo.ui.auth.AuthViewModel
+import kotlinx.coroutines.flow.collect
 
 private val Context.dataStore: DataStore<Preferences> by preferencesDataStore(name = "auth")
 
@@ -124,11 +127,28 @@ class MyWorkspacesFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener,
             workspacesViewModel.setWorkspace(it!!)
         })
 
-        workspacesViewModel.getWorkspaceState().observe(viewLifecycleOwner, {
-            if (it) {
-                binding.swipeMyWorkspaces.isRefreshing = false
+    //        workspacesViewModel.getWorkspaceState().observe(viewLifecycleOwner, {
+    //            if (it) {
+    //                binding.swipeMyWorkspaces.isRefreshing = false
+    //            }
+    //        })
+
+        viewLifecycleOwner.lifecycleScope.launchWhenStarted {
+            workspacesViewModel.workspaceState.collect {
+                when (it) {
+                    is LoadingState.Loading -> {
+                        binding.swipeMyWorkspaces.isRefreshing = true
+                    }
+                    is LoadingState.Success -> {
+                        binding.swipeMyWorkspaces.isRefreshing = false
+                    }
+                    is LoadingState.Error -> {
+                        binding.swipeMyWorkspaces.isRefreshing = false
+                    }
+                    else -> Unit
+                }
             }
-        })
+        }
     }
 
     override fun onWorkspaceClick(data: Workspace) {

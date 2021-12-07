@@ -16,15 +16,19 @@ import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.preferencesDataStore
 import androidx.fragment.app.DialogFragment
 import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.lifecycleScope
+import com.google.android.material.snackbar.Snackbar
 import com.nomdoa5.nomdo.R
 import com.nomdoa5.nomdo.databinding.DialogFragmentCreateWorkspaceBinding
 import com.nomdoa5.nomdo.databinding.DialogFragmentJoinWorkspaceBinding
+import com.nomdoa5.nomdo.helpers.LoadingState
 import com.nomdoa5.nomdo.helpers.ViewModelFactory
 import com.nomdoa5.nomdo.repository.local.UserPreferences
 import com.nomdoa5.nomdo.repository.model.request.ReportRequest
 import com.nomdoa5.nomdo.ui.auth.AuthViewModel
 import com.nomdoa5.nomdo.repository.model.request.workspace.WorkspaceRequest
 import com.nomdoa5.nomdo.ui.balance.MoneyReportViewModel
+import kotlinx.coroutines.flow.collect
 
 
 private val Context.dataStore: DataStore<Preferences> by preferencesDataStore(name = "auth")
@@ -75,29 +79,52 @@ class JoinWorkspaceDialogBoard : DialogFragment(), View.OnClickListener {
                         })
                     })
 
-                    workspacesViewModel.getWorkspaceState().observe(this, {
-                        if (it) {
-                            Toast.makeText(requireContext(), "Join Workspace Successful", Toast.LENGTH_SHORT)
-                                .show()
-                            binding.btnJoinWorkspace.doneLoadingAnimation(
-                                resources.getColor(R.color.teal_200),
-                                ContextCompat.getDrawable(requireContext(), R.drawable.ic_check)!!
-                                    .toBitmap()
-                            )
-                            dismiss()
-                        } else {
-                            binding.btnJoinWorkspace.revertAnimation()
-                            Toast.makeText(
-                                requireContext(),
-                                "Join Workspace Failed!!",
-                                Toast.LENGTH_SHORT
-                            ).show()
+                    viewLifecycleOwner.lifecycleScope.launchWhenStarted {
+                        workspacesViewModel.workspaceState.collect {
+                            when (it) {
+                                is LoadingState.Loading -> {
+                                    binding.btnJoinWorkspace.startAnimation()
+                                }
+                                is LoadingState.Success -> {
+                                    showSnackbar("Workspace Joined")
+                                    dismiss()
+                                }
+                                is LoadingState.Error -> {
+                                    binding.btnJoinWorkspace.revertAnimation()
+                                    showSnackbar(it.message)
+                                }
+                                else -> Unit
+                            }
                         }
-                    })
+                }
+
+//                    workspacesViewModel.getWorkspaceState().observe(this, {
+//                        if (it) {
+//                            Toast.makeText(requireContext(), "Join Workspace Successful", Toast.LENGTH_SHORT)
+//                                .show()
+//                            binding.btnJoinWorkspace.doneLoadingAnimation(
+//                                resources.getColor(R.color.teal_200),
+//                                ContextCompat.getDrawable(requireContext(), R.drawable.ic_check)!!
+//                                    .toBitmap()
+//                            )
+//                            dismiss()
+//                        } else {
+//                            binding.btnJoinWorkspace.revertAnimation()
+//                            Toast.makeText(
+//                                requireContext(),
+//                                "Join Workspace Failed!!",
+//                                Toast.LENGTH_SHORT
+//                            ).show()
+//                        }
+//                    })
                 }
             }
             binding.imgCloseJoinWorkspace -> dismiss()
         }
+    }
+
+    fun showSnackbar(message: String) {
+        Snackbar.make(requireView(), message, Snackbar.LENGTH_SHORT).show()
     }
 
     fun setupViewModel() {

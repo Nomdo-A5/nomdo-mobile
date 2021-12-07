@@ -32,9 +32,6 @@ class ProfileWorkspaceFragment : Fragment(), ListViewMemberAdapter.OnMemberClick
     private lateinit var workspacesViewModel: WorkspacesViewModel
     private var _binding: FragmentProfileWorkspaceBinding? = null
     private val binding get() = _binding!!
-    private var workspaces = arrayListOf<Workspace>()
-    private lateinit var workspaceName: Array<String>
-    private lateinit var workspaceCreator: Array<String>
     private lateinit var rvMember: RecyclerView
     private var memberAdapter: ListViewMemberAdapter = ListViewMemberAdapter(this)
     private val args: ProfileWorkspaceFragmentArgs by navArgs()
@@ -64,7 +61,7 @@ class ProfileWorkspaceFragment : Fragment(), ListViewMemberAdapter.OnMemberClick
     }
 
 
-    fun setupDescription() {
+    private fun setupDescription() {
         val description = requireActivity().findViewById<TextView>(R.id.tv_desc_profile_workspace)
 
         authViewModel.getAuthToken().observe(viewLifecycleOwner, {
@@ -75,7 +72,7 @@ class ProfileWorkspaceFragment : Fragment(), ListViewMemberAdapter.OnMemberClick
 
     }
 
-    fun setupRecyclerView() {
+    private fun setupRecyclerView() {
         rvMember = requireView().findViewById(R.id.rv_member_profile_workspace)
         rvMember.setHasFixedSize(true)
         rvMember.addItemDecoration(WorkspaceAdapter.MarginItemDecoration(16))

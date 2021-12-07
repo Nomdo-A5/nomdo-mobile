@@ -10,17 +10,21 @@ import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.preferencesDataStore
 import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.lifecycleScope
+import com.google.android.material.snackbar.Snackbar
 import com.nomdoa5.nomdo.databinding.ActivityRegisterBinding
+import com.nomdoa5.nomdo.helpers.LoadingState
 import com.nomdoa5.nomdo.helpers.ViewModelFactory
 import com.nomdoa5.nomdo.repository.local.UserPreferences
 import com.nomdoa5.nomdo.repository.model.request.auth.RegisterRequest
+import kotlinx.coroutines.flow.collect
 
 private val Context.dataStore: DataStore<Preferences> by preferencesDataStore(name = "auth")
 
 class RegisterActivity : AppCompatActivity(), View.OnClickListener {
-    private var _binding : ActivityRegisterBinding? = null
+    private var _binding: ActivityRegisterBinding? = null
     private val binding get() = _binding!!
-    private lateinit var authViewModel : AuthViewModel
+    private lateinit var authViewModel: AuthViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -38,13 +42,11 @@ class RegisterActivity : AppCompatActivity(), View.OnClickListener {
     }
 
     override fun onClick(v: View?) {
-        when(v){
+        when (v) {
             binding.imgBack -> {
                 finish()
             }
             binding.btnSignUp -> {
-                closeKeyboard()
-                binding.btnSignUp.startAnimation()
                 val username = binding.editUsernameSignUp.text.toString()
                 val email = binding.editEmailSignUp.text.toString()
                 val password = binding.editPasswordSignUp.text.toString()
@@ -52,25 +54,39 @@ class RegisterActivity : AppCompatActivity(), View.OnClickListener {
                 val register = RegisterRequest(username, email, password, passwordConfirmation)
                 authViewModel.register(register)
 
-                authViewModel.getRegisterStatus().observe(this, {
-                    if(it){
-                        binding.btnSignUp.revertAnimation()
-                        Toast.makeText(this, "Register Success", Toast.LENGTH_SHORT).show()
-                        finish()
-                    }else{
-                        binding.btnSignUp.revertAnimation()
-                        Toast.makeText(this, "Register Failed!", Toast.LENGTH_SHORT).show()
+                lifecycleScope.launchWhenCreated {
+                    authViewModel.registerState.collect {
+                        when (it) {
+                            is LoadingState.Loading -> {
+                                closeKeyboard()
+                                binding.btnSignUp.startAnimation()
+                            }
+                            is LoadingState.Success -> {
+                                showSnackbar("Register Success")
+                                finish()
+                            }
+                            is LoadingState.Error -> {
+                                binding.btnSignUp.revertAnimation()
+                                showSnackbar(it.message)
+                            }
+                            else -> Unit
+                        }
                     }
-                })
+                }
             }
         }
     }
 
-    fun setupViewModel(){
+    fun setupViewModel() {
         val pref = UserPreferences.getInstance(dataStore)
-        authViewModel = ViewModelProvider(this, ViewModelFactory(pref)).get(AuthViewModel::class.java)
+        authViewModel =
+            ViewModelProvider(this, ViewModelFactory(pref)).get(AuthViewModel::class.java)
     }
 
+    private fun showSnackbar(message: String) {
+        Snackbar.make(binding.root, message, Snackbar.LENGTH_SHORT).show()
+    }
+    
     private fun closeKeyboard() {
         val view: View? = this.currentFocus
         if (view != null) {

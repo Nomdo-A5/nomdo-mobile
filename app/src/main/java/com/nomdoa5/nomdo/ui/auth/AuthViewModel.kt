@@ -1,28 +1,35 @@
 package com.nomdoa5.nomdo.ui.auth
 
 import androidx.lifecycle.*
+import com.nomdoa5.nomdo.helpers.LoadingState
 import com.nomdoa5.nomdo.repository.local.UserPreferences
 import com.nomdoa5.nomdo.repository.model.User
 import com.nomdoa5.nomdo.repository.model.request.auth.LoginRequest
 import com.nomdoa5.nomdo.repository.model.request.auth.RegisterRequest
-import com.nomdoa5.nomdo.repository.model.response.LoginResponse
-import com.nomdoa5.nomdo.repository.model.response.LogoutResponse
+import com.nomdoa5.nomdo.repository.model.response.auth.LoginResponse
+import com.nomdoa5.nomdo.repository.model.response.auth.LogoutResponse
 import com.nomdoa5.nomdo.repository.model.response.UserResponse
+import com.nomdoa5.nomdo.repository.model.response.auth.RegisterResponse
 import com.nomdoa5.nomdo.repository.remote.ApiService
 import com.nomdoa5.nomdo.repository.remote.RetrofitClient
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
 class AuthViewModel(private val pref: UserPreferences) : ViewModel() {
-    private val isRegisterSuccess = MutableLiveData<Boolean>()
-    private val loginState = MutableLiveData<Boolean>()
+    private val _loginState = MutableStateFlow<LoadingState>(LoadingState.Empty)
+    val loginState: StateFlow<LoadingState> = _loginState
+    private val _registerState = MutableStateFlow<LoadingState>(LoadingState.Empty)
+    val registerState: StateFlow<LoadingState> = _registerState
     private val logoutState = MutableLiveData<Boolean>()
     private val user = MutableLiveData<User>()
     private val userState = MutableLiveData<Boolean>()
 
     fun login(account: LoginRequest) {
+        _loginState.value = LoadingState.Loading
         val service = RetrofitClient.buildService(ApiService::class.java)
         val requestCall = service.login(account)
 
@@ -33,19 +40,21 @@ class AuthViewModel(private val pref: UserPreferences) : ViewModel() {
             ) {
                 val statusCode = response.body()!!.statusCode
                 val responseToken = response.body()!!.accessToken
+                val message = response.body()!!.message
 
-                if (statusCode!!.equals(200)) {
-                    saveAuthToken(responseToken!!)
-                    loginState.postValue(true)
-                } else if (statusCode.equals(401)) {
-                    loginState.postValue(false)
-                } else {
-                    loginState.postValue(false)
+                when {
+                    statusCode!! == 200 -> {
+                        saveAuthToken(responseToken!!)
+                        _loginState.value = LoadingState.Success
+                    }
+                    else -> {
+                        _loginState.value = LoadingState.Error(message!!)
+                    }
                 }
             }
 
             override fun onFailure(call: Call<LoginResponse>, t: Throwable) {
-                loginState.postValue(false)
+                _loginState.value = LoadingState.Error("onFailure Server")
             }
         })
     }
@@ -59,6 +68,7 @@ class AuthViewModel(private val pref: UserPreferences) : ViewModel() {
                 user.postValue(response.body()!!.user)
                 userState.postValue(true)
             }
+
             override fun onFailure(call: Call<UserResponse>, t: Throwable) {
                 userState.postValue(false)
             }
@@ -85,24 +95,25 @@ class AuthViewModel(private val pref: UserPreferences) : ViewModel() {
     }
 
     fun register(newAccount: RegisterRequest) {
+        _registerState.value = LoadingState.Loading
         val service = RetrofitClient.buildService(ApiService::class.java)
         val requestCall = service.register(newAccount)
 
-        requestCall.enqueue(object : Callback<RegisterRequest> {
+        requestCall.enqueue(object : Callback<RegisterResponse> {
             override fun onResponse(
-                call: Call<RegisterRequest>,
-                response: Response<RegisterRequest>
+                call: Call<RegisterResponse>,
+                response: Response<RegisterResponse>
             ) {
-                if (response.code().equals(200)) {
-                    isRegisterSuccess.postValue(true)
-                } else if (response.code().equals(401))
-                    isRegisterSuccess.postValue(false)
-                else
-                    isRegisterSuccess.postValue(false)
+                when {
+                    response.code() == 200 -> {
+                        _registerState.value = LoadingState.Success
+                    }
+                    else -> _registerState.value = LoadingState.Error("Register Failed!")
+                }
             }
 
-            override fun onFailure(call: Call<RegisterRequest>, t: Throwable) {
-                isRegisterSuccess.postValue(false)
+            override fun onFailure(call: Call<RegisterResponse>, t: Throwable) {
+                _registerState.value = LoadingState.Error("onFailure Server Error")
             }
         })
     }
@@ -113,14 +124,6 @@ class AuthViewModel(private val pref: UserPreferences) : ViewModel() {
 
     fun getUserState(): LiveData<Boolean> {
         return userState
-    }
-
-    fun getRegisterStatus(): LiveData<Boolean> {
-        return isRegisterSuccess
-    }
-
-    fun getLoginState(): LiveData<Boolean> {
-        return loginState
     }
 
     fun getLogoutState(): LiveData<Boolean> {
@@ -141,9 +144,5 @@ class AuthViewModel(private val pref: UserPreferences) : ViewModel() {
         viewModelScope.launch {
             pref.deleteAuthToken()
         }
-    }
-
-    fun isAuthTokenSet(): Boolean {
-        return !pref.getAuthToken().toString().isNullOrEmpty()
     }
 }
