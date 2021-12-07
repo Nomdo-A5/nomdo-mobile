@@ -33,9 +33,14 @@ import com.nomdoa5.nomdo.ui.workspace.WorkspacesViewModel
 import java.util.*
 import kotlin.collections.ArrayList
 import android.provider.OpenableColumns
+import androidx.lifecycle.lifecycleScope
+import com.google.android.material.snackbar.Snackbar
+import com.nomdoa5.nomdo.helpers.LoadingState
 import com.nomdoa5.nomdo.helpers.getFileName
 import com.nomdoa5.nomdo.helpers.snackbar
 import com.nomdoa5.nomdo.repository.model.request.AttachmentRequestBody
+import com.nomdoa5.nomdo.ui.MainActivity
+import kotlinx.coroutines.flow.collect
 import okhttp3.MediaType
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.MultipartBody
@@ -55,7 +60,7 @@ class CreateBalanceDialogFragment : DialogFragment(), View.OnClickListener, View
     private lateinit var balanceViewModel: BalanceViewModel
     private lateinit var workspacesViewModel: WorkspacesViewModel
     private lateinit var authViewModel: AuthViewModel
-    private lateinit var date: String
+    private var date: String? = null
     private var spinnerWorkspacePosition: Int? = null
     private val workspaceAdapterId = ArrayList<String>()
     private var selectedImageUri: Uri? = null
@@ -96,7 +101,7 @@ class CreateBalanceDialogFragment : DialogFragment(), View.OnClickListener, View
                 val nominal = binding.editNominalAddBalance.text.toString()
                 val description = binding.editDescriptionAddBalance.text.toString()
                 val type = binding.spinnerTypeAddBalance.text.toString()
-                val isIncome = if (type.equals("Income")) {
+                val isIncome = if (type == "Income") {
                     1
                 } else {
                     0
@@ -127,6 +132,8 @@ class CreateBalanceDialogFragment : DialogFragment(), View.OnClickListener, View
 //                    }
 //                })
 
+
+
                 balanceViewModel.getAddBalanceResponse().observe(this, {
                     if (it != null) {
                         uploadImage(it.id.toString())
@@ -147,6 +154,24 @@ class CreateBalanceDialogFragment : DialogFragment(), View.OnClickListener, View
 //                    }
                 })
 
+                viewLifecycleOwner.lifecycleScope.launchWhenCreated {
+                    balanceViewModel.balanceState.collect {
+                        when(it){
+                            is LoadingState.Loading -> {
+                                binding.btnAddBalance.startAnimation()
+                            }
+                            is LoadingState.Success -> {
+                                (activity as MainActivity?)!!.showSnackbar("Balance Created")
+                                dismiss()
+                            }
+                            is LoadingState.Error -> {
+                                binding.btnAddBalance.revertAnimation()
+                                showSnackbar(it.message)
+                            }
+                            else -> Unit
+                        }
+                    }
+                }
             }
             binding.imgCloseAddBalance -> {
                 dismiss()
@@ -160,6 +185,10 @@ class CreateBalanceDialogFragment : DialogFragment(), View.OnClickListener, View
             ViewModelProvider(this, ViewModelFactory(pref)).get(AuthViewModel::class.java)
         workspacesViewModel = ViewModelProvider(this).get(WorkspacesViewModel::class.java)
         balanceViewModel = ViewModelProvider(this).get(BalanceViewModel::class.java)
+    }
+
+    fun showSnackbar(message: String) {
+        Snackbar.make(requireView(), message, Snackbar.LENGTH_SHORT).show()
     }
 
     fun setupSpinner() {

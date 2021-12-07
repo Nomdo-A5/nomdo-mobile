@@ -23,6 +23,7 @@ import androidx.navigation.Navigation
 import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupWithNavController
+import com.google.android.material.snackbar.Snackbar
 import com.nomdoa5.nomdo.R
 import com.nomdoa5.nomdo.databinding.ActivityMainBinding
 import com.nomdoa5.nomdo.databinding.FragmentBoardsBinding
@@ -250,7 +251,7 @@ class MainActivity : AppCompatActivity(), View.OnClickListener, PopupMenu.OnMenu
         binding.navView.setupWithNavController(navController)
     }
 
-    private fun closeKeyboard() {
+    fun closeKeyboard() {
         val view: View? = this.currentFocus
         if (view != null) {
             val imm: InputMethodManager =
@@ -421,5 +422,9 @@ class MainActivity : AppCompatActivity(), View.OnClickListener, PopupMenu.OnMenu
 
         }
         return true
+    }
+
+    fun showSnackbar(message: String) {
+        Snackbar.make(binding.root, message, Snackbar.LENGTH_SHORT).show()
     }
 }

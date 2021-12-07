@@ -35,9 +35,6 @@ class MyWorkspacesFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener,
     private var _binding: FragmentMyWorkspacesBinding? = null
     private val binding get() = _binding!!
     private val workspaceAdapter = WorkspaceAdapter(this)
-    private var workspaces = arrayListOf<Workspace>()
-    private lateinit var workspaceName: Array<String>
-    private lateinit var workspaceCreator: Array<String>
     private lateinit var rvWorkspace: RecyclerView
 
     override fun onCreateView(
@@ -67,20 +64,6 @@ class MyWorkspacesFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener,
         (activity as MainActivity?)!!.setupToolbarMain("Workspaces")
     }
 
-
-    fun setData() {
-        workspaceName = resources.getStringArray(R.array.name)
-        workspaceCreator = resources.getStringArray(R.array.creator)
-
-        for (i in workspaceName.indices) {
-            val workspace = Workspace(
-                i,
-                workspaceName[i],
-            )
-            workspaces.add(workspace)
-        }
-    }
-
     private fun setupRecyclerView() {
         binding.swipeMyWorkspaces.isRefreshing = true
         rvWorkspace = requireView().findViewById(R.id.rv_my_workspaces)
@@ -93,13 +76,13 @@ class MyWorkspacesFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener,
         })
 
         workspacesViewModel.getWorkspace().observe(viewLifecycleOwner, {
+            workspaceAdapter.setData(it)
+            binding.swipeMyWorkspaces.isRefreshing = false
             if(it.isEmpty()){
                 showEmpty(true)
             }else{
                 showEmpty(false)
             }
-            workspaceAdapter.setData(it)
-            binding.swipeMyWorkspaces.isRefreshing = false
         })
         rvWorkspace.adapter = workspaceAdapter
     }
@@ -126,12 +109,6 @@ class MyWorkspacesFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener,
         authViewModel.getAuthToken().observe(viewLifecycleOwner, {
             workspacesViewModel.setWorkspace(it!!)
         })
-
-    //        workspacesViewModel.getWorkspaceState().observe(viewLifecycleOwner, {
-    //            if (it) {
-    //                binding.swipeMyWorkspaces.isRefreshing = false
-    //            }
-    //        })
 
         viewLifecycleOwner.lifecycleScope.launchWhenStarted {
             workspacesViewModel.workspaceState.collect {

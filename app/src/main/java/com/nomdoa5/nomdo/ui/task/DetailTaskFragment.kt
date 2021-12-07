@@ -2,6 +2,8 @@ package com.nomdoa5.nomdo.ui.task
 
 import android.content.Context
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -13,18 +15,21 @@ import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.preferencesDataStore
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.snackbar.Snackbar
 import com.nomdoa5.nomdo.R
 import com.nomdoa5.nomdo.databinding.FragmentDetailTaskBinding
+import com.nomdoa5.nomdo.helpers.LoadingState
 import com.nomdoa5.nomdo.helpers.ViewModelFactory
 import com.nomdoa5.nomdo.helpers.adapter.MemberAdapter
 import com.nomdoa5.nomdo.repository.local.UserPreferences
 import com.nomdoa5.nomdo.repository.model.User
 import com.nomdoa5.nomdo.repository.model.request.task.UpdateTaskRequest
 import com.nomdoa5.nomdo.ui.auth.AuthViewModel
+import kotlinx.coroutines.flow.collect
 
 private val Context.dataStore: DataStore<Preferences> by preferencesDataStore(name = "auth")
 
@@ -127,26 +132,57 @@ class DetailTaskFragment : Fragment(), View.OnClickListener {
                     taskViewModel.updateTask(it!!, task)
                 })
 
-                taskViewModel.getUpdateTaskState().observe(this, {
-                    if (it) {
-                        Toast.makeText(requireContext(), "Board Added", Toast.LENGTH_SHORT).show()
-                        binding.btnUpdateTask.doneLoadingAnimation(
-                            resources.getColor(R.color.teal_200),
-                            ContextCompat.getDrawable(requireContext(), R.drawable.ic_check)!!
-                                .toBitmap()
-                        )
-                    } else {
-                        binding.btnUpdateTask.revertAnimation()
-                        Toast.makeText(requireContext(), "Add Board Failed!!", Toast.LENGTH_SHORT).show()
+                viewLifecycleOwner.lifecycleScope.launchWhenCreated {
+                    taskViewModel.taskState.collect {
+                        when (it) {
+                            is LoadingState.Loading -> {
+                                binding.btnUpdateTask.startAnimation()
+                            }
+                            is LoadingState.Success -> {
+                                showSnackbar("Task Updated")
+                                binding.btnUpdateTask.revertAnimation()
+                            }
+                            is LoadingState.Error -> {
+                                binding.btnUpdateTask.revertAnimation()
+                                showSnackbar(it.message)
+                            }
+                            else -> Unit
+                        }
                     }
-                })
+                }
             }
             binding.btnDeleteUpdateTask -> {
                 authViewModel.getAuthToken().observe(viewLifecycleOwner, {
                     val idTask = args.task.id.toString()
                     taskViewModel.deleteTask(it!!, idTask)
                 })
+
+                viewLifecycleOwner.lifecycleScope.launchWhenCreated {
+                    taskViewModel.taskState.collect {
+                        when (it) {
+                            is LoadingState.Loading -> {
+                                binding.btnUpdateTask.startAnimation()
+                            }
+                            is LoadingState.Success -> {
+                                showSnackbar("Task Deleted")
+                                binding.btnUpdateTask.revertAnimation()
+                                Handler(Looper.getMainLooper()).postDelayed({
+                                    parentFragmentManager.popBackStack()
+                                }, 1000)
+                            }
+                            is LoadingState.Error -> {
+                                binding.btnUpdateTask.revertAnimation()
+                                showSnackbar(it.message)
+                            }
+                            else -> Unit
+                        }
+                    }
+                }
             }
         }
+    }
+
+    private fun showSnackbar(message: String) {
+        Snackbar.make(requireView(), message, Snackbar.LENGTH_SHORT).show()
     }
 }

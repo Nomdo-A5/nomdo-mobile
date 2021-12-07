@@ -4,7 +4,6 @@ import android.content.Context
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -19,10 +18,9 @@ import com.nomdoa5.nomdo.databinding.DialogFragmentCreateWorkspaceBinding
 import com.nomdoa5.nomdo.helpers.LoadingState
 import com.nomdoa5.nomdo.helpers.ViewModelFactory
 import com.nomdoa5.nomdo.repository.local.UserPreferences
-import com.nomdoa5.nomdo.repository.model.request.ReportRequest
-import com.nomdoa5.nomdo.ui.auth.AuthViewModel
 import com.nomdoa5.nomdo.repository.model.request.workspace.WorkspaceRequest
-import com.nomdoa5.nomdo.ui.balance.MoneyReportViewModel
+import com.nomdoa5.nomdo.ui.MainActivity
+import com.nomdoa5.nomdo.ui.auth.AuthViewModel
 import kotlinx.coroutines.flow.collect
 
 
@@ -31,7 +29,6 @@ private val Context.dataStore: DataStore<Preferences> by preferencesDataStore(na
 class CreateWorkspaceDialogFragment : DialogFragment(), View.OnClickListener {
     private var _binding: DialogFragmentCreateWorkspaceBinding? = null
     private val binding get() = _binding!!
-    private lateinit var moneyReportViewModel: MoneyReportViewModel
     private lateinit var workspacesViewModel: WorkspacesViewModel
     private lateinit var authViewModel: AuthViewModel
 
@@ -70,17 +67,6 @@ class CreateWorkspaceDialogFragment : DialogFragment(), View.OnClickListener {
                     workspacesViewModel.addWorkspace(token!!, workspace)
                 })
 
-                authViewModel.getAuthToken().observe(this, { token ->
-                    workspacesViewModel.getCreatedWorkspace().observe(this, {
-                        val name = it.workspaceName + " Report"
-                        val workspaceId = it.id
-                        val moneyReport = ReportRequest(name, workspaceId)
-                        Log.d("Workspace id", workspaceId.toString())
-                        Log.d("Money report", moneyReport.toString())
-                        moneyReportViewModel.addMoneyReport(token!!, moneyReport)
-                    })
-                })
-
                 viewLifecycleOwner.lifecycleScope.launchWhenStarted {
                     workspacesViewModel.workspaceState.collect {
                         when (it) {
@@ -88,7 +74,7 @@ class CreateWorkspaceDialogFragment : DialogFragment(), View.OnClickListener {
                                 binding.btnAddWorkspace.startAnimation()
                             }
                             is LoadingState.Success -> {
-                                showSnackbar("Workspace Added")
+                                (activity as MainActivity?)!!.showSnackbar("Workspace Created")
                                 dismiss()
                             }
                             is LoadingState.Error -> {
@@ -99,26 +85,6 @@ class CreateWorkspaceDialogFragment : DialogFragment(), View.OnClickListener {
                         }
                     }
                 }
-
-//                workspacesViewModel.getAddWorkspaceState().observe(this, {
-//                    if (it) {
-//                        Toast.makeText(requireContext(), "Workspace Added", Toast.LENGTH_SHORT)
-//                            .show()
-//                        binding.btnAddWorkspace.doneLoadingAnimation(
-//                            resources.getColor(R.color.teal_200),
-//                            ContextCompat.getDrawable(requireContext(), R.drawable.ic_check)!!
-//                                .toBitmap()
-//                        )
-//                        dismiss()
-//                    } else {
-//                        binding.btnAddWorkspace.revertAnimation()
-//                        Toast.makeText(
-//                            requireContext(),
-//                            "Add Workspace Failed!!",
-//                            Toast.LENGTH_SHORT
-//                        ).show()
-//                    }
-//                })
             }
             binding.imgCloseAddWorkspace -> dismiss()
         }
@@ -133,6 +99,5 @@ class CreateWorkspaceDialogFragment : DialogFragment(), View.OnClickListener {
         authViewModel =
             ViewModelProvider(this, ViewModelFactory(pref)).get(AuthViewModel::class.java)
         workspacesViewModel = ViewModelProvider(this).get(WorkspacesViewModel::class.java)
-        moneyReportViewModel = ViewModelProvider(this).get(MoneyReportViewModel::class.java)
     }
 }

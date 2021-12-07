@@ -21,11 +21,11 @@ class WorkspacesViewModel : ViewModel() {
     private val listWorkspace = MutableLiveData<ArrayList<Workspace>>()
     private val countWorkspace = MutableLiveData<Int>()
     private val detailWorkspace = MutableLiveData<Workspace>()
-    private val _workspaceState = MutableStateFlow<LoadingState>(LoadingState.Empty)
-    val workspaceState: StateFlow<LoadingState> = _workspaceState
     private val memberWorkspace = MutableLiveData<ArrayList<User>>()
     private val createdWorkspace = MutableLiveData<Workspace>()
     private val taskInformationWorkspace = MutableLiveData<TaskInformationWorkspaceResponse>()
+    private val _workspaceState = MutableStateFlow<LoadingState>(LoadingState.Empty)
+    val workspaceState: StateFlow<LoadingState> = _workspaceState
 
     fun setWorkspace(token: String) {
         _workspaceState.value = LoadingState.Loading
@@ -38,10 +38,12 @@ class WorkspacesViewModel : ViewModel() {
                 call: Call<WorkspaceResponse>,
                 response: Response<WorkspaceResponse>
             ) {
-                if (!response.code().equals(500)) {
+                if (response.code() < 300) {
                     listWorkspace.postValue(response.body()!!.workspace)
                     countWorkspace.postValue(response.body()!!.workspace.size)
                     _workspaceState.value = LoadingState.Success
+                }else{
+                    _workspaceState.value = LoadingState.Error("Error ${response.code()}")
                 }
             }
 
@@ -61,9 +63,11 @@ class WorkspacesViewModel : ViewModel() {
                 call: Call<DetailWorkspaceResponse>,
                 response: Response<DetailWorkspaceResponse>
             ) {
-                if (!response.code().equals(500)) {
+                if (response.code() < 300) {
                     detailWorkspace.postValue(response.body()!!.workspace)
                     _workspaceState.value = LoadingState.Success
+                }else{
+                    _workspaceState.value = LoadingState.Error("Error ${response.code()}")
                 }
             }
 
@@ -83,9 +87,11 @@ class WorkspacesViewModel : ViewModel() {
                 call: Call<MemberWorkspaceResponse>,
                 response: Response<MemberWorkspaceResponse>
             ) {
-                if (!response.code().equals(500)) {
+                if (response.code() < 300) {
                     memberWorkspace.postValue(response.body()!!.member)
                     _workspaceState.value = LoadingState.Success
+                }else{
+                    _workspaceState.value = LoadingState.Error("Error ${response.code()}")
                 }
             }
 
@@ -105,9 +111,11 @@ class WorkspacesViewModel : ViewModel() {
                 call: Call<TaskInformationWorkspaceResponse>,
                 response: Response<TaskInformationWorkspaceResponse>
             ) {
-                if (response.code() != 500) {
+                if (response.code() < 300) {
                     taskInformationWorkspace.postValue(response.body()!!)
                     _workspaceState.value = LoadingState.Success
+                }else{
+                    _workspaceState.value = LoadingState.Error("Error ${response.code()}")
                 }
             }
 
@@ -127,9 +135,14 @@ class WorkspacesViewModel : ViewModel() {
                 call: Call<CreateWorkspaceResponse>,
                 response: Response<CreateWorkspaceResponse>
             ) {
-                createdWorkspace.postValue(response.body()!!.workspace)
-                _workspaceState.value = LoadingState.Success
+                if (response.code() < 300) {
+                    createdWorkspace.postValue(response.body()!!.workspace)
+                    _workspaceState.value = LoadingState.Success
+                } else {
+                    _workspaceState.value = LoadingState.Error("Error ${response.code()}")
+                }
             }
+
             override fun onFailure(call: Call<CreateWorkspaceResponse>, t: Throwable) {
                 _workspaceState.value = LoadingState.Error("onFailure Server")
             }
@@ -146,7 +159,11 @@ class WorkspacesViewModel : ViewModel() {
                 call: Call<CreateWorkspaceResponse>,
                 response: Response<CreateWorkspaceResponse>
             ) {
-                _workspaceState.value = LoadingState.Success
+                if (response.code() < 300) {
+                    _workspaceState.value = LoadingState.Success
+                } else {
+                    _workspaceState.value = LoadingState.Error("Error ${response.code()}")
+                }
             }
 
             override fun onFailure(call: Call<CreateWorkspaceResponse>, t: Throwable) {
@@ -165,7 +182,11 @@ class WorkspacesViewModel : ViewModel() {
                 call: Call<WorkspaceResponse>,
                 response: Response<WorkspaceResponse>
             ) {
-                _workspaceState.value = LoadingState.Success
+                if (response.code() < 300) {
+                    _workspaceState.value = LoadingState.Success
+                } else {
+                    _workspaceState.value = LoadingState.Error("Error ${response.code()}")
+                }
             }
 
             override fun onFailure(call: Call<WorkspaceResponse>, t: Throwable) {
@@ -185,8 +206,12 @@ class WorkspacesViewModel : ViewModel() {
                 call: Call<CreateWorkspaceResponse>,
                 response: Response<CreateWorkspaceResponse>
             ) {
-                detailWorkspace.postValue(response.body()!!.workspace)
-                _workspaceState.value = LoadingState.Success
+                if (response.code() < 300) {
+                    detailWorkspace.postValue(response.body()!!.workspace)
+                    _workspaceState.value = LoadingState.Success
+                } else {
+                    _workspaceState.value = LoadingState.Error("Error ${response.code()}")
+                }
             }
 
             override fun onFailure(call: Call<CreateWorkspaceResponse>, t: Throwable) {
@@ -199,12 +224,8 @@ class WorkspacesViewModel : ViewModel() {
 
     fun getWorkspaceCount(): LiveData<Int> = countWorkspace
 
-    fun getWorkspaceDetail(): LiveData<Workspace> = detailWorkspace
-
     fun getTaskInfo(): LiveData<TaskInformationWorkspaceResponse> =
         taskInformationWorkspace
-
-    fun getCreatedWorkspace(): LiveData<Workspace> = createdWorkspace
 
     fun getMemberWorkspace(): LiveData<ArrayList<User>> = memberWorkspace
 }

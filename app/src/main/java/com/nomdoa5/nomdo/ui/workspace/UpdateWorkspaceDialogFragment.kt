@@ -7,9 +7,6 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
-import androidx.core.content.ContextCompat
-import androidx.core.graphics.drawable.toBitmap
 import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.preferencesDataStore
@@ -17,13 +14,13 @@ import androidx.fragment.app.DialogFragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import com.google.android.material.snackbar.Snackbar
-import com.nomdoa5.nomdo.R
 import com.nomdoa5.nomdo.databinding.DialogFragmentUpdateWorkspaceBinding
 import com.nomdoa5.nomdo.helpers.LoadingState
 import com.nomdoa5.nomdo.helpers.ViewModelFactory
 import com.nomdoa5.nomdo.repository.local.UserPreferences
 import com.nomdoa5.nomdo.repository.model.Workspace
 import com.nomdoa5.nomdo.repository.model.request.workspace.UpdateWorkspaceRequest
+import com.nomdoa5.nomdo.ui.MainActivity
 import com.nomdoa5.nomdo.ui.auth.AuthViewModel
 import kotlinx.coroutines.flow.collect
 
@@ -85,7 +82,7 @@ class UpdateWorkspaceDialogFragment : DialogFragment(), View.OnClickListener {
                                 binding.btnUpdateWorkspace.startAnimation()
                             }
                             is LoadingState.Success -> {
-                                showSnackbar("Workspace Added")
+                                (activity as MainActivity?)!!.showSnackbar("Workspace Updated")
                                 dismiss()
                             }
                             is LoadingState.Error -> {
@@ -96,34 +93,6 @@ class UpdateWorkspaceDialogFragment : DialogFragment(), View.OnClickListener {
                         }
                     }
                 }
-//
-//                workspacesViewModel.getUpdateWorkspaceState()
-//                    .observe(this, { isLoading ->
-//                        if (isLoading!!) {
-//                            Toast.makeText(
-//                                requireContext(),
-//                                "Update Workspace Success!",
-//                                Toast.LENGTH_SHORT
-//                            ).show()
-//                            binding.btnUpdateWorkspace.doneLoadingAnimation(
-//                                resources.getColor(R.color.teal_200),
-//                                ContextCompat.getDrawable(
-//                                    requireContext(),
-//                                    R.drawable.ic_check
-//                                )!!
-//                                    .toBitmap()
-//                            )
-//                            dismiss()
-//                        } else {
-//                            Toast.makeText(
-//                                requireContext(),
-//                                "Update Workspace Failed!",
-//                                Toast.LENGTH_SHORT
-//                            )
-//                                .show()
-//                            binding.btnUpdateWorkspace.revertAnimation()
-//                        }
-//                    })
 
             }
             binding.btnDeleteWorkspace -> {
@@ -139,7 +108,7 @@ class UpdateWorkspaceDialogFragment : DialogFragment(), View.OnClickListener {
                                 binding.btnDeleteWorkspace.startAnimation()
                             }
                             is LoadingState.Success -> {
-                                showSnackbar("Workspace Deleted")
+                                (activity as MainActivity?)!!.showSnackbar("Workspace Deleted")
                                 dismiss()
                             }
                             is LoadingState.Error -> {
@@ -150,33 +119,6 @@ class UpdateWorkspaceDialogFragment : DialogFragment(), View.OnClickListener {
                         }
                     }
                 }
-
-//                workspacesViewModel.getDeleteWorkspaceState().observe(this, {
-//                    if (it) {
-//                        Toast.makeText(
-//                            requireContext(),
-//                            "Delete Workspace Success",
-//                            Toast.LENGTH_SHORT
-//                        ).show()
-//                        binding.btnUpdateWorkspace.doneLoadingAnimation(
-//                            resources.getColor(R.color.teal_200),
-//                            ContextCompat.getDrawable(
-//                                requireContext(),
-//                                R.drawable.ic_check
-//                            )!!
-//                                .toBitmap()
-//                        )
-//                        dismiss()
-//                    } else {
-//                        Toast.makeText(
-//                            requireContext(),
-//                            "Delete Workspace Failed!",
-//                            Toast.LENGTH_SHORT
-//                        ).show()
-//                        binding.btnUpdateWorkspace.revertAnimation()
-//                        dismiss()
-//                    }
-//                })
                 dismiss()
             }
             binding.imgCloseUpdateWorkspace -> {
