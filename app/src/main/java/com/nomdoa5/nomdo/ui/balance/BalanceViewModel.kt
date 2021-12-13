@@ -8,6 +8,7 @@ import com.nomdoa5.nomdo.repository.model.Balance
 import com.nomdoa5.nomdo.repository.model.request.balance.BalanceRequest
 import com.nomdoa5.nomdo.repository.model.request.balance.UpdateBalanceRequest
 import com.nomdoa5.nomdo.repository.model.response.AddAttachmentResponse
+import com.nomdoa5.nomdo.repository.model.response.MessageResponse
 import com.nomdoa5.nomdo.repository.model.response.balance.BalanceResponse
 import com.nomdoa5.nomdo.repository.model.response.balance.CreateBalanceResponse
 import com.nomdoa5.nomdo.repository.model.response.balance.ReportOverviewResponse
@@ -52,8 +53,8 @@ class BalanceViewModel : ViewModel() {
                 call: Call<ReportResponse>,
                 response: Response<ReportResponse>
             ) {
-                val responses = response.body()!!.balance
                 if (response.code() < 300) {
+                    val responses = response.body()!!.balance
                     when {
                         isIncome == 1 && status == "Planned" -> {
                             listIncomePlannedBalance.postValue(responses)
@@ -103,9 +104,8 @@ class BalanceViewModel : ViewModel() {
                 call: Call<ReportOverviewResponse>,
                 response: Response<ReportOverviewResponse>
             ) {
-                val responses = response.body()!!
-
                 if (response.code() < 300) {
+                    val responses = response.body()!!
                     when (status) {
                         "Planned" -> {
                             overviewPlannedBalance.postValue(responses)
@@ -157,10 +157,10 @@ class BalanceViewModel : ViewModel() {
         val service = RetrofitClient.buildService(ApiService::class.java)
         val requestCall = service.deleteBalance(token = "Bearer $token", id)
 
-        requestCall.enqueue(object : Callback<BalanceResponse> {
+        requestCall.enqueue(object : Callback<MessageResponse> {
             override fun onResponse(
-                call: Call<BalanceResponse>,
-                response: Response<BalanceResponse>
+                call: Call<MessageResponse>,
+                response: Response<MessageResponse>
             ) {
                 if (response.code() < 300) {
                     _balanceState.value = LoadingState.Success
@@ -169,7 +169,7 @@ class BalanceViewModel : ViewModel() {
                 }
             }
 
-            override fun onFailure(call: Call<BalanceResponse>, t: Throwable) {
+            override fun onFailure(call: Call<MessageResponse>, t: Throwable) {
                 _balanceState.value = LoadingState.Error("onFailure Server")
             }
         })
@@ -228,47 +228,25 @@ class BalanceViewModel : ViewModel() {
     }
 
 
-    fun getBalance(): LiveData<ArrayList<Balance>> {
-        return listBalance
-    }
+    fun getBalance(): LiveData<ArrayList<Balance>> = listBalance
 
-    fun getIncomeBalance(): LiveData<ArrayList<Balance>> {
-        return listIncomeBalance
-    }
+    fun getIncomeBalance(): LiveData<ArrayList<Balance>> = listIncomeBalance
 
-    fun getOutcomeBalance(): LiveData<ArrayList<Balance>> {
-        return listOutcomeBalance
-    }
+    fun getOutcomeBalance(): LiveData<ArrayList<Balance>> = listOutcomeBalance
 
-    fun getIncomePlannedBalance(): LiveData<ArrayList<Balance>> {
-        return listIncomePlannedBalance
-    }
+    fun getIncomePlannedBalance(): LiveData<ArrayList<Balance>> = listIncomePlannedBalance
 
-    fun getOutcomePlannedBalance(): LiveData<ArrayList<Balance>> {
-        return listOutcomePlannedBalance
-    }
+    fun getOutcomePlannedBalance(): LiveData<ArrayList<Balance>> = listOutcomePlannedBalance
 
-    fun getIncomeDoneBalance(): LiveData<ArrayList<Balance>> {
-        return listIncomeDoneBalance
-    }
+    fun getIncomeDoneBalance(): LiveData<ArrayList<Balance>> = listIncomeDoneBalance
 
-    fun getOutcomeDoneBalance(): LiveData<ArrayList<Balance>> {
-        return listOutcomeDoneBalance
-    }
+    fun getOutcomeDoneBalance(): LiveData<ArrayList<Balance>> = listOutcomeDoneBalance
 
-    fun getOverviewBalance(): LiveData<ReportOverviewResponse> {
-        return overviewBalance
-    }
+    fun getOverviewBalance(): LiveData<ReportOverviewResponse> = overviewBalance
 
-    fun getOverviewPlannedBalance(): LiveData<ReportOverviewResponse> {
-        return overviewPlannedBalance
-    }
+    fun getOverviewPlannedBalance(): LiveData<ReportOverviewResponse> = overviewPlannedBalance
 
-    fun getOverviewDoneBalance(): LiveData<ReportOverviewResponse> {
-        return overviewDoneBalance
-    }
+    fun getOverviewDoneBalance(): LiveData<ReportOverviewResponse> = overviewDoneBalance
 
-    fun getAddBalanceResponse(): LiveData<Balance> {
-        return addBalanceResponse
-    }
+    fun getAddBalanceResponse(): LiveData<Balance> = addBalanceResponse
 }

@@ -1,43 +1,53 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+
+<androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="wrap_content"
-    android:layout_height="450dp"
-    android:layout_gravity="center"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
     android:background="@drawable/bg_rounded">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
-        <TextView
-            android:id="@+id/tv_title_add_task"
-            android:layout_width="270dp"
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/cardView3"
+            style="@style/CustomCardViewStyle"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginStart="32dp"
-            android:layout_marginTop="8dp"
-            android:layout_marginEnd="32dp"
-            android:fontFamily="@font/roboto_medium"
-            android:text="New Task"
-            android:textAlignment="center"
-            android:textSize="24sp"
+            android:elevation="4dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/img_close_add_task" />
+            app:layout_constraintTop_toTopOf="parent">
 
-        <ImageView
-            android:id="@+id/img_close_add_task"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="24dp"
-            android:layout_marginEnd="24dp"
-            android:background="?attr/selectableItemBackgroundBorderless"
-            android:clickable="true"
-            android:focusable="true"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:srcCompat="@drawable/ic_close" />
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="center_vertical">
+
+                <ImageView
+                    android:id="@+id/img_close_add_task"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="1dp"
+                    android:background="?attr/selectableItemBackgroundBorderless"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:padding="16dp"
+                    app:srcCompat="@drawable/ic_close" />
+
+                <TextView
+                    android:id="@+id/tv_title_add_task"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/roboto_bold"
+                    android:text="New Task"
+                    android:textAlignment="center"
+                    android:textSize="18sp" />
+
+            </LinearLayout>
+
+        </com.google.android.material.card.MaterialCardView>
 
 
         <com.google.android.material.textfield.TextInputLayout
@@ -64,70 +74,22 @@
                 android:nextFocusDown="@+id/edit_email_sign_up" />
         </com.google.android.material.textfield.TextInputLayout>
 
-        <TextView
-            android:id="@+id/tv_date_task"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
-            android:layout_marginTop="24dp"
-            android:background="?attr/selectableItemBackground"
-            android:clickable="true"
-            android:drawablePadding="5dp"
-            android:focusable="true"
-            android:gravity="center"
-            android:text="Due Date"
-            app:drawableEndCompat="@drawable/ic_add_outline"
-            app:layout_constraintStart_toEndOf="@+id/img_date_task"
-            app:layout_constraintTop_toBottomOf="@+id/layout_desc_add_task" />
-
-        <ImageView
-            android:id="@+id/img_date_task"
-            android:layout_width="24dp"
-            android:layout_height="28dp"
-            app:layout_constraintBottom_toBottomOf="@+id/tv_date_task"
-            app:layout_constraintStart_toStartOf="@+id/layout_desc_add_task"
-            app:layout_constraintTop_toTopOf="@+id/tv_date_task"
-            app:srcCompat="@drawable/ic_calendar_50t" />
-
-        <TextView
-            android:id="@+id/tv_attachment_task"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="24dp"
-            android:background="?attr/selectableItemBackground"
-            android:clickable="true"
-            android:drawablePadding="5dp"
-            android:focusable="true"
-            android:gravity="center"
-            android:text="Attachment"
-            app:drawableEndCompat="@drawable/ic_add_outline"
-            app:layout_constraintStart_toStartOf="@+id/tv_date_task"
-            app:layout_constraintTop_toBottomOf="@+id/tv_date_task" />
-
-        <ImageView
-            android:id="@+id/img_attachment_task"
-            android:layout_width="24dp"
-            android:layout_height="28dp"
-            app:layout_constraintBottom_toBottomOf="@+id/tv_attachment_task"
-            app:layout_constraintStart_toStartOf="@+id/img_date_task"
-            app:layout_constraintTop_toTopOf="@+id/tv_attachment_task"
-            app:srcCompat="@drawable/ic_attach" />
-
         <com.apachat.loadingbutton.core.customViews.CircularProgressButton
             android:id="@+id/btn_add_task"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="24dp"
-            android:layout_marginBottom="32dp"
+            android:layout_marginVertical="16dp"
             android:background="@drawable/btn_primary"
             android:text="Add"
             android:textAllCaps="false"
+            android:textColor="@color/white"
+            android:textSize="18sp"
             app:finalCornerAngle="30dp"
             app:initialCornerAngle="30dp"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="@+id/layout_desc_add_task"
-            app:layout_constraintStart_toStartOf="@+id/img_attachment_task"
-            app:layout_constraintTop_toBottomOf="@+id/tv_attachment_task"
+            app:layout_constraintEnd_toEndOf="@+id/layout_member_add_task"
+            app:layout_constraintStart_toStartOf="@+id/layout_member_add_task"
+            app:layout_constraintTop_toBottomOf="@+id/layout_member_add_task"
             app:spinning_bar_padding="8dp" />
 
         <com.google.android.material.textfield.TextInputLayout
@@ -135,11 +97,12 @@
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense.ExposedDropdownMenu"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="24dp"
+            android:layout_margin="16dp"
             android:hint="Workspace"
-            app:layout_constraintEnd_toEndOf="@+id/tv_title_add_task"
-            app:layout_constraintStart_toStartOf="@+id/tv_title_add_task"
-            app:layout_constraintTop_toBottomOf="@+id/tv_title_add_task">
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/cardView3"
+            app:startIconDrawable="@drawable/ic_workspace_50t">
 
             <AutoCompleteTextView
                 android:id="@+id/spinner_workspace_add_task"
@@ -161,7 +124,8 @@
             android:hint="Board"
             app:layout_constraintEnd_toEndOf="@+id/layout_spinner_workspace_add_task"
             app:layout_constraintStart_toStartOf="@+id/layout_spinner_workspace_add_task"
-            app:layout_constraintTop_toBottomOf="@+id/layout_spinner_workspace_add_task">
+            app:layout_constraintTop_toBottomOf="@+id/layout_spinner_workspace_add_task"
+            app:startIconDrawable="@drawable/ic_board_50t">
 
             <AutoCompleteTextView
                 android:id="@+id/spinner_board_add_task"
@@ -186,20 +150,75 @@
             app:layout_constraintEnd_toEndOf="@+id/layout_name_add_task"
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="@+id/layout_name_add_task"
-            app:layout_constraintTop_toBottomOf="@+id/layout_name_add_task">
+            app:layout_constraintTop_toBottomOf="@+id/layout_name_add_task"
+            app:startIconDrawable="@drawable/ic_description_50t">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/edit_desc_add_task"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:gravity="start"
                 android:hint="Description"
                 android:imeOptions="actionNext"
-                android:inputType="textMultiLine"
-                android:lines="3"
-                android:maxLines="3"
+                android:inputType="text"
+                android:nextFocusDown="@+id/edit_email_sign_up" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/layout_date_add_task"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense.ExposedDropdownMenu"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:hint="Due Date"
+            app:boxStrokeColor="@color/black"
+            app:endIconMode="none"
+            app:hintTextColor="@color/black"
+            app:layout_constraintEnd_toEndOf="@+id/layout_desc_add_task"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="@+id/layout_desc_add_task"
+            app:layout_constraintTop_toBottomOf="@+id/layout_desc_add_task"
+            app:startIconDrawable="@drawable/ic_calendar_50t">
+
+            <AutoCompleteTextView
+                android:id="@+id/edit_date_add_task"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:clickable="true"
+                android:focusable="true"
+                android:focusableInTouchMode="false"
+                android:imeOptions="actionNext"
+                android:inputType="none"
+                android:nextFocusDown="@+id/edit_email_sign_up" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/layout_member_add_task"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense.ExposedDropdownMenu"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            app:boxStrokeColor="@color/black"
+            app:hintTextColor="@color/black"
+            android:hint="Add Task Member"
+            app:endIconMode="none"
+            app:layout_constraintEnd_toEndOf="@+id/layout_date_add_task"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="@+id/layout_date_add_task"
+            app:layout_constraintTop_toBottomOf="@+id/layout_date_add_task"
+            app:startIconDrawable="@drawable/ic_user_borderless">
+
+            <AutoCompleteTextView
+                android:id="@+id/edit_member_add_task"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:clickable="true"
+                android:focusable="true"
+                android:focusableInTouchMode="false"
+                android:imeOptions="actionNext"
+                android:inputType="none"
+                android:enabled="false"
                 android:nextFocusDown="@+id/edit_email_sign_up" />
         </com.google.android.material.textfield.TextInputLayout>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
-</ScrollView>
+</androidx.core.widget.NestedScrollView>

@@ -1,50 +1,47 @@
 package com.nomdoa5.nomdo.ui.task
 
 import NoFilterAdapter
+import android.app.DatePickerDialog
 import android.content.Context
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
-import android.os.Handler
-import android.os.Looper
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.AdapterView
-import android.widget.Toast
-import androidx.core.content.ContextCompat
-import androidx.core.graphics.drawable.toBitmap
 import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.preferencesDataStore
-import androidx.fragment.app.DialogFragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
+import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.google.android.material.snackbar.Snackbar
 import com.nomdoa5.nomdo.R
 import com.nomdoa5.nomdo.databinding.DialogFragmentCreateTaskBinding
 import com.nomdoa5.nomdo.helpers.LoadingState
 import com.nomdoa5.nomdo.helpers.ViewModelFactory
 import com.nomdoa5.nomdo.repository.local.UserPreferences
-import com.nomdoa5.nomdo.ui.auth.AuthViewModel
-import com.nomdoa5.nomdo.repository.model.Board
 import com.nomdoa5.nomdo.repository.model.request.task.TaskRequest
 import com.nomdoa5.nomdo.ui.MainActivity
+import com.nomdoa5.nomdo.ui.auth.AuthViewModel
 import com.nomdoa5.nomdo.ui.board.BoardViewModel
 import com.nomdoa5.nomdo.ui.workspace.WorkspacesViewModel
 import kotlinx.coroutines.flow.collect
+import java.text.SimpleDateFormat
+import java.util.*
+import kotlin.collections.ArrayList
 
 
 private val Context.dataStore: DataStore<Preferences> by preferencesDataStore(name = "auth")
 
-class CreateTaskDialogFragment : DialogFragment(), View.OnClickListener {
+class CreateTaskDialogFragment : BottomSheetDialogFragment(), View.OnClickListener {
     private var _binding: DialogFragmentCreateTaskBinding? = null
     private val binding get() = _binding!!
     private lateinit var taskViewModel: TaskViewModel
     private lateinit var workspacesViewModel: WorkspacesViewModel
     private lateinit var boardsViewModel: BoardViewModel
     private lateinit var authViewModel: AuthViewModel
-    private lateinit var board: Board
+    private var date: String? = null
     private var spinnerWorkspacePosition: Int? = null
     private var spinnerBoardPosition: Int? = null
     private val workspaceAdapterId = ArrayList<String>()
@@ -70,6 +67,7 @@ class CreateTaskDialogFragment : DialogFragment(), View.OnClickListener {
         setupSpinner()
         binding.imgCloseAddTask.setOnClickListener(this)
         binding.btnAddTask.setOnClickListener(this)
+        binding.editDateAddTask.setOnClickListener(this)
     }
 
     override fun onDestroy() {
@@ -82,7 +80,7 @@ class CreateTaskDialogFragment : DialogFragment(), View.OnClickListener {
             binding.btnAddTask -> {
                 val taskName = binding.editNameAddTask.text.toString()
                 val taskDescription = binding.editDescAddTask.text.toString()
-                val task = TaskRequest(taskName, taskDescription, spinnerBoardPosition)
+                val task = TaskRequest(taskName, taskDescription, spinnerBoardPosition, date)
                 authViewModel.getAuthToken().observe(this, {
                     taskViewModel.addTask(it!!, task)
                 })
@@ -109,7 +107,33 @@ class CreateTaskDialogFragment : DialogFragment(), View.OnClickListener {
             binding.imgCloseAddTask -> {
                 dismiss()
             }
+            binding.editDateAddTask -> {
+                setupCalendar()
+            }
         }
+    }
+
+    private fun setupCalendar() {
+        val c = Calendar.getInstance()
+        val y = c.get(Calendar.YEAR)
+        val m = c.get(Calendar.MONTH)
+        val d = c.get(Calendar.DAY_OF_MONTH)
+
+        val dpd = DatePickerDialog(
+            requireActivity(), { mDate, _, _, _ ->
+                val calendar = Calendar.getInstance()
+                calendar.set(mDate.year, mDate.month, mDate.dayOfMonth)
+                val format = SimpleDateFormat("yyyy-MM-dd")
+
+                date = format.format(calendar.time)
+                binding.editDateAddTask.setText(date)
+            },
+            y,
+            m,
+            d
+        )
+
+        dpd.show()
     }
 
     fun setupViewModel() {

@@ -15,7 +15,7 @@
         android:id="@+id/nav_my_workspaces"
         android:name="com.nomdoa5.nomdo.ui.workspace.MyWorkspacesFragment"
         android:label="@string/menu_gallery"
-        tools:layout="@layout/fragment_my_workspaces" >
+        tools:layout="@layout/fragment_my_workspaces">
         <action
             android:id="@+id/action_nav_my_workspaces_to_nav_boards"
             app:destination="@id/nav_boards" />
@@ -25,7 +25,7 @@
         android:id="@+id/nav_shared_workspaces"
         android:name="com.nomdoa5.nomdo.ui.workspace.SharedWorkspacesFragment"
         android:label="@string/menu_slideshow"
-        tools:layout="@layout/fragment_shared_workspaces" >
+        tools:layout="@layout/fragment_shared_workspaces">
         <action
             android:id="@+id/action_nav_shared_workspaces_to_nav_boards"
             app:destination="@id/nav_boards" />
@@ -34,7 +34,7 @@
         android:id="@+id/nav_boards"
         android:name="com.nomdoa5.nomdo.ui.board.BoardsFragment"
         android:label="@string/menu_slideshow"
-        tools:layout="@layout/fragment_boards" >
+        tools:layout="@layout/fragment_boards">
         <action
             android:id="@+id/action_nav_boards_to_nav_tasks"
             app:destination="@id/nav_tasks" />
@@ -55,7 +55,7 @@
         android:id="@+id/nav_tasks"
         android:name="com.nomdoa5.nomdo.ui.task.TaskFragment"
         android:label="@string/menu_slideshow"
-        tools:layout="@layout/fragment_task" >
+        tools:layout="@layout/fragment_task">
         <action
             android:id="@+id/action_nav_tasks_to_detailTaskFragment"
             app:destination="@id/detailTaskFragment" />
@@ -77,7 +77,7 @@
         android:id="@+id/detailTaskFragment"
         android:name="com.nomdoa5.nomdo.ui.task.DetailTaskFragment"
         android:label="fragment_detail_task"
-        tools:layout="@layout/fragment_detail_task" >
+        tools:layout="@layout/fragment_detail_task">
         <argument
             android:name="task"
             app:argType="com.nomdoa5.nomdo.repository.model.Task" />
@@ -103,7 +103,7 @@
     <fragment
         android:id="@+id/moneyReportFragment"
         android:name="com.nomdoa5.nomdo.ui.balance.MoneyReportFragment"
-        android:label="MoneyReportFragment" >
+        android:label="MoneyReportFragment">
         <argument
             android:name="workspace"
             app:argType="com.nomdoa5.nomdo.repository.model.Workspace" />
@@ -120,12 +120,18 @@
             android:id="@+id/action_moneyReportFragment_to_detailMoneyReportFragment"
             app:destination="@id/detailMoneyReportFragment" />
     </fragment>
+
+    <fragment
+        android:id="@+id/moneyReportPageFragment"
+        android:name="com.nomdoa5.nomdo.ui.balance.MoneyReportPageFragment"
+        android:label="MoneyReportPageFragment" />
     <fragment
         android:id="@+id/profileWorkspaceFragment"
         android:name="com.nomdoa5.nomdo.ui.workspace.ProfileWorkspaceFragment"
         android:label="fragment_profile_workspace"
-        tools:layout="@layout/fragment_profile_workspace" >
-        <argument android:name="workspace"
+        tools:layout="@layout/fragment_profile_workspace">
+        <argument
+            android:name="workspace"
             app:argType="com.nomdoa5.nomdo.repository.model.Workspace" />
         <action
             android:id="@+id/action_profileWorkspaceFragment_to_moneyReportFragment"
@@ -143,7 +149,7 @@
     <fragment
         android:id="@+id/dashboardWorkspaceFragment"
         android:name="com.nomdoa5.nomdo.ui.workspace.DashboardWorkspaceFragment"
-        android:label="DashboardWorkspaceFragment" >
+        android:label="DashboardWorkspaceFragment">
         <argument
             android:name="workspace"
             app:argType="com.nomdoa5.nomdo.repository.model.Workspace" />
@@ -160,7 +166,7 @@
     <fragment
         android:id="@+id/detailMoneyReportFragment"
         android:name="com.nomdoa5.nomdo.ui.balance.DetailMoneyReportFragment"
-        android:label="DetailMoneyReportFragment" >
+        android:label="DetailMoneyReportFragment">
         <argument
             android:name="isIncome"
             app:argType="integer" />
@@ -175,7 +181,7 @@
     <fragment
         android:id="@+id/shareWorkspaceDialogFragment"
         android:name="com.nomdoa5.nomdo.ui.workspace.ShareWorkspaceDialogFragment"
-        android:label="ShareWorkspaceDialogFragment" >
+        android:label="ShareWorkspaceDialogFragment">
         <argument
             android:name="codeJoin"
             app:argType="string" />

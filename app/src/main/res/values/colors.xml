@@ -14,12 +14,12 @@
     <color name="primary_10t">#1A4ABDAC</color>
     <color name="primary_20t">#334ABDAC</color>
     <color name="primary_30t">#4D4ABDAC</color>
-    <color name="primary_10b">#43AA9B</color>
+    <color name="primary_10b">#009984</color>
     <color name="primary_ripple">#2F7A6F</color>
-    <color name="accent">#F8B732</color>
-    <color name="accent_30t">#4DF7B733</color>
-    <color name="accent_10t">#1AF7B733</color>
-    <color name="accent_profile">#E6A01B</color>
+    <color name="accent">#E6A01B</color>
+    <color name="accent_30t">#4DE6A01B</color>
+    <color name="accent_10t">#1AE6A01B</color>
+    <color name="accent_10b">#CF9018</color>
     <color name="accent_ripple">#9F7724</color>
     <color name="bg_gray">#F4F4F9</color>
     <color name="gray">#DCDCDC</color>

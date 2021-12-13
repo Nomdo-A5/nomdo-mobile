@@ -245,7 +245,7 @@
                     android:layout_marginStart="16dp"
                     android:fontFamily="@font/roboto_regular"
                     android:text="Leave Workspace"
-                    android:textColor="@color/accent_profile"
+                    android:textColor="@color/accent"
                     android:textSize="16sp"
                     app:layout_constraintBottom_toBottomOf="@+id/imageView"
                     app:layout_constraintStart_toEndOf="@+id/imageView"

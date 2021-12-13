@@ -15,16 +15,11 @@ import com.nomdoa5.nomdo.repository.model.Board
 class BalanceAdapter(var context: Context,  private val listener: OnBalanceClickListener) :
     RecyclerView.Adapter<BalanceAdapter.ViewHolder>() {
     private val mData = ArrayList<Balance>()
-    private var limit: Int? = null
 
     fun setData(items: ArrayList<Balance>) {
         mData.clear()
         mData.addAll(items)
         notifyDataSetChanged()
-    }
-
-    fun setLimit(count: Int){
-        limit = count
     }
 
     interface OnBalanceClickListener {
@@ -45,26 +40,21 @@ class BalanceAdapter(var context: Context,  private val listener: OnBalanceClick
                 holder.tvNominal.setTextColor(
                     ContextCompat.getColor(
                         context,
-                        R.color.accent_profile
+                        R.color.accent
                     )
                 )
             }
 
             holder.tvDescription.text = model.balanceDescription
             holder.tvNominal.text = model.nominal!!.toDouble().toCurrencyFormat()
+            holder.tvDate.text = model.date
             holder.itemView.setOnClickListener{listener.onBalanceClick(mData[position])}
         } else {
             return
         }
     }
 
-    override fun getItemCount(): Int {
-        return if(limit != null){
-            limit!!
-        } else {
-            mData.size
-        }
-    }
+    override fun getItemCount(): Int = mData.size
 
     inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         var tvDescription: TextView = itemView.findViewById(R.id.tv_description_balance)

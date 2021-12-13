@@ -12,4 +12,6 @@ data class TaskRequest(
     val taskDescription: String? = null,
     @SerializedName("board_id")
     val boardId: Int? = null,
+    @SerializedName("due_date")
+    val dueDate: String? = null,
 ) : Parcelable

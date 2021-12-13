@@ -98,7 +98,7 @@ class HomeFragment : Fragment() {
     fun setupHome(){
         authViewModel.getAuthToken().observe(viewLifecycleOwner, {
             authViewModel.setUser(it!!)
-            workspacesViewModel.setWorkspace(it!!)
+            workspacesViewModel.setWorkspace(it)
         })
 
         authViewModel.getUser().observe(viewLifecycleOwner, {
@@ -113,9 +113,9 @@ class HomeFragment : Fragment() {
     fun setupViewModel() {
         val pref = UserPreferences.getInstance(requireContext().dataStore)
         authViewModel =
-            ViewModelProvider(this, ViewModelFactory(pref)).get(AuthViewModel::class.java)
+            ViewModelProvider(this, ViewModelFactory(pref))[AuthViewModel::class.java]
         workspacesViewModel =
-            ViewModelProvider(this).get(WorkspacesViewModel::class.java)
+            ViewModelProvider(this)[WorkspacesViewModel::class.java]
     }
 
     private fun setupOnBackPressed() {
