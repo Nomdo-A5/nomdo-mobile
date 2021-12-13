@@ -6,6 +6,8 @@ import android.provider.OpenableColumns
 import android.view.View
 import com.google.android.material.snackbar.Snackbar
 import java.text.DecimalFormat
+import java.text.SimpleDateFormat
+import java.util.*
 
 fun Double.toCurrencyFormat(): String {
     val formatter = DecimalFormat("#,###")

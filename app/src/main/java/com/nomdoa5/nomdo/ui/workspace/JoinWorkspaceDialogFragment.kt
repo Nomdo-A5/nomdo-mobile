@@ -13,6 +13,7 @@ import androidx.datastore.preferences.preferencesDataStore
 import androidx.fragment.app.DialogFragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
+import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.google.android.material.snackbar.Snackbar
 import com.nomdoa5.nomdo.databinding.DialogFragmentJoinWorkspaceBinding
 import com.nomdoa5.nomdo.helpers.LoadingState
@@ -25,7 +26,7 @@ import kotlinx.coroutines.flow.collect
 
 private val Context.dataStore: DataStore<Preferences> by preferencesDataStore(name = "auth")
 
-class JoinWorkspaceDialogBoard : DialogFragment(), View.OnClickListener {
+class JoinWorkspaceDialogBoard : BottomSheetDialogFragment(), View.OnClickListener {
     private var _binding: DialogFragmentJoinWorkspaceBinding? = null
     private val binding get() = _binding!!
     private lateinit var workspacesViewModel: WorkspacesViewModel

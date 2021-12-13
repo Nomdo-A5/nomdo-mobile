@@ -32,7 +32,7 @@ import java.util.*
 
 private val Context.dataStore: DataStore<Preferences> by preferencesDataStore(name = "auth")
 
-class DetailMoneyReportFragment : Fragment(),  BalanceAdapter.OnBalanceClickListener {
+class DetailMoneyReportFragment : Fragment(), BalanceAdapter.OnBalanceClickListener {
     private lateinit var balanceViewModel: BalanceViewModel
     private lateinit var boardsViewModel: BoardViewModel
     private lateinit var authViewModel: AuthViewModel
@@ -92,15 +92,29 @@ class DetailMoneyReportFragment : Fragment(),  BalanceAdapter.OnBalanceClickList
                 null,
                 null
             )
-            balanceViewModel.getIncomeBalance().observe(viewLifecycleOwner, {
-                balanceAdapter.setData(it)
-            })
+            when (args.status) {
+                "Planned" -> {
+                    balanceViewModel.getIncomePlannedBalance().observe(viewLifecycleOwner, {
+                        balanceAdapter.setData(it)
+                    })
+                }
+                "Done" -> {
+                    balanceViewModel.getIncomeDoneBalance().observe(viewLifecycleOwner, {
+                        balanceAdapter.setData(it)
+                    })
+                }
+                else -> {
+                    balanceViewModel.getIncomeBalance().observe(viewLifecycleOwner, {
+                        balanceAdapter.setData(it)
+                    })
+                }
+            }
         } else {
             binding.tvTypeDetailMoneyReport.text = "Outcome"
             binding.tvTypeDetailMoneyReport.setTextColor(
                 ContextCompat.getColor(
                     requireContext(),
-                    R.color.accent_profile
+                    R.color.accent
                 )
             )
             binding.tvTypeDetailMoneyReport.setCompoundDrawablesWithIntrinsicBounds(
@@ -109,9 +123,23 @@ class DetailMoneyReportFragment : Fragment(),  BalanceAdapter.OnBalanceClickList
                 null,
                 null
             )
-            balanceViewModel.getOutcomeBalance().observe(viewLifecycleOwner, {
-                balanceAdapter.setData(it)
-            })
+            when (args.status) {
+                "Planned" -> {
+                    balanceViewModel.getOutcomePlannedBalance().observe(viewLifecycleOwner, {
+                        balanceAdapter.setData(it)
+                    })
+                }
+                "Done" -> {
+                    balanceViewModel.getOutcomeDoneBalance().observe(viewLifecycleOwner, {
+                        balanceAdapter.setData(it)
+                    })
+                }
+                else -> {
+                    balanceViewModel.getOutcomeBalance().observe(viewLifecycleOwner, {
+                        balanceAdapter.setData(it)
+                    })
+                }
+            }
         }
 
         rvBalance.adapter = balanceAdapter

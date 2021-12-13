@@ -19,6 +19,7 @@ import androidx.fragment.app.DialogFragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
+import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.google.android.material.snackbar.Snackbar
 import com.nomdoa5.nomdo.R
 import com.nomdoa5.nomdo.helpers.ViewModelFactory
@@ -34,7 +35,7 @@ import kotlinx.coroutines.flow.collect
 
 private val Context.dataStore: DataStore<Preferences> by preferencesDataStore(name = "auth")
 
-class UpdateBoardDialogFragment : DialogFragment(), View.OnClickListener {
+class UpdateBoardDialogFragment : BottomSheetDialogFragment(), View.OnClickListener {
     private var _binding: DialogFragmentUpdateBoardBinding? = null
     private val binding get() = _binding!!
     private lateinit var boardsViewModel: BoardViewModel

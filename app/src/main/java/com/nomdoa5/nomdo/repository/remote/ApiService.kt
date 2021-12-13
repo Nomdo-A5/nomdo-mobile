@@ -210,7 +210,7 @@ interface ApiService {
         @Body task: BalanceRequest
     ): Call<CreateBalanceResponse>
 
-    @PATCH("balance")
+    @PUT("balance")
     fun updateBalance(
         @Header("Authorization") token: String,
         @Body balance: UpdateBalanceRequest
@@ -220,7 +220,7 @@ interface ApiService {
     fun deleteBalance(
         @Header("Authorization") token: String,
         @Query("id") id: String,
-    ): Call<BalanceResponse>
+    ): Call<MessageResponse>
 
     //    ATTACHMENT
     @Multipart

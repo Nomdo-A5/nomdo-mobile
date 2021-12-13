@@ -9,51 +9,45 @@ import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.net.Uri
 import android.os.Bundle
-import android.os.Handler
-import android.os.Looper
+import android.provider.OpenableColumns
 import android.view.LayoutInflater
-import android.view.MotionEvent
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
-import androidx.core.content.ContextCompat
-import androidx.core.graphics.drawable.toBitmap
 import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.preferencesDataStore
 import androidx.fragment.app.DialogFragment
 import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.lifecycleScope
+import com.google.android.material.bottomsheet.BottomSheetDialogFragment
+import com.google.android.material.snackbar.Snackbar
 import com.nomdoa5.nomdo.R
 import com.nomdoa5.nomdo.databinding.DialogFragmentCreateBalanceBinding
-import com.nomdoa5.nomdo.helpers.ViewModelFactory
-import com.nomdoa5.nomdo.repository.local.UserPreferences
-import com.nomdoa5.nomdo.repository.model.request.balance.BalanceRequest
-import com.nomdoa5.nomdo.ui.auth.AuthViewModel
-import com.nomdoa5.nomdo.ui.workspace.WorkspacesViewModel
-import java.util.*
-import kotlin.collections.ArrayList
-import android.provider.OpenableColumns
-import androidx.lifecycle.lifecycleScope
-import com.google.android.material.snackbar.Snackbar
 import com.nomdoa5.nomdo.helpers.LoadingState
+import com.nomdoa5.nomdo.helpers.ViewModelFactory
 import com.nomdoa5.nomdo.helpers.getFileName
 import com.nomdoa5.nomdo.helpers.snackbar
+import com.nomdoa5.nomdo.repository.local.UserPreferences
 import com.nomdoa5.nomdo.repository.model.request.AttachmentRequestBody
+import com.nomdoa5.nomdo.repository.model.request.balance.BalanceRequest
 import com.nomdoa5.nomdo.ui.MainActivity
+import com.nomdoa5.nomdo.ui.auth.AuthViewModel
+import com.nomdoa5.nomdo.ui.workspace.WorkspacesViewModel
 import kotlinx.coroutines.flow.collect
-import okhttp3.MediaType
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.MultipartBody
-import okhttp3.RequestBody
 import okhttp3.RequestBody.Companion.toRequestBody
 import java.io.File
 import java.io.FileInputStream
 import java.io.FileOutputStream
+import java.text.SimpleDateFormat
+import java.util.*
+import kotlin.collections.ArrayList
 
 
 private val Context.dataStore: DataStore<Preferences> by preferencesDataStore(name = "auth")
 
-class CreateBalanceDialogFragment : DialogFragment(), View.OnClickListener, View.OnTouchListener,
+class CreateBalanceDialogFragment : BottomSheetDialogFragment(), View.OnClickListener,
     AttachmentRequestBody.UploadCallback {
     private var _binding: DialogFragmentCreateBalanceBinding? = null
     private val binding get() = _binding!!
@@ -64,7 +58,6 @@ class CreateBalanceDialogFragment : DialogFragment(), View.OnClickListener, View
     private var spinnerWorkspacePosition: Int? = null
     private val workspaceAdapterId = ArrayList<String>()
     private var selectedImageUri: Uri? = null
-    private val downloadId: Long = 0
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -84,8 +77,8 @@ class CreateBalanceDialogFragment : DialogFragment(), View.OnClickListener, View
         setupSpinner()
         binding.imgCloseAddBalance.setOnClickListener(this)
         binding.btnAddBalance.setOnClickListener(this)
-        binding.editDateAddBalance.setOnTouchListener(this)
-        binding.editAttachmentAddBalance.setOnTouchListener(this)
+        binding.editDateAddBalance.setOnClickListener(this)
+        binding.editAttachmentAddBalance.setOnClickListener(this)
     }
 
     override fun onDestroy() {
@@ -114,49 +107,15 @@ class CreateBalanceDialogFragment : DialogFragment(), View.OnClickListener, View
                     balanceViewModel.addBalance(it!!, balance)
                 })
 
-//                balanceViewModel.getAddBalanceState().observe(this, {
-//                    if (it) {
-//                        Toast.makeText(requireContext(), "Balance Added", Toast.LENGTH_SHORT).show()
-//                        binding.btnAddBalance.doneLoadingAnimation(
-//                            resources.getColor(R.color.teal_200),
-//                            ContextCompat.getDrawable(requireContext(), R.drawable.ic_check)!!
-//                                .toBitmap()
-//                        )
-//                        Handler(Looper.getMainLooper()).postDelayed({
-//                            dismiss()
-//                        }, 1000)
-//                    } else {
-//                        binding.btnAddBalance.revertAnimation()
-//                        Toast.makeText(requireContext(), "Add Balance Failed!!", Toast.LENGTH_SHORT)
-//                            .show()
-//                    }
-//                })
-
-
-
                 balanceViewModel.getAddBalanceResponse().observe(this, {
                     if (it != null) {
                         uploadImage(it.id.toString())
                     }
-//                        Toast.makeText(requireContext(), it.toString(), Toast.LENGTH_SHORT).show()
-//                        binding.btnAddBalance.doneLoadingAnimation(
-//                            resources.getColor(R.color.teal_200),
-//                            ContextCompat.getDrawable(requireContext(), R.drawable.ic_check)!!
-//                                .toBitmap()
-//                        )
-//                        Handler(Looper.getMainLooper()).postDelayed({
-//                            dismiss()
-//                        }, 1000)
-//                    } else {
-//                        binding.btnAddBalance.revertAnimation()
-//                        Toast.makeText(requireContext(), "Add Balance Failed!!", Toast.LENGTH_SHORT)
-//                            .show()
-//                    }
                 })
 
                 viewLifecycleOwner.lifecycleScope.launchWhenCreated {
                     balanceViewModel.balanceState.collect {
-                        when(it){
+                        when (it) {
                             is LoadingState.Loading -> {
                                 binding.btnAddBalance.startAnimation()
                             }
@@ -176,22 +135,28 @@ class CreateBalanceDialogFragment : DialogFragment(), View.OnClickListener, View
             binding.imgCloseAddBalance -> {
                 dismiss()
             }
+            binding.editDateAddBalance -> {
+                setupCalendar()
+            }
+            binding.editAttachmentAddBalance -> {
+                openImageChooser()
+            }
         }
     }
 
     fun setupViewModel() {
         val pref = UserPreferences.getInstance(requireContext().dataStore)
         authViewModel =
-            ViewModelProvider(this, ViewModelFactory(pref)).get(AuthViewModel::class.java)
-        workspacesViewModel = ViewModelProvider(this).get(WorkspacesViewModel::class.java)
-        balanceViewModel = ViewModelProvider(this).get(BalanceViewModel::class.java)
+            ViewModelProvider(this, ViewModelFactory(pref))[AuthViewModel::class.java]
+        workspacesViewModel = ViewModelProvider(this)[WorkspacesViewModel::class.java]
+        balanceViewModel = ViewModelProvider(this)[BalanceViewModel::class.java]
     }
 
     fun showSnackbar(message: String) {
         Snackbar.make(requireView(), message, Snackbar.LENGTH_SHORT).show()
     }
 
-    fun setupSpinner() {
+    private fun setupSpinner() {
         authViewModel.getAuthToken().observe(this, {
             workspacesViewModel.setWorkspace(it!!)
         })
@@ -234,33 +199,27 @@ class CreateBalanceDialogFragment : DialogFragment(), View.OnClickListener, View
         binding.spinnerStatusAddBalance.setAdapter(statusAdapter)
     }
 
-    override fun onTouch(v: View?, motionEvent: MotionEvent?): Boolean {
-        if (motionEvent!!.action == MotionEvent.ACTION_UP) {
-            when (v) {
-                binding.editDateAddBalance -> {
-                    val c = Calendar.getInstance()
-                    val year = c.get(Calendar.YEAR)
-                    val month = c.get(Calendar.MONTH)
-                    val day = c.get(Calendar.DAY_OF_MONTH)
+    private fun setupCalendar() {
+        val c = Calendar.getInstance()
+        val y = c.get(Calendar.YEAR)
+        val m = c.get(Calendar.MONTH)
+        val d = c.get(Calendar.DAY_OF_MONTH)
 
-                    val dpd = DatePickerDialog(
-                        requireActivity(), { _, y, m, d ->
-                            date = "$y-$m-$d"
-                            binding.editDateAddBalance.setText(date)
-                        },
-                        year,
-                        month,
-                        day
-                    )
+        val dpd = DatePickerDialog(
+            requireActivity(), { mDate, _, _, _ ->
+                val calendar = Calendar.getInstance()
+                calendar.set(mDate.year, mDate.month, mDate.dayOfMonth)
+                val format = SimpleDateFormat("yyyy-MM-dd")
 
-                    dpd.show()
-                }
-                binding.editAttachmentAddBalance -> {
-                    openImageChooser()
-                }
-            }
-        }
-        return false
+                date = format.format(calendar.time)
+                binding.editDateAddBalance.setText(date)
+            },
+            y,
+            m,
+            d
+        )
+
+        dpd.show()
     }
 
     private fun openImageChooser() {
