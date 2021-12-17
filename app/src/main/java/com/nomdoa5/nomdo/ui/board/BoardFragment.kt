@@ -20,20 +20,23 @@ import com.google.android.material.snackbar.Snackbar
 import com.nomdoa5.nomdo.R
 import com.nomdoa5.nomdo.databinding.FragmentBoardsBinding
 import com.nomdoa5.nomdo.helpers.LoadingState
+import com.nomdoa5.nomdo.helpers.MarginItemDecoration
 import com.nomdoa5.nomdo.helpers.ViewModelFactory
 import com.nomdoa5.nomdo.helpers.adapter.BoardAdapter
+import com.nomdoa5.nomdo.helpers.adapter.WorkspaceAdapter
 import com.nomdoa5.nomdo.repository.local.UserPreferences
 import com.nomdoa5.nomdo.repository.model.Board
 import com.nomdoa5.nomdo.ui.MainActivity
 import com.nomdoa5.nomdo.ui.auth.AuthViewModel
 import com.nomdoa5.nomdo.ui.task.TaskViewModel
+import com.nomdoa5.nomdo.ui.workspace.WorkspacesViewModel
 import kotlinx.coroutines.flow.collect
 
 private val Context.dataStore: DataStore<Preferences> by preferencesDataStore(name = "auth")
 
 class BoardsFragment : Fragment(), BoardAdapter.OnBoardClickListener,
     SwipeRefreshLayout.OnRefreshListener {
-    private lateinit var taskViewModel: TaskViewModel
+    private lateinit var workspaceViewModel: WorkspacesViewModel
     private lateinit var boardViewModel: BoardViewModel
     private lateinit var authViewModel: AuthViewModel
     private var _binding: FragmentBoardsBinding? = null
@@ -76,21 +79,42 @@ class BoardsFragment : Fragment(), BoardAdapter.OnBoardClickListener,
         binding.swipeMyBoards.isRefreshing = true
         rvBoard = requireView().findViewById(R.id.rv_boards)
         rvBoard.setHasFixedSize(true)
-        rvBoard.addItemDecoration(BoardAdapter.MarginItemDecoration(15))
+        rvBoard.addItemDecoration(MarginItemDecoration(15))
         rvBoard.layoutManager = LinearLayoutManager(context)
         authViewModel.getAuthToken().observe(viewLifecycleOwner, {
             boardViewModel.setBoard(it!!, args.workspace.id.toString())
+            workspaceViewModel.setBoardInfo(it, args.workspace.id.toString())
         })
 
-        boardViewModel.getBoard().observe(viewLifecycleOwner, {
-            boardAdapter.setData(it)
-            binding.swipeMyBoards.isRefreshing = false
-            if (it.isEmpty()) {
-                showEmpty(true)
-            } else {
-                showEmpty(false)
-            }
+        boardViewModel.getBoard().observe(viewLifecycleOwner, { boards ->
+            workspaceViewModel.getBoardInfo().observe(viewLifecycleOwner, {
+                boardAdapter.setData(boards, it.taskInfo)
+                if (!(boards.isNullOrEmpty() && it.taskInfo.isNullOrEmpty())) {
+                    boardAdapter.notifyDataSetChanged()
+                    binding.swipeMyBoards.isRefreshing = false
+                }
+            })
         })
+
+        viewLifecycleOwner.lifecycleScope.launchWhenCreated {
+            boardViewModel.boardState.collect {
+                when (it) {
+                    is LoadingState.Loading -> {
+                        binding.swipeMyBoards.isRefreshing = true
+                    }
+                    is LoadingState.Success -> {
+                        binding.swipeMyBoards.isRefreshing = false
+                        showEmpty(false)
+                    }
+                    is LoadingState.Error -> {
+                        binding.swipeMyBoards.isRefreshing = false
+                        showSnackbar(it.message)
+                        showEmpty(true)
+                    }
+                    else -> Unit
+                }
+            }
+        }
 
 
         rvBoard.adapter = boardAdapter
@@ -99,10 +123,10 @@ class BoardsFragment : Fragment(), BoardAdapter.OnBoardClickListener,
     fun setupViewModel() {
         val pref = UserPreferences.getInstance(requireContext().dataStore)
         authViewModel =
-            ViewModelProvider(this, ViewModelFactory(pref)).get(AuthViewModel::class.java)
+            ViewModelProvider(this, ViewModelFactory(pref))[AuthViewModel::class.java]
         boardViewModel =
-            ViewModelProvider(this).get(BoardViewModel::class.java)
-        taskViewModel = ViewModelProvider(this).get(TaskViewModel::class.java)
+            ViewModelProvider(this)[BoardViewModel::class.java]
+        workspaceViewModel = ViewModelProvider(this)[WorkspacesViewModel::class.java]
     }
 
     private fun showEmpty(state: Boolean) {
@@ -132,11 +156,12 @@ class BoardsFragment : Fragment(), BoardAdapter.OnBoardClickListener,
     override fun onRefresh() {
         authViewModel.getAuthToken().observe(viewLifecycleOwner, {
             boardViewModel.setBoard(it!!, args.workspace.id.toString())
+            workspaceViewModel.setBoardInfo(it, args.workspace.id.toString())
         })
 
         viewLifecycleOwner.lifecycleScope.launchWhenCreated {
             boardViewModel.boardState.collect {
-                when(it){
+                when (it) {
                     is LoadingState.Loading -> {
                         binding.swipeMyBoards.isRefreshing = true
                     }

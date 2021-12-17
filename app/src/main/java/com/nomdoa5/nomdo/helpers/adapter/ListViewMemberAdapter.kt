@@ -46,15 +46,4 @@ class ListViewMemberAdapter(private val listener: ListViewMemberAdapter.OnMember
             itemView.setOnClickListener { listener.onMemberClick(userItem) }
         }
     }
-
-    class MarginItemDecoration(private val spaceHeight: Int) : RecyclerView.ItemDecoration() {
-        override fun getItemOffsets(
-            outRect: Rect, view: View,
-            parent: RecyclerView, state: RecyclerView.State
-        ) {
-            with(outRect) {
-                right = spaceHeight * 2
-            }
-        }
-    }
 }

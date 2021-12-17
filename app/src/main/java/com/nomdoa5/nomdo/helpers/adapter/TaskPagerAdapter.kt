@@ -3,6 +3,7 @@ package com.nomdoa5.nomdo.helpers.adapter
 import androidx.fragment.app.Fragment
 import androidx.viewpager2.adapter.FragmentStateAdapter
 import com.nomdoa5.nomdo.repository.model.Board
+import com.nomdoa5.nomdo.ui.task.TaskDonePageFragment
 import com.nomdoa5.nomdo.ui.task.TaskPageFragment
 
 class TaskPagerAdapter(fragmentActivity: Fragment) : FragmentStateAdapter(fragmentActivity) {
@@ -16,8 +17,8 @@ class TaskPagerAdapter(fragmentActivity: Fragment) : FragmentStateAdapter(fragme
         var fragment: Fragment? = null
 
         when (position) {
-            0 -> fragment = TaskPageFragment(args, 0)
-            1 -> fragment = TaskPageFragment(args, 1)
+            0 -> fragment = TaskPageFragment(args)
+            1 -> fragment = TaskDonePageFragment(args)
         }
         return fragment as Fragment
     }

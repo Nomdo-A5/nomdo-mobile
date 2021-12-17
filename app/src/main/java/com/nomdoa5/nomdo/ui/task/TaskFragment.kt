@@ -12,6 +12,9 @@ import com.google.android.material.tabs.TabLayoutMediator
 import com.nomdoa5.nomdo.databinding.FragmentTaskBinding
 import com.nomdoa5.nomdo.helpers.adapter.TaskPagerAdapter
 import com.nomdoa5.nomdo.ui.MainActivity
+import android.view.MotionEvent
+import android.view.View.OnTouchListener
+
 
 class TaskFragment : Fragment() {
     private var _binding: FragmentTaskBinding? = null

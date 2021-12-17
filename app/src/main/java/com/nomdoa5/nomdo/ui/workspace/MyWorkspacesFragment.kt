@@ -18,6 +18,7 @@ import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.nomdoa5.nomdo.R
 import com.nomdoa5.nomdo.databinding.FragmentMyWorkspacesBinding
 import com.nomdoa5.nomdo.helpers.LoadingState
+import com.nomdoa5.nomdo.helpers.MarginItemDecoration
 import com.nomdoa5.nomdo.helpers.ViewModelFactory
 import com.nomdoa5.nomdo.helpers.adapter.WorkspaceAdapter
 import com.nomdoa5.nomdo.repository.local.UserPreferences
@@ -68,7 +69,7 @@ class MyWorkspacesFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener,
         binding.swipeMyWorkspaces.isRefreshing = true
         rvWorkspace = requireView().findViewById(R.id.rv_my_workspaces)
         rvWorkspace.setHasFixedSize(true)
-        rvWorkspace.addItemDecoration(WorkspaceAdapter.MarginItemDecoration(16))
+        rvWorkspace.addItemDecoration(MarginItemDecoration(16))
         rvWorkspace.layoutManager = LinearLayoutManager(context)
 
         authViewModel.getAuthToken().observe(viewLifecycleOwner, {

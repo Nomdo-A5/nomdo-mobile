@@ -76,30 +76,39 @@ class CreateBoardDialogFragment : BottomSheetDialogFragment(), View.OnClickListe
             binding.btnAddBoard -> {
                 val boardName = binding.editNameAddBoard.text.toString()
 
-                board = BoardRequest(boardName, spinnerWorkspacePosition!!)
-                authViewModel.getAuthToken().observe(this, {
-                    boardsViewModel.addBoard(it!!, board)
-                })
+                if (boardName.isEmpty()) {
+                    binding.editNameAddBoard.error = "Must Enter"
+                }
 
-                viewLifecycleOwner.lifecycleScope.launchWhenCreated {
-                    boardsViewModel.boardState.collect {
-                        when (it) {
-                            is LoadingState.Loading -> {
-                                binding.btnAddBoard.startAnimation()
+                if (binding.spinnerWorkspaceAddBoard.text.isNullOrEmpty()) {
+                    binding.spinnerWorkspaceAddBoard.error = "Must Enter"
+                }
+
+                if (!(boardName.isEmpty() && binding.spinnerWorkspaceAddBoard.text.isNullOrEmpty())) {
+                    board = BoardRequest(boardName, spinnerWorkspacePosition!!)
+                    authViewModel.getAuthToken().observe(this, {
+                        boardsViewModel.addBoard(it!!, board)
+                    })
+
+                    viewLifecycleOwner.lifecycleScope.launchWhenCreated {
+                        boardsViewModel.boardState.collect {
+                            when (it) {
+                                is LoadingState.Loading -> {
+                                    binding.btnAddBoard.startAnimation()
+                                }
+                                is LoadingState.Success -> {
+                                    (activity as MainActivity?)!!.showSnackbar("Board Created")
+                                    dismiss()
+                                }
+                                is LoadingState.Error -> {
+                                    binding.btnAddBoard.revertAnimation()
+                                    showSnackbar(it.message)
+                                }
+                                else -> Unit
                             }
-                            is LoadingState.Success -> {
-                                (activity as MainActivity?)!!.showSnackbar("Board Created")
-                                dismiss()
-                            }
-                            is LoadingState.Error -> {
-                                binding.btnAddBoard.revertAnimation()
-                                showSnackbar(it.message)
-                            }
-                            else -> Unit
                         }
                     }
                 }
-
             }
             binding.imgCloseAddBoard -> {
                 dismiss()
@@ -142,6 +151,8 @@ class CreateBoardDialogFragment : BottomSheetDialogFragment(), View.OnClickListe
     }
 
     private fun showSnackbar(message: String) {
-        Snackbar.make(requireView(), message, Snackbar.LENGTH_SHORT).show()
+        Snackbar.make(
+            dialog!!.window!!.decorView, message, Snackbar.LENGTH_SHORT
+        ).show()
     }
 }

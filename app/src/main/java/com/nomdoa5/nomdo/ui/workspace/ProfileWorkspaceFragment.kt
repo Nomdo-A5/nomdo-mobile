@@ -16,6 +16,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.nomdoa5.nomdo.R
 import com.nomdoa5.nomdo.databinding.FragmentProfileWorkspaceBinding
+import com.nomdoa5.nomdo.helpers.MarginItemDecoration
 import com.nomdoa5.nomdo.helpers.ViewModelFactory
 import com.nomdoa5.nomdo.helpers.adapter.ListViewMemberAdapter
 import com.nomdoa5.nomdo.helpers.adapter.WorkspaceAdapter
@@ -75,7 +76,7 @@ class ProfileWorkspaceFragment : Fragment(), ListViewMemberAdapter.OnMemberClick
     private fun setupRecyclerView() {
         rvMember = requireView().findViewById(R.id.rv_member_profile_workspace)
         rvMember.setHasFixedSize(true)
-        rvMember.addItemDecoration(WorkspaceAdapter.MarginItemDecoration(16))
+        rvMember.addItemDecoration(MarginItemDecoration(16))
         rvMember.layoutManager = LinearLayoutManager(context)
 
         authViewModel.getAuthToken().observe(viewLifecycleOwner, {

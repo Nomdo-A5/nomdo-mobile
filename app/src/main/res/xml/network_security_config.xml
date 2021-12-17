@@ -3,5 +3,9 @@
     <domain-config cleartextTrafficPermitted="true">
         <domain includeSubdomains="true">10.147.17.18</domain>
         <domain includeSubdomains="true">192.168.0.15</domain>
+        <domain includeSubdomains="true">192.168.79.219</domain>
+        <domain includeSubdomains="true">192.168.1.24</domain>
+        <domain includeSubdomains="true">192.168.58.219</domain>
+        <domain includeSubdomains="true">api.nomdo.site</domain>
     </domain-config>
 </network-security-config>

@@ -1,5 +1,6 @@
 package com.nomdoa5.nomdo.ui.task
 
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -20,19 +21,37 @@ import retrofit2.Response
 class TaskViewModel : ViewModel() {
     private val listTask = MutableLiveData<ArrayList<Task>>()
     private val detailTask = MutableLiveData<Task>()
+    private val listDoneTask = MutableLiveData<ArrayList<Task>>()
+    private val listTodayTask = MutableLiveData<ArrayList<Task>>()
+    private val listWeekTask = MutableLiveData<ArrayList<Task>>()
+    private val listLaterTask = MutableLiveData<ArrayList<Task>>()
+    private val listOverdueTask = MutableLiveData<ArrayList<Task>>()
     private val _taskState = MutableStateFlow<LoadingState>(LoadingState.Empty)
     val taskState: StateFlow<LoadingState> = _taskState
 
-    fun setTask(token: String, idBoard: String) {
+    fun setTask(token: String, idBoard: String, isDone: Int, dueDate: String? = null) {
         _taskState.value = LoadingState.Loading
         val service = RetrofitClient.buildService(ApiService::class.java)
-        val requestCall = service.getTask(token = "Bearer $token", idBoard)
+        val requestCall = service.getTask(token = "Bearer $token", idBoard, isDone, dueDate)
 
         requestCall.enqueue(object : Callback<TaskResponse> {
             override fun onResponse(call: Call<TaskResponse>, response: Response<TaskResponse>) {
+
                 if (response.code() < 300) {
-                    val task = response.body()!!.task
-                    listTask.postValue(task)
+                    val task = response.body()!!.tasks
+                    Log.d("TASK", task.toString())
+                    if (isDone == 0) {
+                        when (dueDate) {
+                            "Today" -> listTodayTask.postValue(task)
+                            "Overdue" -> listOverdueTask.postValue(task)
+                            "Week" -> listWeekTask.postValue(task)
+                            "Later" -> listLaterTask.postValue(task)
+                            else -> listTask.postValue(task)
+                        }
+                    } else if (isDone == 1) {
+                        listDoneTask.postValue(task)
+                    }
+                    Log.d("TASKDONE", listDoneTask.value.toString())
                     _taskState.value = LoadingState.Success
                 } else {
                     _taskState.value = LoadingState.Error("Error ${response.code()}")
@@ -134,4 +153,9 @@ class TaskViewModel : ViewModel() {
 
     fun getTask(): LiveData<ArrayList<Task>> = listTask
     fun getDetailTask(): LiveData<Task> = detailTask
+    fun getDoneTask(): LiveData<ArrayList<Task>> = listDoneTask
+    fun getTodayTask(): LiveData<ArrayList<Task>> = listTodayTask
+    fun getOverdueTask(): LiveData<ArrayList<Task>> = listOverdueTask
+    fun getWeekTask(): LiveData<ArrayList<Task>> = listWeekTask
+    fun getLaterTask(): LiveData<ArrayList<Task>> = listLaterTask
 }

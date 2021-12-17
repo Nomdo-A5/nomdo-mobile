@@ -1,5 +1,6 @@
 package com.nomdoa5.nomdo.repository.remote
 
+import android.app.TaskInfo
 import com.nomdoa5.nomdo.repository.model.Task
 import com.nomdoa5.nomdo.repository.model.request.ReportRequest
 import com.nomdoa5.nomdo.repository.model.request.auth.LoginRequest
@@ -72,6 +73,12 @@ interface ApiService {
         @Header("Authorization") token: String,
         @Query("workspace_id") workspaceId: String,
     ): Call<TaskInformationWorkspaceResponse>
+
+    @GET("workspace/board-information")
+    fun getWorkspaceBoardInfo(
+        @Header("Authorization") token: String,
+        @Query("workspace_id") workspaceId: String,
+    ): Call<TaskInformationBoardResponse>
 
     @POST("workspace")
     fun addWorkspace(
@@ -147,6 +154,8 @@ interface ApiService {
     fun getTask(
         @Header("Authorization") token: String,
         @Query("board_id") idBoard: String,
+        @Query("is_done") isDone: Int,
+        @Query("due_date") dueDate: String? = null,
     ): Call<TaskResponse>
 
     @GET("task")
@@ -230,4 +239,11 @@ interface ApiService {
         @Part file_path: MultipartBody.Part,
         @Part("balance_id") balanceId: RequestBody
     ): Call<AddAttachmentResponse>
+
+    //    BALANCE
+    @GET("search")
+    fun getSearch(
+        @Header("Authorization") token: String,
+        @Query("q") query: String,
+    ): Call<SearchResponse>
 }

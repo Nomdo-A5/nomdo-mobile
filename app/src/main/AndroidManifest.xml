@@ -15,6 +15,10 @@
         android:theme="@style/Theme.Nomdo"
         tools:targetApi="n">
         <activity
+            android:name=".ui.search.SearchActivity"
+            android:exported="true"
+            android:theme="@style/Theme.Nomdo.NoActionBar" />
+        <activity
             android:name=".ui.UserProfileActivity"
             android:exported="true" />
         <activity

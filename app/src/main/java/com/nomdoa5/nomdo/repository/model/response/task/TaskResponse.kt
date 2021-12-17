@@ -7,5 +7,5 @@ import kotlinx.parcelize.Parcelize
 
 @Parcelize
 data class TaskResponse(
-    val task: ArrayList<Task>
+    val tasks: ArrayList<Task>
 ) : Parcelable

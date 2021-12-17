@@ -8,6 +8,7 @@ import com.nomdoa5.nomdo.repository.model.User
 import com.nomdoa5.nomdo.repository.model.Workspace
 import com.nomdoa5.nomdo.repository.model.request.workspace.UpdateWorkspaceRequest
 import com.nomdoa5.nomdo.repository.model.request.workspace.WorkspaceRequest
+import com.nomdoa5.nomdo.repository.model.response.board.TaskInformationBoardResponse
 import com.nomdoa5.nomdo.repository.model.response.workspace.*
 import com.nomdoa5.nomdo.repository.remote.ApiService
 import com.nomdoa5.nomdo.repository.remote.RetrofitClient
@@ -24,6 +25,7 @@ class WorkspacesViewModel : ViewModel() {
     private val memberWorkspace = MutableLiveData<ArrayList<User>>()
     private val createdWorkspace = MutableLiveData<Workspace>()
     private val taskInformationWorkspace = MutableLiveData<TaskInformationWorkspaceResponse>()
+    private val boardInformationWorkspace = MutableLiveData<TaskInformationBoardResponse>()
     private val _workspaceState = MutableStateFlow<LoadingState>(LoadingState.Empty)
     val workspaceState: StateFlow<LoadingState> = _workspaceState
 
@@ -42,7 +44,7 @@ class WorkspacesViewModel : ViewModel() {
                     listWorkspace.postValue(response.body()!!.workspace)
                     countWorkspace.postValue(response.body()!!.workspace.size)
                     _workspaceState.value = LoadingState.Success
-                }else{
+                } else {
                     _workspaceState.value = LoadingState.Error("Error ${response.code()}")
                 }
             }
@@ -66,7 +68,7 @@ class WorkspacesViewModel : ViewModel() {
                 if (response.code() < 300) {
                     detailWorkspace.postValue(response.body()!!.workspace)
                     _workspaceState.value = LoadingState.Success
-                }else{
+                } else {
                     _workspaceState.value = LoadingState.Error("Error ${response.code()}")
                 }
             }
@@ -90,7 +92,7 @@ class WorkspacesViewModel : ViewModel() {
                 if (response.code() < 300) {
                     memberWorkspace.postValue(response.body()!!.member)
                     _workspaceState.value = LoadingState.Success
-                }else{
+                } else {
                     _workspaceState.value = LoadingState.Error("Error ${response.code()}")
                 }
             }
@@ -114,12 +116,36 @@ class WorkspacesViewModel : ViewModel() {
                 if (response.code() < 300) {
                     taskInformationWorkspace.postValue(response.body()!!)
                     _workspaceState.value = LoadingState.Success
-                }else{
+                } else {
                     _workspaceState.value = LoadingState.Error("Error ${response.code()}")
                 }
             }
 
             override fun onFailure(call: Call<TaskInformationWorkspaceResponse>, t: Throwable) {
+                _workspaceState.value = LoadingState.Error("onFailure Server")
+            }
+        })
+    }
+
+    fun setBoardInfo(token: String, workspaceId: String) {
+        _workspaceState.value = LoadingState.Loading
+        val service = RetrofitClient.buildService(ApiService::class.java)
+        val requestCall = service.getWorkspaceBoardInfo(token = "Bearer $token", workspaceId)
+
+        requestCall.enqueue(object : Callback<TaskInformationBoardResponse> {
+            override fun onResponse(
+                call: Call<TaskInformationBoardResponse>,
+                response: Response<TaskInformationBoardResponse>
+            ) {
+                if (response.code() < 300) {
+                    boardInformationWorkspace.postValue(response.body())
+                    _workspaceState.value = LoadingState.Success
+                } else {
+                    _workspaceState.value = LoadingState.Error("Error ${response.code()}")
+                }
+            }
+
+            override fun onFailure(call: Call<TaskInformationBoardResponse>, t: Throwable) {
                 _workspaceState.value = LoadingState.Error("onFailure Server")
             }
         })
@@ -226,6 +252,8 @@ class WorkspacesViewModel : ViewModel() {
 
     fun getTaskInfo(): LiveData<TaskInformationWorkspaceResponse> =
         taskInformationWorkspace
+
+    fun getBoardInfo(): LiveData<TaskInformationBoardResponse> = boardInformationWorkspace
 
     fun getMemberWorkspace(): LiveData<ArrayList<User>> = memberWorkspace
 }

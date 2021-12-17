@@ -1,32 +1,29 @@
 package com.nomdoa5.nomdo.helpers.adapter
 
-import android.content.res.Resources
-import android.graphics.Rect
+import android.content.Context
+import android.content.res.ColorStateList
+import android.graphics.Color
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.nomdoa5.nomdo.R
 import com.nomdoa5.nomdo.databinding.ItemBoardBinding
 import com.nomdoa5.nomdo.repository.model.Board
-import com.nomdoa5.nomdo.repository.model.TaskProgress
-import com.nomdoa5.nomdo.repository.model.Workspace
-import com.nomdoa5.nomdo.repository.model.response.board.TaskInformationBoardResponse
+import com.nomdoa5.nomdo.repository.model.TaskInformation
 
 class BoardAdapter(private val listener: OnBoardClickListener) :
     RecyclerView.Adapter<BoardAdapter.BoardViewHolder>() {
     private val mData = ArrayList<Board>()
-    private val taskProgressData = ArrayList<TaskInformationBoardResponse>()
+    private val taskProgressData = ArrayList<TaskInformation>()
 
-    fun setData(items: ArrayList<Board>) {
+    fun setData(items: ArrayList<Board>, progress: ArrayList<TaskInformation>) {
         mData.clear()
         mData.addAll(items)
-        notifyDataSetChanged()
-    }
-
-    fun setTaskProgressData(items: ArrayList<TaskInformationBoardResponse>) {
         taskProgressData.clear()
-        taskProgressData.addAll(items)
+        taskProgressData.addAll(progress)
     }
 
     interface OnBoardClickListener {
@@ -38,52 +35,45 @@ class BoardAdapter(private val listener: OnBoardClickListener) :
         val mView = LayoutInflater.from(viewGroup.context)
             .inflate(R.layout.item_board, viewGroup, false)
 
-        return BoardViewHolder(mView)
+        return BoardViewHolder(mView, viewGroup.context)
     }
 
     override fun onBindViewHolder(holder: BoardViewHolder, position: Int) {
-        holder.bind(mData[position])
+        holder.bind(mData[position], taskProgressData[position])
     }
 
     override fun getItemCount(): Int = mData.size
 
-    inner class BoardViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+    inner class BoardViewHolder(itemView: View, private val context: Context) : RecyclerView.ViewHolder(itemView) {
         private val binding = ItemBoardBinding.bind(itemView)
-        fun bind(boardItem: Board) {
+        fun bind(boardItem: Board, progress: TaskInformation) {
             binding.tvTitleBoard.text = boardItem.boardName
-//
-//            binding.tvCountBoard.text = infoItem.taskCount.toString()
-//            binding.tvDoneBoard.text = infoItem.doneTask.toString()
-//
-//            val progress: Double = if (infoItem.doneTask == 0) {
-//                0.0
-//            } else {
-//                (infoItem.taskCount!! / infoItem.doneTask!!).toDouble()
-//            }
 
-//            binding.progressBarBoard.progress = progress.toInt() * 100
+            binding.tvCountBoard.text = progress.taskCount.toString()
+            binding.tvDoneBoard.text = progress.taskDone.toString()
+
+            val result: Double = if (progress.taskDone == 0) {
+                0.0
+            } else {
+                (progress.taskDone!!.toDouble() / progress.taskCount!!) * 1000
+            }
+
+            var color : Int = ContextCompat.getColor(context, R.color.primary)
+            if(result.toInt() < 500){
+                color = ContextCompat.getColor(context, R.color.red)
+            }else if(result.toInt() < 1000){
+                color = ContextCompat.getColor(context, R.color.accent)
+            }
+            binding.progressBarBoard.progressTintList = ColorStateList.valueOf(color)
+            binding.imgStatusProgress.imageTintList = ColorStateList.valueOf(color)
+
+            binding.progressBarBoard.max = 1000
+            binding.progressBarBoard.progress = result.toInt()
 
             itemView.setOnClickListener { listener.onBoardClick(boardItem) }
             itemView.setOnLongClickListener {
                 listener.onBoardLongClick(boardItem)
                 false
-            }
-        }
-    }
-
-    class MarginItemDecoration(private val spaceHeight: Int) : RecyclerView.ItemDecoration() {
-        val spaceHeightDp = (spaceHeight * Resources.getSystem().displayMetrics.density).toInt()
-        override fun getItemOffsets(
-            outRect: Rect, view: View,
-            parent: RecyclerView, state: RecyclerView.State
-        ) {
-            with(outRect) {
-                if (parent.getChildAdapterPosition(view) == 0) {
-                    top = spaceHeightDp
-                }
-                left = spaceHeightDp
-                right = spaceHeightDp
-                bottom = spaceHeightDp
             }
         }
     }

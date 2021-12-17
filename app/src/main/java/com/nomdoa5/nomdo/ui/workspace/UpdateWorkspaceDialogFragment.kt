@@ -129,13 +129,15 @@ class UpdateWorkspaceDialogFragment : BottomSheetDialogFragment(), View.OnClickL
     }
 
     private fun showSnackbar(message: String) {
-        Snackbar.make(requireView(), message, Snackbar.LENGTH_SHORT).show()
+        Snackbar.make(
+            dialog!!.window!!.decorView, message, Snackbar.LENGTH_SHORT
+        ).show()
     }
 
     fun setupViewModel() {
         val pref = UserPreferences.getInstance(requireContext().dataStore)
         authViewModel =
-            ViewModelProvider(this, ViewModelFactory(pref)).get(AuthViewModel::class.java)
-        workspacesViewModel = ViewModelProvider(this).get(WorkspacesViewModel::class.java)
+            ViewModelProvider(this, ViewModelFactory(pref))[AuthViewModel::class.java]
+        workspacesViewModel = ViewModelProvider(this)[WorkspacesViewModel::class.java]
     }
 }

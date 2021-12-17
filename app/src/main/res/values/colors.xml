@@ -21,6 +21,7 @@
     <color name="accent_10t">#1AE6A01B</color>
     <color name="accent_10b">#CF9018</color>
     <color name="accent_ripple">#9F7724</color>
+    <color name="red">#FC4A1A</color>
     <color name="bg_gray">#F4F4F9</color>
     <color name="gray">#DCDCDC</color>
     <color name="gray_text">#8F959D</color>
@@ -28,4 +29,7 @@
     <color name="ic">#FF000000</color>
     <color name="shadow">#CABBBBBB</color>
     <color name="form">#66C4C4C4</color>
+    <color name="search">#F2F2F2</color>
+    <color name="grey">#485671</color>
+
 </resources>
