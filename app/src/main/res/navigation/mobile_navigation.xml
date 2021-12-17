@@ -56,9 +56,6 @@
         android:name="com.nomdoa5.nomdo.ui.task.TaskFragment"
         android:label="@string/menu_slideshow"
         tools:layout="@layout/fragment_task">
-        <action
-            android:id="@+id/action_nav_tasks_to_detailTaskFragment"
-            app:destination="@id/detailTaskFragment" />
         <argument
             android:name="board"
             app:argType="com.nomdoa5.nomdo.repository.model.Board" />
@@ -74,14 +71,10 @@
     </fragment>
 
     <fragment
-        android:id="@+id/detailTaskFragment"
-        android:name="com.nomdoa5.nomdo.ui.task.DetailTaskFragment"
+        android:id="@+id/updateTaskDialogFragment"
+        android:name="com.nomdoa5.nomdo.ui.task.UpdateTaskDialogFragment"
         android:label="fragment_detail_task"
-        tools:layout="@layout/fragment_detail_task">
-        <argument
-            android:name="task"
-            app:argType="com.nomdoa5.nomdo.repository.model.Task" />
-    </fragment>
+        tools:layout="@layout/dialog_fragment_update_task"/>
 
     <fragment
         android:id="@+id/nav_logout"

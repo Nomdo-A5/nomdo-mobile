@@ -11,12 +11,10 @@ import androidx.datastore.preferences.preferencesDataStore
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
-import androidx.navigation.Navigation
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.google.android.material.snackbar.Snackbar
-import com.nomdoa5.nomdo.R
 import com.nomdoa5.nomdo.databinding.FragmentTaskPageBinding
 import com.nomdoa5.nomdo.helpers.LoadingState
 import com.nomdoa5.nomdo.helpers.ViewModelFactory
@@ -31,16 +29,25 @@ import kotlinx.coroutines.flow.collect
 private val Context.dataStore: DataStore<Preferences> by preferencesDataStore(name = "auth")
 
 class TaskPageFragment(
-    private var boardArgs: Board,
-    private var type: Int?
+    private var boardArgs: Board
 ) : Fragment(), SwipeRefreshLayout.OnRefreshListener,
-    TaskAdapter.OnTaskClickListener {
+    TaskAdapter.OnTaskClickListener, View.OnClickListener {
     private lateinit var taskViewModel: TaskViewModel
     private lateinit var authViewModel: AuthViewModel
     private var _binding: FragmentTaskPageBinding? = null
     private val binding get() = _binding!!
-    private val taskAdapter = TaskAdapter(this)
-    private lateinit var rvTask: RecyclerView
+    private val taskTodayAdapter = TaskAdapter(this)
+    private val taskWeekAdapter = TaskAdapter(this)
+    private val taskLaterAdapter = TaskAdapter(this)
+    private val taskOverdueAdapter = TaskAdapter(this)
+    private lateinit var rvTaskToday: RecyclerView
+    private lateinit var rvTaskWeek: RecyclerView
+    private lateinit var rvTaskLater: RecyclerView
+    private lateinit var rvTaskOverdue: RecyclerView
+    private var isClickedToday : Boolean = true
+    private var isClickedWeek : Boolean = true
+    private var isClickedLater : Boolean = true
+    private var isClickedOverdue : Boolean = true
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -56,7 +63,15 @@ class TaskPageFragment(
         super.onViewCreated(view, savedInstanceState)
         binding.swipeMyTask.setOnRefreshListener(this)
         setupViewModel()
-        setupRecyclerView()
+        setupRvToday()
+        setupRvWeek()
+        setupRvLater()
+        setupRvOverdue()
+
+        binding.cvTaskToday.setOnClickListener(this)
+        binding.cvTaskWeek.setOnClickListener(this)
+        binding.cvTaskLater.setOnClickListener(this)
+        binding.cvTaskOverdue.setOnClickListener(this)
     }
 
     override fun onDestroyView() {
@@ -64,35 +79,81 @@ class TaskPageFragment(
         _binding = null
     }
 
-    fun setupRecyclerView() {
-        binding.swipeMyTask.isRefreshing = true
-        rvTask = requireView().findViewById(R.id.rv_tasks)
-        rvTask.setHasFixedSize(true)
-        rvTask.layoutManager = LinearLayoutManager(context)
-        authViewModel.getAuthToken().observe(viewLifecycleOwner, {
-            taskViewModel.setTask(it!!, boardArgs.id.toString())
-        })
-
-        taskViewModel.getTask().observe(viewLifecycleOwner, {
-            taskAdapter.setData(it)
-            binding.swipeMyTask.isRefreshing = false
-            if (it.isEmpty()) {
-                showEmpty(true)
-            } else {
-                showEmpty(false)
-            }
-        })
-        rvTask.adapter = taskAdapter
+    private fun setupCvNumber(dueDate: String, count: Int) {
+        when(dueDate){
+            "Today" -> binding.tvTitleTaskToday.text = "Do Today ($count)"
+            "Week" -> binding.tvTitleTaskWeek.text = "Do Week ($count)"
+            "Later" -> binding.tvTitleTaskLater.text = "Do Later ($count)"
+            "Overdue" -> binding.tvTitleTaskOverdue.text = "Overdue ($count)"
+        }
     }
 
-    private fun showEmpty(state: Boolean) {
-        if (state) {
-            binding.imgEmptyTask.visibility = View.VISIBLE
-            binding.tvEmptyTask.visibility = View.VISIBLE
-        } else {
-            binding.imgEmptyTask.visibility = View.GONE
-            binding.tvEmptyTask.visibility = View.GONE
-        }
+    private fun setupRvToday() {
+        binding.swipeMyTask.isRefreshing = true
+        rvTaskToday = binding.rvTaskToday
+        rvTaskToday.setHasFixedSize(true)
+        rvTaskToday.layoutManager = LinearLayoutManager(context)
+        authViewModel.getAuthToken().observe(viewLifecycleOwner, {
+            taskViewModel.setTask(it!!, boardArgs.id.toString(), 0, "Today")
+        })
+
+        taskViewModel.getTodayTask().observe(viewLifecycleOwner, {
+            taskTodayAdapter.setData(it)
+            setupCvNumber("Today", it.size)
+            binding.swipeMyTask.isRefreshing = false
+        })
+        rvTaskToday.adapter = taskTodayAdapter
+    }
+
+    private fun setupRvWeek() {
+        binding.swipeMyTask.isRefreshing = true
+        rvTaskWeek = binding.rvTaskWeek
+        rvTaskWeek.setHasFixedSize(true)
+        rvTaskWeek.layoutManager = LinearLayoutManager(context)
+        authViewModel.getAuthToken().observe(viewLifecycleOwner, {
+            taskViewModel.setTask(it!!, boardArgs.id.toString(), 0, "Week")
+        })
+
+        taskViewModel.getWeekTask().observe(viewLifecycleOwner, {
+            taskWeekAdapter.setData(it)
+            setupCvNumber("Week", it.size)
+            binding.swipeMyTask.isRefreshing = false
+        })
+        rvTaskWeek.adapter = taskWeekAdapter
+    }
+
+    private fun setupRvLater() {
+        binding.swipeMyTask.isRefreshing = true
+        rvTaskLater = binding.rvTaskLater
+        rvTaskLater.setHasFixedSize(true)
+        rvTaskLater.layoutManager = LinearLayoutManager(context)
+        authViewModel.getAuthToken().observe(viewLifecycleOwner, {
+            taskViewModel.setTask(it!!, boardArgs.id.toString(), 0, "Later")
+        })
+
+        taskViewModel.getLaterTask().observe(viewLifecycleOwner, {
+            taskLaterAdapter.setData(it)
+            setupCvNumber("Later", it.size)
+            binding.swipeMyTask.isRefreshing = false
+        })
+        rvTaskLater.adapter = taskLaterAdapter
+    }
+
+    private fun setupRvOverdue() {
+        binding.swipeMyTask.isRefreshing = true
+        rvTaskOverdue = binding.rvTaskOverdue
+        rvTaskOverdue.setHasFixedSize(true)
+        rvTaskOverdue.layoutManager = LinearLayoutManager(context)
+        authViewModel.getAuthToken().observe(viewLifecycleOwner, {
+            taskViewModel.setTask(it!!, boardArgs.id.toString(), 0, "Overdue")
+        })
+
+        taskViewModel.getOverdueTask().observe(viewLifecycleOwner, {
+            taskOverdueAdapter.setData(it)
+            setupCvNumber("Overdue", it.size)
+            binding.swipeMyTask.isRefreshing = false
+        })
+        rvTaskOverdue.adapter = taskOverdueAdapter
     }
 
     fun setupViewModel() {
@@ -105,7 +166,11 @@ class TaskPageFragment(
 
     override fun onRefresh() {
         authViewModel.getAuthToken().observe(viewLifecycleOwner, {
-            taskViewModel.setTask(it!!, boardArgs.id.toString())
+            taskViewModel.setTask(it!!, boardArgs.id.toString(), 0, "Today")
+            taskViewModel.setTask(it, boardArgs.id.toString(), 0, "Week")
+            taskViewModel.setTask(it, boardArgs.id.toString(), 0, "Later")
+            taskViewModel.setTask(it, boardArgs.id.toString(), 0, "Overdue")
+
         })
 
         viewLifecycleOwner.lifecycleScope.launchWhenCreated {
@@ -128,8 +193,11 @@ class TaskPageFragment(
     }
 
     override fun onTaskClick(data: Task) {
-        val action = TaskFragmentDirections.actionNavTasksToDetailTaskFragment(data)
-        Navigation.findNavController(requireView()).navigate(action)
+        val addDialogFragment = UpdateTaskDialogFragment()
+        val bundle = Bundle()
+        bundle.putParcelable("EXTRA_TASK", data)
+        addDialogFragment.arguments = bundle
+        addDialogFragment.show(requireActivity().supportFragmentManager, "Update Task")
     }
 
     private fun showSnackbar(message: String) {
@@ -169,6 +237,51 @@ class TaskPageFragment(
                     else -> Unit
                 }
             }
+        }
+    }
+
+    private fun showTodayRV(state: Boolean){
+        if(state){
+            binding.rvTaskToday.visibility = View.VISIBLE
+        }else{
+            binding.rvTaskToday.visibility = View.GONE
+        }
+        isClickedToday = state
+    }
+
+    private fun showWeekRV(state: Boolean){
+        if(state){
+            binding.rvTaskWeek.visibility = View.VISIBLE
+        }else{
+            binding.rvTaskWeek.visibility = View.GONE
+        }
+        isClickedWeek = state
+    }
+
+    private fun showLaterRV(state: Boolean){
+        if(state){
+            binding.rvTaskLater.visibility = View.VISIBLE
+        }else{
+            binding.rvTaskLater.visibility = View.GONE
+        }
+        isClickedLater = state
+    }
+
+    private fun showOverdueRV(state: Boolean){
+        if(state){
+            binding.rvTaskOverdue.visibility = View.VISIBLE
+        }else{
+            binding.rvTaskOverdue.visibility = View.GONE
+        }
+        isClickedOverdue = state
+    }
+
+    override fun onClick(v: View?) {
+        when(v){
+            binding.cvTaskToday -> showTodayRV(!isClickedToday)
+            binding.cvTaskWeek -> showWeekRV(!isClickedWeek)
+            binding.cvTaskLater -> showLaterRV(!isClickedLater)
+            binding.cvTaskOverdue -> showOverdueRV(!isClickedOverdue)
         }
     }
 }

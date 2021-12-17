@@ -15,6 +15,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.nomdoa5.nomdo.R
 import com.nomdoa5.nomdo.databinding.FragmentHomeBinding
+import com.nomdoa5.nomdo.helpers.MarginItemDecoration
 import com.nomdoa5.nomdo.helpers.ViewModelFactory
 import com.nomdoa5.nomdo.helpers.adapter.HomeAdapter
 import com.nomdoa5.nomdo.repository.local.UserPreferences
@@ -82,7 +83,7 @@ class HomeFragment : Fragment() {
     fun setupRecyclerView() {
         rvHome = requireView().findViewById(R.id.rv_homes)
         rvHome.setHasFixedSize(true)
-        rvHome.addItemDecoration(HomeAdapter.MarginItemDecoration(16))
+        rvHome.addItemDecoration(MarginItemDecoration(16))
         rvHome.layoutManager = LinearLayoutManager(context)
         homeAdapter.setData(homes)
         rvHome.adapter = homeAdapter

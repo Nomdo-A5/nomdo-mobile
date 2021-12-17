@@ -13,6 +13,7 @@ import com.google.android.material.snackbar.Snackbar
 import com.nomdoa5.nomdo.R
 import com.nomdoa5.nomdo.helpers.adapter.WorkspaceAdapter
 import com.nomdoa5.nomdo.databinding.FragmentSharedWorkspacesBinding
+import com.nomdoa5.nomdo.helpers.MarginItemDecoration
 import com.nomdoa5.nomdo.repository.model.Workspace
 import com.nomdoa5.nomdo.ui.MainActivity
 
@@ -68,7 +69,7 @@ class SharedWorkspacesFragment : Fragment(), WorkspaceAdapter.OnWorkspaceClickLi
         rvWorkspace = requireView().findViewById(R.id.rv_shared_workspaces)
         rvWorkspace.setHasFixedSize(true)
         rvWorkspace.addItemDecoration(
-            WorkspaceAdapter.MarginItemDecoration(
+            MarginItemDecoration(
                 16
             )
         )

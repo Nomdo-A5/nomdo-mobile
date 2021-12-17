@@ -43,10 +43,11 @@
         android:visibility="gone"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:fontFamily="@font/roboto_medium"
+        android:fontFamily="@font/roboto_regular"
         android:text="Workspace Empty"
         android:layout_marginTop="16dp"
-        android:textSize="26sp"
+        android:textSize="16sp"
+        android:textColor="@color/grey"
         app:layout_constraintEnd_toEndOf="@+id/img_empty_workspace"
         app:layout_constraintStart_toStartOf="@+id/img_empty_workspace"
         app:layout_constraintTop_toBottomOf="@+id/img_empty_workspace" />

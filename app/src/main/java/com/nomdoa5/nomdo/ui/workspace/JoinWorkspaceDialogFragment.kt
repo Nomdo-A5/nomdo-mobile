@@ -95,8 +95,10 @@ class JoinWorkspaceDialogBoard : BottomSheetDialogFragment(), View.OnClickListen
         }
     }
 
-    fun showSnackbar(message: String) {
-        Snackbar.make(requireView(), message, Snackbar.LENGTH_SHORT).show()
+    private fun showSnackbar(message: String) {
+        Snackbar.make(
+            dialog!!.window!!.decorView, message, Snackbar.LENGTH_SHORT
+        ).show()
     }
 
     fun setupViewModel() {

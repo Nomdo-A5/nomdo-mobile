@@ -50,21 +50,4 @@ class HomeAdapter : RecyclerView.Adapter<HomeAdapter.HomeViewHolder>() {
             itemView.setOnClickListener { onItemClickCallback?.onItemClicked(homeItem) }
         }
     }
-
-    class MarginItemDecoration(private val spaceHeight: Int) : RecyclerView.ItemDecoration() {
-        val spaceHeightDp = (spaceHeight * getSystem().displayMetrics.density).toInt()
-        override fun getItemOffsets(
-            outRect: Rect, view: View,
-            parent: RecyclerView, state: RecyclerView.State
-        ) {
-            with(outRect) {
-                if (parent.getChildAdapterPosition(view) == 0) {
-                    top = spaceHeightDp
-                }
-                left = spaceHeightDp
-                right = spaceHeightDp
-                bottom = spaceHeightDp
-            }
-        }
-    }
 }

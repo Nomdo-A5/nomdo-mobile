@@ -5,7 +5,6 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.nomdoa5.nomdo.helpers.LoadingState
 import com.nomdoa5.nomdo.repository.model.Board
-import com.nomdoa5.nomdo.repository.model.Task
 import com.nomdoa5.nomdo.repository.model.request.board.BoardRequest
 import com.nomdoa5.nomdo.repository.model.request.board.UpdateBoardRequest
 import com.nomdoa5.nomdo.repository.model.response.board.BoardResponse
@@ -21,8 +20,6 @@ import retrofit2.Response
 
 class BoardViewModel : ViewModel() {
     private val listBoard = MutableLiveData<ArrayList<Board>>()
-    private val listTaskInformationBoard =
-        MutableLiveData<ArrayList<TaskInformationBoardResponse>>()
     private val _boardState = MutableStateFlow<LoadingState>(LoadingState.Empty)
     val boardState: StateFlow<LoadingState> = _boardState
 
@@ -30,13 +27,11 @@ class BoardViewModel : ViewModel() {
         _boardState.value = LoadingState.Loading
         val service = RetrofitClient.buildService(ApiService::class.java)
         val requestCall = service.getBoard(token = "Bearer $token", idBoard)
-        service.getTaskInformationBoard(token = "Bearer $token", idBoard)
 
         requestCall.enqueue(object : Callback<BoardResponse> {
             override fun onResponse(call: Call<BoardResponse>, response: Response<BoardResponse>) {
                 if (response.code() < 300) {
                     listBoard.postValue(response.body()!!.boards)
-                    setTaskInformationBoard(token, response.body()!!.boards)
                     _boardState.value = LoadingState.Success
                 } else {
                     _boardState.value = LoadingState.Error("Error ${response.code()}")
@@ -47,36 +42,6 @@ class BoardViewModel : ViewModel() {
                 _boardState.value = LoadingState.Error("onResponse Error")
             }
         })
-    }
-
-    fun setTaskInformationBoard(token: String, boards: ArrayList<Board>) {
-        _boardState.value = LoadingState.Loading
-        val service = RetrofitClient.buildService(ApiService::class.java)
-        val responses = ArrayList<TaskInformationBoardResponse>()
-        for (board in boards) {
-            val requestCall =
-                service.getTaskInformationBoard(token = "Bearer $token", board.id.toString())
-
-            requestCall.enqueue(object : Callback<TaskInformationBoardResponse> {
-                override fun onResponse(
-                    call: Call<TaskInformationBoardResponse>,
-                    response: Response<TaskInformationBoardResponse>
-                ) {
-                    if (response.code() != 404 && response.code() != 500) {
-                        responses.add(response.body()!!)
-                        _boardState.value = LoadingState.Success
-                    } else {
-                        val info = TaskInformationBoardResponse(0, 0, "Empty task")
-                        responses.add(info)
-                    }
-                    listTaskInformationBoard.postValue(responses)
-                }
-
-                override fun onFailure(call: Call<TaskInformationBoardResponse>, t: Throwable) {
-                    _boardState.value = LoadingState.Error("onResponse Error")
-                }
-            })
-        }
     }
 
     fun updateBoard(token: String, board: UpdateBoardRequest) {
@@ -137,7 +102,8 @@ class BoardViewModel : ViewModel() {
                     _boardState.value = LoadingState.Success
                 } else {
                     _boardState.value = LoadingState.Error("Error ${response.code()}")
-                }            }
+                }
+            }
 
             override fun onFailure(call: Call<CreateBoardResponse>, t: Throwable) {
                 _boardState.value = LoadingState.Error("onResponse Error")
@@ -145,11 +111,5 @@ class BoardViewModel : ViewModel() {
         })
     }
 
-    fun getBoard(): LiveData<ArrayList<Board>> {
-        return listBoard
-    }
-
-    fun getTaskInformationBoard(): MutableLiveData<ArrayList<TaskInformationBoardResponse>> {
-        return listTaskInformationBoard
-    }
+    fun getBoard(): LiveData<ArrayList<Board>> = listBoard
 }

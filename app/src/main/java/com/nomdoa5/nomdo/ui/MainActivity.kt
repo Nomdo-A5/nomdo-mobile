@@ -1,6 +1,7 @@
 package com.nomdoa5.nomdo.ui
 
 import android.content.Context
+import android.content.Intent
 import android.os.Bundle
 import android.view.MenuItem
 import android.view.View
@@ -10,7 +11,6 @@ import android.view.inputmethod.InputMethodManager
 import android.widget.ImageView
 import android.widget.PopupMenu
 import android.widget.TextView
-import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.GravityCompat
 import androidx.databinding.DataBindingUtil
@@ -26,7 +26,6 @@ import androidx.navigation.ui.setupWithNavController
 import com.google.android.material.snackbar.Snackbar
 import com.nomdoa5.nomdo.R
 import com.nomdoa5.nomdo.databinding.ActivityMainBinding
-import com.nomdoa5.nomdo.databinding.FragmentBoardsBinding
 import com.nomdoa5.nomdo.databinding.NavHeaderMainBinding
 import com.nomdoa5.nomdo.helpers.ViewModelFactory
 import com.nomdoa5.nomdo.repository.local.UserPreferences
@@ -39,6 +38,7 @@ import com.nomdoa5.nomdo.ui.board.BoardViewModel
 import com.nomdoa5.nomdo.ui.board.BoardsFragment
 import com.nomdoa5.nomdo.ui.board.BoardsFragmentDirections
 import com.nomdoa5.nomdo.ui.board.CreateBoardDialogFragment
+import com.nomdoa5.nomdo.ui.search.SearchActivity
 import com.nomdoa5.nomdo.ui.task.CreateTaskDialogFragment
 import com.nomdoa5.nomdo.ui.task.TaskViewModel
 import com.nomdoa5.nomdo.ui.workspace.*
@@ -105,7 +105,10 @@ class MainActivity : AppCompatActivity(), View.OnClickListener, PopupMenu.OnMenu
         binding.appBarMain.appBarLayout.toolbarMainNavigation.setOnClickListener(this)
         binding.appBarMain.appBarLayoutWorkspace.navigation.setOnClickListener(this)
         binding.appBarMain.appBarLayoutBoard.navigation.setOnClickListener(this)
-        binding.appBarMain.appBarLayout.toolbarMainNotifications.setOnClickListener(this)
+        binding.appBarMain.appBarLayoutWorkspace.toolbarWorkspaceSearch.setOnClickListener(this)
+        binding.appBarMain.appBarLayoutBoard.toolbarBoardSearch.setOnClickListener(this)
+        binding.appBarMain.appBarLayout.toolbarMainSearch.setOnClickListener(this)
+
     }
 
     override fun onDestroy() {
@@ -124,8 +127,10 @@ class MainActivity : AppCompatActivity(), View.OnClickListener, PopupMenu.OnMenu
                     binding.drawerLayout.closeDrawer(GravityCompat.END)
                 }
             }
-            binding.appBarMain.appBarLayout.toolbarMainNotifications -> {
-                Toast.makeText(this, "Klik notifikasi ges", Toast.LENGTH_SHORT).show()
+            binding.appBarMain.appBarLayout.toolbarMainSearch,
+            binding.appBarMain.appBarLayoutBoard.toolbarBoardSearch,
+            binding.appBarMain.appBarLayoutWorkspace.toolbarWorkspaceSearch -> {
+                startActivity(Intent(this, SearchActivity::class.java))
             }
             binding.appBarMain.fab -> {
                 setFabVisibility(clicked)
@@ -212,11 +217,11 @@ class MainActivity : AppCompatActivity(), View.OnClickListener, PopupMenu.OnMenu
     fun setupViewModel() {
         val pref = UserPreferences.getInstance(dataStore)
         authViewModel =
-            ViewModelProvider(this, ViewModelFactory(pref)).get(AuthViewModel::class.java)
-        mainViewModel = ViewModelProvider(this).get(MainViewModel::class.java)
-        workspacesViewModel = ViewModelProvider(this).get(WorkspacesViewModel::class.java)
-        boardsViewModel = ViewModelProvider(this).get(BoardViewModel::class.java)
-        taskViewModel = ViewModelProvider(this).get(TaskViewModel::class.java)
+            ViewModelProvider(this, ViewModelFactory(pref))[AuthViewModel::class.java]
+        mainViewModel = ViewModelProvider(this)[MainViewModel::class.java]
+        workspacesViewModel = ViewModelProvider(this)[WorkspacesViewModel::class.java]
+        boardsViewModel = ViewModelProvider(this)[BoardViewModel::class.java]
+        taskViewModel = ViewModelProvider(this)[TaskViewModel::class.java]
     }
 
     fun setupDrawer() {
@@ -226,7 +231,7 @@ class MainActivity : AppCompatActivity(), View.OnClickListener, PopupMenu.OnMenu
         val email = header.findViewById<TextView>(R.id.nav_header_email)
 
         authViewModel.getAuthToken().observe(this, {
-            if(!it.isNullOrBlank()){
+            if (!it.isNullOrBlank()) {
                 mainViewModel.setUser(it)
             }
         })

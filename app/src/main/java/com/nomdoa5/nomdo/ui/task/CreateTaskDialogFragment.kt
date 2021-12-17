@@ -146,7 +146,9 @@ class CreateTaskDialogFragment : BottomSheetDialogFragment(), View.OnClickListen
     }
 
     private fun showSnackbar(message: String) {
-        Snackbar.make(requireView(), message, Snackbar.LENGTH_SHORT).show()
+        Snackbar.make(
+            dialog!!.window!!.decorView, message, Snackbar.LENGTH_SHORT
+        ).show()
     }
 
     private fun setupSpinner() {
