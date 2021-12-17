@@ -41,7 +41,8 @@ private val Context.dataStore: DataStore<Preferences> by preferencesDataStore(na
 
 class SearchActivity : AppCompatActivity(), View.OnClickListener, TextView.OnEditorActionListener,
     WorkspaceAdapter.OnWorkspaceClickListener, BoardAdapter.OnBoardClickListener,
-    TaskAdapter.OnTaskClickListener, BalanceAdapter.OnBalanceClickListener {
+    BalanceAdapter.OnBalanceClickListener,
+    TaskCardAdapter.OnTaskClickListener {
     private var _binding: ActivitySearchBinding? = null
     private val binding get() = _binding!!
     private lateinit var searchViewModel: SearchViewModel
@@ -52,7 +53,7 @@ class SearchActivity : AppCompatActivity(), View.OnClickListener, TextView.OnEdi
     private lateinit var rvBalance: RecyclerView
     private val adapterWorkspace = WorkspaceAdapter(this)
     private val adapterBoard = BoardAdapter(this)
-    private val adapterTask = TaskAdapter(this)
+    private val adapterTask = TaskCardAdapter(this)
     private val adapterBalance = BalanceAdapter(this, this)
 
 

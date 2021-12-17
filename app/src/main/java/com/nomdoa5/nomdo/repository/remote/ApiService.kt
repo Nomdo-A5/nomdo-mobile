@@ -154,7 +154,7 @@ interface ApiService {
     fun getTask(
         @Header("Authorization") token: String,
         @Query("board_id") idBoard: String,
-        @Query("is_done") isDone: Int,
+        @Query("is_done") isDone: Int? = null,
         @Query("due_date") dueDate: String? = null,
     ): Call<TaskResponse>
 

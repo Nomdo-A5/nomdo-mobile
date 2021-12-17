@@ -11,6 +11,7 @@ import android.view.inputmethod.InputMethodManager
 import android.widget.ImageView
 import android.widget.PopupMenu
 import android.widget.TextView
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.GravityCompat
 import androidx.databinding.DataBindingUtil
@@ -22,7 +23,9 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.Navigation
 import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
+import androidx.navigation.ui.NavigationUI
 import androidx.navigation.ui.setupWithNavController
+import com.google.android.material.navigation.NavigationView
 import com.google.android.material.snackbar.Snackbar
 import com.nomdoa5.nomdo.R
 import com.nomdoa5.nomdo.databinding.ActivityMainBinding
@@ -46,7 +49,8 @@ import com.nomdoa5.nomdo.ui.workspace.*
 
 private val Context.dataStore: DataStore<Preferences> by preferencesDataStore(name = "settings")
 
-class MainActivity : AppCompatActivity(), View.OnClickListener, PopupMenu.OnMenuItemClickListener {
+class MainActivity : AppCompatActivity(), View.OnClickListener, PopupMenu.OnMenuItemClickListener,
+    NavigationView.OnNavigationItemSelectedListener {
     private val rotateOpen: Animation by lazy {
         AnimationUtils.loadAnimation(
             application.applicationContext,
@@ -241,19 +245,17 @@ class MainActivity : AppCompatActivity(), View.OnClickListener, PopupMenu.OnMenu
             email.text = it.email ?: "anonymous@email.com"
         })
 
-        val navController = findNavController(R.id.nav_host_fragment_content_main)
         appBarConfiguration = AppBarConfiguration(
             setOf(
                 R.id.nav_home,
                 R.id.nav_my_workspaces,
-                R.id.nav_shared_workspaces,
                 R.id.nav_boards,
                 R.id.nav_tasks,
                 R.id.nav_logout
             ), binding.drawerLayout
         )
 
-        binding.navView.setupWithNavController(navController)
+        binding.navView.setNavigationItemSelectedListener(this)
     }
 
     fun closeKeyboard() {
@@ -431,5 +433,20 @@ class MainActivity : AppCompatActivity(), View.OnClickListener, PopupMenu.OnMenu
 
     fun showSnackbar(message: String) {
         Snackbar.make(binding.root, message, Snackbar.LENGTH_SHORT).show()
+    }
+
+    override fun onNavigationItemSelected(item: MenuItem): Boolean {
+        when (item.itemId) {
+            R.id.nav_settings -> startActivity(Intent(this, SettingActivity::class.java))
+            R.id.nav_logout -> {
+                val addDialogFragment = LogoutFragment()
+                addDialogFragment.show(supportFragmentManager, "Logout Dialog")
+            }
+        }
+        val navController = findNavController(R.id.nav_host_fragment_content_main)
+        NavigationUI.onNavDestinationSelected(item, navController)
+        binding.drawerLayout.closeDrawer(GravityCompat.START)
+
+        return true
     }
 }

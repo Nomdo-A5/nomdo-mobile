@@ -97,32 +97,18 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="32dp"
         android:background="@drawable/btn_primary"
-        android:fontFamily="@font/roboto_bold"
+        android:fontFamily="@font/roboto_medium"
         android:padding="10dp"
+        android:textSize="16sp"
         android:text="@string/sign_in"
         android:textAllCaps="false"
-        app:initialCornerAngle="30dp"
+        android:textColor="@color/white"
         app:finalCornerAngle="30dp"
-        app:spinning_bar_padding="8dp"
-        app:layout_constraintEnd_toEndOf="@+id/btn_google_sign_in"
-        app:layout_constraintStart_toStartOf="@+id/btn_google_sign_in"
-        app:layout_constraintTop_toBottomOf="@+id/tv_forgot" />
-
-    <androidx.appcompat.widget.AppCompatButton
-        android:id="@+id/btn_google_sign_in"
-        android:layout_width="250dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:background="@drawable/btn_gray"
-        android:drawableStart="@drawable/ic_google"
-        android:fontFamily="@font/roboto_bold"
-        android:padding="10dp"
-        android:text="@string/sign_in_with_google"
-        android:textAlignment="center"
-        android:textAllCaps="false"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/btn_sign_up_in" />
+        app:initialCornerAngle="30dp"
+        app:layout_constraintEnd_toEndOf="@+id/tv_forgot"
+        app:layout_constraintStart_toStartOf="@+id/imageView2"
+        app:layout_constraintTop_toBottomOf="@+id/tv_forgot"
+        app:spinning_bar_padding="8dp" />
 
     <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/btn_sign_up_in"
@@ -130,13 +116,15 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
         android:background="@drawable/btn_accent"
-        android:fontFamily="@font/roboto_bold"
+        android:fontFamily="@font/roboto_medium"
         android:padding="10dp"
+        android:textSize="16sp"
         android:text="@string/sign_up"
         android:textAlignment="center"
         android:textAllCaps="false"
-        app:layout_constraintEnd_toEndOf="@+id/btn_google_sign_in"
-        app:layout_constraintStart_toStartOf="@+id/btn_google_sign_in"
+        android:textColor="@color/white"
+        app:layout_constraintEnd_toEndOf="@+id/btn_sign_in"
+        app:layout_constraintStart_toStartOf="@+id/btn_sign_in"
         app:layout_constraintTop_toBottomOf="@+id/btn_sign_in" />
 
     <TextView

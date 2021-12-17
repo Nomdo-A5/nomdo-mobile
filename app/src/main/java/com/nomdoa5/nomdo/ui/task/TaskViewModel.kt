@@ -29,7 +29,7 @@ class TaskViewModel : ViewModel() {
     private val _taskState = MutableStateFlow<LoadingState>(LoadingState.Empty)
     val taskState: StateFlow<LoadingState> = _taskState
 
-    fun setTask(token: String, idBoard: String, isDone: Int, dueDate: String? = null) {
+    fun setTask(token: String, idBoard: String, isDone: Int? = null, dueDate: String? = null) {
         _taskState.value = LoadingState.Loading
         val service = RetrofitClient.buildService(ApiService::class.java)
         val requestCall = service.getTask(token = "Bearer $token", idBoard, isDone, dueDate)
@@ -46,10 +46,11 @@ class TaskViewModel : ViewModel() {
                             "Overdue" -> listOverdueTask.postValue(task)
                             "Week" -> listWeekTask.postValue(task)
                             "Later" -> listLaterTask.postValue(task)
-                            else -> listTask.postValue(task)
                         }
                     } else if (isDone == 1) {
                         listDoneTask.postValue(task)
+                    } else {
+                        listTask.postValue(task)
                     }
                     Log.d("TASKDONE", listDoneTask.value.toString())
                     _taskState.value = LoadingState.Success

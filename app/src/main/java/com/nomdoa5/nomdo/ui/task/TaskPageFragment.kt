@@ -5,6 +5,8 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.animation.Animation
+import android.view.animation.AnimationUtils
 import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.preferencesDataStore
@@ -15,6 +17,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.google.android.material.snackbar.Snackbar
+import com.nomdoa5.nomdo.R
 import com.nomdoa5.nomdo.databinding.FragmentTaskPageBinding
 import com.nomdoa5.nomdo.helpers.LoadingState
 import com.nomdoa5.nomdo.helpers.ViewModelFactory
@@ -32,6 +35,18 @@ class TaskPageFragment(
     private var boardArgs: Board
 ) : Fragment(), SwipeRefreshLayout.OnRefreshListener,
     TaskAdapter.OnTaskClickListener, View.OnClickListener {
+    private val rotateOpen: Animation by lazy {
+        AnimationUtils.loadAnimation(
+            requireContext(),
+            R.anim.dropdown_open_anim
+        )
+    }
+    private val rotateClose: Animation by lazy {
+        AnimationUtils.loadAnimation(
+            requireContext(),
+            R.anim.dropdown_close_anim
+        )
+    }
     private lateinit var taskViewModel: TaskViewModel
     private lateinit var authViewModel: AuthViewModel
     private var _binding: FragmentTaskPageBinding? = null
@@ -243,8 +258,10 @@ class TaskPageFragment(
     private fun showTodayRV(state: Boolean){
         if(state){
             binding.rvTaskToday.visibility = View.VISIBLE
+            binding.imgTitleTaskToday.startAnimation(rotateOpen)
         }else{
             binding.rvTaskToday.visibility = View.GONE
+            binding.imgTitleTaskToday.startAnimation(rotateClose)
         }
         isClickedToday = state
     }
@@ -252,8 +269,10 @@ class TaskPageFragment(
     private fun showWeekRV(state: Boolean){
         if(state){
             binding.rvTaskWeek.visibility = View.VISIBLE
+            binding.imgTitleTaskWeek.startAnimation(rotateOpen)
         }else{
             binding.rvTaskWeek.visibility = View.GONE
+            binding.imgTitleTaskWeek.startAnimation(rotateClose)
         }
         isClickedWeek = state
     }
@@ -261,8 +280,10 @@ class TaskPageFragment(
     private fun showLaterRV(state: Boolean){
         if(state){
             binding.rvTaskLater.visibility = View.VISIBLE
+            binding.imgTitleTaskLater.startAnimation(rotateOpen)
         }else{
             binding.rvTaskLater.visibility = View.GONE
+            binding.imgTitleTaskLater.startAnimation(rotateClose)
         }
         isClickedLater = state
     }
@@ -270,8 +291,10 @@ class TaskPageFragment(
     private fun showOverdueRV(state: Boolean){
         if(state){
             binding.rvTaskOverdue.visibility = View.VISIBLE
+            binding.imgTitleTaskOverdue.startAnimation(rotateOpen)
         }else{
             binding.rvTaskOverdue.visibility = View.GONE
+            binding.imgTitleTaskOverdue.startAnimation(rotateClose)
         }
         isClickedOverdue = state
     }

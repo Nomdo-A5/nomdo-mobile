@@ -10,13 +10,14 @@
         android:id="@+id/tv_sign_up"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="80dp"
         android:fontFamily="@font/roboto_black"
         android:text="@string/sign_up"
         android:textSize="26sp"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.180" />
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/layout_balance"
@@ -65,39 +66,17 @@
     </com.google.android.material.textfield.TextInputLayout>
 
     <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/layout_phone_sign_up"
-        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        app:boxStrokeColor="@color/black"
-        app:hintTextColor="@color/black"
-        app:layout_constraintEnd_toEndOf="@+id/layout_email_sign_up"
-        app:layout_constraintStart_toStartOf="@+id/layout_email_sign_up"
-        app:layout_constraintTop_toBottomOf="@+id/layout_email_sign_up">
-
-        <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/edit_phone_sign_up"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="@string/phone_number"
-            android:imeOptions="actionNext"
-            android:inputType="phone"
-            android:nextFocusDown="@+id/edit_password_sign_up" />
-    </com.google.android.material.textfield.TextInputLayout>
-
-    <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/layout_password_sign_up"
         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
         app:boxStrokeColor="@color/black"
         app:endIconMode="password_toggle"
         app:hintTextColor="@color/black"
-        app:layout_constraintEnd_toEndOf="@+id/layout_phone_sign_up"
-        app:layout_constraintStart_toStartOf="@+id/layout_phone_sign_up"
-        app:layout_constraintTop_toBottomOf="@+id/layout_phone_sign_up">
+        android:layout_marginTop="16dp"
+        app:layout_constraintEnd_toEndOf="@+id/layout_email_sign_up"
+        app:layout_constraintStart_toStartOf="@+id/layout_email_sign_up"
+        app:layout_constraintTop_toBottomOf="@+id/layout_email_sign_up">
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/edit_password_sign_up"
@@ -140,41 +119,27 @@
         android:clickable="true"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/ic_back" />
+        app:srcCompat="@drawable/ic_back"
+        app:tint="@color/black" />
 
     <com.apachat.loadingbutton.core.customViews.CircularProgressButton
         android:id="@+id/btn_sign_up"
-        android:layout_width="0dp"
+        android:layout_width="250dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="32dp"
         android:background="@drawable/btn_accent"
-        android:fontFamily="@font/roboto_bold"
+        android:fontFamily="@font/roboto_medium"
         android:padding="15dp"
+        android:textSize="16sp"
+        android:textColor="@color/white"
         android:text="@string/sign_up"
         android:textAlignment="center"
         android:textAllCaps="false"
         app:finalCornerAngle="30dp"
         app:initialCornerAngle="30dp"
-        app:layout_constraintEnd_toEndOf="@+id/btn_google_sign_up"
-        app:layout_constraintStart_toStartOf="@+id/btn_google_sign_up"
+        app:layout_constraintEnd_toEndOf="@+id/layout_confirm_sign_up"
+        app:layout_constraintStart_toStartOf="@+id/layout_confirm_sign_up"
         app:layout_constraintTop_toBottomOf="@+id/layout_confirm_sign_up"
         app:spinning_bar_padding="8dp" />
 
-    <androidx.appcompat.widget.AppCompatButton
-        android:id="@+id/btn_google_sign_up"
-        android:layout_width="250dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:background="@drawable/btn_gray"
-        android:fontFamily="@font/roboto_bold"
-        android:gravity="center"
-        android:padding="15dp"
-        android:text="@string/sign_in_with_google"
-        android:textAlignment="gravity"
-        android:textAllCaps="false"
-        app:drawableStartCompat="@drawable/ic_google"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.495"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/btn_sign_up" />
 </androidx.constraintlayout.widget.ConstraintLayout>

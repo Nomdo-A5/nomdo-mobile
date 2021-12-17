@@ -18,6 +18,7 @@ import com.nomdoa5.nomdo.databinding.FragmentHomeBinding
 import com.nomdoa5.nomdo.helpers.MarginItemDecoration
 import com.nomdoa5.nomdo.helpers.ViewModelFactory
 import com.nomdoa5.nomdo.helpers.adapter.HomeAdapter
+import com.nomdoa5.nomdo.helpers.adapter.TaskCardAdapter
 import com.nomdoa5.nomdo.repository.local.UserPreferences
 import com.nomdoa5.nomdo.repository.model.Task
 import com.nomdoa5.nomdo.ui.MainActivity
@@ -26,10 +27,10 @@ import com.nomdoa5.nomdo.ui.workspace.WorkspacesViewModel
 
 private val Context.dataStore: DataStore<Preferences> by preferencesDataStore(name = "auth")
 
-class HomeFragment : Fragment() {
+class HomeFragment : Fragment(), TaskCardAdapter.OnTaskClickListener {
     private var _binding: FragmentHomeBinding? = null
     private val binding get() = _binding!!
-    private val homeAdapter = HomeAdapter()
+    private val homeAdapter = TaskCardAdapter(this)
     private var homes = arrayListOf<Task>()
     private lateinit var workspacesViewModel: WorkspacesViewModel
     private lateinit var authViewModel: AuthViewModel
@@ -50,7 +51,7 @@ class HomeFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setData()
-        setupRecyclerView()
+//        setupRecyclerView()
 //        setupHome()
         setupOnBackPressed()
     }
@@ -80,23 +81,16 @@ class HomeFragment : Fragment() {
         }
     }
 
-    fun setupRecyclerView() {
-        rvHome = requireView().findViewById(R.id.rv_homes)
+    private fun setupRecyclerView() {
+        rvHome = binding.rvHomes
         rvHome.setHasFixedSize(true)
         rvHome.addItemDecoration(MarginItemDecoration(16))
         rvHome.layoutManager = LinearLayoutManager(context)
         homeAdapter.setData(homes)
         rvHome.adapter = homeAdapter
-
-        homeAdapter.setOnItemClickCallback(object : HomeAdapter.OnItemClickCallback {
-            override fun onItemClicked(data: Task) {
-
-            }
-
-        })
     }
 
-    fun setupHome(){
+    private fun setupHome(){
         authViewModel.getAuthToken().observe(viewLifecycleOwner, {
             authViewModel.setUser(it!!)
             workspacesViewModel.setWorkspace(it)
@@ -128,5 +122,13 @@ class HomeFragment : Fragment() {
                 true
             } else false
         }
+    }
+
+    override fun onTaskClick(data: Task) {
+
+    }
+
+    override fun onCbTaskClick(data: Task) {
+
     }
 }

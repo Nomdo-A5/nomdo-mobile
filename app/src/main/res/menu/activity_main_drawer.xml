@@ -13,10 +13,6 @@
             android:icon="@drawable/ic_workspace"
             android:title="@string/my_workspaces" />
         <item
-            android:id="@+id/nav_shared_workspaces"
-            android:icon="@drawable/ic_workspace"
-            android:title="@string/shared_workspaces" />
-        <item
             android:id="@+id/nav_settings"
             android:icon="@drawable/ic_settings"
             android:title="@string/settings"/>

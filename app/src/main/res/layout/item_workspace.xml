@@ -4,13 +4,13 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:foreground="?attr/selectableItemBackground"
     app:cardCornerRadius="10dp">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:padding="16dp"
-        android:background="?attr/selectableItemBackground"
         tools:targetApi="m">
 
         <TextView
@@ -18,10 +18,10 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="10dp"
-            android:fontFamily="@font/roboto_medium"
-            android:text="Haloo"
             android:ellipsize="end"
+            android:fontFamily="@font/roboto_medium"
             android:maxLines="1"
+            android:text="Haloo"
             android:textAllCaps="false"
             android:textSize="16sp"
             app:layout_constraintEnd_toEndOf="parent"
@@ -32,10 +32,10 @@
             android:id="@+id/tv_description_workspace"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:ellipsize="end"
-            android:maxLines="1"
             android:layout_marginTop="4dp"
+            android:ellipsize="end"
             android:fontFamily="@font/roboto_regular"
+            android:maxLines="1"
             android:text="Owned by diaz abdillah"
             android:textSize="14sp"
             app:layout_constraintEnd_toEndOf="parent"

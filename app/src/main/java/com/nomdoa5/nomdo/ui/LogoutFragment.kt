@@ -38,6 +38,7 @@ class LogoutFragment : DialogFragment(), View.OnClickListener {
     ): View {
         _binding = DialogFragmentLogoutBinding.inflate(inflater, container, false)
         val root: View = binding.root
+        dialog!!.window!!.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
 
         return root
     }

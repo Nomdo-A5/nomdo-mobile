@@ -20,16 +20,6 @@
             android:id="@+id/action_nav_my_workspaces_to_nav_boards"
             app:destination="@id/nav_boards" />
     </fragment>
-
-    <fragment
-        android:id="@+id/nav_shared_workspaces"
-        android:name="com.nomdoa5.nomdo.ui.workspace.SharedWorkspacesFragment"
-        android:label="@string/menu_slideshow"
-        tools:layout="@layout/fragment_shared_workspaces">
-        <action
-            android:id="@+id/action_nav_shared_workspaces_to_nav_boards"
-            app:destination="@id/nav_boards" />
-    </fragment>
     <fragment
         android:id="@+id/nav_boards"
         android:name="com.nomdoa5.nomdo.ui.board.BoardsFragment"
@@ -77,7 +67,7 @@
         tools:layout="@layout/dialog_fragment_update_task"/>
 
     <fragment
-        android:id="@+id/nav_logout"
+        android:id="@+id/logoutFragment"
         android:name="com.nomdoa5.nomdo.ui.LogoutFragment"
         android:label="@string/logout"
         tools:layout="@layout/dialog_fragment_logout" />
