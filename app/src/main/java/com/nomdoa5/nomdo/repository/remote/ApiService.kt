@@ -29,6 +29,7 @@ import com.nomdoa5.nomdo.repository.model.response.task.TaskResponse
 import com.nomdoa5.nomdo.repository.model.response.workspace.*
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
+import okhttp3.ResponseBody
 import retrofit2.Call
 import retrofit2.http.*
 
@@ -239,6 +240,12 @@ interface ApiService {
         @Part file_path: MultipartBody.Part,
         @Part("balance_id") balanceId: RequestBody
     ): Call<AddAttachmentResponse>
+
+    @GET("attachment")
+    fun downloadAttachment(
+        @Header("Authorization") token: String,
+        @Query("balance_id") id: String,
+    ): Call<ResponseBody>
 
     //    BALANCE
     @GET("search")

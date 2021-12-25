@@ -108,9 +108,7 @@ class CreateBalanceDialogFragment : BottomSheetDialogFragment(), View.OnClickLis
                 })
 
                 balanceViewModel.getAddBalanceResponse().observe(this, {
-                    if (it != null) {
-                        uploadImage(it.id.toString())
-                    }
+                    uploadImage(it.id.toString())
                 })
 
                 viewLifecycleOwner.lifecycleScope.launchWhenCreated {

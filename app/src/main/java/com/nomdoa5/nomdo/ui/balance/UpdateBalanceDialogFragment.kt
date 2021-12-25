@@ -4,12 +4,15 @@ import NoFilterAdapter
 import android.app.DatePickerDialog
 import android.content.Context
 import android.content.Intent
+import android.content.pm.PackageManager
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.app.ActivityCompat
+import androidx.core.content.ContextCompat
 import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.preferencesDataStore
@@ -29,6 +32,7 @@ import com.nomdoa5.nomdo.ui.auth.AuthViewModel
 import kotlinx.coroutines.flow.collect
 import java.text.SimpleDateFormat
 import java.util.*
+import java.util.jar.Manifest
 
 
 private val Context.dataStore: DataStore<Preferences> by preferencesDataStore(name = "auth")
@@ -40,6 +44,7 @@ class UpdateBalanceDialogFragment : BottomSheetDialogFragment(), View.OnClickLis
     private lateinit var authViewModel: AuthViewModel
     private lateinit var balance: Balance
     private var date: String? = null
+    private val MY_PERMISSION_REQUEST = 100
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -65,10 +70,31 @@ class UpdateBalanceDialogFragment : BottomSheetDialogFragment(), View.OnClickLis
         binding.editDescriptionUpdateBalance.setText(balance.balanceDescription)
         binding.editDateUpdateBalance.setText(balance.date)
         binding.spinnerStatusUpdateBalance.setText(balance.status)
-        val type = if(balance.isIncome!! > 1) "Income" else "Outcome"
+        val type = if (balance.isIncome!! < 1) "Outcome" else "Income"
         binding.spinnerTypeUpdateBalance.setText(type)
         setupViewModel()
         setupSpinner()
+        setupAttachment()
+    }
+
+    private fun setupAttachment() {
+        binding.layoutAttachmentUpdateBalance.setEndIconOnClickListener {
+            if (ContextCompat.checkSelfPermission(
+                    requireContext(),
+                    android.Manifest.permission.WRITE_EXTERNAL_STORAGE
+                ) != PackageManager.PERMISSION_GRANTED
+            ) {
+                ActivityCompat.requestPermissions(
+                    requireActivity(),
+                    arrayOf(android.Manifest.permission.WRITE_EXTERNAL_STORAGE),
+                    MY_PERMISSION_REQUEST
+                )
+            }
+
+            authViewModel.getAuthToken().observe(this, {
+                balanceViewModel.downloadAttachment(it!!, balance.id.toString())
+            })
+        }
     }
 
     override fun onDestroy() {
@@ -81,7 +107,7 @@ class UpdateBalanceDialogFragment : BottomSheetDialogFragment(), View.OnClickLis
             binding.btnUpdateBalance -> {
                 binding.btnUpdateBalance.startAnimation()
                 val newDesc = binding.editDescriptionUpdateBalance.text.toString()
-                val newNominal  = binding.editNominalUpdateBalance.text.toString()
+                val newNominal = binding.editNominalUpdateBalance.text.toString()
                 val newStatus = binding.spinnerStatusUpdateBalance.text.toString()
                 val type = binding.spinnerTypeUpdateBalance.text.toString()
                 val isIncome = if (type == "Income") {
@@ -89,7 +115,8 @@ class UpdateBalanceDialogFragment : BottomSheetDialogFragment(), View.OnClickLis
                 } else {
                     0
                 }
-                val newBalance = UpdateBalanceRequest(balance.id, newNominal, newDesc, isIncome, newStatus, date)
+                val newBalance =
+                    UpdateBalanceRequest(balance.id, newNominal, newDesc, isIncome, newStatus, date)
 
                 authViewModel.getAuthToken().observe(this, {
                     balanceViewModel.updateBalance(it!!, newBalance)
@@ -97,7 +124,7 @@ class UpdateBalanceDialogFragment : BottomSheetDialogFragment(), View.OnClickLis
 
                 viewLifecycleOwner.lifecycleScope.launchWhenCreated {
                     balanceViewModel.balanceState.collect {
-                        when(it){
+                        when (it) {
                             is LoadingState.Loading -> {
                                 binding.btnUpdateBalance.startAnimation()
                             }
@@ -197,4 +224,6 @@ class UpdateBalanceDialogFragment : BottomSheetDialogFragment(), View.OnClickLis
             startActivityForResult(it, UploadAttachmentDialogFragment.REQUEST_CODE_PICK_IMAGE)
         }
     }
+
+
 }

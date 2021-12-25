@@ -17,6 +17,8 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
+            tools:listitem="@layout/item_task_card"
+            tools:itemCount="3"
             android:layout_marginBottom="16dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="@+id/cv_balance_overview"
@@ -36,12 +38,13 @@
             app:layout_constraintTop_toTopOf="parent">
 
             <androidx.constraintlayout.widget.ConstraintLayout
-                android:background="@color/white"
+                android:background="@color/primary"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
 
                 <TextView
                     android:id="@+id/textView4"
+                    android:textColor="@color/button_light_dashboard"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="16dp"
@@ -58,8 +61,10 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="16dp"
                     android:layout_marginTop="16dp"
+                    android:layout_marginBottom="16dp"
                     android:layout_marginEnd="4dp"
                     app:cardCornerRadius="10dp"
+                    app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toStartOf="@+id/divider_task_overview"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/textView4">
@@ -67,7 +72,7 @@
                     <androidx.constraintlayout.widget.ConstraintLayout
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:background="@drawable/bg_primary"
+                        android:background="@color/primary_light_dashboard"
                         android:gravity="center">
 
                         <ImageView
@@ -88,8 +93,8 @@
                             android:fontFamily="@font/roboto_medium"
                             android:text="7"
                             android:textAlignment="center"
-                            android:textColor="@color/white"
-                            android:textSize="24sp"
+                            android:textColor="@color/primary"
+                            android:textSize="22sp"
                             app:layout_constraintEnd_toEndOf="@+id/tv_title_completed_task"
                             app:layout_constraintStart_toStartOf="@+id/tv_title_completed_task"
                             app:layout_constraintTop_toBottomOf="@+id/imageView4"
@@ -107,7 +112,7 @@
                             android:fontFamily="@font/roboto_medium"
                             android:text="Completed Task"
                             android:textAlignment="center"
-                            android:textColor="@color/white"
+                            android:textColor="@color/primary"
                             android:textSize="16sp"
                             app:layout_constraintBottom_toBottomOf="parent"
                             app:layout_constraintEnd_toEndOf="parent"
@@ -141,7 +146,7 @@
                     <androidx.constraintlayout.widget.ConstraintLayout
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:background="@drawable/bg_accent"
+                        android:background="@color/accent_light_dashboard"
                         android:gravity="center"
                         android:orientation="vertical">
 
@@ -163,8 +168,8 @@
                             android:fontFamily="@font/roboto_medium"
                             android:text="0"
                             android:textAlignment="center"
-                            android:textColor="@color/white"
-                            android:textSize="24sp"
+                            android:textColor="@color/accent"
+                            android:textSize="22sp"
                             app:layout_constraintEnd_toEndOf="@+id/tv_title_pending_task"
                             app:layout_constraintStart_toStartOf="@+id/tv_title_pending_task"
                             app:layout_constraintTop_toBottomOf="@+id/imageView5"
@@ -182,7 +187,7 @@
                             android:fontFamily="@font/roboto_medium"
                             android:text="Pending Task"
                             android:textAlignment="center"
-                            android:textColor="@color/white"
+                            android:textColor="@color/accent"
                             android:textSize="16sp"
                             app:layout_constraintBottom_toBottomOf="parent"
                             app:layout_constraintEnd_toEndOf="parent"
@@ -193,60 +198,6 @@
                     </androidx.constraintlayout.widget.ConstraintLayout>
                 </androidx.cardview.widget.CardView>
 
-                <androidx.cardview.widget.CardView
-                    android:id="@+id/layout_task_overview_detail"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="8dp"
-                    android:layout_marginBottom="16dp"
-                    app:cardCornerRadius="10dp"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="@+id/layout_pending_task"
-                    app:layout_constraintStart_toStartOf="@+id/layout_completed_task"
-                    app:layout_constraintTop_toBottomOf="@+id/divider_task_overview">
-
-                    <androidx.constraintlayout.widget.ConstraintLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:background="@drawable/bg_primary_20t"
-                        android:gravity="center"
-                        android:orientation="vertical"
-                        app:layout_constraintBottom_toBottomOf="parent">
-
-                        <TextView
-                            android:id="@+id/tv_task_overview_detail"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginStart="16dp"
-                            android:layout_marginTop="16dp"
-                            android:layout_marginBottom="16dp"
-                            android:fontFamily="@font/roboto_medium"
-                            android:text="More Details"
-                            android:textColor="@color/primary"
-                            app:layout_constraintBottom_toBottomOf="parent"
-                            app:layout_constraintStart_toStartOf="parent"
-                            app:layout_constraintTop_toTopOf="parent"
-                            tools:layout_conversion_absoluteHeight="22dp"
-                            tools:layout_conversion_absoluteWidth="126dp" />
-
-                        <TextView
-                            android:id="@+id/tv_symbol_task_overview_detail"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="16dp"
-                            android:layout_marginEnd="16dp"
-                            android:layout_marginBottom="16dp"
-                            android:fontFamily="@font/roboto_medium"
-                            android:text=">>>"
-                            android:textColor="@color/primary"
-                            app:layout_constraintBottom_toBottomOf="parent"
-                            app:layout_constraintEnd_toEndOf="parent"
-                            app:layout_constraintTop_toTopOf="parent"
-                            app:layout_constraintVertical_bias="0.0"
-                            tools:layout_conversion_absoluteHeight="22dp"
-                            tools:layout_conversion_absoluteWidth="126dp" />
-                    </androidx.constraintlayout.widget.ConstraintLayout>
-                </androidx.cardview.widget.CardView>
 
             </androidx.constraintlayout.widget.ConstraintLayout>
         </androidx.cardview.widget.CardView>
@@ -262,10 +213,13 @@
             app:layout_constraintTop_toBottomOf="@+id/cv_task_overview">
 
             <androidx.constraintlayout.widget.ConstraintLayout
+                android:background="@color/primary"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
 
                 <TextView
+                    android:textColor="@color/button_light_dashboard"
+
                     android:id="@+id/tv_balance_overview"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -292,7 +246,7 @@
                     <androidx.constraintlayout.widget.ConstraintLayout
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:background="@drawable/bg_primary"
+                        android:background="@color/primary_light_dashboard"
                         android:gravity="center">
 
                         <ImageView
@@ -313,8 +267,8 @@
                             android:fontFamily="@font/roboto_medium"
                             android:text="200.000"
                             android:textAlignment="center"
-                            android:textColor="@color/white"
-                            android:textSize="24sp"
+                            android:textColor="@color/primary"
+                            android:textSize="22sp"
                             app:layout_constraintEnd_toEndOf="@+id/tv_title_income_balance_overview"
                             app:layout_constraintStart_toStartOf="@+id/tv_title_income_balance_overview"
                             app:layout_constraintTop_toBottomOf="@+id/imageView6"
@@ -332,7 +286,7 @@
                             android:fontFamily="@font/roboto_medium"
                             android:text="Income"
                             android:textAlignment="center"
-                            android:textColor="@color/white"
+                            android:textColor="@color/primary"
                             android:textSize="16sp"
                             app:layout_constraintBottom_toBottomOf="parent"
                             app:layout_constraintEnd_toEndOf="parent"
@@ -366,7 +320,7 @@
                     <androidx.constraintlayout.widget.ConstraintLayout
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:background="@drawable/bg_accent"
+                        android:background="@color/accent_light_dashboard"
                         android:gravity="center">
 
                         <ImageView
@@ -387,8 +341,8 @@
                             android:fontFamily="@font/roboto_medium"
                             android:text="100.000"
                             android:textAlignment="center"
-                            android:textColor="@color/white"
-                            android:textSize="24sp"
+                            android:textColor="@color/accent"
+                            android:textSize="22sp"
                             app:layout_constraintEnd_toEndOf="@+id/tv_title_outcome_balance_overview"
                             app:layout_constraintStart_toStartOf="@+id/tv_title_outcome_balance_overview"
                             app:layout_constraintTop_toBottomOf="@+id/imageView7"
@@ -406,7 +360,7 @@
                             android:fontFamily="@font/roboto_medium"
                             android:text="Outcome"
                             android:textAlignment="center"
-                            android:textColor="@color/white"
+                            android:textColor="@color/accent"
                             android:textSize="16sp"
                             app:layout_constraintBottom_toBottomOf="parent"
                             app:layout_constraintEnd_toEndOf="parent"
@@ -432,7 +386,7 @@
                     <androidx.constraintlayout.widget.ConstraintLayout
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:background="@drawable/bg_primary_20t"
+                        android:background="@color/button_light_dashboard"
                         android:gravity="center"
                         android:orientation="vertical">
 

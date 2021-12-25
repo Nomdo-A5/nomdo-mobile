@@ -17,7 +17,6 @@ import com.nomdoa5.nomdo.R
 import com.nomdoa5.nomdo.databinding.FragmentHomeBinding
 import com.nomdoa5.nomdo.helpers.MarginItemDecoration
 import com.nomdoa5.nomdo.helpers.ViewModelFactory
-import com.nomdoa5.nomdo.helpers.adapter.HomeAdapter
 import com.nomdoa5.nomdo.helpers.adapter.TaskCardAdapter
 import com.nomdoa5.nomdo.repository.local.UserPreferences
 import com.nomdoa5.nomdo.repository.model.Task
@@ -51,8 +50,9 @@ class HomeFragment : Fragment(), TaskCardAdapter.OnTaskClickListener {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setData()
+        setupViewModel()
 //        setupRecyclerView()
-//        setupHome()
+        setupHome()
         setupOnBackPressed()
     }
 

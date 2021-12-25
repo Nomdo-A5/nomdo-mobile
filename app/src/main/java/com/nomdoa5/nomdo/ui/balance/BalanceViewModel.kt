@@ -1,5 +1,7 @@
 package com.nomdoa5.nomdo.ui.balance
 
+import android.os.Environment
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -19,9 +21,12 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
+import okhttp3.ResponseBody
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
+import java.io.*
+
 
 class BalanceViewModel : ViewModel() {
     private val listBalance = MutableLiveData<ArrayList<Balance>>()
@@ -37,6 +42,8 @@ class BalanceViewModel : ViewModel() {
     private val addBalanceResponse = MutableLiveData<Balance>()
     private val _balanceState = MutableStateFlow<LoadingState>(LoadingState.Empty)
     val balanceState: StateFlow<LoadingState> = _balanceState
+    private val _attachmentState = MutableStateFlow<LoadingState>(LoadingState.Empty)
+    val attachmentState: StateFlow<LoadingState> = _attachmentState
 
     fun setBalance(
         token: String,
@@ -205,7 +212,7 @@ class BalanceViewModel : ViewModel() {
         attachment: MultipartBody.Part,
         balanceId: RequestBody,
     ) {
-        _balanceState.value = LoadingState.Loading
+        _attachmentState.value = LoadingState.Loading
         val service = RetrofitClient.buildService(ApiService::class.java)
         val requestCall = service.addAttachment(token = "Bearer $token", attachment, balanceId)
 
@@ -215,16 +222,81 @@ class BalanceViewModel : ViewModel() {
                 response: Response<AddAttachmentResponse>
             ) {
                 if (response.code() < 300) {
-                    _balanceState.value = LoadingState.Success
+                    _attachmentState.value = LoadingState.Success
                 } else {
-                    _balanceState.value = LoadingState.Error("Error ${response.code()}")
+                    _attachmentState.value = LoadingState.Error("Error ${response.code()}")
                 }
             }
 
             override fun onFailure(call: Call<AddAttachmentResponse>, t: Throwable) {
-                _balanceState.value = LoadingState.Error("onFailure Server")
+                _attachmentState.value = LoadingState.Error("onFailure Server")
             }
         })
+    }
+
+    fun downloadAttachment(token: String, balanceId: String) {
+        _attachmentState.value = LoadingState.Loading
+        val service = RetrofitClient.buildService(ApiService::class.java)
+        val requestCall = service.downloadAttachment(token = "Bearer $token", balanceId)
+
+        requestCall.enqueue(object : Callback<ResponseBody> {
+            override fun onResponse(call: Call<ResponseBody>, response: Response<ResponseBody>) {
+                if (response.code() < 300) {
+                    writeResponseBody(response.body()!!, response.headers()["Content-Disposition"])
+                    _attachmentState.value = LoadingState.Success
+                }else{
+                    _attachmentState.value = LoadingState.Error("Error ${response.code()}")
+                }
+            }
+
+            override fun onFailure(call: Call<ResponseBody>, t: Throwable) {
+                _attachmentState.value = LoadingState.Error("onFailure Server")
+            }
+        })
+    }
+
+    fun writeResponseBody(body: ResponseBody, header: String?): Boolean {
+        return try {
+            val fileName: String = header!!.replace("attachment; filename=", "")
+
+            val file = File(
+                Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS).absoluteFile,
+                fileName
+            )
+
+            var inputStream: InputStream? = null
+            var outputStream: OutputStream? = null
+            try {
+                val fileReader = ByteArray(4096)
+                //long fileSize = body.contentLength();
+                //long fileSizeDownloaded = 0;
+                inputStream = body.byteStream()
+                Log.d("dapz", "Hayouk")
+
+                outputStream = FileOutputStream(file)
+                Log.d("Nyihao", "Hayouk")
+
+                while (true) {
+                    Log.d("Nyarigato", "Hayouk")
+                    val read = inputStream.read(fileReader)
+                    if (read == -1) {
+                        Log.d("Jahaybreak", "Hayouk")
+                        break
+                    }
+                    outputStream.write(fileReader, 0, read)
+                    //fileSizeDownloaded += read;
+                }
+                outputStream.flush()
+                true
+            } catch (e: IOException) {
+                false
+            } finally {
+                inputStream?.close()
+                outputStream?.close()
+            }
+        } catch (e: IOException) {
+            false
+        }
     }
 
 

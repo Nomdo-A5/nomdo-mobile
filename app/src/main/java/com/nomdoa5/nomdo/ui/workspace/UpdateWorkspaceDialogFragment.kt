@@ -51,6 +51,7 @@ class UpdateWorkspaceDialogFragment : BottomSheetDialogFragment(), View.OnClickL
 
         workspace = requireArguments().getParcelable("EXTRA_WORKSPACE")!!
         binding.editNameUpdateWorkspace.setText(workspace.workspaceName)
+        binding.editDescUpdateWorkspace.setText(workspace.workspaceDescription)
         binding.btnUpdateWorkspace.setOnClickListener(this)
         binding.btnDeleteWorkspace.setOnClickListener(this)
         binding.imgCloseUpdateWorkspace.setOnClickListener(this)

@@ -4,6 +4,8 @@
     package="com.nomdoa5.nomdo">
 
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
 
     <application
         android:allowBackup="true"
@@ -17,12 +19,15 @@
         <activity
             android:name=".ui.search.SearchActivity"
             android:exported="true"
-            android:theme="@style/Theme.Nomdo.NoActionBar" />
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.Nomdo" />
         <activity
             android:name=".ui.UserProfileActivity"
+            android:screenOrientation="portrait"
             android:exported="true" />
         <activity
             android:name=".ui.SettingActivity"
+            android:screenOrientation="portrait"
             android:exported="true" />
         <activity
             android:name=".ui.auth.ForgetPassActivity3"
@@ -42,10 +47,12 @@
         <activity
             android:name=".ui.auth.RegisterActivity"
             android:exported="true"
+            android:screenOrientation="portrait"
             android:theme="@style/Theme.Auth" />
         <activity
             android:name=".ui.auth.LoginActivity"
             android:exported="true"
+            android:screenOrientation="portrait"
             android:theme="@style/Theme.Auth" />
         <activity
             android:name=".ui.splash.SplashScreenActivity"

@@ -10,11 +10,15 @@ import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.preferencesDataStore
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.Navigation
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+import com.google.android.material.snackbar.Snackbar
 import com.nomdoa5.nomdo.R
 import com.nomdoa5.nomdo.databinding.FragmentMoneyReportPageBinding
+import com.nomdoa5.nomdo.helpers.LoadingState
 import com.nomdoa5.nomdo.helpers.ViewModelFactory
 import com.nomdoa5.nomdo.helpers.adapter.BalanceAdapter
 import com.nomdoa5.nomdo.helpers.toCurrencyFormat
@@ -23,6 +27,7 @@ import com.nomdoa5.nomdo.repository.model.Balance
 import com.nomdoa5.nomdo.repository.model.Workspace
 import com.nomdoa5.nomdo.ui.auth.AuthViewModel
 import com.nomdoa5.nomdo.ui.board.BoardViewModel
+import kotlinx.coroutines.flow.collect
 
 private val Context.dataStore: DataStore<Preferences> by preferencesDataStore(name = "auth")
 
@@ -32,7 +37,7 @@ class MoneyReportPageFragment(
 ) :
     Fragment(),
     View.OnClickListener,
-    BalanceAdapter.OnBalanceClickListener {
+    BalanceAdapter.OnBalanceClickListener, SwipeRefreshLayout.OnRefreshListener {
     private lateinit var balanceViewModel: BalanceViewModel
     private lateinit var boardsViewModel: BoardViewModel
     private lateinit var authViewModel: AuthViewModel
@@ -63,6 +68,24 @@ class MoneyReportPageFragment(
         setupOverview()
         binding.tvIncomeDetailMoneyReport.setOnClickListener(this)
         binding.tvOutcomeDetailMoneyReport.setOnClickListener(this)
+        binding.swipeMyMoneyReport.setOnRefreshListener(this)
+
+        viewLifecycleOwner.lifecycleScope.launchWhenCreated {
+            balanceViewModel.balanceState.collect {
+                when (it) {
+                    is LoadingState.Success -> {
+                        binding.swipeMyMoneyReport.isRefreshing = false
+                    }
+                    is LoadingState.Loading -> {
+                        binding.swipeMyMoneyReport.isRefreshing = true
+                    }
+                    is LoadingState.Error -> {
+                        showSnackbar(it.message)
+                    }
+                    else -> Unit
+                }
+            }
+        }
     }
 
     override fun onDestroyView() {
@@ -274,5 +297,14 @@ class MoneyReportPageFragment(
         bundle.putParcelable("EXTRA_BALANCE", data)
         updateBalanceDialogFragment.arguments = bundle
         updateBalanceDialogFragment.show(requireActivity().supportFragmentManager, "Update Balance")
+    }
+
+    override fun onRefresh() {
+        setupDataAdapter()
+        setupOverview()
+    }
+
+    private fun showSnackbar(message: String) {
+        Snackbar.make(requireView(), message, Snackbar.LENGTH_SHORT).show()
     }
 }
