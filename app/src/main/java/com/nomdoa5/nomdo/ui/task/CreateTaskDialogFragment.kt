@@ -3,6 +3,7 @@ package com.nomdoa5.nomdo.ui.task
 import NoFilterAdapter
 import android.app.DatePickerDialog
 import android.content.Context
+import android.content.DialogInterface
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
@@ -18,6 +19,7 @@ import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.google.android.material.snackbar.Snackbar
 import com.nomdoa5.nomdo.R
 import com.nomdoa5.nomdo.databinding.DialogFragmentCreateTaskBinding
+import com.nomdoa5.nomdo.helpers.DismissListener
 import com.nomdoa5.nomdo.helpers.LoadingState
 import com.nomdoa5.nomdo.helpers.ViewModelFactory
 import com.nomdoa5.nomdo.repository.local.UserPreferences
@@ -46,6 +48,7 @@ class CreateTaskDialogFragment : BottomSheetDialogFragment(), View.OnClickListen
     private var spinnerBoardPosition: Int? = null
     private val workspaceAdapterId = ArrayList<String>()
     private val boardAdapterId = ArrayList<String>()
+    private var listener: DismissListener? = null
 
 
     override fun onCreateView(
@@ -73,6 +76,15 @@ class CreateTaskDialogFragment : BottomSheetDialogFragment(), View.OnClickListen
     override fun onDestroy() {
         super.onDestroy()
         _binding = null
+    }
+
+    fun setDismissListener(listener: DismissListener) {
+        this.listener = listener
+    }
+
+    override fun onDismiss(dialog: DialogInterface) {
+        super.onDismiss(dialog)
+        listener?.onDismiss()
     }
 
     override fun onClick(v: View?) {
@@ -104,12 +116,8 @@ class CreateTaskDialogFragment : BottomSheetDialogFragment(), View.OnClickListen
                     }
                 }
             }
-            binding.imgCloseAddTask -> {
-                dismiss()
-            }
-            binding.editDateAddTask -> {
-                setupCalendar()
-            }
+            binding.imgCloseAddTask -> dialog!!.cancel()
+            binding.editDateAddTask -> setupCalendar()
         }
     }
 

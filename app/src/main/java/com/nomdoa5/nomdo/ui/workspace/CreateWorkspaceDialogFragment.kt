@@ -1,6 +1,7 @@
 package com.nomdoa5.nomdo.ui.workspace
 
 import android.content.Context
+import android.content.DialogInterface
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
@@ -10,12 +11,12 @@ import android.view.ViewGroup
 import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.preferencesDataStore
-import androidx.fragment.app.DialogFragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.google.android.material.snackbar.Snackbar
 import com.nomdoa5.nomdo.databinding.DialogFragmentCreateWorkspaceBinding
+import com.nomdoa5.nomdo.helpers.DismissListener
 import com.nomdoa5.nomdo.helpers.LoadingState
 import com.nomdoa5.nomdo.helpers.ViewModelFactory
 import com.nomdoa5.nomdo.repository.local.UserPreferences
@@ -32,6 +33,7 @@ class CreateWorkspaceDialogFragment : BottomSheetDialogFragment(), View.OnClickL
     private val binding get() = _binding!!
     private lateinit var workspacesViewModel: WorkspacesViewModel
     private lateinit var authViewModel: AuthViewModel
+    private var listener: DismissListener? = null
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -55,6 +57,15 @@ class CreateWorkspaceDialogFragment : BottomSheetDialogFragment(), View.OnClickL
     override fun onDestroy() {
         super.onDestroy()
         _binding = null
+    }
+
+    fun setDismissListener(listener: DismissListener) {
+        this.listener = listener
+    }
+
+    override fun onDismiss(dialog: DialogInterface) {
+        super.onDismiss(dialog)
+        listener?.onDismiss()
     }
 
     override fun onClick(v: View?) {
@@ -87,7 +98,7 @@ class CreateWorkspaceDialogFragment : BottomSheetDialogFragment(), View.OnClickL
                     }
                 }
             }
-            binding.imgCloseAddWorkspace -> dismiss()
+            binding.imgCloseAddWorkspace -> dialog!!.cancel()
         }
     }
 

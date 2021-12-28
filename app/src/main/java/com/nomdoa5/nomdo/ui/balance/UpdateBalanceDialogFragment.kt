@@ -3,6 +3,7 @@ package com.nomdoa5.nomdo.ui.balance
 import NoFilterAdapter
 import android.app.DatePickerDialog
 import android.content.Context
+import android.content.DialogInterface
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.graphics.Color
@@ -22,6 +23,7 @@ import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.google.android.material.snackbar.Snackbar
 import com.nomdoa5.nomdo.R
 import com.nomdoa5.nomdo.databinding.DialogFragmentUpdateBalanceBinding
+import com.nomdoa5.nomdo.helpers.DismissListener
 import com.nomdoa5.nomdo.helpers.LoadingState
 import com.nomdoa5.nomdo.helpers.ViewModelFactory
 import com.nomdoa5.nomdo.repository.local.UserPreferences
@@ -32,12 +34,12 @@ import com.nomdoa5.nomdo.ui.auth.AuthViewModel
 import kotlinx.coroutines.flow.collect
 import java.text.SimpleDateFormat
 import java.util.*
-import java.util.jar.Manifest
 
 
 private val Context.dataStore: DataStore<Preferences> by preferencesDataStore(name = "auth")
 
 class UpdateBalanceDialogFragment : BottomSheetDialogFragment(), View.OnClickListener {
+    private var listener: DismissListener? = null
     private var _binding: DialogFragmentUpdateBalanceBinding? = null
     private val binding get() = _binding!!
     private lateinit var balanceViewModel: BalanceViewModel
@@ -100,6 +102,15 @@ class UpdateBalanceDialogFragment : BottomSheetDialogFragment(), View.OnClickLis
     override fun onDestroy() {
         super.onDestroy()
         _binding = null
+    }
+
+    fun setDismissListener(listener: DismissListener) {
+        this.listener = listener
+    }
+
+    override fun onDismiss(dialog: DialogInterface) {
+        super.onDismiss(dialog)
+        listener?.onDismiss()
     }
 
     override fun onClick(v: View?) {

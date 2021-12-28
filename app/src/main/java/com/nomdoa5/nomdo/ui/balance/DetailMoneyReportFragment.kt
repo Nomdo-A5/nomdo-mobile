@@ -24,6 +24,7 @@ import com.nomdoa5.nomdo.helpers.adapter.BoardAdapter
 import com.nomdoa5.nomdo.repository.local.UserPreferences
 import com.nomdoa5.nomdo.repository.model.Balance
 import com.nomdoa5.nomdo.repository.model.Board
+import com.nomdoa5.nomdo.ui.MainActivity
 import com.nomdoa5.nomdo.ui.auth.AuthViewModel
 import com.nomdoa5.nomdo.ui.board.BoardViewModel
 import com.nomdoa5.nomdo.ui.board.UpdateBoardDialogFragment
@@ -61,6 +62,11 @@ class DetailMoneyReportFragment : Fragment(), BalanceAdapter.OnBalanceClickListe
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
+    }
+
+    override fun onResume() {
+        super.onResume()
+        (activity as MainActivity?)!!.setupFabMargin(0)
     }
 
     fun setupRecyclerView() {

@@ -1,6 +1,7 @@
 package com.nomdoa5.nomdo.helpers
 
 import android.content.ContentResolver
+import android.content.res.Resources
 import android.net.Uri
 import android.provider.OpenableColumns
 import android.view.View
@@ -38,3 +39,5 @@ fun ContentResolver.getFileName(fileUri: Uri): String {
     }
     return name
 }
+
+fun Int.toDp(): Int = (this * Resources.getSystem().displayMetrics.density).toInt()

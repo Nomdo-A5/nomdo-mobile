@@ -58,7 +58,10 @@ class HomeFragment : Fragment(), TaskCardAdapter.OnTaskClickListener {
 
     override fun onResume() {
         super.onResume()
-        (activity as MainActivity?)!!.setupToolbarMain("Home")
+        (activity as MainActivity?)!!.apply {
+            setupToolbarMain("Home")
+            setupFabMargin(0)
+        }
     }
 
     override fun onDestroyView() {

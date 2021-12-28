@@ -2,22 +2,16 @@ package com.nomdoa5.nomdo.ui.board
 
 import NoFilterAdapter
 import android.content.Context
+import android.content.DialogInterface
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
-import android.os.Handler
-import android.os.Looper
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.AdapterView
-import android.widget.Toast
-import androidx.core.content.ContextCompat
-import androidx.core.graphics.drawable.toBitmap
 import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.preferencesDataStore
-import androidx.fragment.app.DialogFragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
@@ -27,9 +21,9 @@ import com.nomdoa5.nomdo.databinding.DialogFragmentCreateBoardBinding
 import com.nomdoa5.nomdo.helpers.LoadingState
 import com.nomdoa5.nomdo.helpers.ViewModelFactory
 import com.nomdoa5.nomdo.repository.local.UserPreferences
-import com.nomdoa5.nomdo.ui.auth.AuthViewModel
 import com.nomdoa5.nomdo.repository.model.request.board.BoardRequest
 import com.nomdoa5.nomdo.ui.MainActivity
+import com.nomdoa5.nomdo.ui.auth.AuthViewModel
 import com.nomdoa5.nomdo.ui.workspace.WorkspacesViewModel
 import kotlinx.coroutines.flow.collect
 
@@ -45,6 +39,7 @@ class CreateBoardDialogFragment : BottomSheetDialogFragment(), View.OnClickListe
     private lateinit var board: BoardRequest
     private var spinnerWorkspacePosition: Int? = null
     private val workspaceAdapterId = ArrayList<String>()
+    private var listener: DismissListener? = null
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -69,6 +64,19 @@ class CreateBoardDialogFragment : BottomSheetDialogFragment(), View.OnClickListe
     override fun onDestroy() {
         super.onDestroy()
         _binding = null
+    }
+
+    interface DismissListener {
+        fun onDismiss()
+    }
+
+    fun setDismissListener(listener: DismissListener) {
+        this.listener = listener
+    }
+
+    override fun onDismiss(dialog: DialogInterface) {
+        super.onDismiss(dialog)
+        listener?.onDismiss()
     }
 
     override fun onClick(v: View?) {

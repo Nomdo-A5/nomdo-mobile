@@ -19,6 +19,7 @@ import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.google.android.material.snackbar.Snackbar
 import com.nomdoa5.nomdo.R
 import com.nomdoa5.nomdo.databinding.FragmentTaskPageBinding
+import com.nomdoa5.nomdo.helpers.DismissListener
 import com.nomdoa5.nomdo.helpers.LoadingState
 import com.nomdoa5.nomdo.helpers.ViewModelFactory
 import com.nomdoa5.nomdo.helpers.adapter.TaskAdapter
@@ -34,7 +35,8 @@ private val Context.dataStore: DataStore<Preferences> by preferencesDataStore(na
 class TaskPageFragment(
     private var boardArgs: Board
 ) : Fragment(), SwipeRefreshLayout.OnRefreshListener,
-    TaskAdapter.OnTaskClickListener, View.OnClickListener {
+    TaskAdapter.OnTaskClickListener, View.OnClickListener,
+    DismissListener {
     private val rotateOpen: Animation by lazy {
         AnimationUtils.loadAnimation(
             requireContext(),
@@ -59,10 +61,10 @@ class TaskPageFragment(
     private lateinit var rvTaskWeek: RecyclerView
     private lateinit var rvTaskLater: RecyclerView
     private lateinit var rvTaskOverdue: RecyclerView
-    private var isClickedToday : Boolean = true
-    private var isClickedWeek : Boolean = true
-    private var isClickedLater : Boolean = true
-    private var isClickedOverdue : Boolean = true
+    private var isClickedToday: Boolean = true
+    private var isClickedWeek: Boolean = true
+    private var isClickedLater: Boolean = true
+    private var isClickedOverdue: Boolean = true
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -95,7 +97,7 @@ class TaskPageFragment(
     }
 
     private fun setupCvNumber(dueDate: String, count: Int) {
-        when(dueDate){
+        when (dueDate) {
             "Today" -> binding.tvTitleTaskToday.text = "Do Today ($count)"
             "Week" -> binding.tvTitleTaskWeek.text = "Do Week ($count)"
             "Later" -> binding.tvTitleTaskLater.text = "Do Later ($count)"
@@ -180,6 +182,10 @@ class TaskPageFragment(
     }
 
     override fun onRefresh() {
+        dispatchRefresh()
+    }
+
+    fun dispatchRefresh() {
         authViewModel.getAuthToken().observe(viewLifecycleOwner, {
             taskViewModel.setTask(it!!, boardArgs.id.toString(), 0, "Today")
             taskViewModel.setTask(it, boardArgs.id.toString(), 0, "Week")
@@ -212,7 +218,9 @@ class TaskPageFragment(
         val bundle = Bundle()
         bundle.putParcelable("EXTRA_TASK", data)
         addDialogFragment.arguments = bundle
-        addDialogFragment.show(requireActivity().supportFragmentManager, "Update Task")
+        addDialogFragment.showNow(requireActivity().supportFragmentManager, "Update Task")
+        addDialogFragment.dialog!!.setCanceledOnTouchOutside(false)
+        addDialogFragment.setDismissListener(this)
     }
 
     private fun showSnackbar(message: String) {
@@ -238,6 +246,7 @@ class TaskPageFragment(
 
         authViewModel.getAuthToken().observe(viewLifecycleOwner, {
             taskViewModel.updateTask(it!!, task)
+            dispatchRefresh()
         })
 
         viewLifecycleOwner.lifecycleScope.launchWhenCreated {
@@ -255,44 +264,44 @@ class TaskPageFragment(
         }
     }
 
-    private fun showTodayRV(state: Boolean){
-        if(state){
+    private fun showTodayRV(state: Boolean) {
+        if (state) {
             binding.rvTaskToday.visibility = View.VISIBLE
             binding.imgTitleTaskToday.startAnimation(rotateOpen)
-        }else{
+        } else {
             binding.rvTaskToday.visibility = View.GONE
             binding.imgTitleTaskToday.startAnimation(rotateClose)
         }
         isClickedToday = state
     }
 
-    private fun showWeekRV(state: Boolean){
-        if(state){
+    private fun showWeekRV(state: Boolean) {
+        if (state) {
             binding.rvTaskWeek.visibility = View.VISIBLE
             binding.imgTitleTaskWeek.startAnimation(rotateOpen)
-        }else{
+        } else {
             binding.rvTaskWeek.visibility = View.GONE
             binding.imgTitleTaskWeek.startAnimation(rotateClose)
         }
         isClickedWeek = state
     }
 
-    private fun showLaterRV(state: Boolean){
-        if(state){
+    private fun showLaterRV(state: Boolean) {
+        if (state) {
             binding.rvTaskLater.visibility = View.VISIBLE
             binding.imgTitleTaskLater.startAnimation(rotateOpen)
-        }else{
+        } else {
             binding.rvTaskLater.visibility = View.GONE
             binding.imgTitleTaskLater.startAnimation(rotateClose)
         }
         isClickedLater = state
     }
 
-    private fun showOverdueRV(state: Boolean){
-        if(state){
+    private fun showOverdueRV(state: Boolean) {
+        if (state) {
             binding.rvTaskOverdue.visibility = View.VISIBLE
             binding.imgTitleTaskOverdue.startAnimation(rotateOpen)
-        }else{
+        } else {
             binding.rvTaskOverdue.visibility = View.GONE
             binding.imgTitleTaskOverdue.startAnimation(rotateClose)
         }
@@ -300,11 +309,15 @@ class TaskPageFragment(
     }
 
     override fun onClick(v: View?) {
-        when(v){
+        when (v) {
             binding.cvTaskToday -> showTodayRV(!isClickedToday)
             binding.cvTaskWeek -> showWeekRV(!isClickedWeek)
             binding.cvTaskLater -> showLaterRV(!isClickedLater)
             binding.cvTaskOverdue -> showOverdueRV(!isClickedOverdue)
         }
+    }
+
+    override fun onDismiss() {
+        dispatchRefresh()
     }
 }

@@ -42,6 +42,7 @@ class MoneyReportFragment : Fragment() {
         pagerAdapter.setWorkspaceArgs(args.workspace)
         val viewPager: ViewPager2 = requireView().findViewById(R.id.view_pager_money_report)
         viewPager.adapter = pagerAdapter
+        viewPager.offscreenPageLimit = 3
         val tabs: TabLayout = requireView().findViewById(R.id.tabs_money_report)
         TabLayoutMediator(tabs, viewPager) { tab, position ->
             tab.text = tabTitles[position]

@@ -39,7 +39,10 @@ class TaskFragment : Fragment() {
 
     override fun onResume() {
         super.onResume()
-        (activity as MainActivity?)!!.setupToolbarBoard(args.board.boardName!!, args.workspaceName)
+        (activity as MainActivity?)!!.apply {
+            setupToolbarBoard(args.board.boardName!!, args.workspaceName)
+            setupFabMargin(0)
+        }
     }
 
     private fun setupViewPager() {
@@ -49,6 +52,7 @@ class TaskFragment : Fragment() {
         pagerAdapter.setBoardArgs(args.board)
         val viewPager: ViewPager2 = binding.viewPagerTask
         viewPager.adapter = pagerAdapter
+        viewPager.offscreenPageLimit = 2
         val tabs: TabLayout = binding.tabsTask
         TabLayoutMediator(tabs, viewPager) { tab, position ->
             tab.text = tabTitles[position]

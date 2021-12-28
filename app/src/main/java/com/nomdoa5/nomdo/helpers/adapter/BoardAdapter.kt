@@ -2,8 +2,6 @@ package com.nomdoa5.nomdo.helpers.adapter
 
 import android.content.Context
 import android.content.res.ColorStateList
-import android.graphics.Color
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -19,11 +17,12 @@ class BoardAdapter(private val listener: OnBoardClickListener) :
     private val mData = ArrayList<Board>()
     private val taskProgressData = ArrayList<TaskInformation>()
 
-    fun setData(items: ArrayList<Board>, progress: ArrayList<TaskInformation>) {
+    fun setData(items: ArrayList<Board>?, progress: ArrayList<TaskInformation>?) {
         mData.clear()
-        mData.addAll(items)
+        mData.addAll(items!!)
         taskProgressData.clear()
-        taskProgressData.addAll(progress)
+        taskProgressData.addAll(progress!!)
+        notifyDataSetChanged()
     }
 
     interface OnBoardClickListener {

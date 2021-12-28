@@ -2,9 +2,8 @@ package com.nomdoa5.nomdo.ui.task
 
 import android.app.DatePickerDialog
 import android.content.Context
+import android.content.DialogInterface
 import android.os.Bundle
-import android.os.Handler
-import android.os.Looper
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -13,15 +12,16 @@ import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.preferencesDataStore
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
-import androidx.navigation.fragment.navArgs
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.google.android.material.snackbar.Snackbar
 import com.nomdoa5.nomdo.databinding.DialogFragmentUpdateTaskBinding
+import com.nomdoa5.nomdo.helpers.DismissListener
 import com.nomdoa5.nomdo.helpers.LoadingState
 import com.nomdoa5.nomdo.helpers.ViewModelFactory
 import com.nomdoa5.nomdo.repository.local.UserPreferences
 import com.nomdoa5.nomdo.repository.model.Task
 import com.nomdoa5.nomdo.repository.model.request.task.UpdateTaskRequest
+import com.nomdoa5.nomdo.ui.MainActivity
 import com.nomdoa5.nomdo.ui.auth.AuthViewModel
 import kotlinx.coroutines.flow.collect
 import java.text.SimpleDateFormat
@@ -35,6 +35,7 @@ class UpdateTaskDialogFragment : BottomSheetDialogFragment(), View.OnClickListen
     private var _binding: DialogFragmentUpdateTaskBinding? = null
     private val binding get() = _binding!!
     private lateinit var task: Task
+    private var listener: DismissListener? = null
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -42,6 +43,15 @@ class UpdateTaskDialogFragment : BottomSheetDialogFragment(), View.OnClickListen
     ): View {
         _binding = DialogFragmentUpdateTaskBinding.inflate(layoutInflater, container, false)
         return binding.root
+    }
+
+    fun setDismissListener(listener: DismissListener) {
+        this.listener = listener
+    }
+
+    override fun onDismiss(dialog: DialogInterface) {
+        super.onDismiss(dialog)
+        listener?.onDismiss()
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -53,6 +63,7 @@ class UpdateTaskDialogFragment : BottomSheetDialogFragment(), View.OnClickListen
         binding.btnUpdateTask.setOnClickListener(this)
         binding.btnDeleteTask.setOnClickListener(this)
         binding.editDateUpdateTask.setOnClickListener(this)
+        binding.imgCloseUpdateTask.setOnClickListener(this)
     }
 
     override fun onDestroyView() {
@@ -108,8 +119,8 @@ class UpdateTaskDialogFragment : BottomSheetDialogFragment(), View.OnClickListen
                                 binding.btnUpdateTask.startAnimation()
                             }
                             is LoadingState.Success -> {
-                                showSnackbar("Task Updated")
-                                binding.btnUpdateTask.revertAnimation()
+                                (activity as MainActivity?)!!.showSnackbar("Task Updated")
+                                dismiss()
                             }
                             is LoadingState.Error -> {
                                 binding.btnUpdateTask.revertAnimation()
@@ -133,11 +144,8 @@ class UpdateTaskDialogFragment : BottomSheetDialogFragment(), View.OnClickListen
                                 binding.btnUpdateTask.startAnimation()
                             }
                             is LoadingState.Success -> {
-                                showSnackbar("Task Deleted")
-                                binding.btnUpdateTask.revertAnimation()
-                                Handler(Looper.getMainLooper()).postDelayed({
-                                    parentFragmentManager.popBackStack()
-                                }, 1000)
+                                (activity as MainActivity?)!!.showSnackbar("Task Updated")
+                                dismiss()
                             }
                             is LoadingState.Error -> {
                                 binding.btnUpdateTask.revertAnimation()
@@ -148,6 +156,7 @@ class UpdateTaskDialogFragment : BottomSheetDialogFragment(), View.OnClickListen
                     }
                 }
             }
+            binding.imgCloseUpdateTask -> dialog!!.cancel()
         }
     }
 

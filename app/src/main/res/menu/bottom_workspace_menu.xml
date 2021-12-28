@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/bottom_nav_dashboard"
+        android:icon="@drawable/ic_home"
+        android:title="Dashboard" />
+    <item
+        android:id="@+id/bottom_nav_board"
+        android:icon="@drawable/ic_board"
+        android:title="Board" />
+    <item
+        android:id="@+id/bottom_nav_balance"
+        android:icon="@drawable/ic_money"
+        android:title="Balance" />
+    <item
+        android:id="@+id/bottom_nav_profile"
+        android:icon="@drawable/ic_user_borderless"
+        android:title="Profile"/>
+</menu>

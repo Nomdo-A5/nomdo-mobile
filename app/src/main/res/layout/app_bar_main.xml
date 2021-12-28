@@ -25,16 +25,6 @@
             app:layout_constraintTop_toTopOf="parent" />
 
         <include
-            android:id="@+id/appBarLayoutWorkspace"
-            layout="@layout/toolbar_workspace"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:visibility="gone"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
-        <include
             android:id="@+id/appBarLayoutBoard"
             layout="@layout/toolbar_board"
             android:layout_width="match_parent"

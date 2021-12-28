@@ -1,6 +1,7 @@
 package com.nomdoa5.nomdo.ui.board
 
 import android.content.Context
+import android.content.DialogInterface
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
@@ -41,6 +42,7 @@ class UpdateBoardDialogFragment : BottomSheetDialogFragment(), View.OnClickListe
     private lateinit var boardsViewModel: BoardViewModel
     private lateinit var authViewModel: AuthViewModel
     private lateinit var board: Board
+    private var listener: DismissListener? = null
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -67,6 +69,19 @@ class UpdateBoardDialogFragment : BottomSheetDialogFragment(), View.OnClickListe
     override fun onDestroy() {
         super.onDestroy()
         _binding = null
+    }
+
+    interface DismissListener {
+        fun onDismiss()
+    }
+
+    fun setDismissListener(listener: DismissListener) {
+        this.listener = listener
+    }
+
+    override fun onDismiss(dialog: DialogInterface) {
+        super.onDismiss(dialog)
+        listener?.onDismiss()
     }
 
     override fun onClick(v: View?) {

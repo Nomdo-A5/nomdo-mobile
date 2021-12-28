@@ -18,6 +18,7 @@ import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.google.android.material.snackbar.Snackbar
 import com.nomdoa5.nomdo.R
 import com.nomdoa5.nomdo.databinding.FragmentMoneyReportPageBinding
+import com.nomdoa5.nomdo.helpers.DismissListener
 import com.nomdoa5.nomdo.helpers.LoadingState
 import com.nomdoa5.nomdo.helpers.ViewModelFactory
 import com.nomdoa5.nomdo.helpers.adapter.BalanceAdapter
@@ -26,6 +27,7 @@ import com.nomdoa5.nomdo.repository.local.UserPreferences
 import com.nomdoa5.nomdo.repository.model.Balance
 import com.nomdoa5.nomdo.repository.model.Workspace
 import com.nomdoa5.nomdo.ui.auth.AuthViewModel
+import com.nomdoa5.nomdo.ui.board.BoardMenuFragmentDirections
 import com.nomdoa5.nomdo.ui.board.BoardViewModel
 import kotlinx.coroutines.flow.collect
 
@@ -37,7 +39,7 @@ class MoneyReportPageFragment(
 ) :
     Fragment(),
     View.OnClickListener,
-    BalanceAdapter.OnBalanceClickListener, SwipeRefreshLayout.OnRefreshListener {
+    BalanceAdapter.OnBalanceClickListener, SwipeRefreshLayout.OnRefreshListener, DismissListener {
     private lateinit var balanceViewModel: BalanceViewModel
     private lateinit var boardsViewModel: BoardViewModel
     private lateinit var authViewModel: AuthViewModel
@@ -283,12 +285,12 @@ class MoneyReportPageFragment(
 
     private fun toDetailMoneyReport(isIncome: Int, status: String? = null) {
         val action =
-            MoneyReportFragmentDirections.actionMoneyReportFragmentToDetailMoneyReportFragment(
+            BoardMenuFragmentDirections.actionBoardMenuFragmentToDetailMoneyReportFragment(
                 isIncome,
                 workspaceArgs!!,
                 status
             )
-        Navigation.findNavController(requireView()).navigate(action)
+        Navigation.findNavController(requireActivity(), R.id.nav_host_fragment_content_main).navigate(action)
     }
 
     override fun onBalanceClick(data: Balance) {
@@ -296,15 +298,25 @@ class MoneyReportPageFragment(
         val bundle = Bundle()
         bundle.putParcelable("EXTRA_BALANCE", data)
         updateBalanceDialogFragment.arguments = bundle
-        updateBalanceDialogFragment.show(requireActivity().supportFragmentManager, "Update Balance")
+        updateBalanceDialogFragment.showNow(requireActivity().supportFragmentManager, "Update Balance")
+        updateBalanceDialogFragment.dialog!!.setCanceledOnTouchOutside(false)
+        updateBalanceDialogFragment.setDismissListener(this)
     }
 
     override fun onRefresh() {
+        dispatchRefresh()
+    }
+
+    fun dispatchRefresh() {
         setupDataAdapter()
         setupOverview()
     }
 
     private fun showSnackbar(message: String) {
         Snackbar.make(requireView(), message, Snackbar.LENGTH_SHORT).show()
+    }
+
+    override fun onDismiss() {
+        dispatchRefresh()
     }
 }

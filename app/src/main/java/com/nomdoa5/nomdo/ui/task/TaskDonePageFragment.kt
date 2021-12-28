@@ -15,9 +15,8 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.google.android.material.snackbar.Snackbar
-import com.nomdoa5.nomdo.R
 import com.nomdoa5.nomdo.databinding.FragmentTaskDonePageBinding
-import com.nomdoa5.nomdo.databinding.FragmentTaskPageBinding
+import com.nomdoa5.nomdo.helpers.DismissListener
 import com.nomdoa5.nomdo.helpers.LoadingState
 import com.nomdoa5.nomdo.helpers.ViewModelFactory
 import com.nomdoa5.nomdo.helpers.adapter.TaskAdapter
@@ -33,7 +32,7 @@ private val Context.dataStore: DataStore<Preferences> by preferencesDataStore(na
 class TaskDonePageFragment(
     private var boardArgs: Board,
 ) : Fragment(), SwipeRefreshLayout.OnRefreshListener,
-    TaskAdapter.OnTaskClickListener {
+    TaskAdapter.OnTaskClickListener, DismissListener {
     private lateinit var taskViewModel: TaskViewModel
     private lateinit var authViewModel: AuthViewModel
     private var _binding: FragmentTaskDonePageBinding? = null
@@ -103,6 +102,10 @@ class TaskDonePageFragment(
     }
 
     override fun onRefresh() {
+        dispatchRefresh()
+    }
+
+    fun dispatchRefresh() {
         authViewModel.getAuthToken().observe(viewLifecycleOwner, {
             taskViewModel.setTask(it!!, boardArgs.id.toString(), 1)
         })
@@ -131,7 +134,9 @@ class TaskDonePageFragment(
         val bundle = Bundle()
         bundle.putParcelable("EXTRA_TASK", data)
         addDialogFragment.arguments = bundle
-        addDialogFragment.show(requireActivity().supportFragmentManager, "Update Task")
+        addDialogFragment.showNow(requireActivity().supportFragmentManager, "Update Task")
+        addDialogFragment.dialog!!.setCanceledOnTouchOutside(false)
+        addDialogFragment.setDismissListener(this)
     }
 
     private fun showSnackbar(message: String) {
@@ -172,5 +177,9 @@ class TaskDonePageFragment(
                 }
             }
         }
+    }
+
+    override fun onDismiss() {
+        dispatchRefresh()
     }
 }

@@ -75,20 +75,6 @@
 
 
             <ImageView
-                android:id="@+id/dropdown"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:paddingHorizontal="8dp"
-                android:layout_marginTop="2dp"
-                android:paddingVertical="16dp"
-                android:background="?attr/selectableItemBackground"
-                android:contentDescription="@string/notifications"
-                android:src="@drawable/ic_dropdown"
-                app:layout_constraintBottom_toBottomOf="@+id/toolbar_subtitle"
-                app:layout_constraintStart_toEndOf="@+id/toolbar_subtitle"
-                app:layout_constraintTop_toTopOf="@+id/toolbar_subtitle" />
-
-            <ImageView
                 android:id="@+id/toolbar_board_search"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"

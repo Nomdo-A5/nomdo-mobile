@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/mobile_navigation"
+    app:startDestination="@id/bottom_nav_dashboard">
+    <fragment
+        android:id="@+id/bottom_nav_balance"
+        android:name="com.nomdoa5.nomdo.ui.balance.MoneyReportFragment"
+        android:label="MoneyReportFragment">
+        <argument
+            android:name="workspace"
+            app:argType="com.nomdoa5.nomdo.repository.model.Workspace" />
+    </fragment>
+    <fragment
+        android:id="@+id/bottom_nav_dashboard"
+        android:name="com.nomdoa5.nomdo.ui.workspace.DashboardWorkspaceFragment"
+        android:label="DashboardWorkspaceFragment">
+        <argument
+            android:name="workspace"
+            app:argType="com.nomdoa5.nomdo.repository.model.Workspace" />
+    </fragment>
+    <fragment
+        android:id="@+id/bottom_nav_board"
+        android:name="com.nomdoa5.nomdo.ui.board.BoardsFragment"
+        android:label="@string/menu_slideshow"
+        tools:layout="@layout/fragment_boards">
+        <argument
+            android:name="workspace"
+            app:argType="com.nomdoa5.nomdo.repository.model.Workspace" />
+    </fragment>
+    <fragment
+        android:id="@+id/bottom_nav_profile"
+        android:name="com.nomdoa5.nomdo.ui.workspace.ProfileWorkspaceFragment"
+        android:label="ProfileWorkspaceFragment">
+        <argument
+            android:name="workspace"
+            app:argType="com.nomdoa5.nomdo.repository.model.Workspace" />
+    </fragment>
+</navigation>

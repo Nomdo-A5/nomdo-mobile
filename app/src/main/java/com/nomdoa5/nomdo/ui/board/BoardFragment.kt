@@ -19,23 +19,18 @@ import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.google.android.material.snackbar.Snackbar
 import com.nomdoa5.nomdo.R
 import com.nomdoa5.nomdo.databinding.FragmentBoardsBinding
-import com.nomdoa5.nomdo.helpers.LoadingState
-import com.nomdoa5.nomdo.helpers.MarginItemDecoration
-import com.nomdoa5.nomdo.helpers.ViewModelFactory
+import com.nomdoa5.nomdo.helpers.*
 import com.nomdoa5.nomdo.helpers.adapter.BoardAdapter
-import com.nomdoa5.nomdo.helpers.adapter.WorkspaceAdapter
 import com.nomdoa5.nomdo.repository.local.UserPreferences
 import com.nomdoa5.nomdo.repository.model.Board
-import com.nomdoa5.nomdo.ui.MainActivity
 import com.nomdoa5.nomdo.ui.auth.AuthViewModel
-import com.nomdoa5.nomdo.ui.task.TaskViewModel
 import com.nomdoa5.nomdo.ui.workspace.WorkspacesViewModel
 import kotlinx.coroutines.flow.collect
 
 private val Context.dataStore: DataStore<Preferences> by preferencesDataStore(name = "auth")
 
 class BoardsFragment : Fragment(), BoardAdapter.OnBoardClickListener,
-    SwipeRefreshLayout.OnRefreshListener {
+    SwipeRefreshLayout.OnRefreshListener, UpdateBoardDialogFragment.DismissListener {
     private lateinit var workspaceViewModel: WorkspacesViewModel
     private lateinit var boardViewModel: BoardViewModel
     private lateinit var authViewModel: AuthViewModel
@@ -62,20 +57,12 @@ class BoardsFragment : Fragment(), BoardAdapter.OnBoardClickListener,
         setupRecyclerView()
     }
 
-    override fun onResume() {
-        super.onResume()
-        (activity as MainActivity?)!!.setupToolbarWorkspace(
-            args.workspace.workspaceName!!,
-            args.workspace
-        )
-    }
-
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
     }
 
-    fun setupRecyclerView() {
+    private fun setupRecyclerView() {
         binding.swipeMyBoards.isRefreshing = true
         rvBoard = requireView().findViewById(R.id.rv_boards)
         rvBoard.setHasFixedSize(true)
@@ -86,14 +73,16 @@ class BoardsFragment : Fragment(), BoardAdapter.OnBoardClickListener,
             workspaceViewModel.setBoardInfo(it, args.workspace.id.toString())
         })
 
-        boardViewModel.getBoard().observe(viewLifecycleOwner, { boards ->
-            workspaceViewModel.getBoardInfo().observe(viewLifecycleOwner, {
-                boardAdapter.setData(boards, it.taskInfo)
-                if (!(boards.isNullOrEmpty() && it.taskInfo.isNullOrEmpty())) {
-                    boardAdapter.notifyDataSetChanged()
-                    binding.swipeMyBoards.isRefreshing = false
+        val liveBoard = boardViewModel.getBoard()
+        val liveBoardInfo = workspaceViewModel.getBoardInfo()
+        val mergedBoardInfo = PairMediatorLiveData(liveBoard, liveBoardInfo)
+
+        mergedBoardInfo.observe(viewLifecycleOwner, {
+            if(it.first != null && it.second != null){
+                if(it.first!!.size == it.second!!.taskInfo.size){
+                    boardAdapter.setData(it.first, it.second?.taskInfo)
                 }
-            })
+            }
         })
 
         viewLifecycleOwner.lifecycleScope.launchWhenCreated {
@@ -115,7 +104,6 @@ class BoardsFragment : Fragment(), BoardAdapter.OnBoardClickListener,
                 }
             }
         }
-
 
         rvBoard.adapter = boardAdapter
     }
@@ -141,8 +129,12 @@ class BoardsFragment : Fragment(), BoardAdapter.OnBoardClickListener,
 
     override fun onBoardClick(data: Board) {
         val action =
-            BoardsFragmentDirections.actionNavBoardsToNavTasks(data, args.workspace.workspaceName!!)
-        Navigation.findNavController(requireView()).navigate(action)
+            BoardMenuFragmentDirections.actionBoardMenuFragmentToNavTasks(
+                data,
+                args.workspace.workspaceName!!
+            )
+        Navigation.findNavController(requireActivity(), R.id.nav_host_fragment_content_main)
+            .navigate(action)
     }
 
     override fun onBoardLongClick(data: Board) {
@@ -150,10 +142,20 @@ class BoardsFragment : Fragment(), BoardAdapter.OnBoardClickListener,
         val bundle = Bundle()
         bundle.putParcelable("EXTRA_BOARD", data)
         addBoardFragment.arguments = bundle
-        addBoardFragment.show(requireActivity().supportFragmentManager, "Update Dialog")
+        addBoardFragment.showNow(requireActivity().supportFragmentManager, "Update Dialog")
+        addBoardFragment.dialog!!.setCanceledOnTouchOutside(false)
+        addBoardFragment.setDismissListener(this)
     }
 
     override fun onRefresh() {
+        dispatchRefresh()
+    }
+
+    private fun showSnackbar(message: String) {
+        Snackbar.make(requireView(), message, Snackbar.LENGTH_SHORT).show()
+    }
+
+    fun dispatchRefresh() {
         authViewModel.getAuthToken().observe(viewLifecycleOwner, {
             boardViewModel.setBoard(it!!, args.workspace.id.toString())
             workspaceViewModel.setBoardInfo(it, args.workspace.id.toString())
@@ -178,7 +180,7 @@ class BoardsFragment : Fragment(), BoardAdapter.OnBoardClickListener,
         }
     }
 
-    private fun showSnackbar(message: String) {
-        Snackbar.make(requireView(), message, Snackbar.LENGTH_SHORT).show()
+    override fun onDismiss() {
+        dispatchRefresh()
     }
 }

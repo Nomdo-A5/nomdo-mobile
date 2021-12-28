@@ -1,6 +1,7 @@
 package com.nomdoa5.nomdo.ui.workspace
 
 import android.content.Context
+import android.content.DialogInterface
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
@@ -16,6 +17,7 @@ import androidx.lifecycle.lifecycleScope
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.google.android.material.snackbar.Snackbar
 import com.nomdoa5.nomdo.databinding.DialogFragmentUpdateWorkspaceBinding
+import com.nomdoa5.nomdo.helpers.DismissListener
 import com.nomdoa5.nomdo.helpers.LoadingState
 import com.nomdoa5.nomdo.helpers.ViewModelFactory
 import com.nomdoa5.nomdo.repository.local.UserPreferences
@@ -34,6 +36,7 @@ class UpdateWorkspaceDialogFragment : BottomSheetDialogFragment(), View.OnClickL
     private lateinit var workspacesViewModel: WorkspacesViewModel
     private lateinit var authViewModel: AuthViewModel
     private lateinit var workspace: Workspace
+    private var listener: DismissListener? = null
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -61,6 +64,15 @@ class UpdateWorkspaceDialogFragment : BottomSheetDialogFragment(), View.OnClickL
     override fun onDestroy() {
         super.onDestroy()
         _binding = null
+    }
+
+    fun setDismissListener(listener: DismissListener) {
+        this.listener = listener
+    }
+
+    override fun onDismiss(dialog: DialogInterface) {
+        super.onDismiss(dialog)
+        listener?.onDismiss()
     }
 
     override fun onClick(v: View?) {

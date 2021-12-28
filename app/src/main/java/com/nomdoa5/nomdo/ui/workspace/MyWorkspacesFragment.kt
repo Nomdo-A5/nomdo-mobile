@@ -17,6 +17,7 @@ import androidx.recyclerview.widget.RecyclerView
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.nomdoa5.nomdo.R
 import com.nomdoa5.nomdo.databinding.FragmentMyWorkspacesBinding
+import com.nomdoa5.nomdo.helpers.DismissListener
 import com.nomdoa5.nomdo.helpers.LoadingState
 import com.nomdoa5.nomdo.helpers.MarginItemDecoration
 import com.nomdoa5.nomdo.helpers.ViewModelFactory
@@ -30,7 +31,7 @@ import kotlinx.coroutines.flow.collect
 private val Context.dataStore: DataStore<Preferences> by preferencesDataStore(name = "auth")
 
 class MyWorkspacesFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener,
-    WorkspaceAdapter.OnWorkspaceClickListener {
+    WorkspaceAdapter.OnWorkspaceClickListener, DismissListener {
     private lateinit var authViewModel: AuthViewModel
     private lateinit var workspacesViewModel: WorkspacesViewModel
     private var _binding: FragmentMyWorkspacesBinding? = null
@@ -62,7 +63,10 @@ class MyWorkspacesFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener,
 
     override fun onResume() {
         super.onResume()
-        (activity as MainActivity?)!!.setupToolbarMain("Workspaces")
+        (activity as MainActivity?)!!.apply {
+            setupToolbarMain("Workspaces")
+            setupFabMargin(0)
+        }
     }
 
     private fun setupRecyclerView() {
@@ -79,21 +83,21 @@ class MyWorkspacesFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener,
         workspacesViewModel.getWorkspace().observe(viewLifecycleOwner, {
             workspaceAdapter.setData(it)
             binding.swipeMyWorkspaces.isRefreshing = false
-            if(it.isEmpty()){
+            if (it.isEmpty()) {
                 showEmpty(true)
-            }else{
+            } else {
                 showEmpty(false)
             }
         })
         rvWorkspace.adapter = workspaceAdapter
     }
 
-    fun setupViewModel() {
+    private fun setupViewModel() {
         val pref = UserPreferences.getInstance(requireContext().dataStore)
         authViewModel =
-            ViewModelProvider(this, ViewModelFactory(pref)).get(AuthViewModel::class.java)
+            ViewModelProvider(this, ViewModelFactory(pref))[AuthViewModel::class.java]
         workspacesViewModel =
-            ViewModelProvider(this).get(WorkspacesViewModel::class.java)
+            ViewModelProvider(this)[WorkspacesViewModel::class.java]
     }
 
     private fun showEmpty(state: Boolean) {
@@ -107,6 +111,10 @@ class MyWorkspacesFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener,
     }
 
     override fun onRefresh() {
+        dispatchRefresh()
+    }
+
+    fun dispatchRefresh() {
         authViewModel.getAuthToken().observe(viewLifecycleOwner, {
             workspacesViewModel.setWorkspace(it!!)
         })
@@ -131,15 +139,21 @@ class MyWorkspacesFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener,
 
     override fun onWorkspaceClick(data: Workspace) {
         val action =
-            MyWorkspacesFragmentDirections.actionNavMyWorkspacesToNavBoards(data)
+            MyWorkspacesFragmentDirections.actionNavMyWorkspacesToBoardMenu(data)
         Navigation.findNavController(requireView()).navigate(action)
     }
 
     override fun onWorkspaceLongClick(data: Workspace) {
+        val fm = parentFragmentManager
         val addDialogFragment = UpdateWorkspaceDialogFragment()
         val bundle = Bundle()
         bundle.putParcelable("EXTRA_WORKSPACE", data)
         addDialogFragment.arguments = bundle
-        addDialogFragment.show(requireActivity().supportFragmentManager, "Update Dialog")
+        addDialogFragment.showNow(fm, "Update Dialog")
+        addDialogFragment.setDismissListener(this)
+    }
+
+    override fun onDismiss() {
+        dispatchRefresh()
     }
 }

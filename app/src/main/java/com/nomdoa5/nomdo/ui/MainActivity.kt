@@ -9,10 +9,9 @@ import android.view.animation.Animation
 import android.view.animation.AnimationUtils
 import android.view.inputmethod.InputMethodManager
 import android.widget.ImageView
-import android.widget.PopupMenu
 import android.widget.TextView
-import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.view.GravityCompat
 import androidx.databinding.DataBindingUtil
 import androidx.datastore.core.DataStore
@@ -20,37 +19,37 @@ import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.preferencesDataStore
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
-import androidx.navigation.Navigation
 import androidx.navigation.findNavController
-import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.NavigationUI
-import androidx.navigation.ui.setupWithNavController
 import com.google.android.material.navigation.NavigationView
 import com.google.android.material.snackbar.Snackbar
 import com.nomdoa5.nomdo.R
 import com.nomdoa5.nomdo.databinding.ActivityMainBinding
 import com.nomdoa5.nomdo.databinding.NavHeaderMainBinding
+import com.nomdoa5.nomdo.helpers.DismissListener
 import com.nomdoa5.nomdo.helpers.ViewModelFactory
+import com.nomdoa5.nomdo.helpers.toDp
 import com.nomdoa5.nomdo.repository.local.UserPreferences
-import com.nomdoa5.nomdo.repository.model.Workspace
 import com.nomdoa5.nomdo.ui.auth.AuthViewModel
 import com.nomdoa5.nomdo.ui.balance.CreateBalanceDialogFragment
 import com.nomdoa5.nomdo.ui.balance.MoneyReportFragment
-import com.nomdoa5.nomdo.ui.balance.MoneyReportFragmentDirections
+import com.nomdoa5.nomdo.ui.balance.MoneyReportPageFragment
+import com.nomdoa5.nomdo.ui.board.BoardMenuFragment
 import com.nomdoa5.nomdo.ui.board.BoardViewModel
 import com.nomdoa5.nomdo.ui.board.BoardsFragment
-import com.nomdoa5.nomdo.ui.board.BoardsFragmentDirections
 import com.nomdoa5.nomdo.ui.board.CreateBoardDialogFragment
 import com.nomdoa5.nomdo.ui.search.SearchActivity
-import com.nomdoa5.nomdo.ui.task.CreateTaskDialogFragment
-import com.nomdoa5.nomdo.ui.task.TaskViewModel
-import com.nomdoa5.nomdo.ui.workspace.*
+import com.nomdoa5.nomdo.ui.task.*
+import com.nomdoa5.nomdo.ui.workspace.CreateWorkspaceDialogFragment
+import com.nomdoa5.nomdo.ui.workspace.JoinWorkspaceDialogBoard
+import com.nomdoa5.nomdo.ui.workspace.MyWorkspacesFragment
+import com.nomdoa5.nomdo.ui.workspace.WorkspacesViewModel
 
 
 private val Context.dataStore: DataStore<Preferences> by preferencesDataStore(name = "settings")
 
-class MainActivity : AppCompatActivity(), View.OnClickListener, PopupMenu.OnMenuItemClickListener,
-    NavigationView.OnNavigationItemSelectedListener {
+class MainActivity : AppCompatActivity(), View.OnClickListener,
+    NavigationView.OnNavigationItemSelectedListener, DismissListener {
     private val rotateOpen: Animation by lazy {
         AnimationUtils.loadAnimation(
             application.applicationContext,
@@ -81,11 +80,9 @@ class MainActivity : AppCompatActivity(), View.OnClickListener, PopupMenu.OnMenu
     private lateinit var boardsViewModel: BoardViewModel
     private lateinit var taskViewModel: TaskViewModel
     private var clicked = false
-    private lateinit var appBarConfiguration: AppBarConfiguration
     private var _binding: ActivityMainBinding? = null
     private val binding get() = _binding!!
     private lateinit var headerBinding: NavHeaderMainBinding
-    private lateinit var workspaceArgument: Workspace
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -107,12 +104,9 @@ class MainActivity : AppCompatActivity(), View.OnClickListener, PopupMenu.OnMenu
         binding.appBarMain.fabAddBalance.setOnClickListener(this)
         binding.appBarMain.fabJoinWorkspace.setOnClickListener(this)
         binding.appBarMain.appBarLayout.toolbarMainNavigation.setOnClickListener(this)
-        binding.appBarMain.appBarLayoutWorkspace.navigation.setOnClickListener(this)
         binding.appBarMain.appBarLayoutBoard.navigation.setOnClickListener(this)
-        binding.appBarMain.appBarLayoutWorkspace.toolbarWorkspaceSearch.setOnClickListener(this)
         binding.appBarMain.appBarLayoutBoard.toolbarBoardSearch.setOnClickListener(this)
         binding.appBarMain.appBarLayout.toolbarMainSearch.setOnClickListener(this)
-
     }
 
     override fun onDestroy() {
@@ -123,7 +117,6 @@ class MainActivity : AppCompatActivity(), View.OnClickListener, PopupMenu.OnMenu
     override fun onClick(v: View?) {
         when (v) {
             binding.appBarMain.appBarLayout.toolbarMainNavigation,
-            binding.appBarMain.appBarLayoutWorkspace.navigation,
             binding.appBarMain.appBarLayoutBoard.navigation -> {
                 if (!binding.drawerLayout.isDrawerOpen(GravityCompat.START)) {
                     binding.drawerLayout.openDrawer(GravityCompat.START)
@@ -132,34 +125,43 @@ class MainActivity : AppCompatActivity(), View.OnClickListener, PopupMenu.OnMenu
                 }
             }
             binding.appBarMain.appBarLayout.toolbarMainSearch,
-            binding.appBarMain.appBarLayoutBoard.toolbarBoardSearch,
-            binding.appBarMain.appBarLayoutWorkspace.toolbarWorkspaceSearch -> {
+            binding.appBarMain.appBarLayoutBoard.toolbarBoardSearch -> {
                 startActivity(Intent(this, SearchActivity::class.java))
             }
             binding.appBarMain.fab -> {
-                setFabVisibility(clicked)
-                setFabAnimation(clicked)
-                clicked = !clicked
+                setupFabClick()
             }
             binding.appBarMain.fabAddWorkspace -> {
                 val addWorkspaceFragment = CreateWorkspaceDialogFragment()
-                addWorkspaceFragment.show(supportFragmentManager, "Add Workspace Dialog")
+                addWorkspaceFragment.showNow(supportFragmentManager, "Add Workspace Dialog")
+                addWorkspaceFragment.dialog!!.setCanceledOnTouchOutside(false)
+                addWorkspaceFragment.setDismissListener(this)
+                setupFabClick()
             }
             binding.appBarMain.fabAddBoard -> {
                 val addBoardFragment = CreateBoardDialogFragment()
-                addBoardFragment.show(supportFragmentManager, "Add Board Dialog")
+                addBoardFragment.showNow(supportFragmentManager, "Add Board Dialog")
+                addBoardFragment.dialog!!.setCanceledOnTouchOutside(false)
+                setupFabClick()
             }
             binding.appBarMain.fabAddTask -> {
                 val addTaskFragment = CreateTaskDialogFragment()
-                addTaskFragment.show(supportFragmentManager, "Add Task Dialog")
+                addTaskFragment.showNow(supportFragmentManager, "Add Task Dialog")
+                addTaskFragment.dialog!!.setCanceledOnTouchOutside(false)
+                addTaskFragment.setDismissListener(this)
+                setupFabClick()
             }
             binding.appBarMain.fabAddBalance -> {
                 val addBalanceFragment = CreateBalanceDialogFragment()
-                addBalanceFragment.show(supportFragmentManager, "Add Balance Dialog")
+                addBalanceFragment.showNow(supportFragmentManager, "Add Balance Dialog")
+                addBalanceFragment.dialog!!.setCanceledOnTouchOutside(false)
+                setupFabClick()
             }
             binding.appBarMain.fabJoinWorkspace -> {
                 val joinWorkspaceFragment = JoinWorkspaceDialogBoard()
-                joinWorkspaceFragment.show(supportFragmentManager, "Join Workspace Dialog")
+                joinWorkspaceFragment.showNow(supportFragmentManager, "Join Workspace Dialog")
+                joinWorkspaceFragment.dialog!!.setCanceledOnTouchOutside(false)
+                setupFabClick()
             }
         }
     }
@@ -228,11 +230,13 @@ class MainActivity : AppCompatActivity(), View.OnClickListener, PopupMenu.OnMenu
         taskViewModel = ViewModelProvider(this)[TaskViewModel::class.java]
     }
 
-    fun setupDrawer() {
+    private fun setupDrawer() {
         val header = binding.navView.getHeaderView(0)
         val avatar = header.findViewById<ImageView>(R.id.nav_header_avatar)
         val name = header.findViewById<TextView>(R.id.nav_header_username)
         val email = header.findViewById<TextView>(R.id.nav_header_email)
+
+        binding.navView.menu.findItem(R.id.nav_home).isChecked = true
 
         authViewModel.getAuthToken().observe(this, {
             if (!it.isNullOrBlank()) {
@@ -244,16 +248,6 @@ class MainActivity : AppCompatActivity(), View.OnClickListener, PopupMenu.OnMenu
             name.text = it.name ?: "Anonymous"
             email.text = it.email ?: "anonymous@email.com"
         })
-
-        appBarConfiguration = AppBarConfiguration(
-            setOf(
-                R.id.nav_home,
-                R.id.nav_my_workspaces,
-                R.id.nav_boards,
-                R.id.nav_tasks,
-                R.id.nav_logout
-            ), binding.drawerLayout
-        )
 
         binding.navView.setNavigationItemSelectedListener(this)
     }
@@ -269,166 +263,25 @@ class MainActivity : AppCompatActivity(), View.OnClickListener, PopupMenu.OnMenu
 
     fun setupToolbarMain(title: String) {
         binding.appBarMain.appBarLayout.root.visibility = View.VISIBLE
-        binding.appBarMain.appBarLayoutWorkspace.root.visibility = View.GONE
         binding.appBarMain.appBarLayoutBoard.root.visibility = View.GONE
 
         binding.appBarMain.appBarLayout.toolbarMainTitle.text = title
     }
 
-    fun setupToolbarWorkspace(title: String, workspace: Workspace) {
-        workspaceArgument = workspace
-        binding.appBarMain.appBarLayout.root.visibility = View.GONE
-        binding.appBarMain.appBarLayoutWorkspace.root.visibility = View.VISIBLE
-        binding.appBarMain.appBarLayoutBoard.root.visibility = View.GONE
-
-        binding.appBarMain.appBarLayoutWorkspace.toolbarTitle.text = title
-        binding.appBarMain.appBarLayoutWorkspace.dropdown.setOnClickListener { v ->
-            val popup = PopupMenu(this, v)
-            popup.setOnMenuItemClickListener(this)
-            popup.inflate(R.menu.workspace_menu)
-            popup.show()
-        }
-    }
-
     fun setupToolbarBoard(title: String, subtitle: String) {
         binding.appBarMain.appBarLayout.root.visibility = View.GONE
-        binding.appBarMain.appBarLayoutWorkspace.root.visibility = View.GONE
         binding.appBarMain.appBarLayoutBoard.root.visibility = View.VISIBLE
 
         binding.appBarMain.appBarLayoutBoard.toolbarTitle.text = title
         binding.appBarMain.appBarLayoutBoard.toolbarSubtitle.text = "in $subtitle"
-        binding.appBarMain.appBarLayoutBoard.dropdown.setOnClickListener { v ->
-            val popup = PopupMenu(this, v)
-            popup.setOnMenuItemClickListener(this)
-            popup.inflate(R.menu.workspace_menu)
-            popup.show()
-        }
     }
 
-    override fun onMenuItemClick(item: MenuItem?): Boolean {
-        val navHostFragment: Fragment? =
-            supportFragmentManager.findFragmentById(R.id.nav_host_fragment_content_main)
+    fun setupFabMargin(height: Int) {
+        val layoutParams = binding.appBarMain.fab.layoutParams as ConstraintLayout.LayoutParams
+        layoutParams.rightMargin = 24.toDp()
+        layoutParams.bottomMargin = (24 + height).toDp()
 
-        val fragment = navHostFragment?.childFragmentManager?.fragments?.get(0)
-
-        when (item!!.itemId) {
-            R.id.dashboard_menu_workspace -> {
-                when (fragment) {
-                    is BoardsFragment -> {
-                        val action =
-                            BoardsFragmentDirections.actionNavBoardsToDashboardWorkspaceFragment(
-                                workspaceArgument
-                            )
-                        Navigation.findNavController(findViewById(R.id.nav_host_fragment_content_main))
-                            .navigate(action)
-                    }
-                    is ProfileWorkspaceFragment -> {
-                        val action =
-                            ProfileWorkspaceFragmentDirections.actionProfileWorkspaceFragmentToDashboardWorkspaceFragment(
-                                workspaceArgument
-                            )
-                        Navigation.findNavController(findViewById(R.id.nav_host_fragment_content_main))
-                            .navigate(action)
-                    }
-                    is MoneyReportFragment -> {
-                        val action =
-                            MoneyReportFragmentDirections.actionMoneyReportFragmentToDashboardWorkspaceFragment(
-                                workspaceArgument
-                            )
-                        Navigation.findNavController(findViewById(R.id.nav_host_fragment_content_main))
-                            .navigate(action)
-                    }
-                }
-            }
-
-            R.id.profile_menu_workspace -> {
-                when (fragment) {
-                    is BoardsFragment -> {
-                        val action =
-                            BoardsFragmentDirections.actionNavBoardsToProfileWorkspaceFragment(
-                                workspaceArgument
-                            )
-                        Navigation.findNavController(findViewById(R.id.nav_host_fragment_content_main))
-                            .navigate(action)
-                    }
-                    is DashboardWorkspaceFragment -> {
-                        val action =
-                            DashboardWorkspaceFragmentDirections.actionDashboardWorkspaceFragmentToProfileWorkspaceFragment(
-                                workspaceArgument
-                            )
-                        Navigation.findNavController(findViewById(R.id.nav_host_fragment_content_main))
-                            .navigate(action)
-                    }
-                    is MoneyReportFragment -> {
-                        val action =
-                            MoneyReportFragmentDirections.actionMoneyReportFragmentToProfileWorkspaceFragment(
-                                workspaceArgument
-                            )
-                        Navigation.findNavController(findViewById(R.id.nav_host_fragment_content_main))
-                            .navigate(action)
-                    }
-                }
-            }
-
-            R.id.money_report_menu_workspace -> {
-                when (fragment) {
-                    is BoardsFragment -> {
-                        val action =
-                            BoardsFragmentDirections.actionNavBoardsToMoneyReportFragment(
-                                workspaceArgument
-                            )
-                        Navigation.findNavController(findViewById(R.id.nav_host_fragment_content_main))
-                            .navigate(action)
-                    }
-                    is DashboardWorkspaceFragment -> {
-                        val action =
-                            DashboardWorkspaceFragmentDirections.actionDashboardWorkspaceFragmentToMoneyReportFragment(
-                                workspaceArgument
-                            )
-                        Navigation.findNavController(findViewById(R.id.nav_host_fragment_content_main))
-                            .navigate(action)
-                    }
-                    is ProfileWorkspaceFragment -> {
-                        val action =
-                            ProfileWorkspaceFragmentDirections.actionProfileWorkspaceFragmentToMoneyReportFragment(
-                                workspaceArgument
-                            )
-                        Navigation.findNavController(findViewById(R.id.nav_host_fragment_content_main))
-                            .navigate(action)
-                    }
-                }
-            }
-            R.id.board_menu_workspace -> {
-                when (fragment) {
-                    is MoneyReportFragment -> {
-                        val action =
-                            MoneyReportFragmentDirections.actionMoneyReportFragmentToNavBoards(
-                                workspaceArgument
-                            )
-                        Navigation.findNavController(findViewById(R.id.nav_host_fragment_content_main))
-                            .navigate(action)
-                    }
-                    is DashboardWorkspaceFragment -> {
-                        val action =
-                            DashboardWorkspaceFragmentDirections.actionDashboardWorkspaceFragmentToNavBoards(
-                                workspaceArgument
-                            )
-                        Navigation.findNavController(findViewById(R.id.nav_host_fragment_content_main))
-                            .navigate(action)
-                    }
-                    is ProfileWorkspaceFragment -> {
-                        val action =
-                            ProfileWorkspaceFragmentDirections.actionProfileWorkspaceFragmentToNavBoards(
-                                workspaceArgument
-                            )
-                        Navigation.findNavController(findViewById(R.id.nav_host_fragment_content_main))
-                            .navigate(action)
-                    }
-                }
-            }
-
-        }
-        return true
+        binding.appBarMain.fab.layoutParams = layoutParams
     }
 
     fun showSnackbar(message: String) {
@@ -448,5 +301,53 @@ class MainActivity : AppCompatActivity(), View.OnClickListener, PopupMenu.OnMenu
         binding.drawerLayout.closeDrawer(GravityCompat.START)
 
         return true
+    }
+
+    private fun setupFabClick() {
+        setFabVisibility(clicked)
+        setFabAnimation(clicked)
+        clicked = !clicked
+    }
+
+    override fun onDismiss() {
+        val navHostFragment: Fragment? =
+            supportFragmentManager.findFragmentById(R.id.nav_host_fragment_content_main)
+
+        when (val fragment = navHostFragment?.childFragmentManager?.fragments?.get(0)) {
+            is MyWorkspacesFragment -> {
+                fragment.dispatchRefresh()
+            }
+            is TaskFragment -> {
+                val taskPageFragment = fragment.childFragmentManager.fragments[0]
+                val taskPageDoneFragment = fragment.childFragmentManager.fragments[1]
+
+                if(taskPageFragment is TaskPageFragment){
+                    taskPageFragment.dispatchRefresh()
+                }
+                if(taskPageDoneFragment is TaskDonePageFragment){
+                    taskPageDoneFragment.dispatchRefresh()
+                }
+            }
+            is BoardMenuFragment -> {
+                val fragment1 = fragment.childFragmentManager.fragments[0]
+                if(fragment1 is BoardsFragment){
+                    fragment1.dispatchRefresh()
+                    return
+                }
+
+                if(fragment1 is MoneyReportPageFragment) {
+                    val fragment2 = fragment.childFragmentManager.fragments[1]
+                    val fragment3 = fragment.childFragmentManager.fragments[2]
+
+                    fragment1.dispatchRefresh()
+                    if (fragment2 is MoneyReportPageFragment) {
+                        fragment2.dispatchRefresh()
+                    }
+                    if (fragment3 is MoneyReportPageFragment) {
+                        fragment3.dispatchRefresh()
+                    }
+                }
+            }
+        }
     }
 }
