@@ -10,6 +10,7 @@ import android.view.animation.AnimationUtils
 import android.view.inputmethod.InputMethodManager
 import android.widget.ImageView
 import android.widget.TextView
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.view.GravityCompat
@@ -32,6 +33,7 @@ import com.nomdoa5.nomdo.helpers.toDp
 import com.nomdoa5.nomdo.repository.local.UserPreferences
 import com.nomdoa5.nomdo.ui.auth.AuthViewModel
 import com.nomdoa5.nomdo.ui.balance.CreateBalanceDialogFragment
+import com.nomdoa5.nomdo.ui.balance.DetailMoneyReportFragment
 import com.nomdoa5.nomdo.ui.balance.MoneyReportFragment
 import com.nomdoa5.nomdo.ui.balance.MoneyReportPageFragment
 import com.nomdoa5.nomdo.ui.board.BoardMenuFragment
@@ -40,10 +42,7 @@ import com.nomdoa5.nomdo.ui.board.BoardsFragment
 import com.nomdoa5.nomdo.ui.board.CreateBoardDialogFragment
 import com.nomdoa5.nomdo.ui.search.SearchActivity
 import com.nomdoa5.nomdo.ui.task.*
-import com.nomdoa5.nomdo.ui.workspace.CreateWorkspaceDialogFragment
-import com.nomdoa5.nomdo.ui.workspace.JoinWorkspaceDialogBoard
-import com.nomdoa5.nomdo.ui.workspace.MyWorkspacesFragment
-import com.nomdoa5.nomdo.ui.workspace.WorkspacesViewModel
+import com.nomdoa5.nomdo.ui.workspace.*
 
 
 private val Context.dataStore: DataStore<Preferences> by preferencesDataStore(name = "settings")
@@ -142,6 +141,7 @@ class MainActivity : AppCompatActivity(), View.OnClickListener,
                 val addBoardFragment = CreateBoardDialogFragment()
                 addBoardFragment.showNow(supportFragmentManager, "Add Board Dialog")
                 addBoardFragment.dialog!!.setCanceledOnTouchOutside(false)
+                addBoardFragment.setDismissListener(this)
                 setupFabClick()
             }
             binding.appBarMain.fabAddTask -> {
@@ -155,12 +155,14 @@ class MainActivity : AppCompatActivity(), View.OnClickListener,
                 val addBalanceFragment = CreateBalanceDialogFragment()
                 addBalanceFragment.showNow(supportFragmentManager, "Add Balance Dialog")
                 addBalanceFragment.dialog!!.setCanceledOnTouchOutside(false)
+                addBalanceFragment.setDismissListener(this)
                 setupFabClick()
             }
             binding.appBarMain.fabJoinWorkspace -> {
                 val joinWorkspaceFragment = JoinWorkspaceDialogBoard()
                 joinWorkspaceFragment.showNow(supportFragmentManager, "Join Workspace Dialog")
                 joinWorkspaceFragment.dialog!!.setCanceledOnTouchOutside(false)
+                joinWorkspaceFragment.setDismissListener(this)
                 setupFabClick()
             }
         }
@@ -314,37 +316,31 @@ class MainActivity : AppCompatActivity(), View.OnClickListener,
             supportFragmentManager.findFragmentById(R.id.nav_host_fragment_content_main)
 
         when (val fragment = navHostFragment?.childFragmentManager?.fragments?.get(0)) {
-            is MyWorkspacesFragment -> {
-                fragment.dispatchRefresh()
-            }
+            is MyWorkspacesFragment -> fragment.dispatchRefresh()
+            is DetailMoneyReportFragment -> fragment.dispatchRefresh()
             is TaskFragment -> {
-                val taskPageFragment = fragment.childFragmentManager.fragments[0]
-                val taskPageDoneFragment = fragment.childFragmentManager.fragments[1]
+                val taskPageFragment = fragment.childFragmentManager.fragments[0] as TaskPageFragment
+                val taskPageDoneFragment = fragment.childFragmentManager.fragments[1] as TaskDonePageFragment
 
-                if(taskPageFragment is TaskPageFragment){
-                    taskPageFragment.dispatchRefresh()
-                }
-                if(taskPageDoneFragment is TaskDonePageFragment){
-                    taskPageDoneFragment.dispatchRefresh()
-                }
+                taskPageFragment.dispatchRefresh()
+                taskPageDoneFragment.dispatchRefresh()
             }
             is BoardMenuFragment -> {
-                val fragment1 = fragment.childFragmentManager.fragments[0]
-                if(fragment1 is BoardsFragment){
-                    fragment1.dispatchRefresh()
-                    return
-                }
-
-                if(fragment1 is MoneyReportPageFragment) {
-                    val fragment2 = fragment.childFragmentManager.fragments[1]
-                    val fragment3 = fragment.childFragmentManager.fragments[2]
-
-                    fragment1.dispatchRefresh()
-                    if (fragment2 is MoneyReportPageFragment) {
-                        fragment2.dispatchRefresh()
+                when (val fragment1 = fragment.getActiveFragment()) {
+                    is BoardsFragment -> {
+                        fragment1.dispatchRefresh()
                     }
-                    if (fragment3 is MoneyReportPageFragment) {
-                        fragment3.dispatchRefresh()
+                    is MoneyReportFragment -> {
+                        val moneyReportAllFragment =
+                            fragment1.childFragmentManager.fragments[0] as MoneyReportPageFragment
+                        val moneyReportPlannedFragment =
+                            fragment1.childFragmentManager.fragments[1] as MoneyReportPageFragment
+                        val moneyReportDoneFragment =
+                            fragment1.childFragmentManager.fragments[2] as MoneyReportPageFragment
+
+                        moneyReportAllFragment.dispatchRefresh()
+                        moneyReportPlannedFragment.dispatchRefresh()
+                        moneyReportDoneFragment.dispatchRefresh()
                     }
                 }
             }

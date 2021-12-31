@@ -18,6 +18,7 @@ import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.google.android.material.snackbar.Snackbar
 import com.nomdoa5.nomdo.R
 import com.nomdoa5.nomdo.databinding.DialogFragmentCreateBoardBinding
+import com.nomdoa5.nomdo.helpers.DismissListener
 import com.nomdoa5.nomdo.helpers.LoadingState
 import com.nomdoa5.nomdo.helpers.ViewModelFactory
 import com.nomdoa5.nomdo.repository.local.UserPreferences
@@ -64,10 +65,6 @@ class CreateBoardDialogFragment : BottomSheetDialogFragment(), View.OnClickListe
     override fun onDestroy() {
         super.onDestroy()
         _binding = null
-    }
-
-    interface DismissListener {
-        fun onDismiss()
     }
 
     fun setDismissListener(listener: DismissListener) {

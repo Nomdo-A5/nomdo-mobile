@@ -4,6 +4,7 @@ import NoFilterAdapter
 import android.app.Activity
 import android.app.DatePickerDialog
 import android.content.Context
+import android.content.DialogInterface
 import android.content.Intent
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
@@ -23,10 +24,7 @@ import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.google.android.material.snackbar.Snackbar
 import com.nomdoa5.nomdo.R
 import com.nomdoa5.nomdo.databinding.DialogFragmentCreateBalanceBinding
-import com.nomdoa5.nomdo.helpers.LoadingState
-import com.nomdoa5.nomdo.helpers.ViewModelFactory
-import com.nomdoa5.nomdo.helpers.getFileName
-import com.nomdoa5.nomdo.helpers.snackbar
+import com.nomdoa5.nomdo.helpers.*
 import com.nomdoa5.nomdo.repository.local.UserPreferences
 import com.nomdoa5.nomdo.repository.model.request.AttachmentRequestBody
 import com.nomdoa5.nomdo.repository.model.request.balance.BalanceRequest
@@ -58,6 +56,7 @@ class CreateBalanceDialogFragment : BottomSheetDialogFragment(), View.OnClickLis
     private var spinnerWorkspacePosition: Int? = null
     private val workspaceAdapterId = ArrayList<String>()
     private var selectedImageUri: Uri? = null
+    private var listener: DismissListener? = null
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -84,6 +83,15 @@ class CreateBalanceDialogFragment : BottomSheetDialogFragment(), View.OnClickLis
     override fun onDestroy() {
         super.onDestroy()
         _binding = null
+    }
+
+    fun setDismissListener(listener: DismissListener) {
+        this.listener = listener
+    }
+
+    override fun onDismiss(dialog: DialogInterface) {
+        super.onDismiss(dialog)
+        listener?.onDismiss()
     }
 
     override fun onClick(v: View?) {

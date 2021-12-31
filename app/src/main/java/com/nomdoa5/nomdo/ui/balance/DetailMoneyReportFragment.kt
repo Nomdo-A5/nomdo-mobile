@@ -5,35 +5,34 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.core.content.ContextCompat
 import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.preferencesDataStore
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.google.android.material.snackbar.Snackbar
 import com.nomdoa5.nomdo.R
 import com.nomdoa5.nomdo.databinding.FragmentDetailMoneyReportBinding
+import com.nomdoa5.nomdo.helpers.LoadingState
 import com.nomdoa5.nomdo.helpers.ViewModelFactory
 import com.nomdoa5.nomdo.helpers.adapter.BalanceAdapter
-import com.nomdoa5.nomdo.helpers.adapter.BoardAdapter
 import com.nomdoa5.nomdo.repository.local.UserPreferences
 import com.nomdoa5.nomdo.repository.model.Balance
-import com.nomdoa5.nomdo.repository.model.Board
 import com.nomdoa5.nomdo.ui.MainActivity
 import com.nomdoa5.nomdo.ui.auth.AuthViewModel
 import com.nomdoa5.nomdo.ui.board.BoardViewModel
-import com.nomdoa5.nomdo.ui.board.UpdateBoardDialogFragment
-import com.nomdoa5.nomdo.ui.task.TaskFragmentArgs
-import java.util.*
+import kotlinx.coroutines.flow.collect
 
 private val Context.dataStore: DataStore<Preferences> by preferencesDataStore(name = "auth")
 
-class DetailMoneyReportFragment : Fragment(), BalanceAdapter.OnBalanceClickListener {
+class DetailMoneyReportFragment : Fragment(), BalanceAdapter.OnBalanceClickListener,
+    SwipeRefreshLayout.OnRefreshListener {
     private lateinit var balanceViewModel: BalanceViewModel
     private lateinit var boardsViewModel: BoardViewModel
     private lateinit var authViewModel: AuthViewModel
@@ -57,6 +56,24 @@ class DetailMoneyReportFragment : Fragment(), BalanceAdapter.OnBalanceClickListe
         super.onViewCreated(view, savedInstanceState)
         setupViewModel()
         setupRecyclerView()
+        binding.swipeDetailMoneyReport.setOnRefreshListener(this)
+
+        viewLifecycleOwner.lifecycleScope.launchWhenCreated {
+            balanceViewModel.balanceState.collect {
+                when (it) {
+                    is LoadingState.Success -> {
+                        binding.swipeDetailMoneyReport.isRefreshing = false
+                    }
+                    is LoadingState.Loading -> {
+                        binding.swipeDetailMoneyReport.isRefreshing = true
+                    }
+                    is LoadingState.Error -> {
+                        showSnackbar(it.message)
+                    }
+                    else -> Unit
+                }
+            }
+        }
     }
 
     override fun onDestroyView() {
@@ -69,20 +86,13 @@ class DetailMoneyReportFragment : Fragment(), BalanceAdapter.OnBalanceClickListe
         (activity as MainActivity?)!!.setupFabMargin(0)
     }
 
-    fun setupRecyclerView() {
+    private fun setupRecyclerView() {
         balanceAdapter = BalanceAdapter(requireContext(), this)
         rvBalance = requireView().findViewById(R.id.rv_type_detail_balance)
         rvBalance.setHasFixedSize(true)
         rvBalance.layoutManager = LinearLayoutManager(context)
 
-        authViewModel.getAuthToken().observe(viewLifecycleOwner, {
-            balanceViewModel.setBalance(
-                it!!,
-                args.workspace.id.toString(),
-                args.isIncome,
-                args.status
-            )
-        })
+        setupDataAdapter()
 
         if (args.isIncome == 1) {
             binding.tvTypeDetailMoneyReport.text = "Income"
@@ -166,5 +176,28 @@ class DetailMoneyReportFragment : Fragment(), BalanceAdapter.OnBalanceClickListe
         bundle.putParcelable("EXTRA_BALANCE", data)
         updateBalanceDialogFragment.arguments = bundle
         updateBalanceDialogFragment.show(requireActivity().supportFragmentManager, "Update Balance")
+    }
+
+    private fun setupDataAdapter(){
+        authViewModel.getAuthToken().observe(viewLifecycleOwner, {
+            balanceViewModel.setBalance(
+                it!!,
+                args.workspace.id.toString(),
+                args.isIncome,
+                args.status
+            )
+        })
+    }
+
+    override fun onRefresh() {
+        dispatchRefresh()
+    }
+
+    fun dispatchRefresh() {
+        setupDataAdapter()
+    }
+
+    private fun showSnackbar(message: String) {
+        Snackbar.make(requireView(), message, Snackbar.LENGTH_SHORT).show()
     }
 }
